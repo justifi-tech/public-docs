@@ -9,10 +9,10 @@ const config: Config = {
   favicon: "img/favicon.png",
 
   // Set the production url of your site here
-  url: "https://silver-journey-22mmj12.pages.github.io",
+  url: "https://justifi-tech.github.io",
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: "/public-docs/",
+  baseUrl: "/public-docs",
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
