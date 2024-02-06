@@ -113,7 +113,7 @@ const config: Config = {
           items: [
             {
               label: "Tutorial",
-              to: "/intro",
+              to: "/overview",
             },
           ],
         },
@@ -134,19 +134,19 @@ const config: Config = {
         //     },
         //   ],
         // },
-        {
-          title: "More",
-          items: [
-            {
-              label: "Blog",
-              to: "/blog",
-            },
-            {
-              label: "GitHub",
-              href: "https://github.com/justifi-tech",
-            },
-          ],
-        },
+        // {
+        //   title: "More",
+        //   items: [
+        //     {
+        //       label: "Blog",
+        //       to: "/blog",
+        //     },
+        //     {
+        //       label: "GitHub",
+        //       href: "https://github.com/justifi-tech",
+        //     },
+        //   ],
+        // },
       ],
       copyright: `Copyright © ${new Date().getFullYear()} JustiFi Technologies, Inc.`,
     },
