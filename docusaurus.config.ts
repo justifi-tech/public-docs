@@ -107,47 +107,47 @@ const config: Config = {
     },
     footer: {
       style: "dark",
-      links: [
-        {
-          title: "Docs",
-          items: [
-            {
-              label: "Tutorial",
-              to: "/overview",
-            },
-          ],
-        },
-        // {
-        //   title: "Community",
-        //   items: [
-        //     {
-        //       label: "Stack Overflow",
-        //       href: "https://stackoverflow.com/questions/tagged/docusaurus",
-        //     },
-        //     {
-        //       label: "Discord",
-        //       href: "https://discordapp.com/invite/docusaurus",
-        //     },
-        //     {
-        //       label: "Twitter",
-        //       href: "https://twitter.com/docusaurus",
-        //     },
-        //   ],
-        // },
-        // {
-        //   title: "More",
-        //   items: [
-        //     {
-        //       label: "Blog",
-        //       to: "/blog",
-        //     },
-        //     {
-        //       label: "GitHub",
-        //       href: "https://github.com/justifi-tech",
-        //     },
-        //   ],
-        // },
-      ],
+      // links: [
+      //   {
+      //     title: "Docs",
+      //     items: [
+      //       {
+      //         label: "Tutorial",
+      //         to: "/overview",
+      //       },
+      //     ],
+      //   },
+      // {
+      //   title: "Community",
+      //   items: [
+      //     {
+      //       label: "Stack Overflow",
+      //       href: "https://stackoverflow.com/questions/tagged/docusaurus",
+      //     },
+      //     {
+      //       label: "Discord",
+      //       href: "https://discordapp.com/invite/docusaurus",
+      //     },
+      //     {
+      //       label: "Twitter",
+      //       href: "https://twitter.com/docusaurus",
+      //     },
+      //   ],
+      // },
+      // {
+      //   title: "More",
+      //   items: [
+      //     {
+      //       label: "Blog",
+      //       to: "/blog",
+      //     },
+      //     {
+      //       label: "GitHub",
+      //       href: "https://github.com/justifi-tech",
+      //     },
+      //   ],
+      // },
+      // ],
       copyright: `Copyright © ${new Date().getFullYear()} JustiFi Technologies, Inc.`,
     },
     prism: {
