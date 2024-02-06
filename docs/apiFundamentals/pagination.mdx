@@ -1,0 +1,87 @@
+---
+title: Pagination
+description: Learn how to manage large datasets
+sidebar_label: Pagination
+keywords:
+  - api
+  - pagination
+  - datasets
+---
+
+# Pagination in JustiFi API
+
+Effective management of large datasets is crucial in API interactions. JustiFi's API employs
+cursor-based pagination, ensuring efficient and scalable data retrieval for bulk fetches.
+
+## Cursor-Based Pagination Explained
+
+Cursor-based pagination involves navigating through data using cursor pointers
+(`before_cursor` and `after_cursor`), making it ideal for handling extensive datasets. Each
+response in our API includes a `page_info` object, crucial for understanding your position in
+the data set and managing the flow of information.
+
+### Using the Page Info Object:
+
+- **Navigation Fields:** The `page_info` object contains `has_next` and `has_previous` fields
+  to indicate more available items.
+- **Cursor Values:** `start_cursor` and `end_cursor` are included for precise data retrieval.
+
+## API Request Parameters
+
+When fetching data, these parameters are key:
+
+- **`limit`:** Controls the number of resources retrieved per request. It can range from 1 to
+  100, with a default value of 25.
+- **`after_cursor`:** Fetches the next page of data.
+- **`before_cursor`:** Retrieves the previous page of data.
+
+### Standard Response Structure
+
+All responses follow a consistent structure:
+
+- **`id`:** The ID of the object returned, null for array responses.
+- **`type`:** Indicates the type of object returned, typically an "array" for bulk fetches.
+- **`data`:** Contains the requested resource(s) or an empty array if no resources are
+  available.
+- **`page_info`:** Provides pagination details, including cursor positions.
+
+##### Example Paginated Request
+
+```sh
+curl -X GET https://api.justifi.ai/v1/payments?limit=25&after_cursor=token-from-page-info \
+    -H 'Authorization: Bearer [access_token]' \
+    -H 'Accept: application/json'
+```
+
+##### Example Paginated Response
+
+```sh
+{
+    "id": null,
+    "type": "array",
+    "data":[
+        { "id":"py_438xBom2Drh55kE1WfyGLg",
+          "amount": 1000,
+          ... additional response attributes based on resource schema
+        }
+    ],
+    "page_info": {
+      "has_previous": false,
+      "has_next": true,
+      "start_cursor": "WyIyMDIyLTAxLTExIDE1OjI3OjM2LjAyNzc3MDAwMCIsImNhNjQwMTk1LTEzYzMtNGJlZi1hZWQyLTU3ZjA1MzhjNjNiYSJd",
+      "end_cursor": "WyIyMDIyLTAxLTExIDEyOjU5OjQwLjAwNTkxODAwMCIsImQ0Njg5MGE2LTJhZDItNGZjNy1iNzdkLWFiNmE3MDJhNTg3YSJd"
+    }
+}
+```
+
+## Best Practices for Pagination
+
+- **Determine Optimal Page Size:** Balance performance and usability by setting an appropriate
+  `limit`.
+- **Consistent Cursor Usage:** Utilize `before_cursor` and `after_cursor` effectively for
+  predictable navigation.
+- **Understand Response Structure:** Familiarize yourself with the standard response envelope
+  for efficient data handling.
+
+By leveraging JustiFi's pagination system, you can efficiently navigate through large datasets,
+ensuring your application remains responsive and data retrieval remains manageable.

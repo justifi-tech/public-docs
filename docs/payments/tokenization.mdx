@@ -1,0 +1,108 @@
+---
+title: Payment Method Tokenization
+sidebar_label: Tokenization
+description: Learn how tokenizing payment methods saves time and limits complexity
+keywords:
+  - tokenizing
+  - tokenization
+  - payment methods
+  - compliance
+---
+
+# Payment Method Tokenization
+
+## Overview
+
+Tokenization in payment processing is a crucial security measure. JustiFi's API leverages
+tokenization to protect sensitive payment information such as credit card numbers and bank account
+details, replacing them with unique identification symbols, or tokens.
+
+## What is Tokenization?
+
+Tokenization involves substituting sensitive data with non-sensitive equivalents, known as tokens.
+These tokens, while not holding any intrinsic value, act as references to the original data securely
+stored in a token vault.
+
+### Benefits of Tokenization
+
+- **Enhanced Security:** Minimizes the risk of data breaches by keeping sensitive information
+  concealed.
+- **PCI Compliance:** Aids in fulfilling [Payment Card Industry Data Security Standards](https://www.pcisecuritystandards.org)
+  requirements.
+- **Reduced Liability:** Decreases the volume of sensitive data that your system needs to handle.
+
+## Implementing Tokenization
+
+### Creating Tokens
+
+- **API Call:** Instructions on executing an API call to generate a token representing a user’s
+  payment method.
+
+- **Data Handling:** Explanation of how tokens are returned in response to successful API calls
+  and can be utilized in future transactions.
+
+### Using Tokens in Transactions
+
+- **Processing Payments:** Guidelines on employing tokens to securely process payments.
+- **Token Management:** Best practices for the storage, retrieval, and management of tokens.
+
+## Example Implementation
+
+To provide a practical understanding, here's an example implementation of tokenization in the
+JustiFi API:
+
+#### Card Tokenization Sample
+
+```bash
+curl -i -X POST \
+  https://api.justifi.ai/v1/payment_methods \
+  -H 'Authorization: <Bearer Token>' \
+  -H 'Content-Type: application/json' \
+  -H 'Idempotency-Key: 497f6eca-6276-4993-bfeb-53cbbbba6f08' \
+  -H 'Sub-Account: <sub-account id>' \
+  -d '{
+    "payment_method": {
+      "card": {
+        "name": "Lindsay Whalen",
+        "number": 4242424242421111,
+        "verification": 123,
+        "month": 5,
+        "year": 2042,
+        "address_postal_code": 55555,
+        "metadata": {
+          "new": "info"
+        }
+      }
+    }
+  }'
+```
+
+#### Bank Tokenization Sample
+
+```bash
+curl -i -X POST \
+  https://api.justifi.ai/v1/payment_methods \
+  -H 'Authorization: <Bearer Token>' \
+  -H 'Content-Type: application/json' \
+  -H 'Idempotency-Key: 497f6eca-6276-4993-bfeb-53cbbbba6f08' \
+  -H 'Sub-Account: <sub-account id>' \
+  -d '{
+     "payment_method": {
+      "bank_account": {
+        "account_owner_name": "Lindsay Whalen",
+        "routing_number": "110000000",
+        "account_number": "000123456789",
+        "account_type": "checking",
+        "account_owner_type": "individual",
+        "country": "US",
+        "currency": "usd",
+        "metadata": {
+          "new": "info"
+        }
+      }
+    }
+  }'
+```
+
+Utilize JustiFi's tokenization feature in your payment processes to bolster security and ensure
+compliance with prevailing industry standards.

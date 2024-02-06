@@ -1,0 +1,92 @@
+---
+title: Payment Compliance
+description: Learn how we help you limit your compliance footprint
+sidebar_label: PCI Complaince
+keywords:
+  - pci
+  - api
+  - compliance
+---
+
+# Understanding PCI-DSS Compliance with JustiFi API
+
+## Disclaimer
+
+This document offers guidance on PCI-DSS compliance in the context of using JustiFi's API and web
+components. It is intended for informational purposes and not as legal advice. Consult with your
+legal or compliance team for specific advice with your business in mind.
+
+## Overview of PCI-DSS
+
+The Payment Card Industry Data Security Standard (PCI-DSS) is a set of security standards designed
+to ensure that all companies that accept, process, store, or transmit credit card information
+maintain a secure environment. This compliance is crucial for protecting cardholder data and
+maintaining customer trust.
+
+## Levels of PCI Compliance
+
+There are four levels of PCI compliance, primarily determined by the volume of transactions
+processed annually. Each level has specific assessment and reporting requirements, with Level 1
+being the most stringent.
+
+| Level | Thresholds                                                             | Requirements                                                                      |
+| ----- | ---------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| 1     | Merchants processing greater than 6 million card transactions per year | External audit performed by a Qualified Security Assessor (QSA)                   |
+| 2     | Merchants processing 1 to 6 million transactions per year              | Must submit a Report of Compliance (ROC) completed by and internal evaluation     |
+| 3     | Merchants handling 20,000 to 1 million transactions per year           | Not required to perform a ROC, but often do to promote their compliance adherence |
+| 4     | Merchants handling fewer than 20,000 transactions per year             | Not required to provide audits                                                    |
+
+## JustiFi's PCI Compliance
+
+JustiFi maintains strict compliance with PCI-DSS Level 1 standards. Our infrastructure and services are
+designed to secure sensitive payment data, leveraging advanced technologies like tokenization, encrypted transmission,
+and encrypted storage to ensure the highest level of security.
+
+## Specifics of Data Handling
+
+JustiFi ensures secure data handling by:
+
+- **Tokenization:** Replacing sensitive card details with unique tokens.
+- **Secure Transmission:** Utilizing encrypted channels for data transfer.
+- **Annual PCI-DSS Level 1 Audit:** Attestation of Compliance is available for customers to review upon request.
+- **Quarterly AVS Scans:** Completed by independent and respected auditors.
+- **Regular Penetration Testing:** Performed by established experts in the field.
+
+## JustiFi's Role in Your Compliance
+
+JustiFi aids in supporting your PCI-DSS compliance when you use our Card Form and Payment Form
+Web Components. These tools use iFrames hosted on JustiFi's infrastructure, ensuring that sensitive
+card data never passes directly through your application. This approach is widely recognized as a
+method to potentially avoid entering PCI-DSS scope.
+
+## Your Responsibilities
+
+If you choose to collect card data directly and pass it to JustiFi using our Payment API or by
+creating Card Payment Methods, the card data will be traversing your system. In such cases, JustiFi
+will require you to provide an annual PCI-DSS Attestation of Compliance to ensure adherence to
+security standards.
+
+## Customer’s Compliance Journey
+
+To embark on your PCI compliance journey:
+
+1. **Assessment:** Determine your current compliance level.
+2. **Implementation:** Apply necessary security measures and practices.
+3. **Documentation:** Keep detailed records of compliance efforts.
+
+## Case Scenarios
+
+- **Scenario 1:** Using JustiFi's Payment Form for direct card processing and its impact on
+  compliance scope.
+- **Scenario 2:** Direct API integration for payment processing and its implications on PCI-DSS
+  requirements.
+
+## Resources and Further Reading
+
+- [PCI Security Standards Council](https://www.pcisecuritystandards.org)
+- [PCI Compliance Guide](#)
+
+## Contact Information for Support
+
+For more personalized guidance on PCI-DSS compliance when using JustiFi’s services, please contact
+our support team at [support@justifi.com](mailto:support@justifi.com).

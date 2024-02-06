@@ -1,0 +1,65 @@
+---
+title: Idempotency
+description: A key feature that significantly reduces risk
+sidebar_label: Idempotency
+keywords:
+  - idempotency
+  - api
+---
+
+# Understanding Idempotency in JustiFi API
+
+Idempotency is a fundamental concept in API design, especially when dealing with critical
+operations like financial transactions. At JustiFi, we ensure the reliability and consistency of
+transactions through idempotent requests.
+
+## What is Idempotency?
+
+Idempotency in API terms means that making multiple identical requests results in the same
+outcome as making a single request. This is particularly important for financial
+transactions, where the risk of duplicate processing needs to be eliminated.
+
+## Implementing Idempotency with JustiFi's APIs
+
+To achieve idempotency, JustiFi leverages the `Idempotency-Key` header in our payment APIs.
+
+### The Idempotency-Key Header
+
+:::warning
+Failing to provide an `Idempotency-Key` will exclude your requests from the protections described.
+:::
+
+- **Optional Usage:** Each request may include an `Idempotency-Key` header.
+- **Preventing Duplicates:** If a second request with the same idempotent key is processed
+  concurrently, it will return a 409 error, preventing double processing.
+- **Error Handling:**
+  - **Network Timeouts and 5XX Errors:** Retry these requests with the exact same parameters
+    and idempotency key.
+  - **2XX Responses:** Indicate successful processing. Repeating an identical request with the same key
+    will return the original response.
+  - **4XX Errors (Except 409):** Do not retry these requests as they indicate client-side
+    errors.
+
+### Choosing an Idempotency-Key
+
+- **String Identifier:** You can use any string as your `Idempotency-Key`. We recommend using
+  a UUID for uniqueness, but any distinctive string (100 character max) that identifies the transaction will work.
+
+### Idempotency Key Constraints
+
+- **Uniqueness Per Transaction:** The key should be unique to each transaction. Using the same
+  key with different parameters will result in an error.
+- **Single Transaction Use:** The key is intended to safeguard a single transaction. Altering
+  the request parameters makes it a distinct request, requiring a new idempotency key.
+
+## Best Practices
+
+- **Generate Unique Keys:** Ensure each key is unique to prevent unintended conflicts.
+- **Consistent Parameters:** Use the same parameters when retrying requests to maintain
+  idempotency.
+- **Error Code Awareness:** Understand the error codes to determine when it's appropriate to
+  retry a request.
+
+By adhering to these guidelines and effectively utilizing the `Idempotency-Key` header, you can
+ensure that your transactions via JustiFi's API are processed reliably and consistently,
+without the risk of duplication.

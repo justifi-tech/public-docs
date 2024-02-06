@@ -1,0 +1,68 @@
+---
+title: Payment Form
+sidebar_label: Payment Form
+description: Payment Form implementation guide
+keywords:
+  - web components
+  - payments
+  - implementation
+---
+
+import { PaymentForm } from "../../../src/CardForm.tsx";
+
+# Payment Form Implementation Guide
+
+## Overview
+
+The Payment Form in JustiFi's API is a versatile tool designed to consolidate the features of both
+ACH and Card Forms. This all-in-one solution not only processes card and bank transfer payments
+but also collects the cardholder's billing address, ensuring a comprehensive and secure payment
+experience.
+
+## Key Features of the Payment Form
+
+- **Unified Payment Solution:** Integrates ACH and Card payment options in one form.
+- **Billing Address Collection:** Includes fields for collecting the cardholder’s billing address,
+  crucial for verifying and securing transactions.
+- **Customizable Design:** Offers flexibility to tailor the form’s appearance to align with your
+  application’s UI.
+
+## Integrating the Payment Form
+
+### Initial Setup
+
+- **API Configuration:** Ensure your JustiFi API setup is prepared to handle both card and ACH
+  transactions.
+- **Form Integration:** Instructions on embedding the Payment Form into your web application.
+
+### Customizing the Payment Form
+
+- **Styling and Layout:** Tips on customizing the look and feel of the Payment Form.
+- **Field Configurations:** Guide on adjusting input fields, including billing address details.
+
+### Handling Form Submissions
+
+- **Data Capture:** Steps to collect and manage user input from the Payment Form.
+- **Secure Processing:** Implementing tokenization and security measures for handling sensitive
+  payment information.
+
+## Example Code
+
+- **Embedding the Form:** Sample code snippet demonstrating how to integrate the Payment Form.
+- **Processing Submissions:** Example implementation for securely handling the collected data.
+
+### Best Practices
+
+- **Comprehensive Validation:** Ensure robust validation of all inputs, including billing address
+  details.
+- **Enhanced Security Compliance:** Adhere to security standards like PCI DSS, especially when
+  handling card information.
+- **Optimizing User Experience:** Recommendations for a user-friendly form, providing clear
+  instructions and feedback.
+
+By implementing JustiFi's Payment Form, you can offer a streamlined, secure, and efficient method
+for handling various types of payments, elevating the transaction process in your application.
+
+## Component example
+
+<PaymentForm />

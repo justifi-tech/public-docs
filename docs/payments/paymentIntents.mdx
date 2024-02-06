@@ -1,0 +1,66 @@
+---
+title: Payment Intents
+---
+
+# Payment Intents
+
+## Overview
+
+Payment Intents in JustiFi API represent a crucial component in managing complex payment processes.
+This feature is designed to facilitate the handling of various payment stages, from initiation to
+final confirmation.
+
+## Why Payment Intents?
+
+The implementation of Payment Intents in JustiFi's API brings several significant advantages to the
+payment process:
+
+- **Streamlined Transaction Flow:** Payment Intents simplify complex payment scenarios, handling
+  various stages from authorization to final settlement.
+- **Adaptability to Payment Regulations:** They support advanced security measures like 3D Secure,
+  which are becoming increasingly necessary due to evolving payment regulations.
+- **Enhanced User Experience:** By managing multiple payment states, Payment Intents ensure a
+  smoother and more intuitive experience for the end user.
+- **Reduction in Payment Failures:** They help in identifying and addressing issues early in the
+  payment process, reducing the likelihood of failed transactions.
+
+## What are Payment Intents?
+
+Payment Intents are objects in JustiFi’s API that capture the intention to make a payment. They
+track the lifecycle of a payment, managing different states like authorization, capturing funds,
+and handling additional authentication requirements.
+
+### Key Benefits
+
+- **Improved Success Rates:** Optimizes the payment process to increase the likelihood of successful
+  transactions.
+- **Enhanced Security:** Supports additional verification steps, crucial for secure transactions.
+- **Flexibility:** Adaptable to various payment scenarios and methods.
+
+## Using Payment Intents
+
+### Creating a Payment Intent
+
+- **API Call:** Instructions on generating a Payment Intent via API, including necessary parameters
+  like amount, currency, and customer information.
+- **Handling Responses:** Guidance on interpreting responses to Payment Intent API calls.
+
+### Managing Payment Intent States
+
+- **State Transitions:** Overview of various states (e.g., `requires_payment_method`,
+  `requires_confirmation`, `requires_action`) and how to handle them.
+- **Capturing Payments:** Steps to capture funds after authorization is complete.
+
+## Example Implementation
+
+- **Sample Code/Scenario:** Example code or a detailed scenario demonstrating the creation and
+  management of a Payment Intent.
+
+### Best Practices
+
+- **Monitoring State Changes:** Tips on efficiently tracking and responding to changes in the state
+  of a Payment Intent.
+- **Error Handling:** Strategies for handling errors or declines in the payment process.
+
+By effectively utilizing Payment Intents, you can ensure a smooth and reliable payment process,
+adapting to various requirements and scenarios with ease.

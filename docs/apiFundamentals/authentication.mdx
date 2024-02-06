@@ -1,0 +1,68 @@
+---
+title: Authentication
+description: Understand the steps necessary to authenticate to the API
+sidebar_label: Authentication
+keywords:
+  - oauth
+  - api
+  - security
+  - tokens
+---
+
+<!-- import { OpenApiTryIt } from '@redocly/developer-portal/ui'; -->
+
+# Authentication While Using JustiFi's API
+
+Secure and efficient access to JustiFi's API is paramount. We use OAuth2 authentication, a
+standard protocol for authorization, and secure your API requests with Bearer tokens for robust
+protection.
+
+[API Specification](https://developer.justifi.ai/tag/API-Credentials#operation/CreateAccessToken)
+
+## OAuth2 and Bearer Token Authentication
+
+OAuth2 provides a secure and standardized way to authorize API requests. When you access JustiFi's
+API, your request must include a Bearer token, which is a unique token obtained after a successful
+OAuth2 authentication process. This token ensures that your interactions with our API are secure
+and authenticated.
+
+## Obtaining Your API Key
+
+To start using our API, you'll need an API Key, which you can obtain from our customer dashboard.
+This key is essential for the OAuth2 authentication process.
+
+### Steps to Get Your API Key:
+
+1. **Access the Customer Dashboard:** Log in to your JustiFi [account](https://app.justifi.ai).
+2. **Navigate to the Developer Section:** Find the API section where you can manage your keys.
+3. **Continue to the API Keys Section:** Follow the steps to generate a new API key.
+
+:::tip
+
+## Don't Have an Account?
+
+If you're new to JustiFi and don't have an account yet, getting started is easy:
+
+1. **Contact Us:** [Reach out to our team](../contact.mdx) to set up an account.
+2. **Account Setup:** Our team will guide you through the account setup process and help you get
+   your API Key.
+   :::
+
+## Create Your Bearer Token
+
+Once you have your API Key, you'll use it to obtain a Bearer token. Here's an example to generate
+an Authentication Token. You can replace the `client_id` and `client_secret` to use your
+own. **Be sure to use TEST keys!**
+
+<!-- <OpenApiTryIt -->
+<!--     definitionId="justifi" -->
+<!--     operationId="CreateAccessToken" -->
+<!--     id="step-1" -->
+<!--     properties={{ -->
+<!--         client_id: "abc", -->
+<!--         client_secret: "secret", -->
+<!--     }} -->
+<!--     paramaters={{ -->
+<!--         header: {} -->
+<!--     }} -->
+<!-- /> -->

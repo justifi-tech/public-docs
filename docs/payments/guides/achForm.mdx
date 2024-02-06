@@ -1,0 +1,70 @@
+---
+title: Bank Account Form
+sidebar_title: Bank Account Form
+description: Bank Account implementation guide
+keywords:
+  - ach
+  - bank account
+  - guide
+  - payments
+---
+
+import { ACHForm, PaymentFormStory } from "../../../src/CardForm.tsx";
+
+# Bank Account Form Implementation Guide
+
+## Overview
+
+Integrating the ACH Form into your application allows for efficient processing of ACH transactions.
+This guide will walk you through the steps to implement JustiFi's ACH Form, ensuring a seamless
+bank transfer experience for your users.
+
+## Key Features of the ACH Form
+
+- **User-Friendly Interface:** Provides a straightforward form for users to enter their bank
+  details.
+- **Secure Data Handling:** Ensures sensitive bank information is securely processed and tokenized.
+- **Customization Options:** Offers flexibility to tailor the form's appearance to match your
+  application's design.
+
+## Integration Steps
+
+### Initial Setup
+
+- **API Configuration:** Ensure your JustiFi API setup is ready to handle ACH transactions.
+- **Form Embedding:** Instructions on embedding the ACH Form into your web application.
+
+### Customizing the ACH Form
+
+- **Styling:** Tips on customizing the look and feel of the ACH Form to align with your UI design.
+- **Field Configuration:** Guide on configuring the input fields based on your requirements.
+
+### Handling Form Submissions
+
+- **Capturing Data:** Steps to capture and handle user input from the ACH Form.
+- **Tokenization:** Implementing the process of tokenizing bank account information for secure
+  transactions.
+
+## Example Code
+
+- **Embedding the Form:** Sample code snippet demonstrating how to integrate the ACH Form into
+  your site.
+- **Handling Submissions:** Example implementation for processing and tokenizing the data submitted
+  via the form.
+
+### Best Practices
+
+- **Validation and Error Handling:** Ensure robust validation of user inputs and handle errors
+  gracefully.
+- **Security Compliance:** Adhere to security standards for processing ACH payments, maintaining
+  the integrity of user data.
+- **User Experience Optimization:** Recommendations for providing clear instructions and feedback
+  to users within the form.
+
+By incorporating JustiFi's ACH Form into your application, you can offer a secure and
+user-friendly method for customers to make bank transfers, enhancing the overall efficiency and
+experience of your payment system.
+
+## Component example
+
+<ACHForm />
