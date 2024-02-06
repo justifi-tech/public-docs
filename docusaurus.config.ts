@@ -17,7 +17,8 @@ const config: Config = {
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
   organizationName: "justifi-tech", // Usually your GitHub org/user name.
-  projectName: "public-documentation", // Usually your repo name.
+  projectName: "public-docs", // Usually your repo name.
+  trailingSlash: false,
 
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
