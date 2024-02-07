@@ -1,0 +1,23 @@
+type: object
+properties:
+  id:
+    description: unique application fee id
+    type: string
+    format: uuid
+    example: fee_123xyz
+  amount:
+    description: application fee amount, in cents
+    type: number
+    example: 150
+  currency:
+    type: string
+    enum: [usd]
+    example: usd
+  created_at:
+    type: string
+    format: date-time
+    example: '2021-01-01T12:00:00Z'
+  updated_at:
+    type: string
+    format: date-time
+    example: '2021-01-01T12:00:00Z'

@@ -1,0 +1,22 @@
+get:
+  summary: Get a Payout CSV Report
+  description: Get a link to a CSV report with information a payout and balance transactions related to that payout. CSV report headers include id, currency, amount, fee, net, source_id, source_account_id, source_type, source_amount, available_on and created_at.
+  operationId: GetPayoutCsvReport
+  tags:
+    - Payouts
+  parameters:
+    - $ref: ../components/parameters/id-path.yaml
+    - $ref: ../components/parameters/authorization-header.yaml
+  responses:
+    '200':
+      description: Successfully get a link to a csv report for a payout
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope.yaml
+              - properties:
+                  type:
+                    example: payout
+                  data:
+                    $ref: ../components/schemas/PayoutCsvReport.yaml

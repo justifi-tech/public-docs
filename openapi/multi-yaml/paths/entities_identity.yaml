@@ -1,0 +1,105 @@
+post:
+  summary: Create an Identity
+  description: |
+    Create an Identity
+  operationId: CreateIdentity
+  tags:
+    - Identity
+  parameters:
+    - $ref: ../components/parameters/authorization-header.yaml
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          properties:
+            name:
+              type: string
+              example: "Person Name"
+              description: legal name
+            title:
+              type: string
+              example: "President"
+              description: job title
+            email:
+              type: string
+              example: "person.name@justifi.ai"
+              description: email address
+            phone:
+              type: string
+              example: "6124011111"
+              description: phone number
+            dob_day:
+              type: string
+              example: "01"
+              description: two-digit birth day
+            dob_month:
+              type: string
+              example: "01"
+              description: two-digit birth month
+            dob_year:
+              type: string
+              example: "1980"
+              description: four-digit birth year (must be at least 18 years old)
+            identification_number:
+              type: string
+              example: "123456789"
+              description: full social security number
+            is_owner:
+              type: boolean
+              example: true
+              description: if an identity owns 25% or more of the business, they are considered an owner
+            metadata:
+              type: object
+              description: any useful information you'd like to store alongside this identity
+              additionalProperties: true
+              example:
+                language: "english"
+                social_network: "@person"
+            address:
+              oneOf:
+                - $ref: ../components/schemas/Address.yaml
+                - type: object
+                  properties:
+                    id:
+                      type: string
+                      example: addr_xyz
+
+  responses:
+    '201':
+      description: Identity was created successfully
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope.yaml
+              - properties:
+                  type:
+                    example: identity
+                  data:
+                    $ref: ../components/schemas/IdentityResponse.yaml
+
+get:
+  summary: List Identities
+  description: |
+    List identities for your platform. This endpoint supports [pagination](/#section/Pagination).
+  operationId: ListIdentities
+  tags:
+    - Identity
+  parameters:
+    - $ref: ../components/parameters/authorization-header.yaml
+
+  responses:
+    '200':
+      description: Successfully list identities
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope-list.yaml
+              - properties:
+                  type:
+                    example: array
+                  data:
+                    items:
+                      $ref: ../components/schemas/IdentityResponse.yaml

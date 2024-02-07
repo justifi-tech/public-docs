@@ -1,0 +1,25 @@
+get:
+  summary: List Payouts
+  operationId: ListPayouts
+  tags:
+    - Payouts
+  parameters:
+    - $ref: ../components/parameters/authorization-header.yaml
+    - $ref: ../components/parameters/created-before.yaml
+    - $ref: ../components/parameters/created-after.yaml
+    - $ref: ../components/parameters/deposits-before.yaml
+    - $ref: ../components/parameters/deposits-after.yaml
+  responses:
+    '200':
+      description: Successfully list payouts
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope-list.yaml
+              - properties:
+                  type:
+                    example: array
+                  data:
+                    items:
+                      $ref: ../components/schemas/Payout.yaml

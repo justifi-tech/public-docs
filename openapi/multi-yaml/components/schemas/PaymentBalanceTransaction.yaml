@@ -1,0 +1,51 @@
+type: object
+properties:
+  id:
+    description: unique payment balance transaction id
+    type: string
+    format: uuid
+    example: pbt_123xyz
+  amount:
+    description: payment balance transaction amount, in cents
+    type: number
+    example: 40145
+  balance:
+    description: balance amount of the payment balance transaction, in cents
+    type: number
+    example: 53550
+  currency:
+    type: string
+    enum: [usd]
+    example: usd
+  financial_transaction_id:
+    description: id of the financial transaction associated with the payment balance transaction
+    type: string
+    format: uuid
+    example: "ft_123xyz"
+  payment_id:
+    description: id of the payment associated with the payment balance transaction
+    type: string
+    format: uuid
+    example: "py_123xyz"
+  payment_balance_txn_type:
+    description: type of the transaction object associated with the payment balance transaction
+    type: string
+    enum: [payment, payment_fee, payout, refund, fee_refund, dispute, dispute_fee, dispute_fee_refund, dispute_refund]
+    example: fee_refund
+  source_id:
+    description: id of the source object associated with the payment balance transaction
+    type: string
+    format: uuid
+    example: "fee_123xyz"
+  source_type:
+    description: type of the source object associated with the payment balance transaction
+    type: string
+    example: ApplicationFee
+  created_at:
+    type: string
+    format: date-time
+    example: '2021-01-01T12:00:00Z'
+  updated_at:
+    type: string
+    format: date-time
+    example: '2021-01-01T12:00:00Z'

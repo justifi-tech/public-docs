@@ -1,0 +1,80 @@
+type: object
+properties:
+  id:
+    description: unique business id
+    type: string
+    example: biz_xyz
+  platform_account_id:
+    type: string
+    format: uuid
+    example: acc_xyz
+  legal_name:
+    type: string
+    example: "Business Name"
+    description: legal business entity name
+  website_url:
+    type: string
+    example: "https://justifi.ai"
+    description: website for this business (if they don't have a website, can send their social media business page, app store link, or a product description instead)
+  email:
+    type: string
+    example: "business@justifi.ai"
+    description: email address of business entity or representative
+  phone:
+    type: string
+    example: "6124011111"
+    description: business phone number
+  doing_business_as:
+    type: string
+    example: "Best Business"
+    description: only needed if registered with DBA/Trade Name on SS-4 tax document
+  business_type:
+    type: string
+    enum: [for_profit, non_profit, government_entity, individual]
+  business_structure:
+    type: string
+    enum: [sole_proprietorship, single_llc, multi_llc, private_partnership, private_corporation, unincorporated_association, public_partnership, public_corporation, incorporated, unincorporated, government_unit, government_instrumentality, tax_exempt_government_instrumentality]
+  industry:
+    type: string
+    example: "Big Business"
+    description: to help us identify this business entity's category code (MCC), please provide a concise description of what service they offer
+  mcc:
+    type: string
+    example: "8021"
+    description: merchant category code for this business, if known. Please note, the JustiFi underwriting team may modify this. If you are unsure, just submit a description in the industry field instead of an MCC
+  tax_id:
+    type: string
+    description: the federal tax identification number/EIN issued to this sub account by the IRS (for Individual type, this will be their full SSN)
+  date_of_incorporation:
+    type: string
+    example: "2015-02-20"
+  metadata:
+    type: object
+    format: json
+    description: any useful information you'd like to store alongside this business
+  legal_address:
+    $ref: AddressResponse.yaml
+  representative:
+    $ref: IdentityResponse.yaml
+  owners:
+    type: array
+    items:
+      $ref: IdentityResponse.yaml
+  documents:
+    type: array
+    items:
+      $ref: Document.yaml
+  bank_accounts:
+    type: array
+    items:
+      $ref: EntityBankAccount.yaml
+  additional_questions:
+    $ref: AdditionalQuestions.yaml
+  created_at:
+    type: string
+    format: date-time
+    example: '2021-01-01T12:00:00Z'
+  updated_at:
+    type: string
+    format: date-time
+    example: '2021-01-01T12:00:00Z'

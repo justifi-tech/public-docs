@@ -1,0 +1,60 @@
+type: object
+properties:
+  id:
+    description: sub account id
+    type: string
+    example: acc_xyz
+  name:
+    description: sub account name
+    type: string
+    example: The Shire Haberdashery
+  account_type:
+    description: sub account type (live or test)
+    type: string
+    example: live
+  status:
+    description: sub account status
+    type: string
+    enum: [created, submitted, information_needed, rejected, enabled, disabled, archived]
+    example: enabled
+  currency:
+    type: string
+    enum: [usd]
+    example: usd
+  platform_account_id:
+    type: string
+    format: uuid
+    example: acc_xyz
+  application_fee_rates:
+    type: array
+    description: list of associated application fee rates
+  processing_ready:
+    description: sub account ready for processing
+    type: boolean
+    example: false
+  payout_ready:
+    description: sub account ready for payouts
+    type: boolean
+    example: false
+  related_accounts:
+    description: when you create a live sub account, a related test account is automatically created; this provides both ids
+    type: object
+    properties:
+      live_account_id:
+        type: string
+        format: uuid
+        description: live sub account JustiFi id (this will be nil if creating a sub account using test credentials)
+        example: acc_xyz
+      test_account_id:
+        type: string
+        format: uuid
+        description: test sub account JustiFi id
+        example: acc_xyz
+  created_at:
+    type: string
+    format: date-time
+    example: '2021-01-01T12:00:00Z'
+  updated_at:
+    type: string
+    format: date-time
+    example: '2021-01-01T12:00:00Z'

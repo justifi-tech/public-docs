@@ -1,0 +1,24 @@
+get:
+  summary: Get Payments for a Payment Intent
+  description: Get information about the payments associated with a payment intent.
+  operationId: GetPaymentIntentPayments
+  tags:
+    - Payment Intents
+  parameters:
+    - $ref: ../components/parameters/id-path.yaml
+    - $ref: ../components/parameters/authorization-header.yaml
+  responses:
+    '200':
+      description: Successfully retrieve the payments for a payment intent
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope-list.yaml
+              - properties:
+                  type:
+                    example: array
+                  data:
+                    items:
+                      - $ref: ../components/schemas/CardPayment.yaml
+                      - $ref: ../components/schemas/BankAccountPayment.yaml

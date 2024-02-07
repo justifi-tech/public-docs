@@ -1,0 +1,39 @@
+post:
+  summary: Capture a Payment Intent
+  description: |
+    Capturing a payment intent lets JustiFi know you intend to process a payment. JustiFi will charge the attached payment method and create a payment.
+
+    *Note: For platforms, if the sub account status is not `enabled`, `400` will be returned.*
+  operationId: CapturePaymentIntent
+  parameters:
+    - $ref: ../components/parameters/id-path.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/authorization-header.yaml
+  tags:
+    - Payment Intents
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          properties:
+            payment_method:
+              oneOf:
+                - type: object
+                  properties:
+                    card:
+                      $ref: ../components/schemas/CreateCard.yaml
+                    # bank_account:
+                    #   $ref: ../components/schemas/CreateBankAccount.yaml
+                    token:
+                      type: string
+                      example: pm_xyz
+  responses:
+    '201':
+      description: Payment intent was captured successfully
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - $ref: ../components/schemas/CardPaymentIntent.yaml
+              - $ref: ../components/schemas/BankAccountPaymentIntent.yaml

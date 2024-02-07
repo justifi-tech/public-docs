@@ -1,0 +1,23 @@
+get:
+  summary: Get Payment Balance Transactions
+  description: Get information about the payment-balance-transactions associated with a payment.
+  operationId: GetPaymentBalanceTransactions
+  tags:
+    - Payments
+  parameters:
+    - $ref: ../components/parameters/id-path.yaml
+    - $ref: ../components/parameters/authorization-header.yaml
+  responses:
+    '200':
+      description: Successfully retrieve the payment-balance-transactions for a payment
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope-list.yaml
+              - properties:
+                  type:
+                    example: array
+                  data:
+                    items:
+                      $ref: ../components/schemas/PaymentBalanceTransaction.yaml

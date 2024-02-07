@@ -1,0 +1,45 @@
+post:
+  summary: Product Provisioning
+  description: |
+    Product Provisioning
+  operationId: ProductProvisioning
+  tags:
+    - Provisioning
+  parameters:
+    - $ref: ../components/parameters/authorization-header.yaml
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          properties:
+            new_account_name:
+              type: string
+              example: "JustiFi"
+              description: account name (must be unique for a platform)
+            business_id:
+              type: string
+              example: "biz_123"
+              description: business associated with the account
+            product_category:
+              type: string
+              example: "payment"
+              description: type of product to be provisioned
+          required:
+            - new_account_name
+            - business_id
+            - product_category
+
+  responses:
+    '201':
+      description: Provisioning successfully
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope.yaml
+              - properties:
+                  type:
+                    example: onboarding
+                  data:
+                    $ref: ../components/schemas/ProvisioningResponse.yaml

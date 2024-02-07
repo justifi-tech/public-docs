@@ -1,0 +1,88 @@
+post:
+  summary: Create a Document
+  description: |
+    Create a reference to a document, and receive a presigned URL for uploading the document
+  operationId: CreateDocument
+  tags:
+    - Document
+  parameters:
+    - $ref: ../components/parameters/authorization-header.yaml
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          properties:
+            description:
+              type: string
+              example: "My Document"
+            file_name:
+              type: string
+              example: "the_file_name"
+            file_type:
+              type: string
+              example: "application/pdf"
+              description: the file media type/extension of the file you are uploading. For example, text/plain,
+                application/pdf, image/png
+            document_type:
+              type: string
+              enum:
+                - balance_sheet
+                - bank_statement
+                - government_id
+                - profit_and_loss_statement
+                - tax_return
+                - other
+              example: "balance_sheet"
+            business_id:
+              type: string
+              format: uuid
+              example: biz_abc123
+              description: the business id to associate with this document (one of business id or identity id is required)
+            identity_id:
+              type: string
+              format: uuid
+              example: idty_abc123
+              description: the identity id to associate with this document (one of business id or identity id is required)
+            metadata:
+              type: object
+              description: any useful information you'd like to store alongside this document
+              example: { "my_id": "123" }
+          required: [file_name, file_type, document_type]
+
+  responses:
+    '201':
+      description: Document was created and presigned successfully
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope.yaml
+              - properties:
+                  type:
+                    example: document
+                  data:
+                    $ref: ../components/schemas/Document.yaml
+
+get:
+  summary: List Documents
+  description: List the documents you have uploaded. This endpoint supports [pagination](/#section/Pagination).
+  operationId: ListDocuments
+  tags:
+    - Document
+  parameters:
+    - $ref: ../components/parameters/authorization-header.yaml
+  responses:
+    '200':
+      description: Successfully list documents
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope-list.yaml
+              - properties:
+                  type:
+                    example: array
+                  data:
+                    items:
+                      $ref: ../components/schemas/Document.yaml

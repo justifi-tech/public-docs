@@ -1,0 +1,20 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.menu-content {
+  padding: 8px;
+  width: 280px;
+  font-size: 16px;
+}
+
+.menu-content img {
+  height: auto;
+  margin: 8px 8px 32px 8px;
+  width: 180px;
+}
+
+.button-field-search {
+  margin-bottom: 16px;
+}

@@ -1,0 +1,65 @@
+type: object
+properties:
+  id:
+    description: unique balance transaction id
+    type: string
+    example: bt_xyz
+  account_id:
+    description: id of the account associated with the balance transaction
+    type: string
+    format: uuid
+    example: acc_xyz
+  amount:
+    description: balance transaction amount, in cents
+    type: number
+    example: 100000
+  available_on:
+    type: string
+    format: date-time
+    example: '2021-01-01T12:00:00Z'
+  currency:
+    type: string
+    enum: [usd]
+    example: usd
+  description:
+    type: string
+    nullable: true
+  fee:
+    description: amount of fees deducted from the balance transaction amount, in cents
+    type: number
+    example: 5000
+  financial_transaction_id:
+    description: id of the financial transaction associated with the balance transaction
+    type: string
+    format: uuid
+    example: ft_xyz
+  net:
+    description: net amount of the balance transaction (after fees are deducted), in cents
+    type: number
+    example: 600
+  payout_id:
+    description: id of the payout associated with the balance transaction
+    type: string
+    format: uuid
+    example: po_xyz
+  source_id:
+    description: id of the source object associated with the balance transaction
+    type: string
+    format: uuid
+    example: py_xyz
+  source_type:
+    description: type of source object associated with the balance transaction (for example payment, refund, dispute, payout)
+    type: string
+    example: payment
+  txn_type:
+    description: type of transaction object associated with the balance transaction
+    type: string
+    example: seller_payment
+  created_at:
+    type: string
+    format: date-time
+    example: '2021-01-01T12:00:00Z'
+  updated_at:
+    type: string
+    format: date-time
+    example: '2021-01-01T12:00:00Z'

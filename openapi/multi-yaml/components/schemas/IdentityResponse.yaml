@@ -1,0 +1,69 @@
+type: object
+properties:
+  id:
+    description: unique identity id
+    type: string
+    example: "idty_xyz"
+  platform_account_id:
+    type: string
+    format: uuid
+    example: acc_xyz
+  business_id:
+    type: string
+    format: uuid
+    example: biz_xyz
+    description: associated business
+  name:
+    type: string
+    example: "Person Name"
+    description: legal name
+  title:
+    type: string
+    example: "President"
+    description: job title
+  email:
+    type: string
+    example: "person.name@justifi.ai"
+    description: email address
+  phone:
+    type: string
+    example: "6124011111"
+    description: phone number
+  dob_day:
+    type: string
+    example: "01"
+    description: two-digit birth day
+  dob_month:
+    type: string
+    example: "01"
+    description: two-digit birth month
+  dob_year:
+    type: string
+    example: "1980"
+    description: four-digit birth year (must be at least 18 years old)
+  ssn_last4:
+    type: string
+    example: "6789"
+    description: last four digits of social security number
+  is_owner:
+    type: boolean
+    example: true
+    description: if an identity owns 25% or more of the business, they are considered an owner
+  metadata:
+    type: object
+    format: json
+    description: any useful information you'd like to store alongside this identity
+  address:
+    $ref: AddressResponse.yaml
+  documents:
+    type: array
+    items:
+      $ref: Document.yaml
+  created_at:
+    type: string
+    format: date-time
+    example: '2021-01-01T12:00:00Z'
+  updated_at:
+    type: string
+    format: date-time
+    example: '2021-01-01T12:00:00Z'

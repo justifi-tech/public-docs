@@ -1,0 +1,32 @@
+post:
+  summary: Clone a Payment Method
+  description: |
+    Copy a payment method from one sub account to another sub account. This allows one
+    to share payment methods between accounts without having to collect the card information again.
+    The original payment method's id / token should be provided in the path.
+  operationId: ClonePaymentMethod
+  parameters:
+  - $ref: ../components/parameters/token-path.yaml
+  - $ref: ../components/parameters/idempotency-key-header.yaml
+  - $ref: ../components/parameters/authorization-header.yaml
+  tags:
+    - Payment Methods
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          properties:
+            destination_account_id:
+              type: string
+              description: The sub account id to which the payment method should be cloned
+              example: acc_xyz123
+  responses:
+    '200':
+      description: Payment method clone was successful
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - $ref: ../components/schemas/CardResponse.yaml
+              - $ref: ../components/schemas/BankAccountResponse.yaml

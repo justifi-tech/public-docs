@@ -1,0 +1,21 @@
+get:
+  summary: Get a Terminal
+  operationId: getTerminal
+  tags:
+    - Terminals
+  parameters:
+    - $ref: ../components/parameters/id-path.yaml
+    - $ref: ../components/parameters/authorization-header.yaml
+  responses:
+    '200':
+      description: Successfully get a terminal
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope.yaml
+              - properties:
+                  type:
+                    example: terminal
+                  data:
+                    $ref: ../components/schemas/Terminal.yaml

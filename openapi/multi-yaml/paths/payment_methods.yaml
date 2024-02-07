@@ -1,0 +1,108 @@
+post:
+  summary: Create a Payment Method
+  description: |
+    You can create payment methods ahead of time, then pass their existing tokens to payments.
+    Alternatively, you can create and tokenize payment methods inline when processing payments.
+
+    *Note: For platforms, if the sub account status is not `enabled`, `400` will be returned.*
+  operationId: CreatePaymentMethod
+  tags:
+    - Payment Methods
+  parameters:
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/authorization-header.yaml
+    - $ref: ../components/parameters/sub-account.yaml
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          properties:
+            payment_method:
+              oneOf:
+                - type: object
+                  properties:
+                    card:
+                      $ref: ../components/schemas/CreateCard.yaml
+                    bank_account:
+                      $ref: ../components/schemas/CreateBankAccount.yaml
+            email:
+              description: "email address to associate with the payment method"
+              type: string
+              format: email
+          required: [payment_method]
+        example:
+        examples:
+          "Create_a_payment_method_for_card_payments":
+            value:
+              payment_method:
+                card:
+                  name: Lindsay Whalen
+                  number: 4242424242421111
+                  verification: 123
+                  month: 5
+                  year: 2042
+                  address_postal_code: 55555
+                  metadata:
+                    new: info
+          "Create_a_payment_method_for_ACH_payments":
+            value:
+              payment_method:
+                bank_account:
+                  account_owner_name: Lindsay Whalen
+                  routing_number: "110000000"
+                  account_number: "000123456789"
+                  account_type: checking
+                  account_owner_type: individual
+                  country: US
+                  currency: usd
+                  metadata:
+                    new: info
+          "Create_a_reusable_payment_method_for_card_payments":
+            value:
+              email: example@test.com
+              payment_method:
+                card:
+                  name: Lindsay Whalen
+                  number: 4242424242421111
+                  verification: "123"
+                  month: 5
+                  year: 2042
+                  address_postal_code: "55555"
+                  metadata:
+                    new: info
+  responses:
+    '201':
+      description: Payment method was created successfully
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - $ref: ../components/schemas/CardResponse.yaml
+              - $ref: ../components/schemas/BankAccountResponse.yaml
+
+get:
+  summary: List Payment Methods
+  description: List the payment methods for your account. This endpoint supports [pagination](/#section/Pagination).
+  operationId: ListPaymentMethods
+  tags:
+    - Payment Methods
+  parameters:
+    - $ref: ../components/parameters/authorization-header.yaml
+    - $ref: ../components/parameters/sub-account.yaml
+    - $ref: ../components/parameters/customer-id.yaml
+  responses:
+    '200':
+      description: Successfully list payment methods
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope-list.yaml
+              - properties:
+                  type:
+                    example: array
+                  data:
+                    items:
+                      - $ref: ../components/schemas/CardPaymentMethodWithBinDetails.yaml
+                      - $ref: ../components/schemas/BankAccountPaymentMethodWithStatus.yaml

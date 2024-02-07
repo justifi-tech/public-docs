@@ -1,0 +1,79 @@
+post:
+  summary: Create a Payment Intent
+  description: |
+    Create a payment intent if you'd like a place to track the payment method along with all payment attempts for a payment.
+
+    *Note: For platforms, if the sub account status is not `enabled`, `400` will be returned.*
+  operationId: CreatePaymentIntent
+  tags:
+    - Payment Intents
+  parameters:
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/authorization-header.yaml
+    - $ref: ../components/parameters/sub-account.yaml
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          properties:
+            amount:
+              type: number
+              example: 10000
+              description: amount to charge in cents
+            currency:
+              type: string
+              enum: [usd]
+              example: usd
+            description:
+              type: string
+              description: your meaningful description of the payment intent (e.g. an order number or other value from your system)
+              example: order_xyz
+            metadata:
+              type: object
+              format: json
+              description: any useful information you'd like to store alongside this payment intent
+              example: {}
+          required: [amount, currency]
+        examples:
+          "Customer_intents_to_pay_10_USD":
+            value:
+              amount: 1000
+              currency: 'usd'
+              description: 'ORDER 1235ABC: Charging $10 to the test card'
+              metadata:
+                order_number:  '12345ABC'
+  responses:
+    '201':
+      description: Payment intent was created successfully
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - $ref: ../components/schemas/CardPaymentIntent.yaml
+              - $ref: ../components/schemas/BankAccountPaymentIntent.yaml
+
+get:
+  summary: List Payment Intents
+  description: List the payment intents for your account. This endpoint supports [pagination](/#section/Pagination).
+  operationId: ListPaymentIntents
+  tags:
+    - Payment Intents
+  parameters:
+    - $ref: ../components/parameters/authorization-header.yaml
+    - $ref: ../components/parameters/sub-account.yaml
+  responses:
+    '200':
+      description: Successfully list payment intents
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope-list.yaml
+              - properties:
+                  type:
+                    example: array
+                  data:
+                    items:
+                      - $ref: ../components/schemas/CardPaymentIntent.yaml
+                      - $ref: ../components/schemas/BankAccountPaymentIntent.yaml

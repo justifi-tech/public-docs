@@ -1,0 +1,55 @@
+post:
+  tags:
+    - Payments
+    - Refunds
+  summary: Refund a Payment
+  description: |
+    Issue a refund for a payment. You may refund the full payment amount or just a portion. When refunding a portion, multiple refunds are supported up until the full payment amount has been refunded.
+
+    *Note: For platforms, if the sub account status is not `enabled`, `400` will be returned.*
+  operationId: CreateRefund
+  parameters:
+    - in: path
+      name: id
+      schema:
+        type: string
+        format: uuid
+      required: true
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/authorization-header.yaml
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          properties:
+            amount:
+              type: number
+              example: 10000
+              description: amount to refund; must be less than or equal to the `amount_refundable` on the payment
+            description:
+              description: an optional note about this refund
+              type: string
+            reason:
+              description: the reason this refund is being issued
+              type: string
+              example: duplicate
+              enum: [duplicate, fraudulent, customer_request]
+            metadata:
+              type: object
+              format: json
+              description: any useful information you'd like to store alongside this refund
+              example: {}
+  responses:
+    '201':
+      description: Refund was created successfully
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope.yaml
+              - properties:
+                  type:
+                    example: refund
+                  data:
+                    $ref: ../components/schemas/Refund.yaml

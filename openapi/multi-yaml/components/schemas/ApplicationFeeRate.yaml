@@ -1,0 +1,41 @@
+type: object
+properties:
+  id:
+    description: unique application fee rate id
+    type: string
+    format: uuid
+    example: afr_123xyz
+  transaction_fee:
+    description: transaction fee amount, in cents
+    type: number
+    example: 50
+  currency:
+    type: string
+    enum: [usd]
+    example: usd
+  basis_point_rate:
+    description: variable percentage of the payment amount that, combined with transaction fee, will be charged as the application fee. Expressed as the number of basis points
+    type: number
+    example: 250
+  rate_type:
+    type: string
+    enum: [cc, ach]
+    example: cc
+  created_at:
+    type: string
+    format: date-time
+    example: '2021-01-01T12:00:00Z'
+  updated_at:
+    type: string
+    format: date-time
+    example: '2021-01-01T12:00:00Z'
+  effective_start:
+    description: date and time (UTC) application fee rate went into effect
+    type: string
+    format: date-time
+    example: '2021-01-01T12:00:00Z'
+  effective_end:
+    description: date and time (UTC) application fee rate is effectively archived. If null, no end date is currently assigned and application fee rate is currently effective
+    type: string
+    format: date-time
+    example: '2021-01-01T12:00:00Z'

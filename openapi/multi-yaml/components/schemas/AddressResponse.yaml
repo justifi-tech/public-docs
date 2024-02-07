@@ -1,0 +1,32 @@
+type: object
+properties:
+  id:
+    description: unique address id
+    type: string
+    example: "addr_123xyz"
+  line1:
+    type: string
+    example: "123 Example St"
+  line2:
+    type: string
+    example: "Suite 101"
+  city:
+    type: string
+    example: "Minneapolis"
+  state:
+    type: string
+    example: "MN"
+  postal_code:
+    type: string
+    example: "55555"
+  country:
+    type: string
+    example: "USA"
+  created_at:
+    type: string
+    format: date-time
+    example: '2021-01-01T12:00:00Z'
+  updated_at:
+    type: string
+    format: date-time
+    example: '2021-01-01T12:00:00Z'

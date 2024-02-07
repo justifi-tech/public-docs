@@ -1,0 +1,56 @@
+post:
+  summary: Refund via Terminal
+  description: Send an amount to be refunded via terminal, listen for payment_intent events (recommended) or poll payment intent API for payment outcome
+  operationId: refundTerminal
+  tags:
+    - Terminals
+  parameters:
+    - $ref: ../components/parameters/authorization-header.yaml
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          properties:
+            payment_intent_id:
+              type: string
+              format: uuid
+              example: pi_abc123
+              description: |
+                id for the payment intent which you want to refund via terminal
+            terminal_id:
+              type: string
+              format: uuid
+              example: trm_abc123
+              description: |
+                id of the terminal on which you want to process a refund
+            amount:
+              type: integer
+              example: 1000
+              description: |
+                the amount which you'd like to refund. Omit this variable if you want to refund the original amount
+          required: [payment_intent_id, terminal_id]
+  responses:
+    '201':
+      description: Payment Intent sent to terminal for processing
+      content:
+        application/json:
+          schema:
+             allOf:
+              - $ref: ../components/schemas/Envelope.yaml
+              - properties:
+                  type:
+                    example: terminal_payment_intent
+                  id:
+                    example: tmses_abc123
+                  data:
+                    properties: 
+                      payment_intent:
+                        $ref: ../components/schemas/CardPaymentIntent.yaml
+                      terminal:
+                        type: object
+                        properties:
+                          id: 
+                            type: string
+                            format: uuid
+                            example: trm_abc123

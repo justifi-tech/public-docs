@@ -1,0 +1,8 @@
+in: query
+name: customer_id
+schema:
+  type: string
+required: false
+example: "cust_123xyz"
+description: |
+  filter records which are associated with a customer.

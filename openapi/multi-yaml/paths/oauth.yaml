@@ -1,0 +1,45 @@
+post:
+  summary: Generate Access Token
+  description: |
+    To get an access token, post your `client_id` and `client_secret`.
+    The request responds with an access token, which is valid for 24 hours. Pass the token as the `Authorization`
+    header with `Bearer` appended before the token, e.g. `Bearer {access_token}`.
+
+    **Note: These access tokens are meant only for backend-to-backend calls. If you are looking to authorize
+    a web component, please see the Web Component Token API**
+  operationId: CreateAccessToken
+  tags:
+    - API Credentials
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          properties:
+            client_id:
+              type: string
+              example: test_clientId
+              description: the client id for your (live or test) account
+            client_secret:
+              type: string
+              example: test_clientSecret
+              description: the client secret for your (live or test) account
+        example:
+          client_id: test_clientId
+          client_secret: test_clientSecret
+
+  responses:
+    '200':
+      description: An access token has been granted
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              access_token:
+                description: |
+                  an access token to pass to our API as the `Authorization` header with
+                  `Bearer` appended before the token, e.g. `Bearer {access_token}`
+                type: string
+  servers:
+    - url: https://api.justifi.ai

@@ -1,0 +1,28 @@
+type: object
+properties:
+  status:
+    description: signals whether the payment method is valid or invalid
+    type: string
+    example: "valid"
+  invalid_reason:
+    description: informs reason that the payment method has been marked invalid, if status is invalid 
+    type: string
+    example: nil
+    nullable: true
+  card:
+    $ref: ./CardWithBinDetails.yaml
+  customer_id:
+    description: id of the customer associated with the payment method
+    type: string
+    example: "cust_xyz"
+    nullable: true
+  signature:
+    description: signature that uniquely identifies a credit card or bank account across payment methods
+    type: string
+    example: "4guAJNkVA3lRLVlanNVoBK"
+    nullable: true
+  account_id:
+    description: account id associated with payment method
+    type: string
+    example: "acc_123"
+    nullable: true

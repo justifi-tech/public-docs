@@ -1,0 +1,51 @@
+post:
+  summary: Pay via Terminal
+  description: Send a payment intent to be processed via terminal, listen for payment_intent events (recommended) or poll payment intent API for payment outcome
+  operationId: payTerminal
+  tags:
+    - Terminals
+  parameters:
+    - $ref: ../components/parameters/authorization-header.yaml
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          properties:
+            payment_intent_id:
+              type: string
+              format: uuid
+              example: pi_abc123
+              description: |
+                id for the payment intent which you want to process via terminal
+            terminal_id:
+              type: string
+              format: uuid
+              example: trm_abc123
+              description: |
+                id of the terminal on which you want to process a transaction
+          required: [payment_intent_id, terminal_id]
+  responses:
+    '201':
+      description: Payment Intent sent to terminal for processing
+      content:
+        application/json:
+          schema:
+             allOf:
+              - $ref: ../components/schemas/Envelope.yaml
+              - properties:
+                  type:
+                    example: terminal_payment_intent
+                  id:
+                    example: tmses_abc123
+                  data:
+                    properties: 
+                      payment_intent:
+                        $ref: ../components/schemas/CardPaymentIntent.yaml
+                      terminal:
+                        type: object
+                        properties:
+                          id: 
+                            type: string
+                            format: uuid
+                            example: trm_abc123

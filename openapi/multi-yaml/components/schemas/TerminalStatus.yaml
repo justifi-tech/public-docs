@@ -1,0 +1,18 @@
+type: object
+properties:
+  id:
+    description: unique terminal id
+    type: string
+    example: trm_abc123
+  status:
+    description: current terminal status
+    example: CONNECTED
+    type: string
+  last_date_time_connected:
+    type: string
+    format: date-time
+    example: '2021-01-01T12:00:00Z'
+  last_date_time_active:
+    type: string
+    format: date-time
+    example: '2021-01-01T12:00:00Z'

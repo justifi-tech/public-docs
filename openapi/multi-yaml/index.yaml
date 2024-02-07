@@ -1,0 +1,326 @@
+openapi: 3.0.0
+servers:
+  - url: https://api.justifi.ai/v1
+    description: JustiFi API
+
+info:
+  # license:
+  #   name: Apache 2.0
+  #   url: https://www.apache.org/licenses/LICENSE-2.0.html
+  description:
+    $ref: ../docs/description.md
+    # https://github.com/OAI/OpenAPI-Specification/issues/2697
+  version: "v1"
+  title: JustiFi API Documentation
+  termsOfService: "https://justifi.ai/terms-and-conditions"
+  x-logo:
+    url: https://justifi-brand-assets.s3.us-east-2.amazonaws.com/justifi-light-bg.png
+  contact:
+    email: api-development@justifi.ai
+
+tags:
+  - name: Payments
+    description: |
+      To charge a payment method the desired amount, you'll use a payment.
+      You can choose whether to charge a payment method that's already been
+      tokenized or tokenize a new one when you create the payment.
+      If a payment fails, the status will reflect it and an error code will be returned.
+      You can retrieve information about your payments and refund them if needed.
+  - name: Payment Intents
+    description: |
+      If you'd like to track the payment method and all associated payment attempts
+      for a particular payment, you can use payment intents.
+      Once you've tokenized a payment method and attached it to a payment intent,
+      capturing the payment intent will let JustiFi know to charge the payment method and create a payment.
+      If the capture fails, you can attempt again on the same payment intent.
+
+      *Note: Payment Intents do NOT support dynamic fees. A platform may set a custom application fee amount that applies to a payment using [Create a Payment](/tag/Payments#operation/CreatePayment) directly.*
+  - name: Payment Methods
+    description: |
+      Payment methods refer to the specific form of payment each customer uses
+      (e.g. their credit card). Payment methods are tokenized, then charged at time of payment.
+  - name: Refunds
+    description: |
+      When you refund a payment, a refund object is created. You can retrieve
+      information about the refunds you've issued.
+  - name: Disputes
+    description: |
+      A customer may dispute their payment with the card issuer/bank if they believe
+      the charge is erroneous. When this happens, a dispute record is created and
+      associated with their original payment.
+  - name: Payouts
+    description: |
+      Each day, a payout containing that day's funds is automatically created for the
+      purpose of distributing those funds to the active bank account. Payout amounts are calculated by
+      summing the associated balance transactions for that specific day.
+  - name: Balance Transactions
+    description: |
+      Balance transactions are the reflection of any movement of funds that affects the balance of an account.
+      Oftentimes, a single financial transaction (like a payment) will result in the creation of many balance
+      transactions in order to document the flow of funds between multiple accounts. Other financial transactions
+      that result in balance transactions include refunds, disputes, and payouts.
+  - name: Ach Return Fees
+    description: |
+      ACH return fees are fees charged by financial institutions when an ACH (Automated Clearing House) transaction
+      is returned due to insufficient funds or other reasons.
+      If an ACH transaction is returned for any reason, the financial institution may charge a fee to the sender of the transaction.
+      These fees can vary depending on the policies of the financial institution and the reason for the return.
+  - name: Sub Accounts
+    description: |
+      Sub Accounts are the representation of your platform's customers in JustiFi. Payments are processed through sub accounts, each of which is associated with your platform account. To gain approval for payment processing, each sub account must submit the required onboarding information. You may send this to us through either our hosted onboarding or the API, and you'll be able to monitor each sub account's onboarding status along the way.
+
+      | Status             | Description |
+      | -----------        | ----------- |
+      | created            | this sub account has been created (via Sub Accounts API), but we haven't received their onboarding entry yet |
+      | submitted          | we've received this sub account's onboarding entry (via hosted onboarding or API) and we're reviewing their information |
+      | information_needed | we reviewed this sub account's onboarding entry and found an issue; we need more information before we can enable this account |
+      | enabled            | this sub account is approved to process payments _note: test accounts are automatically enabled_ |
+      | rejected           | this sub account didn't pass approval, so they won't be able to process payments |
+      | disabled           | this sub account was previously approved, but has since become ineligible to process payments (e.g. due to fraud) |
+      | archived           | this sub account has been archived; they won't be able to process payments (but their record will remain for historical reasons) |
+  - name: Hosted Onboarding
+    x-traitTag: true
+    description:
+      $ref: ../docs/hosted_onboarding.md
+  - name: Onboarding via API
+    description:
+      $ref: ../docs/api_onboarding.md
+  - name: Proceeds
+    description: |
+      Proceeds represent your platform's take-home portion of the fees from your sub account's financial transactions.
+      Proceeds are batched together according to the payout schedule configured on your account, then transferred
+      to your active bank account.
+  - name: EventBridge (AWS) Delivery
+    x-traitTag: true
+    description:
+      $ref: ../docs/event_bridge.md
+  - name: Webhook Delivery
+    x-traitTag: true
+    description:
+      $ref: ../docs/webhooks.md
+  - name: JustiFi Web Components
+    description: |
+      JustiFi Web Components offer an expanding collection of components that can be used in virtually any application,
+      no matter the tech stack. They can be installed using NPM, or included via CDN using a script tag. To learn more,
+      see the documentation in [our public GitHub repositiory](https://github.com/justifi-tech/web-component-library#documentation).
+  - name: Hosted Checkout
+    description:
+      $ref: ../docs/hosted_checkout.md
+  - name: JustiFi SDK
+    description: |
+      We offer support for using our API via a Ruby SDK and a Node SDK. The projects are
+      open source and available on Github. You can view full documentation on usage there.
+      As more languages are supported, they will be added to this list:
+
+      - [JustiFi Ruby SDK](https://github.com/justifi-tech/justifi-ruby)
+      - [JustiFi Node SDK](https://github.com/justifi-tech/justifi-node)
+      - [JustiFi Mobile SDK](https://github.com/justifi-tech/justifi-react-native-sdk)
+  - name: Events
+    description:
+      $ref: ../docs/events.md
+
+  - name: Business
+    description: |
+      Creating a business entity is an essential step in integrating your business operations with JustiFi. It is also necessary to comply with local laws and regulations governing your operations. To create a new business entity, you will need to provide basic information such as the business name, website, business type, business structure, and your industry. You may also add details like the legal address, tax ID, and ownership structure. Providing detailed and accurate information about the business entity is essential for ensuring legal compliance, financial accuracy, and it can also help avoid potential legal and financial issues.
+
+  - name: Identity
+    description: |
+      Creating an identity establishes a unique identification for people associated with your business. Accurately providing your information is crucial in ensuring that your identity is properly verified and maintained, and can have important consequences for a variety of financial and legal transactions. Our platform has a secure database for storing identity information, encryption and other security measures to protect your sensitive data.
+
+  - name: Address
+    description: |
+      Creating an Address entity provides the necessary information to identify and locate a physical address. It may be associated with an Identity entity or Business entity to provide a more complete picture of the parties involved.
+
+  - name: Document
+    description: |
+      Create/manage documents attached to your businesses and identities. When a document record
+      is created using this API the response object returns a presigned url used to upload this
+      document to an encrypted bucket. The presigned url can then be used to upload directly to an
+      AWS s3 bucket, with a command like `curl -X PUT -T /path/to/file.pdf "insert presigned url"`.
+      You must use the PUT method. This can also be accomplished from a backend or mobile app, from the browser or using our web components.
+      After upload is complete the status changes from `pending` to `uploaded`.
+
+  - name: Bank Account
+    description: |
+      Create/manage bank accounts for your businesses. These accounts are used for paying out earnings for usage of various products, for example card processing.
+
+  - name: Terms and Conditions
+    description: |
+      Legally binding rules and agreements that outline the rights, responsibilities, and limitations governing the use of the platform.
+
+  - name: Provisioning
+    description: |
+      Provisioning API for Products serves as an automated interface to configure resources based on your current entities informations, for example creating an account for card processing.
+
+  - name: Payment Method Migration
+    description:
+      $ref: ../docs/payment_method_migration.md
+
+  - name: Terminals
+    description:
+      $ref: ../docs/terminals.md
+
+x-tagGroups:
+  - name: Authorization
+    tags:
+      - API Credentials
+      - Web Component Tokens
+  - name: For Platforms
+    tags:
+      - Sub Accounts
+      - Hosted Onboarding
+      - Onboarding via API
+      - Proceeds
+      - Hosted Checkout
+  - name: Payment Resources
+    tags:
+      - Payments
+      - Payment Intents
+      - Payment Methods
+      - Refunds
+      - Disputes
+      - Payouts
+      - Balance Transactions
+      - Ach Return Fees
+      - Checkout Sessions
+      - Payment Method Migration
+  - name: Insurance Resources
+    tags:
+      - Bind Insurance
+  - name: Entity Resources
+    tags:
+      - Business
+      - Identity
+      - Address
+      - Document
+      - Bank Account
+      - Terms and Conditions
+      - Provisioning
+  - name: Card Present Resources
+    tags:
+      - Terminals
+  - name: Libraries
+    tags:
+      - JustiFi Web Components
+      - JustiFi SDK
+  - name: Event Publishing
+    tags:
+      - Events
+      - EventBridge (AWS) Delivery
+      - Webhook Delivery
+
+paths:
+  /sub_accounts:
+    $ref: paths/sub_accounts.yaml
+  /sub_accounts/{id}:
+    $ref: paths/sub_accounts@{id}.yaml
+  /onboarding/{id}:
+    $ref: paths/onboarding@{id}.yaml
+  /platform/proceeds:
+    $ref: paths/proceeds.yaml
+  /platform/proceeds/{id}:
+    $ref: paths/proceeds@{id}.yaml
+  /payment_intents:
+    $ref: paths/payment_intents.yaml
+  /payment_intents/{id}:
+    $ref: paths/payment_intents@{id}.yaml
+  /payment_intents/{id}/capture:
+    $ref: paths/payment_intents@{id}@capture.yaml
+  /payment_intents/{id}/payments:
+    $ref: paths/payment_intents@{id}@payments.yaml
+  /payments:
+    $ref: paths/payments.yaml
+  /payments/{id}:
+    $ref: paths/payments@{id}.yaml
+  /payments/{id}/capture:
+    $ref: paths/payments@{id}@capture.yaml
+  /payments/{id}/refunds:
+    $ref: paths/payments@{id}@refunds.yaml
+  /payments/{id}/void:
+    $ref: paths/payments@{id}@void.yaml
+  /payments/{id}/payment_balance_transactions:
+    $ref: paths/payments@{id}@payment_balance_transactions.yaml
+  /payment_methods:
+    $ref: paths/payment_methods.yaml
+  /payment_methods/{token}:
+    $ref: paths/payment_methods@{token}.yaml
+  /payment_methods/{token}/clone:
+    $ref: paths/payment_methods@{token}@clone.yaml
+  /payouts:
+    $ref: paths/payouts.yaml
+  /payouts/{id}:
+    $ref: paths/payouts@{id}.yaml
+  /reports/payouts/{id}:
+    $ref: paths/csv_report_payouts@{id}.yaml
+  /balance_transactions:
+    $ref: paths/balance_transactions.yaml
+  /balance_transactions/{id}:
+    $ref: paths/balance_transactions@{id}.yaml
+  /refunds:
+    $ref: paths/refunds.yaml
+  /refunds/{id}:
+    $ref: paths/refunds@{id}.yaml
+  /oauth/token:
+    $ref: paths/oauth.yaml
+  /disputes:
+    $ref: paths/disputes.yaml
+  /disputes/{id}:
+    $ref: paths/disputes@{id}.yaml
+  /checkout_sessions:
+    $ref: paths/checkout_sessions.yaml
+  /insurance/bind:
+    $ref: paths/insurance_bind.yaml
+  /entities/business:
+    $ref: paths/entities_business.yaml
+  /entities/business/{id}:
+    $ref: paths/entities_business@{id}.yaml
+  /entities/identity:
+    $ref: paths/entities_identity.yaml
+  /entities/identity/{id}:
+    $ref: paths/entities_identity@{id}.yaml
+  /entities/address:
+    $ref: paths/entities_address.yaml
+  /entities/address/{id}:
+    $ref: paths/entities_address@{id}.yaml
+  /entities/document:
+    $ref: paths/entities_document.yaml
+  /entities/document/{id}:
+    $ref: paths/entities_document@{id}.yaml
+  /entities/bank_accounts:
+    $ref: paths/entities_bank_accounts.yaml
+  /entities/bank_accounts/{id}:
+    $ref: paths/entities_bank_accounts@{id}.yaml
+  /entities/terms_and_conditions:
+    $ref: paths/entities_terms_and_conditions.yaml
+  /entities/provisioning:
+    $ref: paths/entities_provisioning.yaml
+  /ach_return_fees/{id}:
+    $ref: paths/ach_return_fees@{id}.yaml
+  /terminals/pay:
+    $ref: paths/terminals_pay.yaml
+  /terminals:
+    $ref: paths/terminals.yaml
+  /terminals/{id}:
+    $ref: paths/terminals@{id}.yaml
+  /terminals/{id}/status:
+    $ref: paths/terminals@{id}@status.yaml
+  /web_component_tokens:
+    $ref: paths/web_component_tokens.yaml
+
+x-webhooks:
+  payments:
+    $ref: events/payments.yaml
+  payment_intents:
+    $ref: events/payment_intents.yaml
+  payment_methods:
+    $ref: events/payment_methods.yaml
+  refunds:
+    $ref: events/refunds.yaml
+  disputes:
+    $ref: events/disputes.yaml
+  payouts:
+    $ref: events/payouts.yaml
+  sub_accounts:
+    $ref: events/sub_accounts.yaml
+  application_fee_rates:
+    $ref: events/application_fee_rates.yaml

@@ -1,0 +1,38 @@
+type: object
+properties:
+  id:
+    description: event unique id
+    type: string
+    example: evt_123xyz
+  idempotency_key:
+    description: idempotency key for request, when available
+    type: string
+    nullable: true
+  request_id:
+    description: id for request, when available
+    type: string
+    nullable: true
+  account_id:
+    description: sub account id for event
+    type: string
+    example: acc_123xyz
+  account_type:
+    description: live or test account
+    type: string
+    example: test
+  platform_account_id:
+    description: platform account id for event, when available
+    type: string
+    example: acc_123xyz
+    nullable: true
+  data:
+    description: the attributes for the object
+    type: object
+  version:
+    description: version of the event payload
+    type: string
+    example: v1
+  event_name:
+    description: name of the event (payment.succeeded, sub_account.updated, etc.)
+    example: "payment.succeeded"
+    type: string

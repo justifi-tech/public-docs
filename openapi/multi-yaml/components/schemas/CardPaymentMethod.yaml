@@ -1,0 +1,19 @@
+type: object
+properties:
+  card:
+    $ref: ./Card.yaml
+  customer_id:
+    description: id of the customer associated with the payment method
+    type: string
+    example: "cust_xyz"
+    nullable: true
+  signature:
+    description: signature that uniquely identifies a credit card or bank account across payment methods
+    type: string
+    example: "4guAJNkVA3lRLVlanNVoBK"
+    nullable: true
+  account_id:
+    description: account id associated with payment method
+    type: string
+    example: "acc_123"
+    nullable: true

@@ -1,0 +1,63 @@
+type: object
+properties:
+  id:
+    type: string
+    format: uuid
+    example: doc_abc123
+  description:
+    type: string
+    example: My Document
+    description: description of the document, used for your reference
+  file_name:
+    type: string
+    example: my_document
+    description: file name of the document
+  file_type:
+    type: string
+    example: pdf
+    description: the file media type/extension of the file you are uploading. For example, text/plain,
+      application/pdf, image/png
+  document_type:
+    type: string
+    enum:
+      - balance_sheet
+      - bank_statement
+      - government_id
+      - profit_and_loss_statement
+      - tax_return
+      - other
+    example: "balance_sheet"
+  business_id:
+    type: string
+    format: uuid
+    example: biz_abc123
+    description: the business id to associate with this document (one of business id or identity id is required)
+  identity_id:
+    type: string
+    format: uuid
+    example: idty_abc123
+    description: the identity id to associate with this document (one of business id or identity id is required)
+  presigned_url:
+    type: string
+    format: url
+    description: url used to PUT or GET the document to our cloud provider. This is not returned via the list API
+    example: https://test.test/doc_abc123/file_name.pdf
+  metadata:
+    type: object
+    format: json
+    description: any useful information you'd like to store alongside this document
+    additionalProperties: true
+    example:
+      language: "english"
+      social_network: "@person"
+  status:
+    type: string
+    enum: [pending uploaded canceled]
+  created_at:
+    type: string
+    format: date-time
+    example: "2021-01-01T12:00:00Z"
+  updated_at:
+    type: string
+    format: date-time
+    example: "2021-01-01T12:00:00Z"

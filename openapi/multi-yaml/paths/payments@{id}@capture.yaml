@@ -1,0 +1,265 @@
+post:
+  summary: Capture a Payment
+  description: |
+    To charge a payment method and capture a previously authorized payment.  Returns a `payment_already_captured` error if the payment is in a captured state.
+
+    *Note: For platforms, if the sub account status is not `enabled`, `400` will be returned.*
+  operationId: CapturePayment
+  parameters:
+    - $ref: ../components/parameters/id-path.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/authorization-header.yaml
+  tags:
+    - Payments
+  responses:
+    '200':
+      description: Payment with identical idempotency key was captured
+      content:
+        application/json:
+          schema:
+              allOf:
+                - $ref: ../components/schemas/Envelope.yaml
+                - properties:
+                    data:
+                      oneOf:
+                        - $ref: ../components/schemas/CardPayment.yaml
+                        - $ref: ../components/schemas/BankAccountPayment.yaml
+          example:
+          examples:
+            "Card_payment_with_identical_idempotency_key_captured":
+              value:
+                id: py_123xyz
+                type: payment
+                data:
+                  id: py_123xyz
+                  account_id: acc_123xyz
+                  amount_disputed: 0
+                  amount_refunded: 0
+                  amount_returned: 0
+                  amount: 10000
+                  amount_refundable: 10000
+                  application_fee_rate_id: afr_123xyz
+                  balance: 99850
+                  capture_strategy: automatic
+                  captured: true
+                  created_at: "2021-01-01T12:00:00Z"
+                  currency: usd
+                  description: order xyz
+                  disputed: false
+                  error_code: null
+                  error_description: null
+                  fee_amount: 150
+                  financial_transaction_id: "ft_123xyz"
+                  is_test: true
+                  metadata: { }
+                  payment_intent_id: pi_xyz
+                  refunded: false
+                  returned: false
+                  status: succeeded
+                  updated_at: "2021-01-01T12:00:00Z"
+                  payment_method:
+                    card:
+                      id: pm_123xyz
+                      acct_last_four: "4242"
+                      brand: visa
+                      name: Sylvia Fowles
+                      token: pm_123xyz
+                      metadata: {}
+                      bin_details: {
+                        "type": "Debit",
+                        "card_brand": "Visa",
+                        "card_class": "Consumer",
+                        "country": "United States of America",
+                        "issuer": "WELLS FARGO BANK",
+                        "funding_source": "Debit"
+                      }
+                      created_at: "2021-01-01T12:00:00Z"
+                      updated_at: "2021-01-01T12:00:00Z"
+                    customer_id: null
+                    signature: 123abc
+                  application_fee:
+                    id: fee_123xyz
+                    amount: 150
+                    currency: usd
+                    created_at: "2021-01-01T12:00:00Z"
+                    updated_at: "2021-01-01T12:00:00Z"
+                  refunds: []
+                  disputes: []
+                page_info: null
+            "Bank_account_payment_with_identical_idempotency_key_captured":
+              value:
+                id: py_123xyz
+                type: payment
+                data:
+                  id: py_123xyz
+                  account_id: acc_123xyz
+                  amount_disputed: 0
+                  amount_refunded: 0
+                  amount_returned: 0
+                  amount: 10000
+                  amount_refundable: 10000
+                  application_fee_rate_id: afr_123xyz
+                  balance: 99850
+                  capture_strategy: automatic
+                  captured: true
+                  created_at: "2021-01-01T12:00:00Z"
+                  currency: usd
+                  description: order xyz
+                  disputed: false
+                  error_code: null
+                  error_description: null
+                  fee_amount: 150
+                  financial_transaction_id: "ft_123xyz"
+                  is_test: true
+                  metadata: { }
+                  payment_intent_id: pi_xyz
+                  refunded: false
+                  returned: false
+                  status: succeeded
+                  updated_at: "2021-01-01T12:00:00Z"
+                  payment_method:
+                    bank_account:
+                      id: pm_123xyz
+                      acct_last_four: "4242"
+                      name: Sylvia Fowles
+                      brand: Wells Fargo
+                      token: pm_123xyz
+                      created_at: "2021-01-01T12:00:00Z"
+                      updated_at: "2021-01-01T12:00:00Z"
+                    customer_id: cust_123xyz
+                    signature: 123abc
+                  application_fee:
+                    id: fee_123xyz
+                    amount: 150
+                    currency: usd
+                    created_at: "2021-01-01T12:00:00Z"
+                    updated_at: "2021-01-01T12:00:00Z"
+                  refunds: []
+                  disputes: []
+                page_info: null
+
+    '201':
+      description: Payment was captured successfully
+      content:
+        application/json:
+          schema:
+              allOf:
+                - $ref: ../components/schemas/Envelope.yaml
+                - properties:
+                    data:
+                      oneOf:
+                        - $ref: ../components/schemas/CardPayment.yaml
+                        - $ref: ../components/schemas/BankAccountPayment.yaml
+          example:
+          examples:
+            "Card_payment_captured":
+              value:
+                id: py_123xyz
+                type: payment
+                data:
+                  id: py_123xyz
+                  account_id: acc_123xyz
+                  amount_disputed: 0
+                  amount_refunded: 0
+                  amount_returned: 0
+                  amount: 10000
+                  amount_refundable: 10000
+                  application_fee_rate_id: afr_123xyz
+                  balance: 99850
+                  capture_strategy: automatic
+                  captured: true
+                  created_at: "2021-01-01T12:00:00Z"
+                  currency: usd
+                  description: order xyz
+                  disputed: false
+                  error_code: null
+                  error_description: null
+                  fee_amount: 150
+                  financial_transaction_id: "ft_123xyz"
+                  is_test: true
+                  metadata: { }
+                  payment_intent_id: pi_xyz
+                  refunded: false
+                  returned: false
+                  status: succeeded
+                  updated_at: "2021-01-01T12:00:00Z"
+                  payment_method:
+                    card:
+                      id: pm_123xyz
+                      acct_last_four: 4242
+                      brand: visa
+                      name: Sylvia Fowles
+                      token: pm_123xyz
+                      metadata: {}
+                      bin_details: {
+                        "type": "Debit",
+                        "card_brand": "Visa",
+                        "card_class": "Consumer",
+                        "country": "United States of America",
+                        "issuer": "WELLS FARGO BANK",
+                        "funding_source": "Debit"
+                      }
+                      created_at: "2021-01-01T12:00:00Z"
+                      updated_at: "2021-01-01T12:00:00Z"
+                    customer_id: null
+                    signature: 123abc
+                  application_fee:
+                    id: fee_123xyz
+                    amount: 150
+                    currency: usd
+                    created_at: "2021-01-01T12:00:00Z"
+                    updated_at: "2021-01-01T12:00:00Z"
+                  refunds: []
+                  disputes: []
+                page_info: null
+            "Bank_account_payment_captured":
+              value:
+                id: py_123xyz
+                type: payment
+                data:
+                  id: py_123xyz
+                  account_id: acc_123xyz
+                  amount_disputed: 0
+                  amount_refunded: 0
+                  amount_returned: 0
+                  amount: 10000
+                  amount_refundable: 10000
+                  application_fee_rate_id: afr_123xyz
+                  balance: 99850
+                  capture_strategy: automatic
+                  captured: true
+                  created_at: "2021-01-01T12:00:00Z"
+                  currency: usd
+                  description: order xyz
+                  disputed: false
+                  error_code: null
+                  error_description: null
+                  fee_amount: 150
+                  financial_transaction_id: "ft_123xyz"
+                  is_test: true
+                  metadata: { }
+                  payment_intent_id: pi_xyz
+                  refunded: false
+                  returned: false
+                  status: succeeded
+                  updated_at: "2021-01-01T12:00:00Z"
+                  payment_method:
+                    bank_account:
+                      id: pm_123xyz
+                      acct_last_four: "4242"
+                      name: Sylvia Fowles
+                      brand: Wells Fargo
+                      token: pm_123xyz
+                      created_at: "2021-01-01T12:00:00Z"
+                      updated_at: "2021-01-01T12:00:00Z"
+                    customer_id: cust_123xyz
+                    signature: 123abc
+                  application_fee:
+                    id: fee_123xyz
+                    amount: 150
+                    currency: usd
+                    created_at: "2021-01-01T12:00:00Z"
+                    updated_at: "2021-01-01T12:00:00Z"
+                  refunds: []
+                  disputes: []
+                page_info: null
