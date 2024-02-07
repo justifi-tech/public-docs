@@ -1,0 +1,68 @@
+get:
+  summary: Get a Payment Intent
+  description: Get information about a payment intent.
+  operationId: GetPaymentIntent
+  tags:
+    - Payment Intents
+  parameters:
+    - $ref: ../components/parameters/id-path.yaml
+    - $ref: ../components/parameters/authorization-header.yaml
+  responses:
+    '200':
+      description: Successfully get a payment intent
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - $ref: ../components/schemas/CardPaymentIntent.yaml
+              - $ref: ../components/schemas/BankAccountPaymentIntent.yaml
+
+patch:
+  summary: Update a Payment Intent
+  description: Change a payment intent's description or metadata; attach a payment method.
+  operationId: UpdatePaymentIntent
+  parameters:
+  - $ref: ../components/parameters/id-path.yaml
+  - $ref: ../components/parameters/idempotency-key-header.yaml
+  - $ref: ../components/parameters/authorization-header.yaml
+  tags:
+    - Payment Intents
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          properties:
+            description:
+              type: string
+              description: your meaningful description of the payment intent (e.g. an order number or other value from your system)
+              example: order_xyz
+            metadata:
+              type: object
+              format: json
+              description: any useful information you'd like to store alongside this payment intent; when you update metadata, any previous metadata will be overwritten
+            payment_method:
+              description: can be updated if the payment intent status is `requires_payment_method` or `pending`
+              oneOf:
+                - type: object
+                  properties:
+                    card:
+                      $ref: ../components/schemas/CreateCard.yaml
+                    # bank_account:
+                    #   $ref: ../components/schemas/CreateBankAccount.yaml
+                    token:
+                      type: string
+                      example: pm_xyz
+            amount:
+              type: integer
+              description: payment intent amount, in cents; can be updated if the payment intent status is `requires_payment_method` or `pending`
+              example: 10000
+  responses:
+    '200':
+      description: Payment intent update was successful
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - $ref: ../components/schemas/CardPaymentIntent.yaml
+              - $ref: ../components/schemas/BankAccountPaymentIntent.yaml

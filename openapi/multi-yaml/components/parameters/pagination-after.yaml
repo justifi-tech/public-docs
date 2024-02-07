@@ -1,0 +1,5 @@
+in: query
+name: after_cursor
+description: token to fetch the next page of a list
+schema:
+  type: string

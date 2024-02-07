@@ -1,0 +1,39 @@
+type: object
+properties:
+  month:
+    description: new expiration month
+    type: string
+    example: 5
+  year:
+    description: new expiration year
+    type: string
+    example: 2042
+  address_line1:
+    description: new card address street
+    type: string
+    example: 123 Fake St
+  address_line2:
+    description: new card address apartment, suite, etc.
+    type: string
+    example: Suite 101
+  address_city:
+    description: new card address city
+    type: string
+    example: Cityville
+  address_state:
+    description: new card address state
+    type: string
+    example: MN
+  address_postal_code:
+    description: new card address ZIP
+    type: string
+    example: 55555
+  address_country:
+    description: new card address 2-character country code
+    type: string
+    example: US
+  metadata:
+    type: object
+    format: json
+    description: any useful information you'd like to store alongside this card; when you update metadata, any previous metadata will be overwritten
+    example: {new: info}

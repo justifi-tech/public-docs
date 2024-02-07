@@ -1,0 +1,43 @@
+type: object
+properties:
+  id:
+    description: unique record id
+    type: string
+    example: ins_xyz
+  account_id:
+    type: string
+    format: uuid
+    example: acc_xyz
+  amount:
+    description: the amount charged in cents
+    type: number
+    example: 10000
+  currency:
+    type: string
+    enum: [usd]
+    example: usd
+  partner_name:
+    type: string
+    description: partner insurance provider name
+    example: vertical_insure
+  partner_quote_id:
+    type: string
+    description: quote id provided by partner provider
+    example: test-123
+  metadata:
+    type: object
+    format: json
+    description: any useful information you'd like to store alongside this payment intent
+    example: {}
+  status:
+    type: string
+    enum: [created, bound]
+    description: status of the payment intent
+  created_at:
+    type: string
+    format: date-time
+    example: '2021-01-01T12:00:00Z'
+  updated_at:
+    type: string
+    format: date-time
+    example: '2021-01-01T12:00:00Z'

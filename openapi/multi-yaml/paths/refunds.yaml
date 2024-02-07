@@ -1,0 +1,23 @@
+get:
+  summary: List Refunds
+  description: List the refunds for your account. This endpoint supports [pagination](/#section/Pagination).
+  operationId: ListRefunds
+  tags:
+    - Refunds
+  parameters:
+    - $ref: ../components/parameters/authorization-header.yaml
+    - $ref: ../components/parameters/sub-account.yaml
+  responses:
+    '200':
+      description: Successfully list refunds
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope-list.yaml
+              - properties:
+                  type:
+                    example: array
+                  data:
+                    items:
+                      $ref: ../components/schemas/Refund.yaml

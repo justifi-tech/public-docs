@@ -1,0 +1,99 @@
+post:
+  summary: Create a Bank Account
+  description: |
+    Create a bank account
+  operationId: CreateBankAccount
+  tags:
+    - Bank Account
+  parameters:
+    - $ref: ../components/parameters/authorization-header.yaml
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          properties:
+            account_owner_name:
+              type: string
+              description: name of the account owner
+              example: "Napheesa Collier"
+            account_type:
+              type: string
+              description: type of account
+              enum: [checking savings]
+              example: "checking"
+            account_number:
+              type: string
+              description: the account number
+              example: "000123456789"
+            routing_number:
+              type: string
+              description: routing number
+              example: "110000000"
+            business_id:
+              type: string
+              description: business id which owns the account
+              format: uuid
+              example: "biz_abc123"
+            bank_name:
+              type: string
+              description: bank name
+              example: "Wells Fargo"
+            nickname:
+              type: string
+              description: nickname for the bank account
+              example: "Phee's Money"
+            metadata:
+              type: object
+              description: any useful information you'd like to store alongside this bank account
+              example: { "my_id": "123" }
+          required:
+            - account_owner_name
+            - account_type
+            - account_number
+            - routing_number
+            - business_id
+
+  responses:
+    '201':
+      description: Bank Account was created successfully
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope.yaml
+              - properties:
+                  type:
+                    example: bank_account
+                  data:
+                    $ref: ../components/schemas/EntityBankAccount.yaml
+
+get:
+  summary: List Bank Accounts
+  description: List the bank accounts you have created for a business. This endpoint supports [pagination](/#section/Pagination).
+  operationId: ListBankAccounts
+  tags:
+    - Bank Account
+  parameters:
+    - $ref: ../components/parameters/authorization-header.yaml
+    - in: query
+      name: business_id
+      schema:
+        type: string
+      required: false
+      example: "biz_xyz"
+      description: filter bank accounts which are associated with a business
+  responses:
+    '200':
+      description: Successfully list bank accounts
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope-list.yaml
+              - properties:
+                  type:
+                    example: array
+                  data:
+                    items:
+                      $ref: ../components/schemas/EntityBankAccount.yaml

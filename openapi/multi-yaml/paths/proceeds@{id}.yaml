@@ -1,0 +1,23 @@
+get:
+  summary: Get a Proceeds Payout
+  description: Get information about a proceeds payout.
+  operationId: GetProceeds
+  tags:
+    - Proceeds
+  parameters:
+    - $ref: ../components/parameters/id-path.yaml
+    - $ref: ../components/parameters/authorization-header.yaml
+  responses:
+    '200':
+      description: Successfully get a proceeds payout
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope-list.yaml
+              - properties:
+                  type:
+                    example: payout
+                  data:
+                    items:
+                      $ref: ../components/schemas/Proceed.yaml

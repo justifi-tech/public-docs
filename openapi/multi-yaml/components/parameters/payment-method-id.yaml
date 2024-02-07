@@ -1,0 +1,8 @@
+in: query
+name: payment_method_id
+schema:
+  type: string
+required: false
+example: "pm_123xyz"
+description: |
+  filter records which are associated with a payment method.

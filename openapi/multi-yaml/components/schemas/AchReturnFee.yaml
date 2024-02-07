@@ -1,0 +1,26 @@
+type: object
+properties:
+  id:
+    description: unique ach return fee id
+    type: string
+    example: "arf_123xyz"
+  payment_id:
+    description: the payment for which this ach return fee is being issued
+    type: string
+    example: "py_123xyz"
+  amount:
+    description: ach return fee amount, in cents
+    type: number
+    example: 150
+  currency:
+    type: string
+    enum: [usd]
+    example: usd
+  created_at:
+    type: string
+    format: date-time
+    example: "2021-01-01T12:00:00Z"
+  updated_at:
+    type: string
+    format: date-time
+    example: "2021-01-01T12:00:00Z"

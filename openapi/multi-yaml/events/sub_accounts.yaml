@@ -1,0 +1,19 @@
+post:
+  description: |
+    Received for the following events: sub_account.updated. This is published when an account's status changes.
+  tags:
+    - Events
+  operationId: subAccountEvent
+  summary: Sub Accounts
+  requestBody:
+    content:
+      application/json:
+        schema:
+          allOf:
+            - $ref: ../components/schemas/Event.yaml
+            - properties:
+                data:
+                  $ref: ../components/schemas/SubAccount.yaml
+  responses:
+    "200":
+      description: Return a 200 status to indicate that the data was received successfully. You must respond within 5 seconds.

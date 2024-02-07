@@ -1,0 +1,10 @@
+type: object
+properties:
+  id:
+    description: unique payout id
+    type: string
+    example: po_xyz
+  csv_url:
+    description: url that links to downloadable CSV report for payout.
+    type: string
+    example: "https://justifi-test-payouts-reports.s3.amazonaws.com/acc_1234lkj/po_23jdfi36dqhj.csv?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=test"

@@ -1,0 +1,5 @@
+in: query
+name: limit
+description: the number of resources to retrieve
+schema:
+  type: integer

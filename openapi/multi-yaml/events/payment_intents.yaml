@@ -1,0 +1,98 @@
+post:
+  description: |
+    Received for the following events: payment_intent.attached, payment_intent.created, payment_intent.requires_capture, payment_intent.succeeded
+  tags:
+    - Events
+  operationId: paymentIntentEvent
+  summary: Payment Intents
+  requestBody:
+    content:
+      application/json:
+        schema:
+          allOf:
+            - $ref: ../components/schemas/Event.yaml
+            - properties:
+                data:
+                  oneOf:
+                    - $ref: ../components/schemas/CardPaymentIntent.yaml
+                    - $ref: ../components/schemas/BankAccountPaymentIntent.yaml
+        example:
+        examples:
+          "Card_payment_intent_succeeded_event":
+            value:
+              id: evt_123xyz
+              account_id: acc_123xyz
+              account_type: test
+              platform_account_id: acc_987zyx
+              idempotency_key: string
+              request_id: req_123
+              version: v1
+              data:
+                id: pi_xyz
+                account_id: acc_123xyz
+                amount: 10000
+                currency: usd
+                description: my order xyz
+                last_error: null
+                metadata: {}
+                status: succeeded
+                payment_method:
+                  customer_id: null
+                  signature: 123abc
+                  card:
+                    id: pm_123xyz
+                    name: Sylvia Fowles
+                    acct_last_four: "4242"
+                    brand: visa
+                    token: pm_123xyz
+                    month: "5"
+                    year: "2042"
+                    metadata: {}
+                    address_line1_check: pass
+                    address_postal_code_check: pass
+                    bin_details: {
+                      "type": "Debit",
+                      "card_brand": "Visa",
+                      "card_class": "Consumer",
+                      "country": "United States of America",
+                      "issuer": "WELLS FARGO BANK",
+                      "funding_source": "Debit"
+                    }
+                  created_at: "2021-01-01T12:00:00Z"
+                  updated_at: "2021-01-01T12:00:00Z"
+              event_name: payment_intent.succeeded
+          "Bank_account_payment_intent_succeeded_event":
+            value:
+              id: evt_123xyz
+              account_id: acc_123xyz
+              account_type: test
+              platform_account_id: acc_987zyx
+              idempotency_key: string
+              request_id: req_123
+              version: v1
+              data:
+                id: pi_xyz
+                account_id: acc_123xyz
+                amount: 10000
+                currency: usd
+                description: my order xyz
+                last_error: null
+                metadata: {}
+                status: succeeded
+                payment_method:
+                  customer_id: null
+                  signature: 123abc
+                  bank_account:
+                    id: pm_123xyz
+                    acct_last_four: "4242"
+                    name: Sylvia Fowles
+                    brand: Wells Fargo
+                    token: pm_123xyz
+                    created_at: "2021-01-01T12:00:00Z"
+                    updated_at: "2021-01-01T12:00:00Z"
+                  created_at: "2021-01-01T12:00:00Z"
+                  updated_at: "2021-01-01T12:00:00Z"
+              event_name: payment_intent.succeeded
+  responses:
+    "200":
+      description: Return a 200 status to indicate that the data was received successfully. You must respond within 5 seconds.

@@ -1,0 +1,5 @@
+in: query
+name: before_cursor
+description: token to fetch the previous page of a list
+schema:
+  type: string

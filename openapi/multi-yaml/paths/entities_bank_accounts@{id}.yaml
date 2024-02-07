@@ -1,0 +1,23 @@
+get:
+  summary: Get a Bank Account
+  description: Get details about a bank account
+  operationId: GetBankAccount
+  tags:
+    - Bank Account
+  parameters:
+    - $ref: ../components/parameters/id-path.yaml
+    - $ref: ../components/parameters/authorization-header.yaml
+
+  responses:
+    "200":
+      description: Get Bank Account
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope.yaml
+              - properties:
+                  type:
+                    example: bank_account
+                  data:
+                    $ref: ../components/schemas/EntityBankAccount.yaml

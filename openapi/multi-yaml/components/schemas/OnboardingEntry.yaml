@@ -1,0 +1,183 @@
+type: object
+properties:
+  onboarding_version:
+    type: string
+    example: "v2.0"
+    description: defaults based on your account, v1.0 is deprecated for new platforms
+  business_details:
+    type: object
+    description: information about the sub account's business, as defined on their SS-4 tax document
+    properties:
+      url:
+        type: string
+        example: "https://justifi.ai"
+        description: website for this sub account (if they don't have a website, can send their social media business page, app store link, or a product description instead)
+      type:
+        type: string
+        enum: [for_profit, non_profit, government_entity, individual]
+      structure:
+        type: string
+        enum: [sole_proprietorship, single_llc, multi_llc, private_partnership, private_corporation, unincorporated_association, public_partnership, public_corporation, incorporated, unincorporated, government_unit, government_instrumentality, tax_exempt_government_instrumentality]
+      industry:
+        type: string
+        description: to help us identify this sub account's merchant category code (MCC), please provide a concise description of what they sell
+      tax_id:
+        type: string
+        description: the federal tax identification number/EIN issued to this sub account by the IRS (for Individual type, this will be their full SSN)
+      phone:
+        type: string
+        description: business phone number for this sub account
+      email:
+        type: string
+        description: business email address for this sub account
+      date_of_incorporation:
+        type: string
+        description: business date of incorporation
+        example: "2023-09-12"
+      approximate_annual_volume:
+          type: string
+          description: business estimated annual payment volume
+          example: "1000000"
+      legal:
+        type: object
+        description: |
+          legal entity name and address registered for this sub account (no PO boxes)
+        properties:
+          name:
+            type: string
+          address_line1:
+            type: string
+          address_line2:
+            type: string
+          address_city:
+            type: string
+          address_state:
+            type: string
+          address_postal_code:
+            type: string
+          address_country:
+            type: string
+      doing_business_as:
+        type: object
+        description: |
+          only needed if this sub account registered with a DBA/trade name on their SS-4 tax document
+        properties:
+          name:
+            type: string
+  representative:
+    type: object
+    description: personal information about the financial representative -- this must be someone who has significant control over managing this sub account's finances
+    properties:
+      name:
+        type: string
+        description: legal name of financial representative
+      title:
+        type: string
+        description: job title of financial representative, e.g. President, CEO, VP of Payments
+      email:
+        type: string
+        format: email
+        description: email address of financial representative
+      identification_number:
+        type: string
+        description: ssn of financial representative, e.g. 123-45-6789
+      dob_month:
+        type: string
+        description: two-digit date of birth month for financial representative, e.g. 02
+      dob_day:
+        type: string
+        description: two-digit date of birth day for financial representative, e.g. 02
+      dob_year:
+        type: string
+        description: four-digit date of birth year for financial representative, e.g. 2002 (must be at least 18 years old)
+      address_line1:
+        type: string
+      address_line2:
+        type: string
+      address_city:
+        type: string
+      address_state:
+        type: string
+      address_postal_code:
+        type: string
+      address_country:
+        type: string
+      phone:
+        type: string
+      is_owner:
+        type: boolean
+        description: if the financial representative owns 25% or more of the business, they are considered an owner
+  owners:
+    type: array
+    description: up to four business owners total; do not re-record the financial representative if they are marked as an owner
+    items:
+      type: object
+      properties:
+        name:
+          type: string
+          description: legal name of owner
+        email:
+          type: string
+          format: email
+          description: email address of owner
+        identification_number:
+          type: string
+          description: ssn of owner, e.g. 123-45-6789
+        dob_month:
+          type: string
+          description: two-digit date of birth month for owner, e.g. 02
+        dob_day:
+          type: string
+          description: two-digit date of birth day for owner, e.g. 02
+        dob_year:
+          type: string
+          description: four-digit date of birth year for owner, e.g. 2002 (must be at least 18 years old)
+        address_line1:
+          type: string
+        address_line2:
+          type: string
+        address_city:
+          type: string
+        address_state:
+          type: string
+        address_postal_code:
+          type: string
+        address_country:
+          type: string
+    
+  bank_account:
+    type: object
+    description: bank account which will be used for payouts to the sub account (must be a US-based checking account)
+    properties:
+      bank_name:
+        type: string
+        description: name of the bank, e.g. Wells Fargo
+      account_nickname:
+        type: string
+        description: desired nickname for the bank account
+      routing_number:
+        type: string
+        description: nine-digit routing number for the bank account
+      account_number:
+        type: string
+        description: account number for the bank account
+      account_type:
+        type: string
+        description: account type for the bank account
+        enum: [checking, savings]
+      account_owner_name:
+        type: string
+        description: business name or legal name of account owner
+  terms_and_conditions:
+    type: object
+    description: details about accepting JustiFi's terms and conditions on behalf of a sub account
+    properties:
+      accepted:
+        type: boolean
+        description: whether the sub account has read and accepted JustiFi's terms and conditions
+      ip:
+        type: string
+        description: the IP address used when the terms and conditions were accepted
+      user_agent:
+        type: string
+        description: the user agent used when the terms and conditions were accepted

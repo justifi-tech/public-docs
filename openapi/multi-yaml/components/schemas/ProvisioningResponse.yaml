@@ -1,0 +1,17 @@
+type: object
+properties:
+  account_type:
+    description: account type (live or test)
+    type: string
+    example: test
+  sub_account_id:
+    type: string
+    format: uuid
+    example: acc_xyz
+  platform_account_id:
+    type: string
+    format: uuid
+    example: acc_123
+  payload:
+    type: object
+    description: business information

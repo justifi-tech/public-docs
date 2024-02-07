@@ -1,0 +1,18 @@
+type: object
+properties:
+  id:
+    description: unique terminal id
+    type: string
+    example: trm_abc123
+  account_id:
+    description: id of the account associated with the terminal
+    type: string
+    format: uuid
+  created_at:
+    type: string
+    format: date-time
+    example: '2021-01-01T12:00:00Z'
+  updated_at:
+    type: string
+    format: date-time
+    example: '2021-01-01T12:00:00Z'

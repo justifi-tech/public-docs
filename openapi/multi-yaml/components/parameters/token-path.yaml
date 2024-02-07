@@ -1,0 +1,5 @@
+in: path
+name: token
+schema:
+  type: string
+required: true

@@ -1,0 +1,9 @@
+in: query
+name: deposits_before
+schema:
+  type: string
+  format: date-time
+required: false
+example: "2022-01-01T00:00:00Z"
+description: |
+  filter records which deposit before the date and time (UTC) specified. Dates without time specified will default to 00:00:00

@@ -1,0 +1,18 @@
+type: object
+properties:
+  end_cursor:
+    description: the encoded id of the last record in the current list
+    type: string
+    example: WyIyMDIyLTAyLTA4IDE5OjUyOjM3LjEwNDE3MzAwMCIsIjY4MDliYTU5LTYxYjctNDg3MS05YWFiLWE2Y2MyNmY3M2M1ZCJd
+  has_next:
+    description: true if the collection contains records following the current list
+    type: boolean
+    default: false
+  has_previous:
+    description: true if the collection contains records ahead of the current list
+    type: boolean
+    default: false
+  start_cursor:
+    description: the encoded id of the first record in the current list
+    type: string
+    example: WyIyMDIyLTAyLTA4IDIwOjAxOjU4LjEyMDIzMjAwMCIsIjU5ZTFjNGI1LWFlOWQtNDIyZC04MTVkLWNjNzQ5NzdlYmFjYSJd

@@ -1,0 +1,31 @@
+type: object
+properties:
+  id:
+    description: unique bank account id
+    type: string
+    format: uuid
+  full_name:
+    description: account holder's full name
+    type: string
+  bank_name:
+    description: name of bank
+    type: string
+  account_number_last4:
+    description: last 4 digits of the account number
+    type: string
+    example: 1111
+  routing_number:
+    type: string
+  country:
+    type: string
+    enum: [US]
+    example: US
+  currency:
+    type: string
+    enum: [usd]
+    example: usd
+  nickname:
+    type: string
+  account_type:
+    type: string
+    enum: [checking]

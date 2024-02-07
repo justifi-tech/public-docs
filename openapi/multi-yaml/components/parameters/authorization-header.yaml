@@ -1,0 +1,7 @@
+in: header
+name: Authorization
+schema:
+  type: string
+required: true
+example: Bearer {access_token}
+description: the `access_token` value returned from the JustiFi `oauth/token` endpoint (be sure to append `Bearer` before the token)

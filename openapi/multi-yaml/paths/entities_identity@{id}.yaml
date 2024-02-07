@@ -1,0 +1,95 @@
+patch:
+  summary: Update an Identity
+  description: Update information about an Identity
+  operationId: UpdateIdentity
+  tags:
+    - Identity
+  parameters:
+    - $ref: ../components/parameters/id-path.yaml
+    - $ref: ../components/parameters/authorization-header.yaml
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          properties:
+            name:
+              type: string
+              example: "Person Name"
+              description: legal name
+            title:
+              type: string
+              example: "President"
+              description: job title
+            email:
+              type: string
+              example: "person.name@justifi.ai"
+              description: email address
+            phone:
+              type: string
+              example: "6124011111"
+              description: phone number
+            dob_day:
+              type: string
+              example: "01"
+              description: two-digit birth day
+            dob_month:
+              type: string
+              example: "01"
+              description: two-digit birth month
+            dob_year:
+              type: string
+              example: "1980"
+              description: four-digit birth year (must be at least 18 years old)
+            identification_number:
+              type: string
+              example: "123456789"
+              description: full social security number
+            is_owner:
+              type: boolean
+              description: if an identity owns 25% or more of the business, they are considered an owner
+            metadata:
+              type: object
+              description: any useful information you'd like to store alongside this identity
+              additionalProperties: true
+              example:
+                language: "english"
+                social_network: "@person"
+
+  responses:
+    "200":
+      description: Identity updated
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope.yaml
+              - properties:
+                  type:
+                    example: identity
+                  data:
+                    $ref: ../components/schemas/IdentityResponse.yaml
+
+get:
+  summary: Get an Identity
+  description: Get information about an Identity
+  operationId: GetIdentity
+  tags:
+    - Identity
+  parameters:
+    - $ref: ../components/parameters/id-path.yaml
+    - $ref: ../components/parameters/authorization-header.yaml
+
+  responses:
+    "200":
+      description: Get Identity
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope.yaml
+              - properties:
+                  type:
+                    example: identity
+                  data:
+                    $ref: ../components/schemas/IdentityResponse.yaml

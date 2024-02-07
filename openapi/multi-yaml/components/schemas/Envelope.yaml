@@ -1,0 +1,17 @@
+type: object
+properties:
+  id:
+    description: the object id
+    type: number
+    example: 1
+  type:
+    description: the object type, or array of objects
+    type: string
+    example: account
+  data:
+    description: the attributes for the object
+    type: object
+  page_info:
+    description: information for cursor style pagination, is null for single records
+    type: string
+    nullable: true

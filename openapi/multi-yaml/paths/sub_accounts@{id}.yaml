@@ -1,0 +1,22 @@
+get:
+  summary: Get a Sub Account
+  description: Get information about a sub account.
+  operationId: GetSubAccount
+  tags:
+    - Sub Accounts
+  parameters:
+    - $ref: ../components/parameters/id-path.yaml
+    - $ref: ../components/parameters/authorization-header.yaml
+  responses:
+    '200':
+      description: Successfully get a sub account
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope.yaml
+              - properties:
+                  type:
+                    example: sub_account
+                  data:
+                    $ref: ../components/schemas/SubAccount.yaml

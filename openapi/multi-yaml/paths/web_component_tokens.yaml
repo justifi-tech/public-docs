@@ -1,0 +1,37 @@
+post:
+  summary: Generate A Token
+  description: |
+    Used generate a token which has permission to render a web component on your frontend. The token will be valid for 60 minutes
+  operationId: CreateWebComponentToken
+  tags:
+    - Web Component Tokens
+  parameters:
+    - $ref: ../components/parameters/authorization-header.yaml
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          properties:
+            resources:
+              type: array
+              description: Build an array of concatenated role (read/write), resource (account/business) and resource id which you need the web component to access. For example ["write:business:biz_123"]
+              items:
+                type: string
+        example:
+          resources: ["write:business:biz_abc", "write:account:account_123"]
+
+  responses:
+    '200':
+      description: A web component token has been created
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              access_token:
+                description: |
+                  Use this field in the `auth-token` parameter of the web component you would like to render
+                type: string
+  servers:
+    - url: https://api.justifi.ai

@@ -64,6 +64,10 @@ const config: Config = {
             spec: "./openapi/openapi.yaml",
             route: "/api/",
           },
+          {
+            spec: "openapi/multi-yaml/openapi.yaml",
+            route: "/multi-yaml/",
+          },
         ],
         theme: {
           primaryColor: "#fccc32",
@@ -93,6 +97,12 @@ const config: Config = {
           label: "API Specification",
           position: "left",
         },
+        {
+          to: "/multi-yaml/",
+          label: "API M Specification",
+          position: "left",
+        },
+
         // { to: "/blog", label: "Blog", position: "left" },
         {
           href: "https://storybook.justifi.ai",

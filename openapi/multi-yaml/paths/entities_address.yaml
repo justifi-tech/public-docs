@@ -1,0 +1,72 @@
+post:
+  summary: Create an Address
+  description: |
+    Create an Address
+  operationId: CreateAddress
+  tags:
+    - Address
+  parameters:
+    - $ref: ../components/parameters/authorization-header.yaml
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          properties:
+            line1:
+              type: string
+              example: "123 Example St"
+            line2:
+              type: string
+              example: "# 61157"
+            city:
+              type: string
+              example: "Minneapolis"
+            state:
+              type: string
+              example: "MN"
+            postal_code:
+              type: string
+              example: "55555"
+            country:
+              type: string
+              example: USA
+
+  responses:
+    '201':
+      description: Address was created successfully
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope.yaml
+              - properties:
+                  type:
+                    example: address
+                  data:
+                    $ref: ../components/schemas/AddressResponse.yaml
+
+get:
+  summary: List Addresses
+  description: |
+    List addresses for your platform. This endpoint supports [pagination](/#section/Pagination).
+  operationId: ListAddresses
+  tags:
+    - Address
+  parameters:
+    - $ref: ../components/parameters/authorization-header.yaml
+
+  responses:
+    '200':
+      description: Successfully list addresses
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope-list.yaml
+              - properties:
+                  type:
+                    example: array
+                  data:
+                    items:
+                      $ref: ../components/schemas/AddressResponse.yaml

@@ -1,0 +1,52 @@
+get:
+  summary: Get a Payment Method
+  description: |
+    Get information about a payment method.
+
+    *Note: This is the primary endpoint recommended for retrieving bin_details related to a card payment method*
+  operationId: GetPaymentMethod
+  tags:
+    - Payment Methods
+  parameters:
+    - $ref: ../components/parameters/authorization-header.yaml
+    - $ref: ../components/parameters/token-path.yaml
+  responses:
+    '200':
+      description: Successfully get a payment method
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - $ref: ../components/schemas/CardResponse.yaml
+              - $ref: ../components/schemas/BankAccountResponse.yaml
+
+patch:
+  summary: Update a Payment Method
+  description: |
+    Change a payment method's expiration date, address, or metadata.
+  operationId: UpdatePaymentMethod
+  parameters:
+  - $ref: ../components/parameters/token-path.yaml
+  - $ref: ../components/parameters/idempotency-key-header.yaml
+  - $ref: ../components/parameters/authorization-header.yaml
+  tags:
+    - Payment Methods
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          properties:
+            card:
+              $ref: ../components/schemas/UpdateCard.yaml
+            bank_account:
+              $ref: ../components/schemas/UpdateBankAccount.yaml
+  responses:
+    '200':
+      description: Payment method update was successful
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - $ref: ../components/schemas/CardResponse.yaml
+              - $ref: ../components/schemas/BankAccountResponse.yaml

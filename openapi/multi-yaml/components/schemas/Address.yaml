@@ -1,0 +1,20 @@
+type: object
+properties:
+  line1:
+    type: string
+    example: "123 Example St"
+  line2:
+    type: string
+    example: "Suite 101"
+  city:
+    type: string
+    example: "Minneapolis"
+  state:
+    type: string
+    example: "MN"
+  postal_code:
+    type: string
+    example: "55555"
+  country:
+    type: string
+    example: USA

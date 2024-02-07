@@ -1,0 +1,78 @@
+type: object
+properties:
+  id:
+    description: unique payout id
+    type: string
+    example: po_xyz
+  account_id:
+    description: id of the account associated with the payout
+    type: string
+    format: uuid
+  amount:
+    description: payout amount in cents
+    type: number
+    example: 100000
+  bank_account:
+    $ref: ./PayoutBankAccount.yaml
+  currency:
+    type: string
+    enum: [usd]
+    example: usd
+  delivery_method:
+    description: how the payout is delivered
+    type: string
+    enum: [standard]
+  description:
+    type: string
+    nullable: true
+  deposits_at:
+    description: in UTC, the date and time of the payout deposit (or in rare cases, withdrawal)
+    type: string
+    format: date-time
+    example: '2021-01-01T12:00:00Z'
+  fees_total:
+    description: sum of fees in the payout, in cents
+    type: number
+    example: 5000
+  refunds_count:
+    description: number of refunds in the payout
+    type: number
+    example: 5
+  refunds_total:
+    description: sum of refunds in the payout, in cents
+    type: number
+    example: 10000
+  payments_count:
+    description: number of payments in the payout
+    type: number
+    example: 50
+  payments_total:
+    description: sum of payments in the payout, in cents
+    type: number
+    example: 110000
+  payout_type:
+    description: type of payment method used for the payments in the payout (funds from different types of payment methods settle at different intervals; in order to pay out your funds ASAP, we batch separate payouts for each payment method type)
+    type: string
+    enum: [ach cc]
+  other_total:
+    description: sum of other less common transactions in the payout, in cents
+    type: number
+    example: 100
+  status:
+    description: status of the payout
+    type: string
+    example: paid
+    enum: [paid failed forwarded scheduled in_transit canceled]
+  metadata:
+    type: object
+    format: json
+    description: any useful information you'd like to store alongside this payout
+    example: { "customer_payout_id" : "cp_12345" }
+  created_at:
+    type: string
+    format: date-time
+    example: '2021-01-01T12:00:00Z'
+  updated_at:
+    type: string
+    format: date-time
+    example: '2021-01-01T12:00:00Z'

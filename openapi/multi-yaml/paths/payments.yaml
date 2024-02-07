@@ -1,0 +1,290 @@
+post:
+  summary: Create a Payment
+  description: |
+    Authorize, capture, and charge a payment method.
+
+    *Note: For platforms, if the sub account status is not `enabled`, `400` will be returned.*
+  operationId: CreatePayment
+  tags:
+    - Payments
+  parameters:
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/authorization-header.yaml
+    - $ref: ../components/parameters/sub-account.yaml
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          properties:
+            amount:
+              type: number
+              example: 10000
+              description: amount to charge in cents
+            currency:
+              type: string
+              enum: [usd]
+              example: usd
+            capture_strategy:
+              type: string
+              example: automatic
+              enum: [automatic, manual]
+              description: automatic will authorize and capture the payment in the same request, manual will only authorize the payment (which will need to be captured in a subsequent request).  Not supported by bank account (ACH) payment methods.
+            email:
+              description: "email address to associate with payment method"
+              type: string
+              format: email
+            payment_method:
+              oneOf:
+                - type: object
+                  properties:
+                    card:
+                      $ref: ../components/schemas/CreateCard.yaml
+                    bank_account:
+                      $ref: ../components/schemas/CreateBankAccount.yaml
+                    token:
+                      type: string
+                      example: pm_xyz
+            application_fee_amount:
+              type: integer
+              description: sets a custom application fee amount that applies to this payment, instead of relying on application fee rates configured at the platform account level (*only Platforms may set application_fee_amount*). Must be greater than zero.
+              example: 400
+            description:
+              type: string
+              description: your meaningful description of the payment (e.g. an order number or other value from your system)
+              example: order_xyz
+            statement_descriptor:
+              type: string
+              description: description of the payment that will be available on the account's bank statement, must have between 5-22 alphanumeric characters and can include dash or underscore
+            metadata:
+              type: object
+              format: json
+              description: any useful information you'd like to store alongside this payment
+              example: {}
+          required: [amount, currency, capture_strategy, payment_method]
+        examples:
+          "Charge_10_USD_to_a_Card":
+            value:
+              amount: 1000
+              currency: "usd"
+              capture_strategy: "automatic"
+              email: example@test.com
+              description: Charging $10 to the test card
+              payment_method:
+                card:
+                  name: Sylvia Fowles
+                  number: "4111111111111111"
+                  verification: "123"
+                  month: "3"
+                  year: "2040"
+                  address_postal_code: "55555"
+
+          "Charge_10_USD_to_a_Bank_Account":
+            value:
+              amount: 1000
+              currency: "usd"
+              capture_strategy: "automatic"
+              email: example@test.com
+              description: Charging $10 a bank account
+              payment_method:
+                bank_account:
+                  account_owner_name: Lindsay Whalen
+                  routing_number: "110000000"
+                  account_number: "000123456789"
+                  account_type: checking
+                  account_owner_type: individual
+                  country: "US"
+                  currency: "usd"
+
+          "Charge_10_USD_to_a_Tokenized_Payment_Method":
+            value:
+              amount: 1000
+              currency: "usd"
+              capture_strategy: "automatic"
+              email: example@test.com
+              description: Charging $10 a tokenized payment method
+              payment_method:
+                token: "pm_justifi123"
+
+          "Charge_10_USD_to_a_Card_With_1.50_USD_Custom_application_fee_amount":
+            value:
+              amount: 1000
+              application_fee_amount: 150
+              currency: "usd"
+              capture_strategy: "automatic"
+              email: example@test.com
+              description: Charging $10 to the test card
+              payment_method:
+                card:
+                  name: Sylvia Fowles
+                  number: "4111111111111111"
+                  verification: "123"
+                  month: "3"
+                  year: "2040"
+                  address_postal_code: "55555"
+  responses:
+    "201":
+      description: Payment was created successfully
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope.yaml
+              - properties:
+                  type:
+                    example: payment
+                  data:
+                    oneOf:
+                      - $ref: ../components/schemas/CardPayment.yaml
+                      - $ref: ../components/schemas/BankAccountPayment.yaml
+          example:
+          examples:
+            "Card_payment_created":
+              value:
+                id: py_123xyz
+                type: payment
+                data:
+                  id: py_123xyz
+                  account_id: acc_123xyz
+                  amount_disputed: 0
+                  amount_refunded: 0
+                  amount_returned: 0
+                  amount: 10000
+                  amount_refundable: 10000
+                  application_fee_rate_id: afr_123xyz
+                  balance: 99850
+                  capture_strategy: automatic
+                  captured: true
+                  created_at: "2021-01-01T12:00:00Z"
+                  currency: usd
+                  description: my order xyz
+                  disputed: false
+                  error_code: null
+                  error_description: null
+                  fee_amount: 150
+                  financial_transaction_id: "ft_123xyz"
+                  is_test: true
+                  metadata: {}
+                  payment_intent_id: pi_xyz
+                  refunded: false
+                  returned: false
+                  status: succeeded
+                  updated_at: "2021-01-01T12:00:00Z"
+                  payment_method:
+                    card:
+                      id: pm_123xyz
+                      acct_last_four: "4242"
+                      brand: visa
+                      name: Sylvia Fowles
+                      token: pm_123xyz
+                      metadata: {}
+                      bin_details: {
+                        "type": "Debit",
+                        "card_brand": "Visa",
+                        "card_class": "Consumer",
+                        "country": "United States of America",
+                        "issuer": "WELLS FARGO BANK",
+                        "funding_source": "Debit"
+                      }
+                      created_at: "2021-01-01T12:00:00Z"
+                      updated_at: "2021-01-01T12:00:00Z"
+                    customer_id: "null"
+                    signature: 123abc
+                  application_fee:
+                    id: fee_123xyz
+                    amount: 150
+                    currency: usd
+                    created_at: "2021-01-01T12:00:00Z"
+                    updated_at: "2021-01-01T12:00:00Z"
+                  refunds: []
+                  disputes: []
+                page_info: null
+            "Bank_account_payment_created":
+              value:
+                id: py_123xyz
+                type: payment
+                data:
+                  id: py_123xyz
+                  account_id: acc_123xyz
+                  amount_disputed: 0
+                  amount_refunded: 0
+                  amount_returned: 0
+                  amount: 10000
+                  amount_refundable: 10000
+                  application_fee_rate_id: afr_123xyz
+                  balance: 99850
+                  capture_strategy: automatic
+                  captured: true
+                  created_at: "2021-01-01T12:00:00Z"
+                  currency: usd
+                  description: my order xyz
+                  disputed: false
+                  error_code: null
+                  error_description: null
+                  fee_amount: 150
+                  financial_transaction_id: "ft_123xyz"
+                  is_test: true
+                  metadata: {}
+                  payment_intent_id: pi_xyz
+                  refunded: false
+                  returned: false
+                  status: succeeded
+                  updated_at: "2021-01-01T12:00:00Z"
+                  payment_method:
+                    bank_account:
+                      id: pm_123xyz
+                      acct_last_four: "4242"
+                      name: Sylvia Fowles
+                      brand: Wells Fargo
+                      token: pm_123xyz
+                      created_at: "2021-01-01T12:00:00Z"
+                      updated_at: "2021-01-01T12:00:00Z"
+                    customer_id: cust_123xyz
+                    signature: 123abc
+                  application_fee:
+                    id: fee_123xyz
+                    amount: 150
+                    currency: usd
+                    created_at: "2021-01-01T12:00:00Z"
+                    updated_at: "2021-01-01T12:00:00Z"
+                  refunds: []
+                  disputes: []
+                page_info: null
+
+get:
+  summary: List Payments
+  description: List the payments for your account. This endpoint supports [pagination](/#section/Pagination).
+  operationId: ListPayments
+  tags:
+    - Payments
+  parameters:
+    - $ref: ../components/parameters/authorization-header.yaml
+    - $ref: ../components/parameters/sub-account.yaml
+    - $ref: ../components/parameters/financial-transaction-id.yaml
+    - $ref: ../components/parameters/payment-method-id.yaml
+    - $ref: ../components/parameters/created-after.yaml
+    - in: query
+      name: payment_status
+      schema:
+        type: string
+        enum: [succeeded, failed, pending, authorized, refunded, disputed]
+      required: false
+      example: refunded
+      description: |
+        filter to payments which have request payment_status
+
+  responses:
+    "200":
+      description: Successfully list payments
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope-list.yaml
+              - properties:
+                  type:
+                    example: array
+                  data:
+                    items:
+                      - $ref: ../components/schemas/CardPayment.yaml
+                      - $ref: ../components/schemas/BankAccountPayment.yaml

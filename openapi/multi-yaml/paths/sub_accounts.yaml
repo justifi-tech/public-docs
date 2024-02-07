@@ -1,0 +1,70 @@
+post:
+  summary: Create a Sub Account
+  description: Create a JustiFi account for your customer, so they can process payments (once approved by JustiFi). The sub account will be created as part of your platform. If you use your test credentials, the sub account you create will have one account with the `account_type` of `test`. If you use your live credentials, the sub account you create will have two accounts -- one with the `account_type` of `test` and another with the `account_type` of `live`. This allows you to perform test operations on your real accounts by using their `test` account. When viewing the data payload for any sub account, you can reference the `related_accounts` attribute to get the `test_account_id` and `live_account_id` (if present) for that sub account.
+  operationId: CreateSubAccount
+  tags:
+    - Sub Accounts
+  parameters:
+    - $ref: ../components/parameters/authorization-header.yaml
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          properties:
+            name:
+              type: string
+              example: Sub account name
+              description: |
+                name for the sub account
+                *note: the name must be unique in your platform*
+          required: [name]
+  responses:
+    '201':
+      description: Sub account was created successfully
+      content:
+        application/json:
+          schema:
+             allOf:
+              - $ref: ../components/schemas/Envelope.yaml
+              - properties:
+                  type:
+                    example: sub_account
+                  data:
+                    $ref: ../components/schemas/SubAccount.yaml
+
+
+get:
+  summary: List Sub Accounts
+  description: |
+    List the sub accounts for your platform. This endpoint supports [pagination](/#section/Pagination).
+    *Note: By default, all sub accounts which are not archived will be returned. To list archived sub accounts, use the optional status parameter set to `archived`*
+  operationId: ListSubAccounts
+  tags:
+    - Sub Accounts
+  parameters:
+    - $ref: ../components/parameters/authorization-header.yaml
+    - in: query
+      name: status
+      schema:
+        type: string
+        enum: [created, submitted, information_needed, rejected, enabled, disabled, archived]
+      required: false
+      example: archived
+      description: |
+        Return accounts with specific status
+
+  responses:
+    '200':
+      description: Successfully list sub accounts
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope-list.yaml
+              - properties:
+                  type:
+                    example: array
+                  data:
+                    items:
+                      $ref: ../components/schemas/SubAccount.yaml

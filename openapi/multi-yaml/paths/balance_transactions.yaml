@@ -1,0 +1,31 @@
+get:
+  summary: List Balance Transactions
+  description: List the balance transactions for your account. This endpoint supports [pagination](/#section/Pagination).
+  operationId: ListBalanceTransactions
+  tags:
+    - Balance Transactions
+  parameters:
+    - $ref: ../components/parameters/authorization-header.yaml
+    - in: query
+      name: payout_id
+      schema:
+        type: string
+      required: false
+      example: "po_123xyz"
+      description: |
+        Filter records which are part of the payout with the specified id
+
+  responses:
+    '200':
+      description: Successfully list balance transactions
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope-list.yaml
+              - properties:
+                  type:
+                    example: array
+                  data:
+                    items:
+                      $ref: ../components/schemas/BalanceTransaction.yaml

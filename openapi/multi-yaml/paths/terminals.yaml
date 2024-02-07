@@ -1,0 +1,21 @@
+get:
+  summary: List Terminals
+  operationId: listTerminals
+  tags:
+    - Terminals
+  parameters:
+    - $ref: ../components/parameters/authorization-header.yaml
+  responses:
+    '200':
+      description: Successfully list terminals
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope-list.yaml
+              - properties:
+                  type:
+                    example: array
+                  data:
+                    items:
+                      $ref: ../components/schemas/Terminal.yaml

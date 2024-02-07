@@ -1,0 +1,25 @@
+type: object
+properties:
+  type:
+    description: Type of card issued, values include Credit, Debit, Prepaid, Unknown
+    type: string
+    example: Credit
+  card_brand:
+    description: Brand or network associated with card. Possible values include Visa, Mastercard, American Express, Discover
+    type: string
+    example: Visa
+  card_class:
+    type: string
+    example: Consumer
+  country:
+    description: Long form country name which issued the card
+    type: string
+    example: United States of America
+  issuer: 
+    description: Issuing bank
+    type: string
+    example: WELLS FARGO BANK, N.A.
+  funding_source:
+    description: Source of funds defined by BIN for a given card. Values include Charge, Credit, Debit, Deferred Debit (Visa Only), Network Only, Prepaid
+    type: string
+    example: Credit

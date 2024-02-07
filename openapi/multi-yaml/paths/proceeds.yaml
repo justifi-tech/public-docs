@@ -1,0 +1,26 @@
+get:
+  summary: List Proceeds
+  description: List the proceeds payouts for your account. This endpoint supports [pagination](/#section/Pagination).
+  operationId: ListProceeds
+  tags:
+    - Proceeds
+  parameters:
+    - $ref: ../components/parameters/authorization-header.yaml
+    - $ref: ../components/parameters/created-before.yaml
+    - $ref: ../components/parameters/created-after.yaml
+    - $ref: ../components/parameters/deposits-before.yaml
+    - $ref: ../components/parameters/deposits-after.yaml
+  responses:
+    '200':
+      description: Successfully list proceeds
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope-list.yaml
+              - properties:
+                  type:
+                    example: array
+                  data:
+                    items:
+                      $ref: ../components/schemas/Proceed.yaml

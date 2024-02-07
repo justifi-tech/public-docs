@@ -1,0 +1,74 @@
+type: object
+properties:
+  id:
+    description: unique proceeds payout id
+    type: string
+    example: po_xyz
+  account_id:
+    description: id of the account associated with the proceeds payout
+    type: string
+    format: uuid
+  amount:
+    description: proceeds payout amount in cents
+    type: number
+    example: 100000
+  bank_account:
+    $ref: ./PayoutBankAccount.yaml
+  currency:
+    type: string
+    enum: [usd]
+    example: usd
+  delivery_method:
+    description: how the proceeds payout is delivered
+    type: string
+    enum: [standard]
+  description:
+    type: string
+    nullable: true
+  deposits_at:
+    description: in UTC, the date and time of the proceeds payout deposit (or in rare cases, withdrawal)
+    type: string
+    format: date-time
+    example: '2021-01-01T12:00:00Z'
+  refunds_count:
+    description: number of refunds that impacted the proceeds payout
+    type: number
+    example: 5
+  refunds_total:
+    description: sum deducted from the proceeds payout as a result of accounts' refunds, in cents
+    type: number
+    example: 10000
+  payments_count:
+    description: number of payments that impacted the proceeds payout
+    type: number
+    example: 50
+  payments_total:
+    description: sum added to the proceeds payout as a result of accounts' payments, in cents
+    type: number
+    example: 110000
+  payout_type:
+    description: proceeds payouts are always of the type "proceeds" (other types apply only to sub accounts payouts)
+    type: string
+    enum: [proceeds]
+  other_total:
+    description: sum of other less common transactions that impacted the proceeds payout, in cents
+    type: number
+    example: 100
+  status:
+    description: status of the proceeds payout
+    type: string
+    example: scheduled
+    enum: [scheduled paid failed pending in_transit canceled]
+  metadata:
+    type: object
+    format: json
+    description: any useful information you'd like to store alongside this proceeds payout
+    example: { "platform_payout_id" : "cp_12345" }
+  created_at:
+    type: string
+    format: date-time
+    example: '2021-01-01T12:00:00Z'
+  updated_at:
+    type: string
+    format: date-time
+    example: '2021-01-01T12:00:00Z'

@@ -1,0 +1,16 @@
+type: object
+properties:
+  id:
+    description: the object id
+    type: number
+    example: 1
+  type:
+    description: the object type, or array of objects
+    type: string
+    example: account
+  data:
+    description: the list of objects
+    type: array
+  page_info:
+    description: information for cursor style pagination
+    $ref: ./PageInfo.yaml

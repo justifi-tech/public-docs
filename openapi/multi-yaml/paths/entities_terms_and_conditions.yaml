@@ -1,0 +1,66 @@
+post:
+  summary: Terms and Conditions
+  description: |
+    Accept current Terms and Conditions
+  operationId: TermsAndConditions
+  tags:
+    - Terms and Conditions
+  parameters:
+    - $ref: ../components/parameters/authorization-header.yaml
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          properties:
+            business_id:
+              type: string
+              example: "biz_xyz"
+              description: business id
+            accepted:
+              type: boolean
+              example: true
+              description: accepts terms and conditions
+            ip:
+              type: string
+              example: "142.250.219.46"
+              description: client ip address
+            user_agent:
+              type: string
+              example: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.1 Safari/605.1.15"
+              description: client identification information
+          required:
+            - business_id
+            - accepted
+            - ip
+
+  responses:
+    '201':
+      description: Terms and Conditions successfully
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope.yaml
+              - properties:
+                  type:
+                    example: onboarding
+                  data:
+                    properties:
+                      id:
+                        description: unique terms and conditions id
+                        type: string
+                        format: uuid
+                        example: "tac_xyz"
+                      business_id:
+                        type: string
+                        example: "biz_xyz"
+                      accepted:
+                        type: boolean
+                        example: true
+                      ip:
+                        type: string
+                        example: "142.250.219.46"
+                      user_agent:
+                        type: string
+                        example: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.1 Safari/605.1.15"
