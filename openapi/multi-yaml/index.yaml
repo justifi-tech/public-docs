@@ -3,16 +3,6 @@ servers:
   - url: https://api.justifi.ai/v1
     description: JustiFi API
 
-# https://redocly.com/docs/openapi-visual-reference/security-schemes/
-# security:
-#   - JWT: []
-# components:
-#   securitySchemes:
-#     JWT:
-#       type: http
-#       scheme: bearer
-#       bearerFormat: JWT
-
 info:
   # license:
   #   name: Apache 2.0

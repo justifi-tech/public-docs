@@ -40,8 +40,8 @@ const config: Config = {
           sidebarPath: "./sidebars.ts",
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl:
-            "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/",
+          //   editUrl:
+          //     "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/",
         },
         blog: false,
         // blog: {
@@ -61,12 +61,8 @@ const config: Config = {
       {
         specs: [
           {
-            spec: "./openapi/openapi.yaml",
-            route: "/api/",
-          },
-          {
-            spec: "openapi/multi-yaml/openapi.yaml",
-            route: "/multi-yaml/",
+            spec: "openapi/multi-yaml/index.yaml",
+            route: "/api-spec/",
           },
         ],
         theme: {
@@ -75,7 +71,6 @@ const config: Config = {
       },
     ],
   ],
-
   themeConfig: {
     // Replace with your project's social card
     image: "img/justifi-logo-light.png",
@@ -93,16 +88,10 @@ const config: Config = {
           label: "Documentation",
         },
         {
-          to: "/api/",
+          to: "/api-spec/",
           label: "API Specification",
           position: "left",
         },
-        {
-          to: "/multi-yaml/",
-          label: "API M Specification",
-          position: "left",
-        },
-
         // { to: "/blog", label: "Blog", position: "left" },
         {
           href: "https://storybook.justifi.ai",
