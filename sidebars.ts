@@ -61,7 +61,7 @@ const sidebars: SidebarsConfig = {
         "entities/overview",
         "entities/businesses",
         "entities/identities",
-        "entities/provisioning",
+        // "entities/provisioning",
       ],
       collapsible: true,
       collapsed: true,
