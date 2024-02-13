@@ -15,17 +15,18 @@ import BrowserOnly from "@docusaurus/BrowserOnly";
 // };
 
 export default function Home(): JSX.Element {
-  <BrowserOnly>
-    {() => {
-      const hostname = window.location.hostname;
+  return (
+    <BrowserOnly>
+      {() => {
+        const hostname = window.location.hostname;
 
-      if (hostname == "developer.justifi.ai") {
-        window.location.replace("https://docs.justifi.tech");
-        // return AiRedirect();
-      }
-      return null;
-    }}
-  </BrowserOnly>;
-
-  return <Redirect to="/gettingStarted" />;
+        if (hostname == "developer.justifi.ai") {
+          window.location.replace("https://docs.justifi.tech");
+        } else {
+          return <Redirect to="/gettingStarted" />;
+        }
+        return null;
+      }}
+    </BrowserOnly>
+  );
 }
