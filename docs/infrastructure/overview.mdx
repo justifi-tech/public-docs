@@ -1,6 +1,5 @@
 ---
 title: Overview
-# id: fintech_infrastructure_overview
 description: JustiFi's Fintech Infrastructure
 sidebar_label: Overview
 keywords:
@@ -9,7 +8,16 @@ keywords:
   - products
 ---
 
-import engage from "../../static/img/engage_2.webp";
+import Figure from "@site/src/components/Figures";
+import FintechProductsImg from "../../static/img/definition_fintech_products.png";
+import CrossbarCaseStudyImg from "../../static/img/case_study_crossbar.webp";
+import EngageImg from "../../static/img/engage_2.webp";
+
+export const FintechProductsCaption = `
+    JustiFi’s embedded fintech infrastructure empowers 
+    platform companies to easily integrate fintech products 
+    like payments and insurance faster than ever before.
+`;
 
 # JustiFi’s Fintech Infrastructure
 
@@ -31,7 +39,13 @@ solid foundation for your Fintech journey.
 - **Lending:** Details and benefits.
 - **Issuing:** Customized financial solutions.
 
-## Seamless Integration and Flexibility
+<Figure
+  src={FintechProductsImg}
+  alt="Definition of Fintech Products"
+  caption={FintechProductsCaption}
+/>
+
+# Seamless Integration and Flexibility
 
 - Easy integration into existing systems.
 - Adaptability for various business needs.
@@ -40,19 +54,21 @@ solid foundation for your Fintech journey.
 
 - Real-world examples of diverse fintech product deployment.
 
+<Figure src={CrossbarCaseStudyImg} alt="Crossbar Case Study" />
+
 ## Unparalleled Support and Scalability
 
 - Ongoing support and expertise.
 - Scalable solutions for growing businesses.
 
-<img
-  src={engage}
-  type="image/webp"
-  alt="High-level diagram"
-  object-fit="contain"
-  width="100%"
-  height="100%"
-/>
+Cutting edge technology is critical, but without expert support, achieving transformative fintech
+results is nearly impossible.
+
+As part of our platform, we provide you with a fintech team,
+called Engage, to consult on go-to-market product strategy, feature utilization, forecasting,
+fundraising, and everything in between.
+
+<Figure src={EngageImg} alt="High-level engage diagram" />
 
 ## Conclusion
 
