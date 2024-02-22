@@ -23,7 +23,7 @@ const sidebars: SidebarsConfig = {
       items: [
         "infrastructure/overview",
         "infrastructure/architectureDiagram",
-        "infrastructure/fintechProducts",
+        // "infrastructure/fintechProducts",
         "infrastructure/entities",
         "infrastructure/webComponents",
         "infrastructure/webComponentTokens",
