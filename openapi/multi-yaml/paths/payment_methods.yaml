@@ -30,6 +30,9 @@ post:
               description: "email address to associate with the payment method"
               type: string
               format: email
+            force_tokenize:
+              description: "Optional. If set to true in the request payload, allows for tokenization even if validations and authorization fail during the creation of the payment method"
+              type: boolean
           required: [payment_method]
         example:
         examples:
@@ -69,6 +72,19 @@ post:
                   month: 5
                   year: 2042
                   address_postal_code: "55555"
+                  metadata:
+                    new: info
+          "Create_an_expired_payment_method_for_card_payments":
+            value:
+              force_tokenize: true
+              payment_method:
+                card:
+                  name: Lindsay Whalen
+                  number: 4242424242421111
+                  verification: 123
+                  month: 5
+                  year: 2020
+                  address_postal_code: 55555
                   metadata:
                     new: info
   responses:
