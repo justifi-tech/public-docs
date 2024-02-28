@@ -43,7 +43,7 @@ ACCESS_TOKEN_RESPONSE=$(curl -sS --request POST \
 }')
 ```
 
-2. Get the access_token and print to the console
+2. Get the access\_token and print to the console
 
 ```bash
 ACCESS_TOKEN=$(echo $ACCESS_TOKEN_RESPONSE | jq -r '.access_token')
@@ -61,40 +61,33 @@ PAYMENT_LIST=$(curl -sS --request GET \
   --header 'Sub-Account: '${ACCOUNT_ID}'')
 ```
 
-4. Get the first payment_id from payment list (= latest payment) and print to the console
+4. Get the first payment\_id from payment list (= latest payment) and print to the console
 
 ```bash
 PAYMENT_ID=$(echo ${PAYMENT_LIST} | jq -r '.data[0].id')
 echo "Payment ID: ${PAYMENT_ID}"
 ```
 
-5. Generate Web Component Token [API]
+5. Generate Web Component Token [API](https://docs.justifi.tech/api-spec#tag/Web-Component-Tokens) (*note: replace acc\_abc1234 with the account id from step 3*)
 
 ```bash
 WC_TOKEN_RESPONSE=$(curl -sS --request POST \
   --url https://api.justifi.ai/oauth/sessions \
   --header 'Authorization: Bearer '${ACCESS_TOKEN}'' \
   --header 'Content-Type: application/json' \
-  --data '{
-  "resources": [
-    {
-      "role": "read:account",
-      "resource_id": "acc_abc1234"
-    }
-  ]
-}')
+  --data '{ "resources": [ "read:account:acc_abc1234" ] }')
 ```
 
-6. Get the web*component_token and print to the console (\_note: this token is good for 60 minutes*)
+6. Get the web\_component\_token and print to the console (*note: this token is good for 60 minutes*)
 
 ```bash
 WEB_COMPONENT_TOKEN=$(echo $WC_TOKEN_RESPONSE | jq -r '.access_token')
 echo "Web Component Token: ${WEB_COMPONENT_TOKEN}"
 ```
 
-#### Front end code: payment_details.html
+#### Front end code: payment\_details.html
 
-_note: replace WEB_COMPONENT_TOKEN and PAYMENT_ID with the values from the terminal script above_
+_note: replace WEB\_COMPONENT\_TOKEN and PAYMENT\_ID with the values from the terminal script above_
 
 ```html
 <!doctype html>
@@ -136,9 +129,9 @@ Open the file or go to [http://localhost:8000/payment_details.html](http://local
 
 ![PaymentDetails](../../static/img/wc_payment_details.png)
 
-#### Front end code: payment_list.html
+#### Front end code: payment\_list.html
 
-_note: replace WEB_COMPONENT_TOKEN and ACCOUNT_ID with the values from the terminal script above_
+_note: replace WEB\_COMPONENT\_TOKEN and ACCOUNT\_ID with the values from the terminal script above_
 
 ```html
 <!doctype html>
@@ -215,31 +208,24 @@ BUSINESS_RESPONSE=$(curl -sS --request POST \
 }')
 ```
 
-4. Get the business_id from the resopnse and print to the console
+4. Get the business\_id from the resopnse and print to the console
 
 ```bash
 BUSINESS_ID=$(echo ${BUSINESS_RESPONSE} | jq -r '.id')
 echo "Business ID: ${BUSINESS_ID}"
 ```
 
-5. Generate Web Component Token [API]
+5. Generate Web Component Token [API](https://docs.justifi.tech/api-spec#tag/Web-Component-Tokens) (*note: replace biz\_abc1234 with the business id from step 4 above*)
 
 ```bash
 WC_TOKEN_RESPONSE=$(curl -sS --request POST \
   --url https://api.justifi.ai/oauth/sessions \
   --header 'Authorization: Bearer '${ACCESS_TOKEN}'' \
   --header 'Content-Type: application/json' \
-  --data '{
-  "resources": [
-    {
-      "role": "write:business",
-      "resource_id": "biz_abc1234"
-    }
-  ]
-}')
+  --data '{ "resources": [ "write:business:biz_abc1234" ] }')
 ```
 
-6. Get the web_component_token from the response and print to the console
+6. Get the web\_component\_token from the response and print to the console
 
 ```bash
 WEB_COMPONENT_TOKEN=$(echo $WC_TOKEN_RESPONSE | jq -r '.access_token')
@@ -248,7 +234,7 @@ echo "Web Component Token: ${WEB_COMPONENT_TOKEN}"
 
 #### Front end code: business_form_stepped.html
 
-_note: replace WEB_COMPONENT_TOKEN and BUSINESS_ID with the values from the terminal script above_
+_note: replace WEB\_COMPONENT\_TOKEN and BUSINESS\_ID with the values from the terminal script above_
 
 ```html
 <!doctype html>
