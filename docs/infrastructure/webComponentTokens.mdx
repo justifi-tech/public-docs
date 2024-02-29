@@ -31,6 +31,9 @@ The pattern for using a web component starts in a backend request. Your backend 
 
 The following steps show how to get the latest payment, generate a web component token, and render the PaymentDetails web component (copy and paste each block of code in a terminal to test using your credentials):
 
+> We use [curl](https://curl.se/) to make the API calls in the terminal, and [jq](https://stedolan.github.io/jq/) to parse the json response.
+> You can install using [homebrew](https://brew.sh/) on a mac or [chocolatey](https://chocolatey.org/) on windows.
+
 1. Generate Access Token [API](https://developer.justifi.ai/tag/API-Credentials#operation/CreateAccessToken)
 
 ```bash
@@ -38,9 +41,10 @@ ACCESS_TOKEN_RESPONSE=$(curl -sS --request POST \
   --url https://api.justifi.ai/oauth/token \
   --header 'Content-Type: application/json' \
   --data '{
-  "client_id":"test_abc1234",
-  "client_secret":"test_xyz9876"
-}')
+    "client_id":"test_abc1234",
+    "client_secret":"test_xyz9876"
+  }'
+)
 ```
 
 2. Get the access\_token and print to the console
@@ -58,7 +62,8 @@ ACCOUNT_ID="acc_abc1234"
 PAYMENT_LIST=$(curl -sS --request GET \
   --url https://api.justifi.ai/v1/payments \
   --header 'Authorization: Bearer '${ACCESS_TOKEN}'' \
-  --header 'Sub-Account: '${ACCOUNT_ID}'')
+  --header 'Sub-Account: '${ACCOUNT_ID}''
+)
 ```
 
 4. Get the first payment\_id from payment list (= latest payment) and print to the console
@@ -72,10 +77,11 @@ echo "Payment ID: ${PAYMENT_ID}"
 
 ```bash
 WC_TOKEN_RESPONSE=$(curl -sS --request POST \
-  --url https://api.justifi.ai/oauth/sessions \
+  --url https://api.justifi.ai/v1/web_component_tokens \
   --header 'Authorization: Bearer '${ACCESS_TOKEN}'' \
   --header 'Content-Type: application/json' \
-  --data '{ "resources": [ "read:account:acc_abc1234" ] }')
+  --data '{ "resources": [ "read:account:acc_abc1234" ] }'
+)
 ```
 
 6. Get the web\_component\_token and print to the console (*note: this token is good for 60 minutes*)
@@ -120,12 +126,14 @@ _note: replace WEB\_COMPONENT\_TOKEN and PAYMENT\_ID with the values from the te
 
 Open the file in your browser OR run a local web server (you may use any web server)
 
+_note: if you have python3 installed, you can run the following command on the folder the html file was created to start a local web server._
+
 ```bash
 # example using Python
 python3 -m http.server
 ```
 
-Open the file or go to [http://localhost:8000/payment_details.html](http://localhost:8000/payment_details.html), you should see the [payment details web component](https://storybook.justifi.ai/?path=/docs/components-paymentdetails--docs):
+Open the file OR go to [http://localhost:8000/payment_details.html](http://localhost:8000/payment_details.html), you should see the [payment details web component](https://storybook.justifi.ai/?path=/docs/components-paymentdetails--docs):
 
 ![PaymentDetails](../../static/img/wc_payment_details.png)
 
@@ -184,9 +192,10 @@ ACCESS_TOKEN_RESPONSE=$(curl -sS --request POST \
   --url https://api.justifi.ai/oauth/token \
   --header 'Content-Type: application/json' \
   --data '{
-  "client_id":"test_abc1234",
-  "client_secret":"test_xyz9876"
-}')
+    "client_id":"test_abc1234",
+    "client_secret":"test_xyz9876" 
+  }'
+)
 ```
 
 2. Get the access_token from the response and print to the console
@@ -204,8 +213,9 @@ BUSINESS_RESPONSE=$(curl -sS --request POST \
   --header 'Authorization: Bearer '${ACCESS_TOKEN}'' \
   --header 'Content-Type: application/json' \
   --data '{
-	"legal_name": "USS Enterprise"
-}')
+	  "legal_name": "USS Enterprise" 
+  }'
+)
 ```
 
 4. Get the business\_id from the resopnse and print to the console
@@ -219,10 +229,11 @@ echo "Business ID: ${BUSINESS_ID}"
 
 ```bash
 WC_TOKEN_RESPONSE=$(curl -sS --request POST \
-  --url https://api.justifi.ai/oauth/sessions \
+  --url https://api.justifi.ai/v1/web_component_tokens \
   --header 'Authorization: Bearer '${ACCESS_TOKEN}'' \
   --header 'Content-Type: application/json' \
-  --data '{ "resources": [ "write:business:biz_abc1234" ] }')
+  --data '{ "resources": [ "write:business:biz_abc1234" ] }'
+)
 ```
 
 6. Get the web\_component\_token from the response and print to the console
