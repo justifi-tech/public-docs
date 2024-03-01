@@ -4,6 +4,30 @@ properties:
     type: string
     example: "84220"
     description: amount of money the company receives from its primary business activities
+  business_payment_volume:
+    type: string
+    example: "1000000"
+    description: annual credit card & ACH volume anticipated to process with Justifi
+  business_when_service_received:
+    type: string
+    example: "Within 7 days"
+    description: how long after paying will your customers typically receive their goods or services
+  business_recurring_payments:
+    type: string
+    example: "true"
+    description: business offer recurring payments
+  business_recurring_payments_percentage:
+    type: string
+    example: "50% monthly, 50% annual"
+    description: percentage of revenue is generated from each recurring payment type offered
+  business_seasonal:
+    type: string
+    example: "No. The business revenue is generated evenly throughout the year"
+    description: is the business seasonal
+  business_other_payment_details:
+    type: string
+    example: "50% of revenue is taken 90 days in advance of service and 50% of revenue is taken 30 days in advance of service"
+    description: anything else you would like us to know about how your customers pay the business
   business_purchase_order_volume:
     type: string
     example: "150"
@@ -40,10 +64,6 @@ properties:
     type: string
     example: "123456789"
     description: unique nine-digit identification number assigned to a business entity
-  business_payment_volume:
-    type: string
-    example: "1000000"
-    description: total value of payments processed by a business (annual volume)
   business_payment_decline_volume:
     type: string
     example: "500"
