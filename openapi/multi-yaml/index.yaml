@@ -39,6 +39,9 @@ tags:
     description: |
       Payment methods refer to the specific form of payment each customer uses
       (e.g. their credit card). Payment methods are tokenized, then charged at time of payment.
+  - name: Payment Method Groups
+    description: |
+      Payment method groups are a way to associate payment methods to a single group for easy access.
   - name: Refunds
     description: |
       When you refund a payment, a refund object is created. You can retrieve
@@ -177,6 +180,7 @@ x-tagGroups:
       - Payments
       - Payment Intents
       - Payment Methods
+      - Payment Method Groups
       - Refunds
       - Disputes
       - Payouts
@@ -246,6 +250,10 @@ paths:
     $ref: paths/payment_methods@{token}.yaml
   /payment_methods/{token}/clone:
     $ref: paths/payment_methods@{token}@clone.yaml
+  /payment_method_groups:
+    $ref: paths/payment_method_groups.yaml
+  /payment_method_groups/{id}:
+    $ref: paths/payment_method_groups@{id}.yaml
   /payouts:
     $ref: paths/payouts.yaml
   /payouts/{id}:

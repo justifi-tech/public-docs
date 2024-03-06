@@ -19,9 +19,12 @@ post:
         schema:
           properties:
             payment_method:
-              oneOf:
+              anyOf:
                 - type: object
                   properties:
+                    payment_method_group:
+                      description: "payment method group to associate with the payment method"
+                      type: string
                     card:
                       $ref: ../components/schemas/CreateCard.yaml
                     bank_account:
@@ -87,6 +90,20 @@ post:
                   address_postal_code: 55555
                   metadata:
                     new: info
+          "Create_payment_method_associated_with_a_payment_method_group":
+            value:
+              force_tokenize: true
+              payment_method:
+                payment_method_group: pmg_123xyz
+                card:
+                  name: Lindsay Whalen
+                  number: 4242424242421111
+                  verification: 123
+                  month: 5
+                  year: 2020
+                  address_postal_code: 55555
+                  metadata:
+                    new: info
   responses:
     '201':
       description: Payment method was created successfully
@@ -107,6 +124,7 @@ get:
     - $ref: ../components/parameters/authorization-header.yaml
     - $ref: ../components/parameters/sub-account.yaml
     - $ref: ../components/parameters/customer-id.yaml
+    - $ref: ../components/parameters/payment-method-group-id.yaml
   responses:
     '200':
       description: Successfully list payment methods

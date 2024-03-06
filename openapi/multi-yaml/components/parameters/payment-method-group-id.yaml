@@ -1,0 +1,8 @@
+in: query
+name: payment_method_group_id
+schema:
+  type: string
+required: false
+example: "pmg_123xyz"
+description: |
+  filter records which are associated with a payment method group.

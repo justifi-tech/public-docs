@@ -1,0 +1,48 @@
+post:
+  summary: Create a Payment Method Group
+  description: |
+    You can create payment methods groups ahead of time, then associate payment methods and easily filter them.
+  operationId: CreatePaymentMethodGroup
+  tags:
+    - Payment Method Groups
+  parameters:
+    - $ref: ../components/parameters/authorization-header.yaml
+    - $ref: ../components/parameters/sub-account.yaml
+  responses:
+    '201':
+      description: Payment method group was created successfully
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope.yaml
+              - properties:
+                  type:
+                    example: payment_method_group
+                  data:
+                    $ref: ../components/schemas/PaymentMethodGroupResponse.yaml
+
+get:
+  summary: List a Payment Method Groups
+  description: |
+    List payment method groups associated to an account
+  operationId: ListPaymentMethodGroup
+  tags:
+    - Payment Method Groups
+  parameters:
+    - $ref: ../components/parameters/authorization-header.yaml
+    - $ref: ../components/parameters/sub-account.yaml
+  responses:
+    '200':
+      description: Successfully list payment method groups
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope-list.yaml
+              - properties:
+                  type:
+                    example: array
+                  data:
+                    items:
+                      - $ref: ../components/schemas/PaymentMethodGroupResponse.yaml
