@@ -1,0 +1,10 @@
+type: object
+properties:
+  id:
+    description: the object id
+    type: string
+    example: pm_123xyz
+  account_id:
+    description: the account_id associated with the object
+    type: string
+    example: acc_123xyz

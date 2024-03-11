@@ -1,0 +1,52 @@
+get:
+  summary: Get a Payment Method Group
+  description: |
+    Get payment method group associated to an account
+  operationId: GetPaymentMethodGroup
+  tags:
+    - Payment Method Groups
+  parameters:
+    - $ref: ../components/parameters/authorization-header.yaml
+    - $ref: ../components/parameters/sub-account.yaml
+    - $ref: ../components/parameters/id-path.yaml
+  responses:
+    '200':
+      description: Successfully get payment method group
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope.yaml
+              - properties:
+                  type:
+                    example: payment_method_group
+                  data:
+                    $ref: ../components/schemas/PaymentMethodGroupResponse.yaml
+
+patch:
+  summary: Update a Payment Method Group
+  description: |
+    Updates a payment method group to associate payment methods
+  operationId: PatchPaymentMethodGroup
+  tags:
+    - Payment Method Groups
+  parameters:
+    - $ref: ../components/parameters/authorization-header.yaml
+    - $ref: ../components/parameters/sub-account.yaml
+    - $ref: ../components/parameters/id-path.yaml
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          properties:
+            payment_method_ids:
+              type: array
+              description: Payment method ids to be associated with the payment method group
+              example: [pm_123xyz, pm_456abc]
+              items:
+                type: uuid
+  responses:
+    '200':
+      description: Payment method group update successful
+
