@@ -23,6 +23,7 @@ We will publish the following events:
 - payment_intent.created
 - payment_intent.requires_capture
 - payment_intent.succeeded
+- payout.bank_account.activated
 - payout.created
 - payout.paid
 - payout.failed
