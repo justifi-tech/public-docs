@@ -67,3 +67,22 @@ is typical in retail or in-person services.
 
 By offering these diverse payment methods, JustiFi ensures that your business can cater to various
 customer preferences and transaction scenarios, all while maintaining security and efficiency.
+
+## Payment Method Groups (PMG)
+
+Payment Method Groups offer a way to easily assign available payment methods for a checkout session 
+or to simply filter payment methods by a group.
+
+### Creating PMGs
+
+To create a PMG refer to the [Create a Payment Method Group](https://docs.justifi.tech/api-spec#tag/Payment-Method-Groups/operation/CreatePaymentMethodGroup) specification.
+
+### Associating payment methods
+
+There are two ways currently available to associate payment methods to a PMG:
+- **When creating a payment method:**
+Refer to the [Create a Payment Method](https://docs.justifi.tech/api-spec#tag/Payment-Methods/operation/CreatePaymentMethod) specification, an example payload 
+is available in the payloads dropdown.
+
+- **Associating existing payment methods:**
+Refer to the [Update a Payment Method Group](https://docs.justifi.tech/api-spec#tag/Payment-Method-Groups/operation/UpdatePaymentMethodGroup) specification.
