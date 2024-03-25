@@ -41,6 +41,7 @@
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 
   --ifm-link-color: var(--ifm-color-primary-darkest);
+  --ifm-card-background-color: var(--ifm-footer-background-color);
 }
 
 .pagination-nav__link {

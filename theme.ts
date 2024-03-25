@@ -50,10 +50,10 @@ export const theme = {
       primary: "#424242",
       // secondary: '#4e566d',
     },
-    // border: {
-    //   dark: 'rgba(0,0,0, 0.15)',
-    //   light: '#ffffff',
-    // },
+    border: {
+      dark: "rgba(0,0,0, 0.15)",
+      light: "#ffffff",
+    },
     // responses: {
     //   success: {
     //     color: ({ colors }) => colors.success.main,

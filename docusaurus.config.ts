@@ -79,6 +79,7 @@ const config: Config = {
       logo: {
         alt: "My Site Logo",
         src: "img/justifi-logo-light.png",
+        srcDark: "img/justifi-dark-bg.svg",
       },
       items: [
         {
@@ -91,6 +92,11 @@ const config: Config = {
           to: "/api-spec/",
           label: "API Specification",
           position: "left",
+        },
+        {
+          href: "https://storybook.justifi.ai/?path=/docs/changelog--docs",
+          label: "Changelog",
+          position: "right",
         },
         // { to: "/blog", label: "Blog", position: "left" },
         {
