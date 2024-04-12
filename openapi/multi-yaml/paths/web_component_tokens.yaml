@@ -1,7 +1,10 @@
 post:
   summary: Generate A Token
   description: |
-    Used generate a token which has permission to render a web component on your frontend. The token will be valid for 60 minutes
+    The web component token provides permission to render a web component on your frontend. 
+    To get a web component token post your [access token](https://docs.justifi.tech/api-spec#tag/API-Credentials/operation/CreateAccessToken) in the header and the `business_id` or `account_id` as part of the `resources` array in the body.
+    For a list of resources needed for each web component please refer to [Roles need for each component](https://docs.justifi.tech/infrastructure/webComponentTokens#roles-need-for-each-component).
+    The token will be valid for 60 minutes.
   operationId: CreateWebComponentToken
   tags:
     - Web Component Tokens
@@ -33,5 +36,4 @@ post:
                 description: |
                   Use this field in the `auth-token` parameter of the web component you would like to render
                 type: string
-  servers:
-    - url: https://api.justifi.ai
+
