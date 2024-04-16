@@ -106,9 +106,6 @@ tags:
       JustiFi Web Components offer an expanding collection of components that can be used in virtually any application,
       no matter the tech stack. They can be installed using NPM, or included via CDN using a script tag. To learn more,
       see the documentation in [our public GitHub repositiory](https://github.com/justifi-tech/web-component-library#documentation).
-  - name: Hosted Checkout
-    description:
-      $ref: ../docs/hosted_checkout.md
   - name: JustiFi SDK
     description: |
       We offer support for using our API via a Ruby SDK and a Node SDK. The projects are
@@ -174,7 +171,6 @@ x-tagGroups:
       - Hosted Onboarding
       - Onboarding via API
       - Proceeds
-      - Hosted Checkout
   - name: Payment Resources
     tags:
       - Payments
@@ -186,7 +182,6 @@ x-tagGroups:
       - Payouts
       - Balance Transactions
       - Ach Return Fees
-      - Checkout Sessions
       - Payment Method Migration
   - name: Insurance Resources
     tags:
