@@ -45,7 +45,6 @@ window.addEventListener('message', handleOnboardingCompletion);
 When the onboarding is completed, success or failure, the JustiFi iframe will send a postMessage. This allows your platform to take a next step, for example closing a modal, or redirecting to another page.
 
 ### Check the sub account status
-<PullRight>
 
 #### Retrieve a sub account
 ```sh
@@ -53,5 +52,5 @@ curl -X GET https://api.justifi.ai/v1/sub_accounts/ACCOUNT_ID \
     -H 'Authorization: Bearer [access_token]' \
     -H 'Accept: application/json'
 ```
-</PullRight>
+
 Once your sub account submits the onboarding form, we'll review their information. This approval process can take up to a few business days. In order to check the account's onboarding status, call the [Get a Sub Account endpoint](/tag/Sub-Accounts#operation/GetSubAccount) or use an event publisher to subscribe to the `sub_account.updated` events
