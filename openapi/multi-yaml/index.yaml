@@ -269,8 +269,6 @@ paths:
     $ref: paths/disputes.yaml
   /disputes/{id}:
     $ref: paths/disputes@{id}.yaml
-  /checkout_sessions:
-    $ref: paths/checkout_sessions.yaml
   /insurance/bind:
     $ref: paths/insurance_bind.yaml
   /entities/business:
