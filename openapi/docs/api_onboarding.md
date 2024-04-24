@@ -1,3 +1,5 @@
+Will be `DEPRECATED` soon - Use [Provision Product](https://docs.justifi.tech/api-spec#tag/Provisioning) instead to create a sub account.
+
 In order to process payments, each of your customers (whom we refer to as `sub accounts`) will go through an approval process. JustiFi's onboarding API allows you to utilize your own onboarding frontend to collect the required business and financial information from each of your sub accounts. Once approved, your sub account can process payments through JustiFi.
 
 To onboard a new sub account via the API

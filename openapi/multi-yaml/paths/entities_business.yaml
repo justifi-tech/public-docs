@@ -1,7 +1,9 @@
 post:
   summary: Create a Business
   description: |
-    Create a Business
+    Create a Business with only the `legal_name` attribute and collect all other relevant data with the 
+    [Business Form web component](https://storybook.justifi.ai/?path=/docs/entities-businessform--docs) 
+    or pass all the data via this endpoint.
   operationId: CreateBusiness
   tags:
     - Business
@@ -16,7 +18,7 @@ post:
             legal_name:
               type: string
               example: "Business Name"
-              description: legal business entity name
+              description: legal business entity name (must be unique)
             website_url:
               type: string
               example: "https://justifi.ai"
@@ -91,6 +93,8 @@ post:
                       id:
                         type: string
                         example: idty_xyz
+          required:
+            - legal_name
 
   responses:
     '201':

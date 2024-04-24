@@ -1,7 +1,14 @@
 post:
-  summary: Product Provisioning
+  summary: Product Provisioning 
   description: |
-    Product Provisioning
+    Provision a business for a specific JustiFi product, e.g. `payment`. 
+    When provisioning a business for the payment product this endpoint will automatically create a sub account for this business
+    which is needed for payment processing.
+
+    Prerequisites for provisioning a business for the payment product are
+    1. Create a [business](https://docs.justifi.tech/api-spec#tag/Business/operation/CreateBusiness)
+    2. Create a [payout bank account](https://docs.justifi.tech/api-spec#tag/Bank-Account/operation/CreateBankAccount) for that business 
+    3. Accept the [terms and conditions](https://docs.justifi.tech/api-spec#tag/Terms-and-Conditions/operation/TermsAndConditions) for the business 
   operationId: ProductProvisioning
   tags:
     - Provisioning
@@ -16,7 +23,7 @@ post:
             new_account_name:
               type: string
               example: "JustiFi"
-              description: account name (must be unique for a platform)
+              description: account name (must be unique), ideally the legal name of the business that is provisioned
             business_id:
               type: string
               example: "biz_123"

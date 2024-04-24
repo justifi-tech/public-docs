@@ -70,7 +70,12 @@ tags:
       These fees can vary depending on the policies of the financial institution and the reason for the return.
   - name: Sub Accounts
     description: |
-      Sub Accounts are the representation of your platform's customers in JustiFi. Payments are processed through sub accounts, each of which is associated with your platform account. To gain approval for payment processing, each sub account must submit the required onboarding information. You may send this to us through either our hosted onboarding or the API, and you'll be able to monitor each sub account's onboarding status along the way.
+      Sub Accounts are the representation of your platform's customers in JustiFi. 
+      Payments are processed through sub accounts, each of which is associated with your platform account. 
+      To create a sub account and gain approval for payment processing, you need to firsts create a business for each of your customers via the
+      [Create a Business API](https://docs.justifi.tech/api-spec#tag/Business/operation/CreateBusiness). Then you need to provision the
+      business for the payment product via the [Product Provisioning API](https://docs.justifi.tech/api-spec#tag/Provisioning/operation/ProductProvisioning) 
+      which will in turn create the sub account associated with the business.
 
       | Status             | Description |
       | -----------        | ----------- |
@@ -269,8 +274,6 @@ paths:
     $ref: paths/disputes.yaml
   /disputes/{id}:
     $ref: paths/disputes@{id}.yaml
-  /checkout_sessions:
-    $ref: paths/checkout_sessions.yaml
   /insurance/bind:
     $ref: paths/insurance_bind.yaml
   /entities/business:
