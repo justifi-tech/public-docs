@@ -8,7 +8,6 @@ To onboard a new sub account via hosted onboarding
 
 
 ### Create a sub account
-<PullRight>
 
 #### Create a sub account
 ```sh
@@ -19,15 +18,15 @@ curl -X POST \
   -d '{
     "name": "Sub account name"
   }'
-</PullRight>
-Use the sub accounts API to [create a sub account](/tag/Sub-Accounts#operation/CreateSubAccount) on JustiFi that is associated with your platform. You will need the `account_id` from the account you create for the next step.
+```
 
+Use the sub accounts API to [create a sub account](/tag/Sub-Accounts#operation/CreateSubAccount) on JustiFi that is associated with your platform. You will need the `account_id` from the account you create for the next step.
 
 ### Include JustiFi hosted onboarding in your application
 To present the JustiFi hosted onboarding form to your user, create an iframe with a source of `https://accounts.justifi.ai/onboarding/SUB_ACCOUNT_ID`, where `SUB_ACCOUNT_ID` is the `account_id` that was created in the previous step. This iframe will present your user with a multi-step form where they can enter the business and financial information needed for approval. Upon submission, a success message will display.
 
 ### (optional) Listen to success/fail message
-<PullRight>
+
 #### Listen to success/fail message
 ```js
 const handleOnboardingCompletion = (e) => {
@@ -42,7 +41,7 @@ const handleOnboardingCompletion = (e) => {
 
 window.addEventListener('message', handleOnboardingCompletion);
 ```
-</PullRight>
+
 When the onboarding is completed, success or failure, the JustiFi iframe will send a postMessage. This allows your platform to take a next step, for example closing a modal, or redirecting to another page.
 
 ### Check the sub account status
