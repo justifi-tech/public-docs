@@ -109,7 +109,7 @@ post:
 get:
   summary: List Businesses
   description: |
-    List businesses for your platform. This endpoint supports [pagination](/#section/Pagination).
+    List businesses for your platform. This endpoint supports [pagination](https://docs.justifi.tech/api-spec#section/Pagination).
   operationId: ListBusinesses
   tags:
     - Business

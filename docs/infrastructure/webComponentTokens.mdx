@@ -34,7 +34,7 @@ The following steps show how to get the latest payment, generate a web component
 > We use [curl](https://curl.se/) to make the API calls in the terminal, and [jq](https://stedolan.github.io/jq/) to parse the json response.
 > You can install using [homebrew](https://brew.sh/) on a mac or [chocolatey](https://chocolatey.org/) on windows.
 
-1. Generate Access Token [API](https://developer.justifi.ai/tag/API-Credentials#operation/CreateAccessToken)
+1. Generate Access Token [API](https://docs.justifi.tech/api-spec#tag/API-Credentials/operation/CreateAccessToken)
 
 ```bash
 ACCESS_TOKEN_RESPONSE=$(curl -sS --request POST \
@@ -54,7 +54,7 @@ ACCESS_TOKEN=$(echo $ACCESS_TOKEN_RESPONSE | jq -r '.access_token')
 echo "Access Token: ${ACCESS_TOKEN}"
 ```
 
-3. List Payments [API](https://developer.justifi.ai/tag/Payments#operation/ListPayments) using the access_token generated above and a test account:
+3. List Payments [API](https://docs.justifi.tech/api-spec#tag/Payments/operation/ListPayments) using the access_token generated above and a test account:
 
 ```bash
 ACCOUNT_ID="acc_abc1234"
@@ -133,7 +133,7 @@ _note: if you have python3 installed, you can run the following command on the f
 python3 -m http.server
 ```
 
-Open the file OR go to [http://localhost:8000/payment_details.html](http://localhost:8000/payment_details.html), you should see the [payment details web component](https://storybook.justifi.ai/?path=/docs/components-paymentdetails--docs):
+Open the file OR go to [http://localhost:8000/payment_details.html](http://localhost:8000/payment_details.html), you should see the [payment details web component](https://storybook.justifi.ai/?path=/docs/payment-facilitation-merchant-tools-payout-details--docs):
 
 ![PaymentDetails](../../static/img/wc_payment_details.png)
 
@@ -177,7 +177,7 @@ _note: replace WEB\_COMPONENT\_TOKEN and ACCOUNT\_ID with the values from the te
 </html>
 ```
 
-Open the file or go to [http://localhost:8000/payment_list.html](http://localhost:8000/payment_list.html), you should see the [payment list web component](https://storybook.justifi.ai/?path=/docs/components-paymentslist--docs):
+Open the file or go to [http://localhost:8000/payment_list.html](http://localhost:8000/payment_list.html), you should see the [payment list web component](https://storybook.justifi.ai/?path=/docs/payment-facilitation-merchant-tools-payments-list--docs):
 
 ![PaymentList](../../static/img/wc_payment_list.png)
 
@@ -185,7 +185,7 @@ Open the file or go to [http://localhost:8000/payment_list.html](http://localhos
 
 The following steps shows how to create a business entity, generate a web component token, and render the [BusinessFormStepped web component](https://storybook.justifi.ai/?path=/docs/components-businessformstepped--docs):
 
-1. Generate Access Token [API](https://developer.justifi.ai/tag/API-Credentials#operation/CreateAccessToken)
+1. Generate Access Token [API](https://docs.justifi.tech/api-spec#tag/API-Credentials/operation/CreateAccessToken)
 
 ```bash
 ACCESS_TOKEN_RESPONSE=$(curl -sS --request POST \
@@ -205,7 +205,7 @@ ACCESS_TOKEN=$(echo $ACCESS_TOKEN_RESPONSE | jq -r '.access_token')
 echo "Access Token: ${ACCESS_TOKEN}"
 ```
 
-3. Create a business entity [API](https://developer.justifi.ai/tag/Business#operation/CreateBusiness) using the access_token generated above:
+3. Create a business entity [API](https://docs.justifi.tech/api-spec#tag/Business/operation/CreateBusiness) using the access_token generated above:
 
 ```bash
 BUSINESS_RESPONSE=$(curl -sS --request POST \

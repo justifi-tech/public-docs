@@ -55,7 +55,7 @@ post:
 
 get:
   summary: List Payment Intents
-  description: List the payment intents for your account. This endpoint supports [pagination](/#section/Pagination).
+  description: List the payment intents for your account. This endpoint supports [pagination](https://docs.justifi.tech/api-spec#section/Pagination).
   operationId: ListPaymentIntents
   tags:
     - Payment Intents

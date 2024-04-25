@@ -5,4 +5,4 @@ schema:
   format: uuid
 required: true
 example: 'my-request-123abc'
-description: a string to identify your request (we recommend using a generated uuid, but you may use any unique string) see [Idempotent Requests](https://developer.justifi.ai/#section/Idempotent-Requests)
+description: a string to identify your request (we recommend using a generated uuid, but you may use any unique string) see [Idempotent Requests](https://docs.justifi.tech/api-spec#section/Idempotent-Requests)

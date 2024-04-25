@@ -19,7 +19,7 @@ curl -X POST \
   }'
 ```
 
-Use the sub accounts API to [create a sub account](/tag/Sub-Accounts#operation/CreateSubAccount) on JustiFi that is associated with your platform. You will need the `account_id` from the sub account you create for the next step.
+Use the sub accounts API to [create a sub account](https://docs.justifi.tech/api-spec#tag/Sub-Accounts/operation/CreateSubAccount) on JustiFi that is associated with your platform. You will need the `account_id` from the sub account you create for the next step.
 
 
 ### Create an onboarding entry
@@ -36,4 +36,4 @@ curl -X GET https://api.justifi.ai/v1/sub_accounts/ACCOUNT_ID \
     -H 'Accept: application/json'
 ```
 
-Once you create the account's onboarding entry, we'll review their information. This approval process can take up to a few business days. In order to check the account's onboarding status, call the [Get a Sub Account endpoint](/tag/Sub-Accounts#operation/GetSubAccount) or use an event publisher to subscribe to the `sub_account.updated` events.
+Once you create the account's onboarding entry, we'll review their information. This approval process can take up to a few business days. In order to check the account's onboarding status, call the [Get a Sub Account endpoint](https://docs.justifi.tech/api-spec#tag/Sub-Accounts/operation/GetSubAccount) or use an event publisher to subscribe to the `sub_account.updated` events.

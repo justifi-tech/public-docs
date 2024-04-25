@@ -3,7 +3,7 @@ post:
   description: |
     _<strong>Note: For onboarding version "v2.0", we have recently added more required fields, identification numnber (full ssn) for representative and owners, full address for owners, and date of incorporation and approx annual volume for businesses. We will still accept v1.0 payload, but these additional fields are required to enable a sub account.</strong>_
 
-    First, you'll need to [create a sub account](/tag/Sub-Accounts#operation/CreateSubAccount) so you can use that sub account id in the path for this API.
+    First, you'll need to [create a sub account](https://docs.justifi.tech/api-spec#tag/Sub-Accounts/operation/CreateSubAccount) so you can use that sub account id in the path for this API.
 
     Create an onboarding entry for a sub account, which will send their required onboarding information to the JustiFi team for review. This will change the sub account's status to `submitted`. Upon review, if we require additional verification in the form of an ID document (which is rare), we'll work with your sub account to obtain the documentation we need.
 

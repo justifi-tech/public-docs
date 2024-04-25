@@ -34,7 +34,7 @@ tags:
       capturing the payment intent will let JustiFi know to charge the payment method and create a payment.
       If the capture fails, you can attempt again on the same payment intent.
 
-      *Note: Payment Intents do NOT support dynamic fees. A platform may set a custom application fee amount that applies to a payment using [Create a Payment](/tag/Payments#operation/CreatePayment) directly.*
+      *Note: Payment Intents do NOT support dynamic fees. A platform may set a custom application fee amount that applies to a payment using [Create a Payment](https://docs.justifi.tech/api-spec#tag/Payments/operation/CreatePayment) directly.*
   - name: Payment Methods
     description: |
       Payment methods refer to the specific form of payment each customer uses

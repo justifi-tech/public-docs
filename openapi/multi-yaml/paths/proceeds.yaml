@@ -1,6 +1,6 @@
 get:
   summary: List Proceeds
-  description: List the proceeds payouts for your account. This endpoint supports [pagination](/#section/Pagination).
+  description: List the proceeds payouts for your account. This endpoint supports [pagination](https://docs.justifi.tech/api-spec#section/Pagination).
   operationId: ListProceeds
   tags:
     - Proceeds

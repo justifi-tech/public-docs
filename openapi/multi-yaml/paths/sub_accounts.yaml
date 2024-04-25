@@ -37,7 +37,7 @@ post:
 get:
   summary: List Sub Accounts
   description: |
-    List the sub accounts for your platform. This endpoint supports [pagination](/#section/Pagination).
+    List the sub accounts for your platform. This endpoint supports [pagination](https://docs.justifi.tech/api-spec#section/Pagination).
     *Note: By default, all sub accounts which are not archived will be returned. To list archived sub accounts, use the optional status parameter set to `archived`*
   operationId: ListSubAccounts
   tags:

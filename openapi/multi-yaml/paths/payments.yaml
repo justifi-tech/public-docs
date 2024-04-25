@@ -253,7 +253,7 @@ post:
 
 get:
   summary: List Payments
-  description: List the payments for your account. This endpoint supports [pagination](/#section/Pagination).
+  description: List the payments for your account. This endpoint supports [pagination](https://docs.justifi.tech/api-spec#section/Pagination).
   operationId: ListPayments
   tags:
     - Payments

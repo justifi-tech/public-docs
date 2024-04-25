@@ -1,7 +1,7 @@
 get:
   summary: List Disputes
   description: |
-    List the disputes for your account. This endpoint supports [pagination](/#section/Pagination).
+    List the disputes for your account. This endpoint supports [pagination](https://docs.justifi.tech/api-spec#section/Pagination).
     The disputes for a specific payment are also included in the payments API
     response.
   operationId: ListDisputes

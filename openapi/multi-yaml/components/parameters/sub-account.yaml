@@ -5,4 +5,4 @@ schema:
 required: false
 example: "acc_123xyz"
 description: |
-  for platforms, the id of the [sub account](/#tag/Sub-Accounts) that this request applies to
+  for platforms, the id of the [sub account](https://docs.justifi.tech/api-spec#tag/Sub-Accounts) that this request applies to
