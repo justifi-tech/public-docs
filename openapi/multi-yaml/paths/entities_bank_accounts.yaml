@@ -70,7 +70,7 @@ post:
 
 get:
   summary: List Bank Accounts
-  description: List the bank accounts you have created for a business. This endpoint supports [pagination](/#section/Pagination).
+  description: List the bank accounts you have created for a business. This endpoint supports [pagination](https://docs.justifi.tech/api-spec#section/Pagination).
   operationId: ListBankAccounts
   tags:
     - Bank Account

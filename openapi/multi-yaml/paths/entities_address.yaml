@@ -49,7 +49,7 @@ post:
 get:
   summary: List Addresses
   description: |
-    List addresses for your platform. This endpoint supports [pagination](/#section/Pagination).
+    List addresses for your platform. This endpoint supports [pagination](https://docs.justifi.tech/api-spec#section/Pagination).
   operationId: ListAddresses
   tags:
     - Address

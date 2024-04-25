@@ -116,7 +116,7 @@ post:
 
 get:
   summary: List Payment Methods
-  description: List the payment methods for your account. This endpoint supports [pagination](/#section/Pagination).
+  description: List the payment methods for your account. This endpoint supports [pagination](https://docs.justifi.tech/api-spec#section/Pagination).
   operationId: ListPaymentMethods
   tags:
     - Payment Methods

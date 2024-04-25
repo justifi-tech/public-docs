@@ -82,7 +82,7 @@ post:
 get:
   summary: List Identities
   description: |
-    List identities for your platform. This endpoint supports [pagination](/#section/Pagination).
+    List identities for your platform. This endpoint supports [pagination](https://docs.justifi.tech/api-spec#section/Pagination).
   operationId: ListIdentities
   tags:
     - Identity
