@@ -7,8 +7,8 @@ To process a payment with JustiFi, follow these steps
 - [Get Your Accounts](#get-your-accounts)
 - [Get Your API Keys](#get-your-api-keys)
 - [Authenticate With JustiFi](#authenticate-with-justifi)
-- For Platforms, [Create and Onboard Your Sub Accounts](/tag/Sub-Accounts)
-- [Create a Payment](/tag/Payments#operation/CreatePayment)
+- For Platforms, [Create and Onboard Your Sub Accounts](https://docs.justifi.tech/api-spec#tag/Sub-Accounts)
+- [Create a Payment](https://docs.justifi.tech/api-spec#tag/Payments/operation/CreatePayment)
 
 <br>
 
