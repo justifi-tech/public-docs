@@ -6,7 +6,7 @@ post:
   description: |
     Issue a refund for a payment. You may refund the full payment amount or just a portion. When refunding a portion, multiple refunds are supported up until the full payment amount has been refunded.
 
-    *Note: For platforms, if the sub account status is not `enabled`, `400` will be returned.*
+    *Note: If the sub account status is not `enabled`, `400` will be returned.*
   operationId: CreateRefund
   parameters:
     - in: path

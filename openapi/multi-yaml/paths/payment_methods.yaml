@@ -4,14 +4,14 @@ post:
     You can create payment methods ahead of time, then pass their existing tokens to payments.
     Alternatively, you can create and tokenize payment methods inline when processing payments.
 
-    *Note: For platforms, if the sub account status is not `enabled`, `400` will be returned.*
+    *Note: If the sub account status is not `enabled`, `400` will be returned.*
   operationId: CreatePaymentMethod
   tags:
     - Payment Methods
   parameters:
     - $ref: ../components/parameters/idempotency-key-header.yaml
     - $ref: ../components/parameters/authorization-header.yaml
-    - $ref: ../components/parameters/sub-account.yaml
+    - $ref: ../components/parameters/sub-account-required.yaml
   requestBody:
     required: true
     content:

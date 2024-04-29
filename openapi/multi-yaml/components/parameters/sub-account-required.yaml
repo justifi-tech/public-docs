@@ -2,7 +2,7 @@ in: header
 name: Sub-Account
 schema:
   type: string
-required: false
+required: true
 example: "acc_123xyz"
 description: |
   the id of the [sub account](https://docs.justifi.tech/api-spec#tag/Sub-Accounts) that this request applies to

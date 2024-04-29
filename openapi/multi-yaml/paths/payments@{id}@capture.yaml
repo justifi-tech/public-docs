@@ -3,7 +3,7 @@ post:
   description: |
     To charge a payment method and capture a previously authorized payment.  Returns a `payment_already_captured` error if the payment is in a captured state.
 
-    *Note: For platforms, if the sub account status is not `enabled`, `400` will be returned.*
+    *Note: If the sub account status is not `enabled`, `400` will be returned.*
   operationId: CapturePayment
   parameters:
     - $ref: ../components/parameters/id-path.yaml
