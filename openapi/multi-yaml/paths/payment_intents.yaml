@@ -3,7 +3,7 @@ post:
   description: |
     Create a payment intent if you'd like a place to track the payment method along with all payment attempts for a payment.
 
-    *Note: For platforms, if the sub account status is not `enabled`, `400` will be returned.*
+    *Note: If the sub account status is not `enabled`, `400` will be returned.*
   operationId: CreatePaymentIntent
   tags:
     - Payment Intents
