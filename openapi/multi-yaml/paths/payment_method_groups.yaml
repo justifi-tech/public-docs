@@ -7,7 +7,7 @@ post:
     - Payment Method Groups
   parameters:
     - $ref: ../components/parameters/authorization-header.yaml
-    - $ref: ../components/parameters/sub-account.yaml
+    - $ref: ../components/parameters/sub-account-required.yaml
   responses:
     '201':
       description: Payment method group was created successfully

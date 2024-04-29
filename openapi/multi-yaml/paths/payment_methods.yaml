@@ -11,7 +11,7 @@ post:
   parameters:
     - $ref: ../components/parameters/idempotency-key-header.yaml
     - $ref: ../components/parameters/authorization-header.yaml
-    - $ref: ../components/parameters/sub-account.yaml
+    - $ref: ../components/parameters/sub-account-required.yaml
   requestBody:
     required: true
     content:
