@@ -21,7 +21,9 @@ Due to the inherent risk of front end authorization, we have a fine-grained acce
 | PaymentList            | Existing Sub Account | read:account:`account_id` or write:account:`id`             |
 | PayoutDetails          | Existing Sub Account | read:account:`account_id` or write:account:`id`             |
 | PayoutList             | Existing Sub Account | read:account:`account_id` or write:account:`id`             |
-| Checkout (pre-release) | Checkout create      | write:checkout:`checkout_id`                                |
+| Checkout               | Checkout created     | write:checkout:`checkout_id`                                |
+| CardForm               | Existing Sub Account | write:tokenize:`account_id`                                 |
+| BankAccountForm        | Existing Sub Account | write:tokenize:`account_id`                                 |
 
 ## General Usage
 
