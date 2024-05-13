@@ -183,9 +183,9 @@ Open the file or go to [http://localhost:8000/payment_list.html](http://localhos
 
 ![PaymentList](../../static/img/wc_payment_list.png)
 
-### Here is an example of creating a business and rendering the stepped onboarding component.
+### Create a business and render the Payment Provisioning component
 
-The following steps shows how to create a business entity, generate a web component token, and render the [BusinessFormStepped web component](https://storybook.justifi.ai/?path=/docs/components-businessformstepped--docs):
+The following steps shows how to create a business entity, generate a web component token, and render the [PaymentProvisioning web component](https://storybook.justifi.ai/?path=/docs/entities-payment-provisioning-beta--docs):
 
 1. Generate Access Token [API](https://docs.justifi.tech/api-spec#tag/API-Credentials/operation/CreateAccessToken)
 
@@ -245,7 +245,7 @@ WEB_COMPONENT_TOKEN=$(echo $WC_TOKEN_RESPONSE | jq -r '.access_token')
 echo "Web Component Token: ${WEB_COMPONENT_TOKEN}"
 ```
 
-#### Front end code: business_form_stepped.html
+#### Front end code: payment_provisioning.html
 
 _note: replace WEB\_COMPONENT\_TOKEN and BUSINESS\_ID with the values from the terminal script above_
 
@@ -261,27 +261,26 @@ _note: replace WEB\_COMPONENT\_TOKEN and BUSINESS\_ID with the values from the t
     <title>justifi-payment-details</title>
     <script
       type="module"
-      src="https://cdn.jsdelivr.net/npm/@justifi/webcomponents@4.7.4/dist/webcomponents/webcomponents.esm.js"
+      src="https://cdn.jsdelivr.net/npm/@justifi/webcomponents@4.11.0/dist/webcomponents/webcomponents.esm.js"
     ></script>
     <script
       nomodule
-      src="https://cdn.jsdelivr.net/npm/@justifi/webcomponents@4.7.4/dist/webcomponents/webcomponents.js"
+      src="https://cdn.jsdelivr.net/npm/@justifi/webcomponents@4.11.0/dist/webcomponents/webcomponents.js"
     ></script>
   </head>
   <body>
-    <justifi-business-form-stepped
-      auth-token="${WEB_COMPONENT_TOKEN}"
+    <justifi-payment-provisioning
       business-id="${BUSINESS_ID}"
-      account-id="${ACCOUNT_ID}"
+      auth-token="${WEB_COMPONENT_TOKEN}"
     >
-    </justifi-business-form-stepped>
+    </justifi-payment-provisioning>
   </body>
 </html>
 ```
 
-Open the file or go to [http://localhost:8000/business_form_stepped.html](http://localhost:8000/business_form_stepped.html), you should see the business form stepped used for Onboarding:
+Open the file or go to [http://localhost:8000/payment_provisioning.html](http://localhost:8000/payment_provisioning.html), you should see the payment_provisioning form used for Onboarding:
 
-![BusinessFormStepped](../../static/img/wc_business_form_stepped.png)
+![PaymentProvisioning](../../static/img/wc_business_form_stepped.png)
 
 ## Example Web Component implementations
 
