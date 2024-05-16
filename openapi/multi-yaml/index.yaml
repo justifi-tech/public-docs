@@ -310,6 +310,8 @@ paths:
     $ref: paths/terminals@{id}@status.yaml
   /web_component_tokens:
     $ref: paths/web_component_tokens.yaml
+  /checkouts:
+    $ref: paths/checkouts.yaml
 
 x-webhooks:
   payments:
