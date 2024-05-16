@@ -1,0 +1,22 @@
+get:
+  summary: Get a Payout Account
+  description: Get information about the currently active payout bank account of a sub account.
+  operationId: GetPayoutAccount
+  tags:
+    - Sub Accounts
+  parameters:
+    - $ref: ../components/parameters/id-path.yaml
+    - $ref: ../components/parameters/authorization-header.yaml
+  responses:
+    '200':
+      description: Successfully get the active payout bank account a sub account
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope.yaml
+              - properties:
+                  type:
+                    example: payout_bank_account
+                  data:
+                    $ref: ../components/schemas/PayoutBankAccount.yaml
