@@ -1,0 +1,61 @@
+type: object
+properties:
+  id:
+    description: unique checkout id
+    type: string
+    example: cho_xyz
+  account_id:
+    type: string
+    format: uuid
+    example: acc_xyz
+  platform_account_id:
+    type: string
+    format: uuid
+    example: acc_xyz
+  payment_amount:
+    description: the amount charged in cents
+    type: number
+    example: 10000
+  payment_currency:
+    type: string
+    enum: [usd]
+    example: usd
+  payment_client_id:
+    type: string
+    example: "test_asdfALSKJwasdfsdf"
+    description: client id use for tokenizing (when needed)
+  payment_description:
+    type: string
+    description: your meaningful description of the payment (e.g. an order number or other value from your system)
+    example: my_order_xyz
+  payment_methods:
+    type: array
+    description: list of payment methods when a payment method group has been provided
+  payment_method_group_id:
+    type: string
+    description: payment method group id provided for checkout
+    format: uuid
+    example: pmg_xyz
+  status:
+    type: string
+    enum: [created completed]
+    description: status of the checkout
+  successful_payment_id:
+    type: string
+    format: uuid
+    example: py_xyz
+    description: payment id, if this checkout was paid for successfully
+  payment_settings:
+    type: object
+    description: payment configuration information for the checkout
+  bnpl:
+    type: object
+    description: bnpl configuration information for the checkout
+  created_at:
+    type: string
+    format: date-time
+    example: '2024-01-01T12:00:00Z'
+  updated_at:
+    type: string
+    format: date-time
+    example: '2024-01-01T12:00:00Z'

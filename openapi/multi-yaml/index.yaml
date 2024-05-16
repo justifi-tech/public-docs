@@ -183,6 +183,9 @@ x-tagGroups:
       - Balance Transactions
       - Ach Return Fees
       - Payment Method Migration
+  - name: Checkout Resources
+    tags:
+      - Checkouts
   - name: Insurance Resources
     tags:
       - Bind Insurance
@@ -309,6 +312,12 @@ paths:
     $ref: paths/terminals@{id}@status.yaml
   /web_component_tokens:
     $ref: paths/web_component_tokens.yaml
+  /checkouts:
+    $ref: paths/checkouts.yaml
+  /checkouts/{id}:
+    $ref: paths/checkouts@{id}.yaml
+  /checkouts/{id}/complete:
+    $ref: paths/checkouts@{id}@complete.yaml
 
 x-webhooks:
   payments:

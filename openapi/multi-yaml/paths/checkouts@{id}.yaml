@@ -1,0 +1,22 @@
+get:
+  summary: Get Checkout
+  description: Get information about a checkout
+  operationId: GetCheckout
+  tags:
+    - Checkouts
+  parameters:
+    - $ref: ../components/parameters/authorization-header.yaml
+    - $ref: ../components/parameters/sub-account.yaml
+  responses:
+    '200':
+      description: Successfully get a checkout
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope.yaml
+              - properties:
+                  type:
+                    example: object
+                  data:
+                    - $ref: ../components/schemas/Checkout.yaml
