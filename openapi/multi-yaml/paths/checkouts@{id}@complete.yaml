@@ -30,5 +30,10 @@ post:
       content:
         application/json:
           schema:
-            oneOf:
-              - $ref: ../components/schemas/CheckoutCompletion.yaml
+            allOf:
+              - $ref: ../components/schemas/Envelope.yaml
+              - properties:
+                  type:
+                    example: checkout_completion
+                  data:
+                    $ref: ../components/schemas/CheckoutCompletion.yaml
