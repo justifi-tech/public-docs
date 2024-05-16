@@ -20,10 +20,6 @@ properties:
     type: string
     enum: [usd]
     example: usd
-  payment_client_id:
-    type: string
-    example: "test_asdfALSKJwasdfsdf"
-    description: client id use for tokenizing (when needed)
   payment_description:
     type: string
     description: your meaningful description of the payment (e.g. an order number or other value from your system)
@@ -48,9 +44,6 @@ properties:
   payment_settings:
     type: object
     description: payment configuration information for the checkout
-  bnpl:
-    type: object
-    description: bnpl configuration information for the checkout
   created_at:
     type: string
     format: date-time
