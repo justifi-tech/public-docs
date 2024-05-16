@@ -1,0 +1,34 @@
+post:
+  summary: Complete a Checkout
+  description: |
+    Use to complete a checkout and capture a payment, requires an idempotency key for payment processing
+  operationId: CompleteCheckout
+  tags:
+    - Checkouts
+  parameters:
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/authorization-header.yaml
+    - $ref: ../components/parameters/sub-account-required.yaml
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          properties:
+            payment_token:
+              type: string
+              example: "pm_asdfakjsd23"
+              description: Payment Method token which you want to use to complete the payment
+          required: [payment_token]
+        examples:
+          "Complete_a_checkout":
+            value:
+              payment_token: "pm_asdfakjsd23"
+  responses:
+    '201':
+      description: Checkout was created successfully
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - $ref: ../components/schemas/CheckoutCompletion.yaml

@@ -22,6 +22,7 @@ post:
               type: string
               enum: [usd]
               example: usd
+              default: usd
             description:
               type: string
               description: your meaningful description of the checkout (e.g. an order number or other value from your system)

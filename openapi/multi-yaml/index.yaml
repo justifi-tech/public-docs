@@ -312,6 +312,10 @@ paths:
     $ref: paths/web_component_tokens.yaml
   /checkouts:
     $ref: paths/checkouts.yaml
+  /checkouts/{id}:
+    $ref: paths/checkouts@{id}.yaml
+  /checkouts/{id}/complete:
+    $ref: paths/checkouts@{id}@complete.yaml
 
 x-webhooks:
   payments:
