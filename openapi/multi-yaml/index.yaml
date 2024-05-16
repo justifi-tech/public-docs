@@ -219,6 +219,8 @@ paths:
     $ref: paths/proceeds.yaml
   /platform/proceeds/{id}:
     $ref: paths/proceeds@{id}.yaml
+  /platform/reports/proceeds/{id}:
+    $ref: paths/csv_report_proceeds@{id}.yaml
   /payment_intents:
     $ref: paths/payment_intents.yaml
   /payment_intents/{id}:
