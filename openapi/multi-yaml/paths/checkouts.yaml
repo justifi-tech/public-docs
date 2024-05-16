@@ -1,7 +1,7 @@
 post:
   summary: Create a Checkout
   description: |
-    Create a checkout to initiate the collection of a Card Payment, ACH Payment, Insurance Quote Payment, BNPL Payment, or Card Reader payment in a single flow.
+    Create a checkout to initiate the collection of a Card Payment, ACH Payment, Insurance Quote Payment, BNPL Payment (not yet available via API), or Card Reader payment (not yet available) in a single flow.
   operationId: CreateCheckout
   tags:
     - Checkouts
