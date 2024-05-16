@@ -183,6 +183,9 @@ x-tagGroups:
       - Balance Transactions
       - Ach Return Fees
       - Payment Method Migration
+  - name: Checkout Resources
+    tags:
+      - Checkouts
   - name: Insurance Resources
     tags:
       - Bind Insurance

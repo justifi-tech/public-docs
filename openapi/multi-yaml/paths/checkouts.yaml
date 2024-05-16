@@ -1,0 +1,67 @@
+post:
+  summary: Create a Checkout
+  description: |
+    Create a checkout to initiate the collection of a Card Payment, ACH Payment, Insurance Quote Payment, BNPL Payment, or Card Reader payment in a single flow.
+  operationId: CreateCheckout
+  tags:
+    - Checkouts
+  parameters:
+    - $ref: ../components/parameters/authorization-header.yaml
+    - $ref: ../components/parameters/sub-account-required.yaml
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          properties:
+            amount:
+              type: number
+              example: 10000
+              description: amount to charge in cents
+            currency:
+              type: string
+              enum: [usd]
+              example: usd
+            description:
+              type: string
+              description: your meaningful description of the checkout (e.g. an order number or other value from your system)
+              example: order_xyz
+          required: [amount]
+        examples:
+          "Collect_ten_dollars_via_checkout":
+            value:
+              amount: 1000
+              currency: 'usd'
+              description: 'ORDER 1235ABC: Charging $10 to the test card'
+  responses:
+    '201':
+      description: Checkout was created successfully
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - $ref: ../components/schemas/Checkout.yaml
+
+get:
+  summary: List Checkouts
+  description: List Checkouts for your account. This endpoint supports [pagination](https://docs.justifi.tech/api-spec#section/Pagination).
+  operationId: ListCheckouts
+  tags:
+    - Checkouts
+  parameters:
+    - $ref: ../components/parameters/authorization-header.yaml
+    - $ref: ../components/parameters/sub-account.yaml
+  responses:
+    '200':
+      description: Successfully list checkouts
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope-list.yaml
+              - properties:
+                  type:
+                    example: array
+                  data:
+                    items:
+                      - $ref: ../components/schemas/Checkout.yaml
