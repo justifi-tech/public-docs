@@ -165,6 +165,11 @@ tags:
     description:
       $ref: ../docs/checkout.md
 
+  - name: Checkout via API
+    x-traitTag: true
+    description:
+      $ref: ../docs/checkout_api.md
+
 x-tagGroups:
   - name: Authorization
     tags:
@@ -191,6 +196,7 @@ x-tagGroups:
   - name: Checkout Resources
     tags:
       - Checkout via Component
+      - Checkout via API
       - Checkouts
   - name: Insurance Resources
     tags:
