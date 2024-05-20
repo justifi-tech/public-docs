@@ -27,6 +27,10 @@ post:
               type: string
               description: your meaningful description of the checkout (e.g. an order number or other value from your system)
               example: order_xyz
+            original_url:
+              type: string
+              description: the domain on which the web component will be rendered, required for web component usage only
+              example: http://localhost:3000
           required: [amount]
         examples:
           "Collect_ten_dollars_via_checkout":
