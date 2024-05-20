@@ -1,6 +1,6 @@
 get:
   summary: Get a Payout CSV Report
-  description: Get a link to a CSV report with information about payout and balance transactions related to that payout. CSV report headers include id, currency, amount, fee, net, source_id, source_account_id, source_type, source_amount, available_on and created_at.
+  description: Get a link to a CSV report with information about payout and balance transactions related to that payout. CSV report headers include id, currency, amount, fee, net, source_id, source_account_id, source_type, source_amount, available_on and created_at. The link is valid for 60 minutes.
   operationId: GetPayoutCsvReport
   tags:
     - Payouts
