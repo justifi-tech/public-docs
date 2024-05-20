@@ -84,4 +84,24 @@ Using the web component token generated about and the checkout id, render the Ch
 ```
 
 ### Handle success/failure events
-TODO
+The web component will emit a `submitted` event when a payment is submitted for a checkout, the checkout. This event can will have a `payment_status` attribute. If they payment succeeded, your app can proceed to a successful checkout state. Otherwise, the error message can be presented to the user. Our example below covers both. If there are insurance quotes being processed, the additional_transactions section will contain the results of the insurance payments.
+
+An `error` event means there was an issue with the payment form, connecting to the network, etc.
+
+```
+<script>
+  const justifiCheckout = document.querySelector('justifi-checkout');
+  justifiCheckout.addEventListener('submitted', (event) => {
+    if (event.details.data.payment_status === 'succeeded) {
+      console.log("Payment succeeded!");
+    } else {
+      console.log("Payment error:", event.details.data.payment_response.error)
+    }
+  });
+  justifiCheckout.addEventListener('error', (event) => {
+    console.log(event);
+  });
+</script>
+```
+
+At this point, your checkout is completed and you have successfully collected a payment!
