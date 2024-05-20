@@ -214,7 +214,6 @@ x-tagGroups:
   - name: Event Publishing
     tags:
       - Events
-      - EventBridge (AWS) Delivery
       - Webhook Delivery
 
 paths:

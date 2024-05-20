@@ -85,11 +85,3 @@ Using the web component token generated about and the checkout id, render the Ch
 
 ### Handle success/failure events
 TODO
-
-### API only checkout
-
-### Tokenize or select a payment method
-In order to complete a checkout, you must provide a payment method token. To avoid entering PCI scope, we recommend using our Card Form, Bank Account Form or Payment Form. You can also collect these directly and use our Payment Method APIs, but you will likely be entering PCI scope. Once you have tokenized a payment method, using the ID you can complete a checkout.
-
-### Complete a checkout
-To complete a checkout, using the (Complete Checkout)[https://docs.justifi.tech/api-spec#tag/Checkouts/operation/CompleteCheckout] API. Pass the payment_token collected above, as well as a Sub-Account header and an Idempotency-Key. A Checkout COmpletion will be recorded upon success or failure. Check the for payment_status attribute to be `succeeded` on the response, which means the payment has been collected. If insurance quotes have been attached, the outcome of those payments will be in the `additional_transactions` attribute.
