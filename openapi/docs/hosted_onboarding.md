@@ -47,7 +47,7 @@ window.addEventListener('message', handleOnboardingCompletion);
 
 When the onboarding is completed, success or failure, the JustiFi iframe will send a postMessage. This allows your platform to take a next step, for example closing a modal, or redirecting to another page.
 
-### Check the underwriting status of the business
+### Check the underwriting status of the sub account connected to the business
 
 Once your business submits the onboarding form
 1. We will provision your business for payment processing and create a `sub account` for this business. This sub account is the representation of your business for payment processing.
