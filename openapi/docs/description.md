@@ -497,7 +497,7 @@ Many of our `4XX` errors will provide an error code in addition to their HTTP st
   </tr>
   <tr>
     <td><code>card_declined</code></td>
-    <td>The card has been declined. When a card is declined, the error returned also includes the decline_code attribute with the reason why the card was declined.</td>
+    <td>The card has been declined. When a card is declined, the error includes a decline_code attribute specifying the reason for the decline, and a network_decline_code provided by the card network, if available.</td>
   </tr>
   <tr>
     <td><code>card_name_required</code></td>
@@ -726,5 +726,13 @@ Many of our `4XX` errors will provide an error code in addition to their HTTP st
   <tr>
     <td><code>year_invalid</code></td>
     <td>Format is invalid for parameter: year</td>
+  </tr>
+  <tr>
+    <td><code>service_not_allowed</code></td>
+    <td>This account is not permitted to process the type of transaction being requested, or the surcharge amount is invalid</td>
+  </tr>
+  <tr>
+    <td><code>do_not_retry</code></td>
+    <td>This card has been rejected, please try a different payment method and have the cardholder contact their issuing bank for details</td>
   </tr>
 </table>

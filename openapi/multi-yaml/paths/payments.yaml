@@ -3,7 +3,7 @@ post:
   description: |
     Authorize, capture, and charge a payment method.
 
-    *Note: For platforms, if the sub account status is not `enabled`, `400` will be returned.*
+    *Note: If the sub account status is not `enabled`, `400` will be returned.*
   operationId: CreatePayment
   tags:
     - Payments
