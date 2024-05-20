@@ -4,9 +4,9 @@ To onboard a new business via hosted onboarding
 1. Create a business
 2. Include JustiFi hosted onboarding in your application
 3. (optional) Listen to success/fail message
-4. Check the underwriting status of the business
+4. Check the underwriting status of the sub account connected to the business
 
-Deprecated version: [Hosted onboarding with sub account]()
+
 
 ### Create a business
 
@@ -25,6 +25,8 @@ Use the entities API to [create a business](https://docs.justifi.tech/api-spec#t
 
 ### Include JustiFi hosted onboarding in your application
 To present the JustiFi hosted onboarding form to your user, create an iframe with a source of `https://accounts.justifi.ai/onboarding/BUSINESS_ID`, where `BUSINESS_ID` is the `business_id` that was created in the previous step. This iframe will present your user with a multi-step form where they can enter the business and financial information needed for approval. Upon submission, a success message will display.
+
+(*Note: Passing a `sub_account_id` to the iframe instead of a `business_id` is still supported but will be deprecated soon*)
 
 ### (optional) Listen to success/fail message
 
@@ -47,7 +49,7 @@ When the onboarding is completed, success or failure, the JustiFi iframe will se
 
 ### Check the underwriting status of the business
 
-Once your business submits the onboarding form, a few things happen
+Once your business submits the onboarding form
 1. We will provision your business for payment processing and create a `sub account` for this business. This sub account is the representation of your business for payment processing.
 2. We'll review the submitted information. This approval process can take up to a few business days. In order to check the account's onboarding status, call the [Get a Sub Account endpoint](https://docs.justifi.tech/api-spec#tag/Sub-Accounts/operation/GetSubAccount) or use an event publisher to subscribe to the [`sub_account.updated` events](https://docs.justifi.tech/api-spec#tag/Events/operation/subAccountEvent)
 
