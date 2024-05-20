@@ -160,6 +160,16 @@ tags:
     description:
       $ref: ../docs/terminals.md
 
+  - name: Checkout via Component
+    x-traitTag: true
+    description:
+      $ref: ../docs/checkout.md
+
+  - name: Checkout via API
+    x-traitTag: true
+    description:
+      $ref: ../docs/checkout_api.md
+
 x-tagGroups:
   - name: Authorization
     tags:
@@ -185,6 +195,8 @@ x-tagGroups:
       - Payment Method Migration
   - name: Checkout Resources
     tags:
+      - Checkout via Component
+      - Checkout via API
       - Checkouts
   - name: Insurance Resources
     tags:
@@ -208,7 +220,6 @@ x-tagGroups:
   - name: Event Publishing
     tags:
       - Events
-      - EventBridge (AWS) Delivery
       - Webhook Delivery
 
 paths:
