@@ -231,10 +231,12 @@ paths:
     $ref: paths/sub_accounts@{id}@payout_account.yaml
   /onboarding/{id}:
     $ref: paths/onboarding@{id}.yaml
-  /platform/proceeds:
+  /proceeds:
     $ref: paths/proceeds.yaml
-  /platform/proceeds/{id}:
+  /proceeds/{id}:
     $ref: paths/proceeds@{id}.yaml
+  /reports/proceeds/{id}:
+    $ref: paths/report_proceeds@{id}.yaml
   /payment_intents:
     $ref: paths/payment_intents.yaml
   /payment_intents/{id}:

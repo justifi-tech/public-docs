@@ -1,0 +1,15 @@
+type: object
+properties:
+  id:
+    description: unique proceeds payout id
+    type: string
+    example: po_xyz
+  csv_url:
+    description: url that links to downloadable CSV report for proceeds payout
+    type: string
+    example: "https://justifi-test-platform-proceeds-reports.s3.amazonaws.com/acc_1234lkj/po_23jdfi36dqhj.csv?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=test"
+  report_url:
+    description: url that links to downloadable JSON report for proceeds payout
+    type: string
+    example: "https://justifi-test-platform-proceeds-reports.s3.amazonaws.com/acc_1234lkj/po_23jdfi36dqhj.json?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=test"
+
