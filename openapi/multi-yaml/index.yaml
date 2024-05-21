@@ -349,3 +349,7 @@ x-webhooks:
     $ref: events/sub_accounts.yaml
   application_fee_rates:
     $ref: events/application_fee_rates.yaml
+  checkouts:
+    $ref: events/checkouts.yaml
+  checkout_completions:
+    $ref: events/checkout_completions.yaml
