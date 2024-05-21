@@ -40,3 +40,7 @@ We will publish the following events:
 - entity.document.created
 - entity.document.uploaded
 - entity.bank_account.created
+- checkout.created
+- checkout.completed
+- checkout.completion.succeeded
+- checkout.completion.failed
