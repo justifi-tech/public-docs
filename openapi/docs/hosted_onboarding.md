@@ -24,7 +24,7 @@ curl -X POST \
 Use the entities API to [create a business](https://docs.justifi.tech/api-spec#tag/Business/operation/CreateBusiness) on JustiFi that is associated with your platform. You will need the `business_id` from the business you create for the next step.
 
 ### Include JustiFi hosted onboarding in your application
-To present the JustiFi hosted onboarding form to your user, create an iframe with a source of `https://accounts.justifi.ai/onboarding/BUSINESS_ID`, where `BUSINESS_ID` is the `business_id` that was created in the previous step. This iframe will present your user with a multi-step form where they can enter the business and financial information needed for approval. Upon submission, a success message will display.
+To present the JustiFi hosted onboarding form to your user, create an iframe with a source of `https://onboarding.justifi.ai/v1/provisioning/BUSINESS_ID`, where `BUSINESS_ID` is the `business_id` that was created in the previous step. This iframe will present your user with a multi-step form where they can enter the business and financial information needed for approval. Upon submission, a success message will display.
 
 (*Note: Passing a `sub_account_id` to the iframe instead of a `business_id` is still supported but will be deprecated soon*)
 
