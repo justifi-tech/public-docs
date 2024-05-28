@@ -20,3 +20,39 @@ get:
                     example: object
                   data:
                     - $ref: ../components/schemas/Checkout.yaml
+patch:
+  summary: Update a Checkout
+  description: Change a checkout's amount or description
+  operationId: UpdateCheckout
+  parameters:
+  - $ref: ../components/parameters/id-path.yaml
+  - $ref: ../components/parameters/authorization-header.yaml
+  tags:
+    - Checkouts
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          properties:
+            amount:
+              type: number
+              example: 10000
+              description: amount to charge in cents
+            description:
+              type: string
+              description: your meaningful description of the checkout (e.g. an order number or other value from your system)
+              example: order_xyz
+  responses:
+    '200':
+      description: Checkout update was successful
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope.yaml
+              - properties:
+                  type:
+                    example: object
+                  data:
+                    - $ref: ../components/schemas/Checkout.yaml
