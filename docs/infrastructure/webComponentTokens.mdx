@@ -297,13 +297,14 @@ To use our payment and payout components, you must grant a web component token f
 - Create a business via create business API
 - Create Web Compontent Token for Business write:business:`id`
 - (optional) confirm WC token on Customer Admin Dashboard
-- Render the Stepped Onboarding Component with the WC Token (note good 60 minutes)
+- Render the Payment Provisioning Component with the WC Token (note good 60 minutes)
 
-#### (optional) Active business for payments
+#### (optional) Activate business for payments
 
-- Accept terms of service
-- (optional) Provision Payments product
-- Render component, good for 60 minutes
+- Accept terms of service via [Terms and Conditions API](https://docs.justifi.tech/api-spec#tag/Terms-and-Conditions/operation/TermsAndConditions)
+- Upload onboarding documents via [Documents API](https://docs.justifi.tech/api-spec#tag/Document/operation/CreateDocument)
+- Add a payout bank account for the business via [Bank Accounts API](https://docs.justifi.tech/api-spec#tag/Bank-Account/operation/CreateBankAccount)
+- Provision Payments product via [Provisioning API](https://docs.justifi.tech/api-spec#tag/Provisioning/operation/ProductProvisioning)
 
 ### View Business Details Management
 
