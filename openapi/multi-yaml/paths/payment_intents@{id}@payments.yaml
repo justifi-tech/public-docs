@@ -3,7 +3,7 @@ get:
   description: Get information about the payments associated with a payment intent.
   operationId: GetPaymentIntentPayments
   tags:
-    - Payment Intents
+    - Payment Intents (use checkouts)
   parameters:
     - $ref: ../components/parameters/id-path.yaml
     - $ref: ../components/parameters/authorization-header.yaml

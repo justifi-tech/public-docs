@@ -3,7 +3,7 @@ get:
   description: Get information about a payment intent.
   operationId: GetPaymentIntent
   tags:
-    - Payment Intents
+    - Payment Intents (use checkouts)
   parameters:
     - $ref: ../components/parameters/id-path.yaml
     - $ref: ../components/parameters/authorization-header.yaml
@@ -26,7 +26,7 @@ patch:
   - $ref: ../components/parameters/idempotency-key-header.yaml
   - $ref: ../components/parameters/authorization-header.yaml
   tags:
-    - Payment Intents
+    - Payment Intents (use checkouts)
   requestBody:
     required: true
     content:
