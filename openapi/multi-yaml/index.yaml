@@ -26,13 +26,9 @@ tags:
       tokenized or tokenize a new one when you create the payment.
       If a payment fails, the status will reflect it and an error code will be returned.
       You can retrieve information about your payments and refund them if needed.
-  - name: Payment Intents
+  - name: Payment Intents (use checkouts)
     description: |
-      If you'd like to track the payment method and all associated payment attempts
-      for a particular payment, you can use payment intents.
-      Once you've tokenized a payment method and attached it to a payment intent,
-      capturing the payment intent will let JustiFi know to charge the payment method and create a payment.
-      If the capture fails, you can attempt again on the same payment intent.
+      **Please use the [Checkout API](https://docs.justifi.tech/api-spec#tag/Checkouts) directly.* instead of payment intents**
 
       *Note: Payment Intents do NOT support dynamic fees. A platform may set a custom application fee amount that applies to a payment using [Create a Payment](https://docs.justifi.tech/api-spec#tag/Payments/operation/CreatePayment) directly.*
   - name: Payment Methods
@@ -160,6 +156,14 @@ tags:
     description:
       $ref: ../docs/terminals.md
 
+  - name: Checkouts
+    description: |
+      Checkouts can be used to collect payments directly via API, or using our Checkout component.
+      You can use a checkout to complete a payment via JustiFi, via BNPL, via terminal (not yet available),
+      and to purchase insurance in a single transaction.
+
+      All attempts to complete a payment will be recorded, along with the outcome of a payment.
+      
   - name: Checkout via Component
     x-traitTag: true
     description:
@@ -184,7 +188,7 @@ x-tagGroups:
   - name: Payment Resources
     tags:
       - Payments
-      - Payment Intents
+      - Payment Intents (use checkouts)
       - Payment Methods
       - Payment Method Groups
       - Refunds
@@ -195,9 +199,9 @@ x-tagGroups:
       - Payment Method Migration
   - name: Checkout Resources
     tags:
+      - Checkouts
       - Checkout via Component
       - Checkout via API
-      - Checkouts
   - name: Insurance Resources
     tags:
       - Bind Insurance

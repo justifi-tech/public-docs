@@ -10,7 +10,7 @@ post:
     - $ref: ../components/parameters/idempotency-key-header.yaml
     - $ref: ../components/parameters/authorization-header.yaml
   tags:
-    - Payment Intents
+    - Payment Intents (use checkouts)
   requestBody:
     required: true
     content:

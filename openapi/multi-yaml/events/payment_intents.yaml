@@ -4,7 +4,7 @@ post:
   tags:
     - Events
   operationId: paymentIntentEvent
-  summary: Payment Intents
+  summary: Payment Intents (old)
   requestBody:
     content:
       application/json:
