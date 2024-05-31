@@ -28,7 +28,7 @@ tags:
       You can retrieve information about your payments and refund them if needed.
   - name: Payment Intents (use checkouts)
     description: |
-      **Please use the [Checkout API](https://docs.justifi.tech/api-spec#tag/Checkouts) directly. instead of payment intents. This API will be deprecated in the future and replaced with the checkout API.**
+      **We no longer allow new platforms to use this API. Use the [Checkout API](https://docs.justifi.tech/api-spec#tag/Checkouts) instead of payment intents. This API will be retired in the future as existing integrators to migrate.**
 
       *Note: Payment Intents do NOT support dynamic fees. A platform may set a custom application fee amount that applies to a payment using [Create a Payment](https://docs.justifi.tech/api-spec#tag/Payments/operation/CreatePayment) directly.*
   - name: Payment Methods
