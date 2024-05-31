@@ -14,11 +14,11 @@ properties:
     example: succeeded
   payment_error_code:
     type: string
-    example: ecom
+    example: card_declined
     description: when payment fails, related error code
   payment_error_description:
     type: string
-    example: ecom
+    example: Your card was declined
     description: when payment fails, related error description
   payment_response:
     type: object
