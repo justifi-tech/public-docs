@@ -8,10 +8,16 @@ properties:
     type: string
     example: ecom
     enum: [ecom]
-  payment_status:
+  status:
     type: string
     enum: [succeeded, failed]
     example: succeeded
+    description: the status of the completion, only succeeded or failed
+  payment_status:
+    type: string
+    enum: [succeeded, failed, pending, canceled]
+    example: succeeded
+    description: depending upon payment mode, the status of the payment API call, bnpl transaction, or card reader transaction.
   payment_error_code:
     type: string
     example: card_declined
