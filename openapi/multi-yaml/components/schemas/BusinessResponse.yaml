@@ -48,6 +48,10 @@ properties:
   date_of_incorporation:
     type: string
     example: "2015-02-20"
+  terms_conditions_accepted:
+    type: boolean
+    example: false
+    description: returns true if terms and conditions were accepted
   metadata:
     type: object
     format: json
