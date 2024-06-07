@@ -36,13 +36,15 @@ post:
             business_type:
               type: string
               enum: [for_profit, non_profit, government_entity, individual]
+              description: (deprecated) prefer to use business classification
             business_structure:
               type: string
               enum: [sole_proprietorship, single_llc, multi_llc, private_partnership, private_corporation, unincorporated_association, public_partnership, public_corporation, incorporated, unincorporated, government_unit, government_instrumentality, tax_exempt_government_instrumentality]
+              description: (deprecated) prefer to use business classification
             classification:
               type: string
               enum: [government limited non_profit partnership corporation public_company sole_proprietor]
-              description: simple classification that can be used instead of business_type and business_structure
+              description: straightforward classification that should be used instead of business_type and business_structure
             industry:
               type: string
               example: "Big Business"
