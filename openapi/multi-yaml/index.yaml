@@ -117,7 +117,36 @@ tags:
 
   - name: Business
     description: |
-      Creating a business entity is an essential step in integrating your business operations with JustiFi. It is also necessary to comply with local laws and regulations governing your operations. To create a new business entity, you will need to provide basic information such as the business name, website, business type, business structure, and your industry. You may also add details like the legal address, tax ID, and ownership structure. Providing detailed and accurate information about the business entity is essential for ensuring legal compliance, financial accuracy, and it can also help avoid potential legal and financial issues.
+      Creating a business entity is an essential step in integrating your business operations with JustiFi.
+      It is also necessary to comply with local laws and regulations governing your operations.
+      To create a new business entity, you will need to provide basic information such as the business name, website, business type, business structure, and your industry.
+      You may also add details like the legal address, tax ID, and ownership structure.
+      Providing detailed and accurate information about the business entity is essential for ensuring legal compliance, financial accuracy, and it can also help avoid potential legal and financial issues.
+
+      Business classification encompasses both the type of business and its operational structure. It is a simplification
+      Use the following table to map your current business type and structure to a business classification:
+
+      | Business Type     | Business Structure                    | Business Classification |
+      | -------------     | ------------------                    | ----------------------- |
+      | individual        | *                                     | sole_proprietor         |
+      | for_profit        | unincorporated_association            | sole_proprietor         |
+      | for_profit        | sole_proprietorship                   | sole_proprietor         |
+      | for_profit        | public_partnership                    | partnership             |
+      | for_profit        | private_partnership                   | partnership             |
+      | for_profit        | private_corporation                   | corporation             |
+      | for_profit        | public_corporation                    | public_company          |
+      | for_profit        | multi_llc                             | limited                 |
+      | for_profit        | single_llc                            | limited                 |
+      | non_profit        | incorporated                          | non_profit              |
+      | non_profit        | unincorporated                        | non_profit              |
+      | government_entity | government_unit                       | government              |
+      | government_entity | government_instrumentality            | government              |
+      | government_entity | tax_exempt_government_instrumentality | government              |
+
+      Select whether you want to use the business classification (preferred) or the business type and structure (deprecated), but not both.
+
+      _Note: If you use the classification, it will not have the exact same correspondence with the business type and structure from the previous table because there are fewer classifications than types/structures._
+
 
   - name: Identity
     description: |
@@ -163,7 +192,7 @@ tags:
       and to purchase insurance in a single transaction.
 
       All attempts to complete a payment will be recorded, along with the outcome of a payment.
-      
+
   - name: Checkout via Component
     x-traitTag: true
     description:
