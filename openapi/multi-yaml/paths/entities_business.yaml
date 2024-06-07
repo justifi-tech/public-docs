@@ -39,6 +39,10 @@ post:
             business_structure:
               type: string
               enum: [sole_proprietorship, single_llc, multi_llc, private_partnership, private_corporation, unincorporated_association, public_partnership, public_corporation, incorporated, unincorporated, government_unit, government_instrumentality, tax_exempt_government_instrumentality]
+            classification:
+              type: string
+              enum: [government limited non_profit partnership corporation public_company sole_proprietor]
+              description: simple classification that can be used instead of business_type and business_structure
             industry:
               type: string
               example: "Big Business"
