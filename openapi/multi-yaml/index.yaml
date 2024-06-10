@@ -123,8 +123,8 @@ tags:
       You may also add details like the legal address, tax ID, and ownership structure.
       Providing detailed and accurate information about the business entity is essential for ensuring legal compliance, financial accuracy, and it can also help avoid potential legal and financial issues.
 
-      Business classification encompasses both the type of business and its operational structure. It is a simplification
-      Use the following table to map your current business type and structure to a business classification:
+      Business classification encompasses both the type of business and its operational structure.
+      Use the following table to map your current business type and structure to the correct business classification:
 
       | Business Type     | Business Structure                    | Business Classification |
       | -------------     | ------------------                    | ----------------------- |
@@ -143,7 +143,7 @@ tags:
       | government_entity | government_instrumentality            | government              |
       | government_entity | tax_exempt_government_instrumentality | government              |
 
-      Select whether you want to use the business classification (preferred) or the business type and structure (deprecated), but not both.
+      Please, choose whether you want to use the business classification (preferred) or the business type and structure (deprecated), but not both. Business classification is a simplification of business type and structure with the same goals.
 
       _Note: If you use the classification, it will not have the exact same correspondence with the business type and structure from the previous table because there are fewer classifications than types/structures._
 
