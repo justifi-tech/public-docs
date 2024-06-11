@@ -3,6 +3,7 @@ properties:
   id:
     description: sub account id
     type: string
+    format: uuid
     example: acc_xyz
   name:
     description: sub account name
@@ -22,9 +23,20 @@ properties:
     enum: [usd]
     example: usd
   platform_account_id:
+    description: id of associated platform account
     type: string
     format: uuid
     example: acc_xyz
+  payout_account_id:
+    description: id of active payout bank account
+    type: string
+    format: uuid
+    example: ba_xyz
+  business_id:
+    description: id of associated business
+    type: string
+    format: uuid
+    example: biz_xyz
   application_fee_rates:
     type: array
     description: list of associated application fee rates
@@ -37,18 +49,18 @@ properties:
     type: boolean
     example: false
   related_accounts:
-    description: when you create a live sub account, a related test account is automatically created; this provides both ids
+    description: when a live sub account is created, a related test account is automatically created; this provides both ids
     type: object
     properties:
       live_account_id:
         type: string
         format: uuid
-        description: live sub account JustiFi id (this will be nil if creating a sub account using test credentials)
+        description: live sub account id (this will be nil if a sub account was created with test credentials)
         example: acc_xyz
       test_account_id:
         type: string
         format: uuid
-        description: test sub account JustiFi id
+        description: test sub account id
         example: acc_xyz
   created_at:
     type: string
