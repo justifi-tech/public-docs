@@ -3,7 +3,7 @@ properties:
   card:
     $ref: ./Card.yaml
   customer_id:
-    description: id of the customer associated with the payment method
+    description: customer_id is a deprecated field. Please use our payment method groups instead.
     type: string
     example: "cust_xyz"
     nullable: true

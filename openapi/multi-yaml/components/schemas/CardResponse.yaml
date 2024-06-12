@@ -18,7 +18,7 @@ properties:
         type: string
         example: "3aGWnUznQ"
       customer_id:
-        description: id of customer associated with the payment_method
+        description: customer_id is a deprecated field. Please use our payment method groups instead.
         type: string
         example: "cust_123abc"
       account_id:

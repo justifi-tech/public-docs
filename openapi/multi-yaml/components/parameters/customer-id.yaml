@@ -5,4 +5,4 @@ schema:
 required: false
 example: "cust_123xyz"
 description: |
-  filter records which are associated with a customer.
+  Note: customer_id is a deprecated field. Please use our payment method groups instead. filter records which are associated with a customer.
