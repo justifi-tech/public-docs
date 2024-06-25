@@ -188,7 +188,7 @@ tags:
   - name: Checkouts
     description: |
       Checkouts can be used to collect payments directly via API, or using our Checkout component.
-      You can use a checkout to complete a payment via JustiFi, via BNPL, via terminal (not yet available),
+      You can use a checkout to complete a payment via JustiFi, via BNPL, via terminal,
       and to purchase insurance in a single transaction.
 
       All attempts to complete a payment will be recorded, along with the outcome of a payment.

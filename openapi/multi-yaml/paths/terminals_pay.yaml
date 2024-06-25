@@ -1,6 +1,6 @@
 post:
   summary: Pay via Terminal
-  description: Send a payment intent to be processed via terminal, listen for payment_intent events (recommended) or poll payment intent API for payment outcome
+  description: Send a checkout to be processed via terminal, listen for checkout events (recommended) or poll checkout API for payment outcome
   operationId: payTerminal
   tags:
     - Terminals
@@ -17,17 +17,23 @@ post:
               format: uuid
               example: pi_abc123
               description: |
-                id for the payment intent which you want to process via terminal
+                (deprecated, use checkout id) id for the payment intent which you want to process via terminal
+            checkout_id:
+              type: string
+              format: uuid
+              example: cho_abc123
+              description: |
+                id of the checkout which you want to process via terminal
             terminal_id:
               type: string
               format: uuid
               example: trm_abc123
               description: |
                 id of the terminal on which you want to process a transaction
-          required: [payment_intent_id, terminal_id]
+          required: [checkout_id, terminal_id]
   responses:
     '201':
-      description: Payment Intent sent to terminal for processing
+      description: Checkout sent to terminal for processing
       content:
         application/json:
           schema:
@@ -35,17 +41,40 @@ post:
               - $ref: ../components/schemas/Envelope.yaml
               - properties:
                   type:
-                    example: terminal_payment_intent
+                    example: terminal_sessions
                   id:
-                    example: tmses_abc123
+                    example: tses_FQz6I0hMTrcU9Ur7TpOPZ
                   data:
                     properties: 
-                      payment_intent:
-                        $ref: ../components/schemas/CardPaymentIntent.yaml
-                      terminal:
-                        type: object
-                        properties:
-                          id: 
-                            type: string
-                            format: uuid
-                            example: trm_abc123
+                      id:
+                        type: string
+                        format: uuid
+                        example: tses_FQz6I0hMTrcU9Ur7TpOPZ
+                      session_type: 
+                        type: string
+                        example: payment
+                      status:
+                        type: string
+                        example: created
+                      payment_id:
+                        type: string
+                        format: uuid
+                      payment_intent_id:
+                        type: string
+                        format: uuid
+                      terminal_id:
+                        type: string
+                        format: uuid
+                      account_id:
+                        type: string
+                        format: uuid
+                      platform_account_id:
+                        type: string
+                        format: uuid
+                      checkout_id:
+                        type: string
+                        format: uuid
+                        example: cho_abc123
+
+                        
+
