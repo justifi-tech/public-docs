@@ -1,0 +1,23 @@
+type: object
+properties:
+  account_id:
+    description: unique identifier for the associated account
+    type: string
+    example: acc_123
+  enabled:
+    description: whether the payout setting is currently enabled
+    type: boolean
+    example: true
+  interval:
+    description: frequency of payouts
+    type: string
+    enum: [daily, weekly]
+    example: daily
+  statement_descriptor:
+    description: custom text to appear on bank statements
+    type: string
+    example: ""
+  public_id:
+    description: unique public identifier for the payout setting
+    type: string
+    example: stpo_213
