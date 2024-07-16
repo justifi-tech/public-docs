@@ -13,10 +13,6 @@ post:
       application/json:
         schema:
           properties:
-            new_account_name:
-              type: string
-              example: "JustiFi"
-              description: account name (must be unique for a platform)
             business_id:
               type: string
               example: "biz_123"
@@ -26,7 +22,6 @@ post:
               example: "payment"
               description: type of product to be provisioned
           required:
-            - new_account_name
             - business_id
             - product_category
 
