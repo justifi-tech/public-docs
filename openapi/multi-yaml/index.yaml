@@ -364,6 +364,8 @@ paths:
     $ref: paths/checkouts@{id}.yaml
   /checkouts/{id}/complete:
     $ref: paths/checkouts@{id}@complete.yaml
+  /checkouts/{id}/refunds:
+    $ref: paths/checkouts@{id}@refunds.yaml
 
 x-webhooks:
   payments:

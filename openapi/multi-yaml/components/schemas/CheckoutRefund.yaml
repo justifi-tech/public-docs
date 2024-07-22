@@ -1,0 +1,31 @@
+type: object
+properties:
+  id:
+    description: unique checkout refund id
+    type: string
+    example: chr_xyz
+  checkout_id:
+    type: string
+    format: uuid
+    description: id of the checkout for this refund
+  status:
+    type: string
+    enum: [succeeded, failed]
+    example: succeeded
+    description: the status of the refund, only succeeded or failed
+  refund_response:
+    type: string
+    example: invalid_amount
+    description: when refund fails, related error description
+  refund_amount:
+    type: integer
+    example: 4900
+    description: the amount requested to refund (or full checkout amount)
+  created_at:
+    type: string
+    format: date-time
+    example: '2024-01-01T12:00:00Z'
+  updated_at:
+    type: string
+    format: date-time
+    example: '2024-01-01T12:00:00Z'
