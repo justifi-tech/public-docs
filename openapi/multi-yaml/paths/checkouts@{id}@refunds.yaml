@@ -1,0 +1,41 @@
+post:
+  summary: Refund a Checkout
+  description: |
+    Use to refund a checkout. You may refund the full amount or just a portion. When refunding a portion, multiple refunds are supported up until the full payment amount has been refunded.
+  operationId: RefundCheckout
+  tags:
+    - Checkouts
+  parameters:
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/authorization-header.yaml
+  requestBody:
+    required: false
+    content:
+      application/json:
+        schema:
+          properties:
+            amount:
+              type: integer
+              example: 4900
+              description: Amount to be refunded. If missing, the total amount will be used.
+            currency:
+              type: string
+              example: "USD"
+              description: Currency used with the Checkout. If missing, the checkout currency will be used.
+        examples:
+          "Partial_refund":
+            value:
+              amount: 1000
+  responses:
+    '200':
+      description: Refund was created successfully
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope.yaml
+              - properties:
+                  type:
+                    example: checkout_completion
+                  data:
+                    $ref: ../components/schemas/CheckoutRefund.yaml
