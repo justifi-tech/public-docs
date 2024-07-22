@@ -16,7 +16,7 @@ properties:
   refund_response:
     type: string
     example: invalid_amount
-    description: when refund fails, related error description
+    description: when refund fails, related error description. when refund succeeded additional refund info (or null).
   refund_amount:
     type: integer
     example: 4900
