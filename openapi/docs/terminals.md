@@ -1,5 +1,3 @@
-_**NOTE: This API is under active development and subject to change**_
-
 JustiFi provides a card present solution which allows you to collect a payment via a terminal provider via one of our technology partners.
 
 To collect a payment via terminal, you must first ensure you ask the JustiFi team to enable the card present feature for your platform. Next, we will work to provision and configure terminals for your sub accounts.
