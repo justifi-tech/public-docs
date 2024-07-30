@@ -36,7 +36,7 @@ post:
               format: uuid
               description: payment method group to associate with the checkout
               example: pmg_xyz123
-          required: [amount]
+          required: [amount, description]
         examples:
           "Collect_ten_dollars_via_checkout":
             value:
