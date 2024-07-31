@@ -36,6 +36,10 @@ properties:
     type: string
     enum: [created completed]
     description: status of the checkout
+  mode:
+    type: string
+    enum: [test live]
+    description: mode of the checkout
   successful_payment_id:
     type: string
     format: uuid
