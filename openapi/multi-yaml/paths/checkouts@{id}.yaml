@@ -19,7 +19,7 @@ get:
                   type:
                     example: checkout
                   data:
-                    - $ref: ../components/schemas/Checkout.yaml
+                    $ref: ../components/schemas/Checkout.yaml
 patch:
   summary: Update a Checkout
   description: Change a checkout's amount or description
@@ -55,4 +55,4 @@ patch:
                   type:
                     example: object
                   data:
-                    - $ref: ../components/schemas/Checkout.yaml
+                    $ref: ../components/schemas/Checkout.yaml
