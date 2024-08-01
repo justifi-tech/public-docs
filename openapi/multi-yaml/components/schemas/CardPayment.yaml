@@ -81,6 +81,10 @@
         type: string
         description: unique id of associated payment intent
         example: "pi_123xyz"
+      checkout_id:
+        type: string
+        description: unique id of associated checkout
+        example: "cho_123"
       payment_method:
         $ref: ./CardPaymentMethod.yaml
       application_fee:

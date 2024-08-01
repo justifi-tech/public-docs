@@ -53,6 +53,7 @@ post:
                   is_test: true
                   metadata: { }
                   payment_intent_id: pi_xyz
+                  checkout_id: cho_123
                   refunded: false
                   returned: false
                   status: succeeded
@@ -113,6 +114,7 @@ post:
                   is_test: true
                   metadata: { }
                   payment_intent_id: pi_xyz
+                  checkout_id: cho_123
                   refunded: false
                   returned: false
                   status: succeeded
@@ -179,6 +181,7 @@ post:
                   is_test: true
                   metadata: { }
                   payment_intent_id: pi_xyz
+                  checkout_id: cho_123
                   refunded: false
                   returned: false
                   status: succeeded
@@ -239,6 +242,7 @@ post:
                   is_test: true
                   metadata: { }
                   payment_intent_id: pi_xyz
+                  checkout_id: cho_123
                   refunded: false
                   returned: false
                   status: succeeded
