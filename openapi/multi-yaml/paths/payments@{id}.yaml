@@ -49,6 +49,7 @@ get:
                   is_test: true
                   metadata: {}
                   payment_intent_id: pi_xyz
+                  checkout_id: cho_123
                   refunded: false
                   returned: false
                   status: succeeded
@@ -101,6 +102,7 @@ get:
                   is_test: true
                   metadata: {}
                   payment_intent_id: pi_xyz
+                  checkout_id: cho_123
                   refunded: false
                   returned: false
                   status: succeeded
@@ -193,6 +195,7 @@ patch:
                   is_test: true
                   metadata: { }
                   payment_intent_id: pi_xyz
+                  checkout_id: cho_123
                   refunded: false
                   returned: false
                   status: succeeded
@@ -242,6 +245,7 @@ patch:
                   error_description: null
                   fee_amount: 150
                   financial_transaction_id: "ft_123xyz"
+                  checkout_id: cho_123
                   is_test: true
                   metadata: { }
                   payment_intent_id: pi_xyz
