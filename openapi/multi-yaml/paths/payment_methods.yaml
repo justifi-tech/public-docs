@@ -22,8 +22,8 @@ post:
               anyOf:
                 - type: object
                   properties:
-                    payment_method_group:
-                      description: "payment method group to associate with the payment method"
+                    payment_method_group_id:
+                      description: "When present this payment method will be associated with the given payment method group"
                       type: string
                     card:
                       $ref: ../components/schemas/CreateCard.yaml
@@ -42,6 +42,7 @@ post:
           "Create_a_payment_method_for_card_payments":
             value:
               payment_method:
+                payment_method_group_id: "pmg_123xyz"
                 card:
                   name: Lindsay Whalen
                   number: 4242424242421111
@@ -54,6 +55,7 @@ post:
           "Create_a_payment_method_for_ACH_payments":
             value:
               payment_method:
+                payment_method_group_id: "pmg_123xyz"
                 bank_account:
                   account_owner_name: Lindsay Whalen
                   routing_number: "110000000"
