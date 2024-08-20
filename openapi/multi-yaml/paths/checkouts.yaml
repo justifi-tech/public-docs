@@ -18,11 +18,6 @@ post:
               type: number
               example: 10000
               description: amount to charge in cents
-            currency:
-              type: string
-              enum: [usd]
-              example: usd
-              default: usd
             description:
               type: string
               description: your meaningful description of the checkout (e.g. an order number or other value from your system)
@@ -36,13 +31,29 @@ post:
               format: uuid
               description: payment method group to associate with the checkout
               example: pmg_xyz123
+            statement_descriptor:
+              type: string
+              description: description of the payment that will be available on the account's bank statement, must have between 5-22 alphanumeric characters and can include dash or underscore
+              example: Big Business
+            application_fees:
+              type: object
+              description: sets a custom application fee amount that applies to this payment, instead of relying on application fee rates configured at the platform account level. Must be greater than zero.
+              properties:
+                card:
+                  type: object
+                  properties:
+                    amount:
+                      type: number
+                      description: custom application fee amount that applies to card payment method.
+                      example: 300
+                bank_account:
+                  type: object
+                  properties:
+                    amount:
+                      type: number
+                      description: custom application fee amount that applies to bank account payment method.
+                      example: 150
           required: [amount, description]
-        examples:
-          "Collect_ten_dollars_via_checkout":
-            value:
-              amount: 1000
-              currency: 'usd'
-              description: 'ORDER 1235ABC: Charging $10 to the test card'
   responses:
     '201':
       description: Checkout was created successfully
