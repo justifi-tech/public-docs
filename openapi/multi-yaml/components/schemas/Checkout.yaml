@@ -45,6 +45,26 @@ properties:
     format: uuid
     example: py_xyz
     description: payment id, if this checkout was paid for successfully
+  statement_descriptor:
+    type: string
+    description: description of the payment that will be available on the account's bank statement
+    example: Big Business
+  application_fees:
+    type: object
+    description: custom application fee amount that applies to this payment
+    properties:
+      card:
+        type: object
+        properties:
+          amount:
+            description: custom application fee amount that applies to card payment method
+            example: 300
+      bank_account:
+        type: object
+        properties:
+          amount:
+            description: custom application fee amount that applies to bank account payment method
+            example: 150
   payment_settings:
     type: object
     description: payment configuration information for the checkout
