@@ -1,7 +1,10 @@
 post:
   summary: Create a Checkout
   description: |
-    Create a checkout to initiate the collection of a Card Payment, ACH Payment, Insurance Quote Payment, BNPL Payment (not yet available via API), or Card Reader payment (not yet available) in a single flow.
+    Create a checkout to initiate the collection of a Card Payment, ACH Payment, Insurance Quote Payment, BNPL Payment (not yet available via API), 
+    or Card Reader payment in a single flow. Checkouts have the following statuses: `created` after creating a checkout, `attempted` when a checkout
+    payment is attempted, `completed` when a payment is collected for a checkout, `expired` when a checkout has not been completed after one week 
+    since being created
   operationId: CreateCheckout
   tags:
     - Checkouts
@@ -90,7 +93,7 @@ get:
       name: status
       schema:
         type: string
-        enum: [created, completed]
+        enum: [created, completed, attempted, expired]
       required: false
       example: "completed"
       description: |
