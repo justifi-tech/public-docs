@@ -34,7 +34,7 @@ properties:
     example: pmg_xyz
   status:
     type: string
-    enum: [created completed]
+    enum: [created, completed, attempted, expired]
     description: status of the checkout
   mode:
     type: string
