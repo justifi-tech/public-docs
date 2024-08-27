@@ -264,6 +264,7 @@ get:
     - $ref: ../components/parameters/sub-account.yaml
     - $ref: ../components/parameters/financial-transaction-id.yaml
     - $ref: ../components/parameters/payment-method-id.yaml
+    - $ref: ../components/parameters/created-before.yaml
     - $ref: ../components/parameters/created-after.yaml
     - in: query
       name: payment_status
