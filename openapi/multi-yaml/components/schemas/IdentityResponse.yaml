@@ -44,7 +44,7 @@ properties:
   ssn_last4:
     type: string
     example: "6789"
-    description: last four digits of social security number
+    description: last four digits of social security number (computed from identification_number)
   is_owner:
     type: boolean
     example: true
