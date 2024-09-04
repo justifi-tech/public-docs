@@ -112,7 +112,7 @@ properties:
     example: "2021-01-01T12:00:00Z"
   payment_mode:
     type: string
-    example: automatic
+    example: ecom
     enum: [ecom, ach, card_present]
   updated_at:
     type: string

@@ -108,7 +108,7 @@ properties:
     description: status of the payment
   payment_mode:
     type: string
-    example: automatic
+    example: ecom
     enum: [ecom, ach, card_present]
   created_at:
     type: string
