@@ -12,18 +12,18 @@ post:
   tags:
     - Payments
   responses:
-    '200':
+    "200":
       description: Payment with identical idempotency key was captured
       content:
         application/json:
           schema:
-              allOf:
-                - $ref: ../components/schemas/Envelope.yaml
-                - properties:
-                    data:
-                      oneOf:
-                        - $ref: ../components/schemas/CardPayment.yaml
-                        - $ref: ../components/schemas/BankAccountPayment.yaml
+            allOf:
+              - $ref: ../components/schemas/Envelope.yaml
+              - properties:
+                  data:
+                    oneOf:
+                      - $ref: ../components/schemas/CardPayment.yaml
+                      - $ref: ../components/schemas/BankAccountPayment.yaml
           example:
           examples:
             "Card_payment_with_identical_idempotency_key_captured":
@@ -51,12 +51,13 @@ post:
                   fee_amount: 150
                   financial_transaction_id: "ft_123xyz"
                   is_test: true
-                  metadata: { }
+                  metadata: {}
                   payment_intent_id: pi_xyz
                   checkout_id: cho_123
                   refunded: false
                   returned: false
                   status: succeeded
+                  payment_mode: ecom
                   updated_at: "2021-01-01T12:00:00Z"
                   payment_method:
                     card:
@@ -66,14 +67,15 @@ post:
                       name: Sylvia Fowles
                       token: pm_123xyz
                       metadata: {}
-                      bin_details: {
-                        "type": "Debit",
-                        "card_brand": "Visa",
-                        "card_class": "Consumer",
-                        "country": "United States of America",
-                        "issuer": "WELLS FARGO BANK",
-                        "funding_source": "Debit"
-                      }
+                      bin_details:
+                        {
+                          "type": "Debit",
+                          "card_brand": "Visa",
+                          "card_class": "Consumer",
+                          "country": "United States of America",
+                          "issuer": "WELLS FARGO BANK",
+                          "funding_source": "Debit",
+                        }
                       created_at: "2021-01-01T12:00:00Z"
                       updated_at: "2021-01-01T12:00:00Z"
                     customer_id: null
@@ -112,12 +114,13 @@ post:
                   fee_amount: 150
                   financial_transaction_id: "ft_123xyz"
                   is_test: true
-                  metadata: { }
+                  metadata: {}
                   payment_intent_id: pi_xyz
                   checkout_id: cho_123
                   refunded: false
                   returned: false
                   status: succeeded
+                  payment_mode: ecom
                   updated_at: "2021-01-01T12:00:00Z"
                   payment_method:
                     bank_account:
@@ -140,18 +143,18 @@ post:
                   disputes: []
                 page_info: null
 
-    '201':
+    "201":
       description: Payment was captured successfully
       content:
         application/json:
           schema:
-              allOf:
-                - $ref: ../components/schemas/Envelope.yaml
-                - properties:
-                    data:
-                      oneOf:
-                        - $ref: ../components/schemas/CardPayment.yaml
-                        - $ref: ../components/schemas/BankAccountPayment.yaml
+            allOf:
+              - $ref: ../components/schemas/Envelope.yaml
+              - properties:
+                  data:
+                    oneOf:
+                      - $ref: ../components/schemas/CardPayment.yaml
+                      - $ref: ../components/schemas/BankAccountPayment.yaml
           example:
           examples:
             "Card_payment_captured":
@@ -179,12 +182,13 @@ post:
                   fee_amount: 150
                   financial_transaction_id: "ft_123xyz"
                   is_test: true
-                  metadata: { }
+                  metadata: {}
                   payment_intent_id: pi_xyz
                   checkout_id: cho_123
                   refunded: false
                   returned: false
                   status: succeeded
+                  payment_mode: ecom
                   updated_at: "2021-01-01T12:00:00Z"
                   payment_method:
                     card:
@@ -194,14 +198,15 @@ post:
                       name: Sylvia Fowles
                       token: pm_123xyz
                       metadata: {}
-                      bin_details: {
-                        "type": "Debit",
-                        "card_brand": "Visa",
-                        "card_class": "Consumer",
-                        "country": "United States of America",
-                        "issuer": "WELLS FARGO BANK",
-                        "funding_source": "Debit"
-                      }
+                      bin_details:
+                        {
+                          "type": "Debit",
+                          "card_brand": "Visa",
+                          "card_class": "Consumer",
+                          "country": "United States of America",
+                          "issuer": "WELLS FARGO BANK",
+                          "funding_source": "Debit",
+                        }
                       created_at: "2021-01-01T12:00:00Z"
                       updated_at: "2021-01-01T12:00:00Z"
                     customer_id: null
@@ -240,12 +245,13 @@ post:
                   fee_amount: 150
                   financial_transaction_id: "ft_123xyz"
                   is_test: true
-                  metadata: { }
+                  metadata: {}
                   payment_intent_id: pi_xyz
                   checkout_id: cho_123
                   refunded: false
                   returned: false
                   status: succeeded
+                  payment_mode: ecom
                   updated_at: "2021-01-01T12:00:00Z"
                   payment_method:
                     bank_account:

@@ -1,116 +1,120 @@
+type: object
+properties:
+  id:
+    description: unique payment id
+    type: string
+    example: py_xyz
+  account_id:
+    type: string
+    format: uuid
+    example: acc_xyz
+  amount:
+    description: payment amount in cents
+    type: number
+    example: 10000
+  amount_disputed:
+    description: sum of open or lost disputes for this payment, in cents
+    type: number
+    example: 0
+  amount_refunded:
+    description: sum of refunds for this payment, in cents
+    type: number
+    example: 0
+  amount_refundable:
+    description: amount of this payment currently able to be refunded, in cents
+    type: number
+    example: 10000
+  balance:
+    description: sum of debits and credits for this payment, in cents (reflects the amount this account has earned from this payment). Compiled and calculated value, eventually consistent. To see all changes affecting the payment's balance see [Get Balance Transactions](#operation/GetPaymentBalanceTransactions)
+    type: number
+    example: 99850
+  fee_amount:
+    type: number
+    description: sum of fees for this payment
+    example: 150
+  financial_transaction_id:
+    type: string
+    description: associated financial transaction id
+    example: "ft_123xyz"
+  captured:
+    description: whether or not this payment is captured
+    type: boolean
+    example: true
+  capture_strategy:
+    type: string
+    example: automatic
+    enum: [automatic, manual]
+  currency:
+    type: string
+    enum: [usd]
+    example: usd
+  description:
+    type: string
+    description: your meaningful description of the payment (e.g. an order number or other value from your system)
+    example: my_order_xyz
+  disputed:
+    type: boolean
+    description: whether or not this payment has any open or lost disputes
+    example: false
+  disputes:
+    type: array
+    description: list of associated disputes
+    example: []
+  error_code:
+    type: string
+    description: error code if the payment fails
+    example: credit_card_number_invalid
+  error_description:
+    type: string
+    description: text description of the error code
+    example: Credit Card Number Invalid (Failed LUHN checksum)
+  is_test:
+    type: boolean
+    description: whether or not this payment was made using the test account
+    example: true
+  metadata:
     type: object
-    properties:
-      id:
-        description: unique payment id
-        type: string
-        example: py_xyz
-      account_id:
-        type: string
-        format: uuid
-        example: acc_xyz
-      amount:
-        description: payment amount in cents
-        type: number
-        example: 10000
-      amount_disputed:
-        description: sum of open or lost disputes for this payment, in cents
-        type: number
-        example: 0
-      amount_refunded:
-        description: sum of refunds for this payment, in cents
-        type: number
-        example: 0
-      amount_refundable:
-        description: amount of this payment currently able to be refunded, in cents
-        type: number
-        example: 10000
-      balance:
-        description: sum of debits and credits for this payment, in cents (reflects the amount this account has earned from this payment). Compiled and calculated value, eventually consistent. To see all changes affecting the payment's balance see [Get Balance Transactions](#operation/GetPaymentBalanceTransactions)
-        type: number
-        example: 99850
-      fee_amount:
-        type: number
-        description: sum of fees for this payment
-        example: 150
-      financial_transaction_id:
-        type: string
-        description: associated financial transaction id
-        example: "ft_123xyz"
-      captured:
-        description: whether or not this payment is captured
-        type: boolean
-        example: true
-      capture_strategy:
-        type: string
-        example: automatic
-        enum: [automatic, manual]
-      currency:
-        type: string
-        enum: [usd]
-        example: usd
-      description:
-        type: string
-        description: your meaningful description of the payment (e.g. an order number or other value from your system)
-        example: my_order_xyz
-      disputed:
-        type: boolean
-        description: whether or not this payment has any open or lost disputes
-        example: false
-      disputes:
-        type: array
-        description: list of associated disputes
-        example: []
-      error_code:
-        type: string
-        description: error code if the payment fails
-        example: credit_card_number_invalid
-      error_description:
-        type: string
-        description: text description of the error code
-        example: Credit Card Number Invalid (Failed LUHN checksum)
-      is_test:
-        type: boolean
-        description: whether or not this payment was made using the test account
-        example: true
-      metadata:
-        type: object
-        format: json
-        description: any useful information you'd like to store alongside this payment
-        example: {}
-      payment_intent_id:
-        type: string
-        description: unique id of associated payment intent
-        example: "pi_123xyz"
-      checkout_id:
-        type: string
-        description: unique id of associated checkout
-        example: "cho_123"
-      payment_method:
-        $ref: ./BankAccountPaymentMethod.yaml
-      application_fee:
-        $ref: ./ApplicationFee.yaml
-      refunded:
-        type: boolean
-        description: whether or not this payment has any refunds
-        example: false
-      status:
-        type: string
-        enum:
-          [
-            pending,
-            authorized,
-            succeeded,
-            failed,
-            partially_refunded,
-            fully_refunded,
-            disputed,
-          ]
-        description: status of the payment
-      created_at:
-        type: string
-        format: date-time
-        example: "2021-01-01T12:00:00Z"
-      updated_at:
-        type: string
-        format: date-time
-        example: "2021-01-01T12:00:00Z"
+    format: json
+    description: any useful information you'd like to store alongside this payment
+    example: {}
+  payment_intent_id:
+    type: string
+    description: unique id of associated payment intent
+    example: "pi_123xyz"
+  checkout_id:
+    type: string
+    description: unique id of associated checkout
+    example: "cho_123"
+  payment_method:
+    $ref: ./BankAccountPaymentMethod.yaml
+  application_fee:
+    $ref: ./ApplicationFee.yaml
+  refunded:
+    type: boolean
+    description: whether or not this payment has any refunds
+    example: false
+  status:
+    type: string
+    enum:
+      [
+        pending,
+        authorized,
+        succeeded,
+        failed,
+        partially_refunded,
+        fully_refunded,
+        disputed,
+      ]
+    description: status of the payment
+  created_at:
+    type: string
+    format: date-time
+    example: "2021-01-01T12:00:00Z"
+  payment_mode:
+    type: string
+    example: automatic
+    enum: [ecom, ach, card_present]
+  updated_at:
+    type: string
+    format: date-time
+    example: "2021-01-01T12:00:00Z"
