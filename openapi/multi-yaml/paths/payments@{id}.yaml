@@ -8,18 +8,18 @@ get:
     - $ref: ../components/parameters/id-path.yaml
     - $ref: ../components/parameters/authorization-header.yaml
   responses:
-    '200':
+    "200":
       description: Successfully get a payment
       content:
         application/json:
           schema:
-              allOf:
-                - $ref: ../components/schemas/Envelope.yaml
-                - properties:
-                    data:
-                      oneOf:
-                        - $ref: ../components/schemas/CardPayment.yaml
-                        - $ref: ../components/schemas/BankAccountPayment.yaml
+            allOf:
+              - $ref: ../components/schemas/Envelope.yaml
+              - properties:
+                  data:
+                    oneOf:
+                      - $ref: ../components/schemas/CardPayment.yaml
+                      - $ref: ../components/schemas/BankAccountPayment.yaml
           example:
           examples:
             "Get_a_card_payment":
@@ -53,6 +53,7 @@ get:
                   refunded: false
                   returned: false
                   status: succeeded
+                  payment_mode: ecom
                   updated_at: "2021-01-01T12:00:00Z"
                   payment_method:
                     card:
@@ -106,6 +107,7 @@ get:
                   refunded: false
                   returned: false
                   status: succeeded
+                  payment_mode: ecom
                   updated_at: "2021-01-01T12:00:00Z"
                   payment_method:
                     bank_account:
@@ -134,9 +136,9 @@ patch:
     Change a payment's description or metadata.
   operationId: UpdatePayment
   parameters:
-  - $ref: ../components/parameters/id-path.yaml
-  - $ref: ../components/parameters/idempotency-key-header.yaml
-  - $ref: ../components/parameters/authorization-header.yaml
+    - $ref: ../components/parameters/id-path.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/authorization-header.yaml
   tags:
     - Payments
   requestBody:
@@ -154,18 +156,18 @@ patch:
               format: json
               description: any useful information you'd like to store alongside this payment; when you update metadata, any previous metadata will be overwritten
   responses:
-    '200':
+    "200":
       description: Payment update was successful
       content:
         application/json:
           schema:
-              allOf:
-                - $ref: ../components/schemas/Envelope.yaml
-                - properties:
-                    data:
-                      oneOf:
-                        - $ref: ../components/schemas/CardPayment.yaml
-                        - $ref: ../components/schemas/BankAccountPayment.yaml
+            allOf:
+              - $ref: ../components/schemas/Envelope.yaml
+              - properties:
+                  data:
+                    oneOf:
+                      - $ref: ../components/schemas/CardPayment.yaml
+                      - $ref: ../components/schemas/BankAccountPayment.yaml
           example:
           examples:
             "Update_Card_Payment":
@@ -193,12 +195,13 @@ patch:
                   fee_amount: 150
                   financial_transaction_id: "ft_123xyz"
                   is_test: true
-                  metadata: { }
+                  metadata: {}
                   payment_intent_id: pi_xyz
                   checkout_id: cho_123
                   refunded: false
                   returned: false
                   status: succeeded
+                  payment_mode: ecom
                   updated_at: "2021-01-01T12:00:00Z"
                   payment_method:
                     card:
@@ -247,11 +250,12 @@ patch:
                   financial_transaction_id: "ft_123xyz"
                   checkout_id: cho_123
                   is_test: true
-                  metadata: { }
+                  metadata: {}
                   payment_intent_id: pi_xyz
                   refunded: false
                   returned: false
                   status: succeeded
+                  payment_mode: ecom
                   updated_at: "2021-01-01T12:00:00Z"
                   payment_method:
                     bank_account:
