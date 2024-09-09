@@ -49,7 +49,7 @@ patch:
               example: Big Business
             application_fees:
               type: object
-              description: sets a custom application fee amount that applies to this payment, instead of relying on application fee rates configured at the platform account level. Must be greater than zero.
+              description: (card/ach only, not card present or bnpl) sets a custom application fee amount that applies to this payment, instead of relying on application fee rates configured at the platform account level. Must be greater than zero.
               properties:
                 card:
                   type: object
