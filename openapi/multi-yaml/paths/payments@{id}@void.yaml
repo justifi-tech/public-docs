@@ -11,18 +11,18 @@ post:
     - $ref: ../components/parameters/idempotency-key-header.yaml
     - $ref: ../components/parameters/authorization-header.yaml
   responses:
-    '200':
+    "200":
       description: Payment was voided successfully
       content:
         application/json:
           schema:
-              allOf:
-                - $ref: ../components/schemas/Envelope.yaml
-                - properties:
-                    data:
-                      oneOf:
-                        - $ref: ../components/schemas/CardPayment.yaml
-                        - $ref: ../components/schemas/BankAccountPayment.yaml
+            allOf:
+              - $ref: ../components/schemas/Envelope.yaml
+              - properties:
+                  data:
+                    oneOf:
+                      - $ref: ../components/schemas/CardPayment.yaml
+                      - $ref: ../components/schemas/BankAccountPayment.yaml
           example:
           examples:
             "Card_payment_voided":
@@ -50,11 +50,12 @@ post:
                   fee_amount: 150
                   financial_transaction_id: "ft_123xyz"
                   is_test: true
-                  metadata: { }
+                  metadata: {}
                   payment_intent_id: pi_xyz
                   refunded: false
                   returned: false
                   status: canceled
+                  payment_mode: ecom
                   updated_at: "2021-01-01T12:00:00Z"
                   payment_method:
                     card:

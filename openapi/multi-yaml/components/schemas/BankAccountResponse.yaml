@@ -30,7 +30,7 @@ properties:
         type: string
         example: "valid"
       invalid_reason:
-        description: informs reason that the payment method has been marked invalid, if status is invalid 
+        description: informs reason that the payment method has been marked invalid, if status is invalid
         type: string
         example: nil
         nullable: true
@@ -54,7 +54,7 @@ properties:
           bank_name:
             description: bank name
             example: Wells Fargo
-          acct_last_four:
+          account_number_last4:
             description: last 4 digits of the account number
             type: string
             example: 1111
