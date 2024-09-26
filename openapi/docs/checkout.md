@@ -96,7 +96,6 @@ An `error` event means there was an issue with the payment form, connecting to t
       console.log("Checkout succeeded!");
     } else {
       console.log("A checkout error occured")
-      console.log("Checkout error:", event.details.data.error)
     }
   });
   justifiCheckout.addEventListener('error', (event) => {
