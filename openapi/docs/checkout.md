@@ -92,10 +92,10 @@ An `error` event means there was an issue with the payment form, connecting to t
 <script>
   const justifiCheckout = document.querySelector('justifi-checkout');
   justifiCheckout.addEventListener('submitted', (event) => {
-    if (event.details.data.payment_status === 'succeeded) {
-      console.log("Payment succeeded!");
+    if (event.details.data.status === 'succeeded) {
+      console.log("Checkout succeeded!");
     } else {
-      console.log("Payment error:", event.details.data.payment_response.error)
+      console.log("A checkout error occured")
     }
   });
   justifiCheckout.addEventListener('error', (event) => {
