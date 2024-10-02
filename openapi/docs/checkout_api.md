@@ -1,4 +1,5 @@
-A checkout is used to initiate the collection of a credit card payment, ACH payment, insurance quote payment, BNPL payment, or card reader payment (not yet available) in a single flow. This walk through will take you through collecting a payment via checkout. We assume you have an activated sub account for payment processing.
+A checkout is used to initiate the collection of a credit card payment, ACH payment, insurance quote payment, BNPL payment, or card reader payment in a single flow. This walk through will take you through collecting a payment via checkout. We assume you have an activated sub account for payment processing. 
+If you want to offer BNPL or insurance as part of the checkout process you will need to implement the [Unified Fintech Checkout™](https://docs.justifi.tech/api-spec#tag/Checkout-via-Component).
 
 1. Get an access token
 2. Create a checkout
