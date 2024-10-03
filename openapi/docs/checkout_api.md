@@ -1,4 +1,5 @@
-A checkout is used to initiate the collection of a credit card payment, ACH payment, insurance quote payment, BNPL payment, or card reader payment (not yet available) in a single flow. This walk through will take you through collecting a payment via checkout. We assume you have an activated sub account for payment processing.
+A checkout is used to initiate the collection of a credit card payment, ACH payment, insurance quote payment, BNPL payment, or card reader payment in a single flow. This walk through will take you through collecting a payment via checkout. We assume you have an activated sub account for payment processing. 
+If you want to offer BNPL or insurance as part of the checkout process you will need to implement the [Unified Fintech Checkout™](https://docs.justifi.tech/api-spec#tag/Checkout-via-Component).
 
 1. Get an access token
 2. Create a checkout
@@ -55,7 +56,7 @@ const checkout = await makeCheckout(token, subAccountId);
 ```
 
 ### Tokenize or select a payment method
-In order to complete a checkout, you must provide a payment method token. To avoid entering PCI scope, we recommend using our [Payment Form](https://storybook.justifi.ai/?path=/docs/payment-facilitation-payments-payment-form--docs), [Card Form](https://storybook.justifi.ai/?path=/docs/payment-facilitation-payments-card-form--docs) or [Bank Account Form](https://storybook.justifi.ai/?path=/docs/payment-facilitation-payments-bank-account-form--docs) web component. You can also collect the payment method information directly and use our Payment Method APIs, but you will likely be entering PCI scope. Once you have tokenized a payment method you can complete a checkout using the ID of the payment method as payment method token.
+In order to complete a checkout, you must provide a payment method token. To avoid entering PCI scope, we recommend using our [Payment Form](https://storybook.justifi.ai/?path=/docs/payment-facilitation-payment-form--docs) web component. You can also collect the payment method information directly and use our Payment Method APIs, but you will likely be entering PCI scope. Once you have tokenized a payment method you can complete a checkout using the ID of the payment method as payment method token.
 
 ### Complete a checkout
 To complete a checkout, using the [Complete Checkout API](https://docs.justifi.tech/api-spec#tag/Checkouts/operation/CompleteCheckout) pass the payment method token collected above as well as an `Idempotency-Key`. A checkout completion will be recorded upon success or failure. If the `payment_status` attribute in the response is `succeeded` the payment has been collected. If insurance quotes have been attached, the outcome of those payments will be in the `additional_transactions` attribute.
