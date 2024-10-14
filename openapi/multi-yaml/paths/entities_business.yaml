@@ -88,7 +88,7 @@ post:
                       example: idty_xyz
             owners:
               type: array
-              description: up to four business owners total; do not re-record the financial representative if they are marked as an owner
+              description: up to four business owners total
               items:
                 oneOf:
                   - $ref: ../components/schemas/Identity.yaml
