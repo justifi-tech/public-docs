@@ -8,6 +8,22 @@ properties:
     description: id of the account associated with the terminal
     type: string
     format: uuid
+  provider:
+    description: terminal provider
+    type: enum[verifone verifone_simulator]
+    example: verifone
+  status:
+    description: current terminal status
+    type: enum[connected, disconnected, unknown]
+    example: disconnected
+  provider_id:
+    description: terminal identification (from provider)
+    type: string
+    example: 123-456-789
+  verified_at:
+    type: string
+    format: date-time
+    example: '2024-01-01T15:00:00Z'
   created_at:
     type: string
     format: date-time
