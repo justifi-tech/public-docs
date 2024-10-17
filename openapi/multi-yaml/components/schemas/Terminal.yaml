@@ -13,7 +13,7 @@ properties:
     type: enum[verifone verifone_simulator]
     example: verifone
   status:
-    description: current terminal status
+    description: last known terminal status. For performance reasons, this field is only updated when you check the terminal status via API.
     type: enum[connected, disconnected, unknown]
     example: disconnected
   provider_id:
