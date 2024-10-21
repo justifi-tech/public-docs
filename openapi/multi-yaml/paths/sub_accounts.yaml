@@ -1,6 +1,10 @@
 post:
-  summary: Create a Sub Account
-  description: Create a JustiFi account for your customer, so they can process payments (once approved by JustiFi). The sub account will be created as part of your platform. If you use your test credentials, the sub account you create will have one account with the `account_type` of `test`. If you use your live credentials, the sub account you create will have two accounts -- one with the `account_type` of `test` and another with the `account_type` of `live`. This allows you to perform test operations on your real accounts by using their `test` account. When viewing the data payload for any sub account, you can reference the `related_accounts` attribute to get the `test_account_id` and `live_account_id` (if present) for that sub account.
+  summary: Create a Sub Account (deprecated)
+  description: |
+    **We no longer allow new platforms to use this API. To onboard a customer so they can process payments use [Hosted Onboarding](https://docs.justifi.tech/api-spec#tag/Hosted-Onboarding) or [Onboarding via API](https://docs.justifi.tech/api-spec#tag/Onboarding-via-API) instead.
+    During the onboarding process a sub account will automatically created for your customer.**
+    
+    Create a JustiFi account for your customer, so they can process payments (once approved by JustiFi). The sub account will be created as part of your platform. If you use your test credentials, the sub account you create will have one account with the `account_type` of `test`. If you use your live credentials, the sub account you create will have two accounts -- one with the `account_type` of `test` and another with the `account_type` of `live`. This allows you to perform test operations on your real accounts by using their `test` account. When viewing the data payload for any sub account, you can reference the `related_accounts` attribute to get the `test_account_id` and `live_account_id` (if present) for that sub account.
   operationId: CreateSubAccount
   tags:
     - Sub Accounts
