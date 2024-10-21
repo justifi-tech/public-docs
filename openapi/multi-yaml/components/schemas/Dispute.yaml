@@ -21,6 +21,11 @@ properties:
     type: string
     description: the reason this payment was disputed
     example: fraudulent
+  due_date:
+    type: string
+    format: date
+    description: due date for evidence submission to counter the dispute
+    example: '2025-02-23'
   status:
     description: status of the dispute
     type: string
