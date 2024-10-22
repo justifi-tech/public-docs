@@ -53,6 +53,7 @@ post:
             - account_number
             - routing_number
             - business_id
+            - bank_name
 
   responses:
     '201':

@@ -99,6 +99,7 @@ properties:
       [
         pending,
         authorized,
+        canceled,
         succeeded,
         failed,
         partially_refunded,
