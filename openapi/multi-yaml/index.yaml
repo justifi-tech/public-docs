@@ -79,6 +79,223 @@ tags:
       | rejected           | this sub account didn't pass approval, so they won't be able to process payments |
       | disabled           | this sub account was previously approved, but has since become ineligible to process payments (e.g. due to fraud) |
       | archived           | this sub account has been archived; they won't be able to process payments (but their record will remain for historical reasons) |
+  - name: Platform Wallet Accounts
+    description: |
+      Platform wallet accounts allow you to store payment methods centrally and use them across multiple sub-accounts within your platform. 
+      This feature enables platforms to maintain a single source of stored payment methods while processing payments through different sub-accounts.
+
+      ### Enabling Platform Wallet Accounts
+      Contact JustiFi support to enable the `platform_wallet_account` setting for your designated wallet account.
+      Once enabled, you can:
+      - Store payment methods in the designated wallet account
+      - Use these payment methods across your platform's sub-accounts
+      - Group payment methods for easier management. See [PaymentMethodGroups](http://localhost:3001/api-spec#tag/Payment-Method-Groups)
+
+      ### Using Platform Wallet Payment Methods
+      1. Create payment methods in your wallet account using the [Payment Methods API](http://localhost:3001/api-spec#tag/Payment-Methods/operation/CreatePaymentMethod):
+      ##### Example Request: Create Payment Method in Wallet Account
+      ```json
+      {
+        "payment_method": {
+          "card": {
+            "name": "Lindsay Whalen",
+            "number": "4242424242424242",
+            "verification": "123",
+            "month": 5,
+            "year": 2025,
+            "address_postal_code": "55555"
+          }
+        }
+      }
+      ```
+
+      ##### Example Response: Wallet Payment Method Created
+      ```json
+      {
+        "id": "pm_abc123xyz",
+        "type": "payment_method",
+        "data": {
+          "signature": "3aGWnUznQ",
+          "account_id": "acc_123wallet",
+          "status": "valid",
+          "card": {
+            "id": "pm_abc123xyz",
+            "name": "Lindsay Whalen",
+            "acct_last_four": "4242",
+            "brand": "visa",
+            "token": "pm_abc123xyz",
+            "month": "5",
+            "year": "2025",
+            "metadata": "info",
+            "address_line1_check": "pass",
+            "address_postal_code_check": "pass",
+            "bin_details": {
+              "type": "Credit",
+              "card_brand": "Visa",
+              "card_class": "Consumer",
+              "country": "United States of America",
+              "issuer": "WELLS FARGO BANK, N.A.",
+              "funding_source": "Credit"
+            }
+          }
+        }
+      }
+      ```
+      2. Process payments for any sub-account using the wallet payment method token. The system automatically:
+        - Validates the wallet payment method can be used by the sub-account
+        - Creates a cloned payment method owned by the sub-account
+        - Returns the new sub-account-specific token in the payment response
+
+        ### [Payments API](http://localhost:3001/api-spec#tag/Payments/operation/CreatePayment) Example
+
+        ##### Example Request: Create Payment Using Wallet Token
+        ```json
+        {
+          "amount": 1000,
+          "currency": "usd",
+          "payment_method": {
+            "token": "pm_abc123xyz"
+          }
+        }
+        ```
+
+      ##### Example Response: Payment with Auto Cloned Token
+      ```json
+      {
+        "id": "py_xyz789abc",
+        "type": "payment",
+        "data": {
+          "amount": 1000,
+          "currency": "usd",
+          "status": "succeeded",
+          "payment_method": {
+            "id": "pm_autoclonedxyz789",
+            "signature": "4bHXoVaoR",
+            "account_id": "acc_456subaccount",
+            "status": "valid",
+            "card": {
+              "id": "pm_autoclonedxyz789",
+              "name": "Lindsay Whalen",
+              "acct_last_four": "4242",
+              "brand": "visa",
+              "token": "pm_autoclonedxyz789",
+              "month": "5",
+              "year": "2025"
+            }
+          }
+        }
+      }
+      ```
+
+      ### [Checkout Flow](http://localhost:3001/api-spec#tag/Checkouts/operation/CreateCheckout) Example
+
+      When using platform wallet payment methods with checkouts:
+      1. Create a checkout for the sub-account, specifying a payment method group from the wallet account
+      2. Complete the checkout using a payment method token from the wallet account
+
+      ##### Example Request: Create Checkout
+      ```json
+      {
+        "amount": 10000,
+        "description": "order_xyz",
+        "origin_url": "http://localhost:3000",
+        "payment_method_group_id": "pmg_xyz123",
+        "statement_descriptor": "Big Business"
+      }
+      ```
+
+      ##### Example Response: Checkout Created
+      ```json
+      {
+        "id": "cho_123xyz",
+        "type": "checkout",
+        "page_info": null,
+        "data": {
+          "id": "cho_123xyz",
+          "payment_intent_id": null,
+          "account_id": "acc_subacc123",
+          "platform_account_id": "acc_plat123",
+          "payment_amount": 10000,
+          "payment_currency": "USD",
+          "payment_description": "",
+          "payment_methods": [],
+          "payment_method_group_id": "pmg_xyz123",
+          "status": "created",
+          "mode": "test",
+          "payment_settings": {
+            "credit_card_payments": true,
+            "ach_payments": true,
+            "bnpl_payments": false,
+            "insurance_payments": false
+          },
+          "successful_payment_id": null,
+          "statement_descriptor": null,
+          "application_fees": null,
+          "created_at": "2024-10-29T21:22:02.857Z",
+          "updated_at": "2024-10-29T21:22:02.857Z",
+          "completions": []
+        }
+      }
+      ```
+
+      ##### Example Request: Complete Checkout
+      ```json
+      {
+        "payment_token": "pm_123walletpm"
+      }
+      ```
+
+      ##### Example Response: Checkout Completed
+      ```json
+      {
+        "id": "chc_4KIFTRC1hmdQx1X6jssYLk",
+        "type": "checkout_completion",
+        "page_info": null,
+        "data": {
+          "payment_mode": "ecom",
+          "payment_token": "pm_autoclonedxyz789",
+          "payment_status": "succeeded",
+          "payment_error_code": null,
+          "payment_error_description": null,
+          "checkout_id": "cho_123xyz",
+          "payment_id": "py_123xyz",
+          "payment_method_id": "pm_autoclonedxyz789",
+          "status": "succeeded",
+          "created_at": "2024-10-29T21:25:36.692Z",
+          "updated_at": "2024-10-29T21:25:36.692Z",
+          "payment_response": {
+            "id": "py_123xyz",
+            "type": "payment",
+            "data": {
+              "amount": 10000,
+              "currency": "usd",
+              "status": "succeeded",
+              "payment_method": {
+                "card": {
+                  "id": "pm_autoclonedxyz789",
+                  "acct_last_four": "3222",
+                  "brand": "mastercard",
+                  "name": "Tifa Lockhart",
+                  "token": "pm_autoclonedxyz789"
+                }
+              }
+            }
+          }
+        }
+      }
+      ```
+
+      Note that when completing the checkout with a wallet payment method token, the system automatically creates a cloned payment method for the sub-account as shown in the response's payment_method.token field. 
+      This same token will be retrieved for subsequent payment requests for the same Sub-Account passing the same wallet token
+
+      3. Optionally organize payment methods into groups using the Payment Method Groups API
+
+      ### Important Notes
+      - Payment method groups must belong to the platform wallet account 
+        - *(pass wallet account_id in Sub-Account header parameter when creating payment_method_group)*
+      - All payment methods in a group must belong to the wallet account 
+        - *(pass wallet account_id in Sub-Account header parameter when creating payment_method)*
+      - Sub-accounts must be on the same platform as the wallet account
   - name: Onboarding via Component
     description:
       $ref: ../docs/onboarding.md
@@ -216,6 +433,7 @@ x-tagGroups:
   - name: For Platforms
     tags:
       - Sub Accounts
+      - Platform Wallet Accounts
       - Onboarding via Component
       - Hosted Onboarding
       - Onboarding via API
