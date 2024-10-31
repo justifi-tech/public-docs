@@ -56,6 +56,19 @@ post:
                       type: number
                       description: custom application fee amount that applies to bank account payment method.
                       example: 150
+            payment_overrides:
+              type: object
+              description: To override the information saved on the Payment when a checkout is paid via JustiFi card/ach payment, please use these attributes
+              properties:
+                description:
+                  type: string
+                  description: Override the default payment description of Checkout [checkout id], use this attribute
+                  example: Pay David for great work
+                metadata:
+                  type: object
+                  format: json
+                  description: Adds metadata to the payment record
+                  example: {}
           required: [amount, description]
   responses:
     '201':
