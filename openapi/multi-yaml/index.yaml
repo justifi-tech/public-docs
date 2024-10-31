@@ -81,35 +81,39 @@ tags:
       | archived           | this sub account has been archived; they won't be able to process payments (but their record will remain for historical reasons) |
   - name: Platform Wallet Accounts
     description: |
-      Platform wallet accounts allow you to store payment methods centrally and use them across multiple sub-accounts within your platform. 
-      This feature enables platforms to maintain a single source of stored payment methods while processing payments through different sub-accounts.
+      A Platform Wallet Account allows you to store payment methods centrally and use them across multiple sub accounts within your platform.
+      This feature enables you to maintain a single source of stored payment methods while processing payments through different sub accounts.
 
-      ### Enabling Platform Wallet Accounts
-      Contact JustiFi support to enable the `platform_wallet_account` setting for your designated wallet account.
+      ### Enable a Platform Wallet Account
+      <small>*Note: You can choose a sub account as your platform_wallet_account once it is underwritten and enabled for payments.*</small>
+
+      Contact us at [customer_success@justifi.tech](mailto:customer_success@justifi.tech) to enable the `platform_wallet_account` setting for your designated platform wallet account. 
+
       Once enabled, you can:
-      - Store payment methods in the designated wallet account
-      - Use these payment methods across your platform's sub-accounts
+      - Store payment methods in the designated platform wallet account
+      - Use these payment methods across your platform's sub accounts
       - Group payment methods for easier management. See [PaymentMethodGroups](http://localhost:3001/api-spec#tag/Payment-Method-Groups)
 
       ### Using Platform Wallet Payment Methods
-      1. Create payment methods in your wallet account using the [Payment Methods API](http://localhost:3001/api-spec#tag/Payment-Methods/operation/CreatePaymentMethod):
-      ##### Example Request: Create Payment Method in Wallet Account
-      ```json
-      {
-        "payment_method": {
-          "card": {
-            "name": "Lindsay Whalen",
-            "number": "4242424242424242",
-            "verification": "123",
-            "month": 5,
-            "year": 2025,
-            "address_postal_code": "55555"
-          }
-        }
-      }
+      <small>*Note: While the PaymentMethods API offers this functionality, we recommend using the PaymentForm for new integrations. (Available only to PCI-compliant platforms)*</small>
+
+
+      1. Create payment methods in your platform wallet account using the [PaymentForm web component](https://storybook.justifi.ai/?path=/docs/payment-facilitation-payment-form--docs)
+
+      ##### Example request: Pass platform wallet account to the PaymentForm web component
+      ```
+      <justifi-payment-form
+          client-id="test_df97f04afebc3c018de30df3562d7cdd" // auth-token="your-auth-token"
+          account-id="S{walletAccountId}"
+          bank-account="true"
+          card="true"
+          email="test@email.com"
+          submit-button-text="Something you want here">
+      </justifi-payment-form>
       ```
 
       ##### Example Response: Wallet Payment Method Created
+      The `submitted` event of the PaymentForm component will return the following data in its `event.details`. It is accessible via event listener (see [PaymentForm web component docs](https://storybook.justifi.ai/?path=/docs/entities-payment-provisioning--docs))
       ```json
       {
         "id": "pm_abc123xyz",
@@ -141,59 +145,19 @@ tags:
         }
       }
       ```
-      2. Process payments for any sub-account using the wallet payment method token. The system automatically:
-        - Validates the wallet payment method can be used by the sub-account
-        - Creates a cloned payment method owned by the sub-account
-        - Returns the new sub-account-specific token in the payment response
+      2. Process payments for any sub account using the wallet payment method token. The system automatically:
+        - Validates the wallet payment method can be used by the sub account
+        - Creates a cloned payment method owned by the sub account
+        - Returns the new sub account specific token in the payment response
 
-        ### [Payments API](http://localhost:3001/api-spec#tag/Payments/operation/CreatePayment) Example
-
-        ##### Example Request: Create Payment Using Wallet Token
-        ```json
-        {
-          "amount": 1000,
-          "currency": "usd",
-          "payment_method": {
-            "token": "pm_abc123xyz"
-          }
-        }
-        ```
-
-      ##### Example Response: Payment with Auto Cloned Token
-      ```json
-      {
-        "id": "py_xyz789abc",
-        "type": "payment",
-        "data": {
-          "amount": 1000,
-          "currency": "usd",
-          "status": "succeeded",
-          "payment_method": {
-            "id": "pm_autoclonedxyz789",
-            "signature": "4bHXoVaoR",
-            "account_id": "acc_456subaccount",
-            "status": "valid",
-            "card": {
-              "id": "pm_autoclonedxyz789",
-              "name": "Lindsay Whalen",
-              "acct_last_four": "4242",
-              "brand": "visa",
-              "token": "pm_autoclonedxyz789",
-              "month": "5",
-              "year": "2025"
-            }
-          }
-        }
-      }
-      ```
-
-      ### [Checkout Flow](http://localhost:3001/api-spec#tag/Checkouts/operation/CreateCheckout) Example
+      ### [Checkout Flow](https://docs.justifi.tech/api-spec#tag/Checkouts/operation/CreateCheckout) Example
 
       When using platform wallet payment methods with checkouts:
-      1. Create a checkout for the sub-account, specifying a payment method group from the wallet account
-      2. Complete the checkout using a payment method token from the wallet account
+      1. Create a checkout for the sub account, specifying a payment method group from the platform wallet account
+      2. Complete the checkout using a payment method token from the platform wallet account
 
-      ##### Example Request: Create Checkout
+      ##### Example Request Body: Create Checkout
+      <small>**Sub-Account header should be processing subaccount: Sub-Account: acc_456subaccount**</small>
       ```json
       {
         "amount": 10000,
@@ -204,7 +168,7 @@ tags:
       }
       ```
 
-      ##### Example Response: Checkout Created
+      ##### Example Response Body: Checkout Created
       ```json
       {
         "id": "cho_123xyz",
@@ -238,7 +202,7 @@ tags:
       }
       ```
 
-      ##### Example Request: Complete Checkout
+      ##### Example Request Body: Complete Checkout
       ```json
       {
         "payment_token": "pm_123walletpm"
@@ -285,17 +249,60 @@ tags:
       }
       ```
 
-      Note that when completing the checkout with a wallet payment method token, the system automatically creates a cloned payment method for the sub-account as shown in the response's payment_method.token field. 
+              ### [Payments API](https://docs.justifi.tech/api-spec#tag/Payments/operation/CreatePayment) Example
+
+        ##### Example Request Body: Create Payment Using Wallet Token
+        <small>**Sub-Account header should be processing subaccount: Sub-Account: acc_456subaccount**</small>
+        ```json
+        {
+          "amount": 1000,
+          "currency": "usd",
+          "payment_method": {
+            "token": "pm_abc123xyz"
+          }
+        }
+        ```
+
+      ##### Example Response Body: Payment with Auto Cloned Token
+      ```json
+      {
+        "id": "py_xyz789abc",
+        "type": "payment",
+        "data": {
+          "amount": 1000,
+          "currency": "usd",
+          "status": "succeeded",
+          "payment_method": {
+            "id": "pm_autoclonedxyz789",
+            "signature": "4bHXoVaoR",
+            "account_id": "acc_456subaccount",
+            "status": "valid",
+            "card": {
+              "id": "pm_autoclonedxyz789",
+              "name": "Lindsay Whalen",
+              "acct_last_four": "4242",
+              "brand": "visa",
+              "token": "pm_autoclonedxyz789",
+              "month": "5",
+              "year": "2025"
+            }
+          }
+        }
+      }
+      ```
+
+      Note that when completing the checkout with a wallet payment method token, the system automatically creates a cloned payment method for the sub account as shown in the response's payment_method.token field. 
       This same token will be retrieved for subsequent payment requests for the same Sub-Account passing the same wallet token
 
       3. Optionally organize payment methods into groups using the Payment Method Groups API
 
       ### Important Notes
-      - Payment method groups must belong to the platform wallet account 
-        - *(pass wallet account_id in Sub-Account header parameter when creating payment_method_group)*
-      - All payment methods in a group must belong to the wallet account 
-        - *(pass wallet account_id in Sub-Account header parameter when creating payment_method)*
-      - Sub-accounts must be on the same platform as the wallet account
+      - Payment method groups must belong to the platform wallet account
+        - **pass the platform wallet account id in the Sub-Account header parameter when creating a payment method group**
+      - All payment methods in a group must belong to the platform wallet account
+        - **pass platform wallet account_id in Sub-Account header parameter when creating payment_method**
+      - Sub accounts must be on the same platform as the platform wallet account
+
   - name: Onboarding via Component
     description:
       $ref: ../docs/onboarding.md
