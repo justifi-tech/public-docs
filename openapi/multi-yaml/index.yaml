@@ -102,7 +102,7 @@ tags:
       ### 1. Manage Payment Methods
       Create and organize payment methods in your platform wallet account. All payment method operations require the platform wallet account ID in the Sub-Account header.
 
-      ```javascript
+      ```
       // Example: Create payment method group
       const group = await fetch('https://api.justifi.ai/v1/payment_method_groups', {
         method: 'POST',
@@ -131,7 +131,7 @@ tags:
       You can process payments using wallet payment methods through either our component or API approach. All payment operations require the processing sub account ID in the Sub-Account header.
 
       #### Via Component
-      ```javascript
+      ```
       // Create checkout
       const checkout = await fetch('https://api.justifi.ai/v1/checkouts', {
         method: 'POST',
@@ -156,7 +156,7 @@ tags:
       ```
 
       #### Via API
-      ```javascript
+      ```
       // Create checkout
       const checkout = await fetch('https://api.justifi.ai/v1/checkouts', {
         method: 'POST',
