@@ -266,9 +266,9 @@ paths:
     $ref: paths/sub_accounts.yaml
   /sub_accounts/{id}:
     $ref: paths/sub_accounts@{id}.yaml
-  /sub_account/{id}/payout_account:
+  /sub_accounts/{id}/payout_account:
     $ref: paths/sub_accounts@{id}@payout_account.yaml
-  /sub_account/{id}/settings:
+  /sub_accounts/{id}/settings:
     $ref: paths/sub_accounts@{id}@settings.yaml
   /proceeds:
     $ref: paths/proceeds.yaml
