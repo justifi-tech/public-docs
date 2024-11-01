@@ -186,6 +186,15 @@ tags:
       });
       ```
 
+      ## Updating Wallet Payment Methods
+      - Updates should always be made to the payment method in the platform wallet account
+      - Any changes made to the platform wallet payment method automatically propagate to all cloned payment methods across sub accounts
+      - Updates include:
+        - Card expiration updates
+        - Payment method metadata
+      - The system maintains consistency by:
+        - Automatically syncing updates to all cloned versions
+
       ## Important Notes
       - Header Requirements:
         - Use **platform wallet account ID** for:
