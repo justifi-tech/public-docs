@@ -1,0 +1,46 @@
+type: object
+properties:
+  id:
+    description: unique dispute evidence id
+    type: string
+    example: dpe_xyz
+  file_name:
+    type: string
+    example: receipt.pdf
+    description: dispute evidence file name
+  file_type:
+    type: string
+    description: dispute evidence file type
+    example: application/pdf
+    enum:
+      - image/jpeg
+      - image/png
+      - application/pdf
+      - application/zip
+      - application/x-zip-compressed
+  dispute_evidence_type:
+    type: string
+    description: dispute evidence type matching the file that will be uploaded
+    example: receipt
+    enum:
+      - cancellation_policy
+      - customer_communication
+      - customer_signature
+      - duplicate_charge_documentation
+      - receipt
+      - refund_policy
+      - service_documentation
+      - shipping_documentation
+      - uncategorized_file
+  status:
+    type: string
+    description: dispute evidence status
+    enum:
+      - pending
+      - uploaded
+  description:
+    type: string
+    description: description of the dispute evidence file that will be uploaded
+  presigned_url:
+    type: string
+    description: url that should be used to submit a put request to upload the evidence file
