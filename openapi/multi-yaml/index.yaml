@@ -525,6 +525,8 @@ x-webhooks:
     $ref: events/refunds.yaml
   disputes:
     $ref: events/disputes.yaml
+  dispute_evidence:
+    $ref: events/dispute_evidence.yaml
   payouts:
     $ref: events/payouts.yaml
   sub_accounts:

@@ -1,6 +1,6 @@
 post:
   description: |
-    Received for the following events: payment.dispute.created, payment.dispute.closed
+    Received for the following events: payment.dispute.created, payment.dispute.closed, payment.dispute.forfeited, payment.dispute.submitted
   tags:
     - Events
   operationId: disputeEvent
