@@ -3,7 +3,7 @@ properties:
   additional_statement:
     type: string
     description: any additional evidence or statements
-  cancelation_policy_disclosure:
+  cancellation_policy_disclosure:
     type: string
     description: an explanation of how and when the customer was shown your refund policy prior to purchase
   cancellation_rebuttal:
@@ -36,6 +36,7 @@ properties:
   service_date:
     type: string
     description: the date on which the customer received or began receiving the purchased service
+    example: 2024-10-31
   shipping_address:
     type: string
     description: the address to which a physical product was shipped
@@ -45,6 +46,7 @@ properties:
   shipping_date:
     type: string
     description: the date on which a physical product began its route to the shipping address
+    example: 2024-10-31
   shipping_tracking_number:
     type: string
     description: the tracking number for a physical product. If multiple tracking numbers were generated for this purchase, please separate them with commas
