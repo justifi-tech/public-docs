@@ -94,10 +94,10 @@ tags:
       Once enabled, you can:
       - Store payment methods in the designated platform wallet account
       - Use these payment methods across your platform's sub accounts
-      - Group payment methods for easier management using [PaymentMethodGroups](http://localhost:3001/api-spec#tag/Payment-Method-Groups)
+      - Group payment methods for easier management using [PaymentMethodGroups](https://docs.justifi.tech/api-spec#tag/Payment-Method-Groups), to associate multiple payment methods to your customer
 
       ## Using Platform Wallet Payment Methods
-      <small>*Note: While the PaymentMethods/Payments API offers this functionality, we recommend using the [PaymentForm](https://storybook.justifi.ai/?path=/docs/payment-facilitation-payment-form--docs) for new integrations. (Available only to PCI-compliant platforms)*</small>
+      <small>*Note: While the PaymentMethods and Payments API allow you to tokenize a payment method we strongly suggest using the [Unified Fintech Checkout](https://storybook.justifi.ai/?path=/docs/payment-facilitation-unified-fintech-checkout%E2%84%A2--docs) or [PaymentForm](https://storybook.justifi.ai/?path=/docs/payment-facilitation-payment-form--docs) web components instead to avoid PCI scope*</small>
 
       ### 1. Manage Payment Methods
       Create and organize payment methods in your platform wallet account. All payment method operations require the platform wallet account ID in the Sub-Account header.
@@ -128,9 +128,10 @@ tags:
       ```
 
       ### 2. Process Payments
-      You can process payments using wallet payment methods through either our component or API approach. All payment operations require the processing sub account ID in the Sub-Account header.
+      You can process payments using wallet payment methods either through the [Unified Fintech Checkout web component](https://storybook.justifi.ai/?path=/docs/payment-facilitation-unified-fintech-checkout%E2%84%A2--docs) or via API
 
-      #### Via Component
+      #### Via Checkout Component
+      [Checkout via Component Walkthrough](https://docs.justifi.tech/api-spec#tag/Checkout-via-Component)
       ```
       // Create checkout
       const checkout = await fetch('https://api.justifi.ai/v1/checkouts', {
@@ -187,13 +188,14 @@ tags:
       ```
 
       ## Updating Wallet Payment Methods
+      - You can update a payment method via the [payment methods API](https://docs.justifi.tech/api-spec#tag/Payment-Methods/operation/UpdatePaymentMethod)
       - Updates should always be made to the payment method in the platform wallet account
       - Any changes made to the platform wallet payment method automatically propagate to all cloned payment methods across sub accounts
-      - Updates include:
-        - Card expiration updates
+      - Available update options include:
+        - Card expiration date
         - Payment method metadata
       - The system maintains consistency by:
-        - Automatically syncing updates to all cloned versions
+        - Automatically syncing updates to all cloned versions of the payment method
 
       ## Important Notes
       - Header Requirements:
@@ -210,7 +212,7 @@ tags:
       - All sub accounts must be on the same platform as the platform wallet account
 
       For complete details on specific endpoints, see:
-      - [Checkout via Component](http://localhost:3001/api-spec#tag/Checkout-via-Component)
+      - [Checkout via Component](https://docs.justifi.tech/api-spec#tag/Checkout-via-Component)
       - [Checkout via API](https://docs.justifi.tech/api-spec#tag/Checkouts/operation/CreateCheckout)
       - [Payments API](https://docs.justifi.tech/api-spec#tag/Payments/operation/CreatePayment)
 
