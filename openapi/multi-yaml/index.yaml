@@ -289,7 +289,6 @@ tags:
 
       _Note: If you use the classification, it will not have the exact same correspondence with the business type and structure from the previous table because there are fewer classifications than types/structures._
 
-
   - name: Identity
     description: |
       Creating an identity establishes a unique identification for people associated with your business. Accurately providing your information is crucial in ensuring that your identity is properly verified and maintained, and can have important consequences for a variety of financial and legal transactions. Our platform has a secure database for storing identity information, encryption and other security measures to protect your sensitive data.
@@ -464,6 +463,8 @@ paths:
     $ref: paths/disputes.yaml
   /disputes/{id}:
     $ref: paths/disputes@{id}.yaml
+  /disputes/{id}/evidence:
+    $ref: paths/disputes@{id}@evidence.yaml
   /insurance/bind:
     $ref: paths/insurance_bind.yaml
   /entities/business:
