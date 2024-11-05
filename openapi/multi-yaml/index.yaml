@@ -465,6 +465,8 @@ paths:
     $ref: paths/disputes@{id}.yaml
   /disputes/{id}/evidence:
     $ref: paths/disputes@{id}@evidence.yaml
+  /disputes/{id}/response:
+    $ref: paths/disputes@{id}@response.yaml
   /insurance/bind:
     $ref: paths/insurance_bind.yaml
   /entities/business:

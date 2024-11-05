@@ -1,0 +1,165 @@
+patch:
+  summary: Update dispute response
+  description: Updates the dispute response
+  operationId: UpdateDisputeResponse
+  parameters:
+    - $ref: ../components/parameters/id-path.yaml
+    - $ref: ../components/parameters/authorization-header.yaml
+  tags:
+    - Disputes
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          properties:
+            additional_statement:
+              type: string
+              description: any additional evidence or statements
+            cancelation_policy_disclosure:
+              type: string
+              description: an explanation of how and when the customer was shown your refund policy prior to purchase
+            cancellation_rebuttal:
+              type: string
+              description: a justification for why the customer’s subscription was not canceled
+            customer_billing_address:
+              type: string
+              description: the billing address provided by the customer
+            customer_email_address:
+              type: string
+              description: the email address of the customer
+            customer_name:
+              type: string
+              description: the name of the customer
+            customer_purchase_ip_address:
+              type: string
+              description: the IP address that the customer used when making the purchase
+            duplicate_charge_explanation:
+              type: string
+              description: an explanation of the difference between the disputed charge versus the prior charge that appears to be a duplicate
+            product_description:
+              type: string
+              description: a description of the product or service that was sold
+            refund_policy_disclosure:
+              type: string
+              description: documentation demonstrating that the customer was shown your refund policy prior to purchase
+            refund_refusal_explanation:
+              type: string
+              description: justification for why the customer is not entitled to a refund
+            service_date:
+              type: string
+              description: the date on which the customer received or began receiving the purchased service
+            shipping_address:
+              type: string
+              description: the address to which a physical product was shipped
+            shipping_carrier:
+              type: string
+              description: the delivery service that shipped a physical product, such as Fedex, UPS, USPS, etc. If multiple carriers were used for this purchase, please separate them with commas
+            shipping_date:
+              type: string
+              description: the date on which a physical product began its route to the shipping address
+            shipping_tracking_number:
+              type: string
+              description: the tracking number for a physical product. If multiple tracking numbers were generated for this purchase, please separate them with commas
+            duplicate_charge_original_payment_id:
+              type: string
+              description: the payment id for the prior charge which appears to be a duplicate of the disputed charge
+
+  responses:
+    "200":
+      description: Dispute response updated
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope.yaml
+              - properties:
+                  type:
+                    example: dispute response
+                  data:
+                    $ref: ../components/schemas/DisputeResponse.yaml
+
+post:
+  summary: Submit dispute response
+  description: Submits the dispute response
+  operationId: SubmitDisputeResponse
+  parameters:
+    - $ref: ../components/parameters/id-path.yaml
+    - $ref: ../components/parameters/authorization-header.yaml
+  tags:
+    - Disputes
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          required: [forfeit]
+          properties:
+            forfeit:
+              type: boolean
+              description: when true forfeits the dispute and all other parameters passed in are ignored
+            additional_statement:
+              type: string
+              description: any additional evidence or statements
+            cancelation_policy_disclosure:
+              type: string
+              description: an explanation of how and when the customer was shown your refund policy prior to purchase
+            cancellation_rebuttal:
+              type: string
+              description: a justification for why the customer’s subscription was not canceled
+            customer_billing_address:
+              type: string
+              description: the billing address provided by the customer
+            customer_email_address:
+              type: string
+              description: the email address of the customer
+            customer_name:
+              type: string
+              description: the name of the customer
+            customer_purchase_ip_address:
+              type: string
+              description: the IP address that the customer used when making the purchase
+            duplicate_charge_explanation:
+              type: string
+              description: an explanation of the difference between the disputed charge versus the prior charge that appears to be a duplicate
+            product_description:
+              type: string
+              description: a description of the product or service that was sold
+            refund_policy_disclosure:
+              type: string
+              description: documentation demonstrating that the customer was shown your refund policy prior to purchase
+            refund_refusal_explanation:
+              type: string
+              description: justification for why the customer is not entitled to a refund
+            service_date:
+              type: string
+              description: the date on which the customer received or began receiving the purchased service
+            shipping_address:
+              type: string
+              description: the address to which a physical product was shipped
+            shipping_carrier:
+              type: string
+              description: the delivery service that shipped a physical product, such as Fedex, UPS, USPS, etc. If multiple carriers were used for this purchase, please separate them with commas
+            shipping_date:
+              type: string
+              description: the date on which a physical product began its route to the shipping address
+            shipping_tracking_number:
+              type: string
+              description: the tracking number for a physical product. If multiple tracking numbers were generated for this purchase, please separate them with commas
+            duplicate_charge_original_payment_id:
+              type: string
+              description: the payment id for the prior charge which appears to be a duplicate of the disputed charge
+
+  responses:
+    "200":
+      description: Dispute response submitted
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope.yaml
+              - properties:
+                  type:
+                    example: dispute
+                  data:
+                    $ref: ../components/schemas/Dispute.yaml
