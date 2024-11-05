@@ -8,3 +8,7 @@ properties:
     description: the account_id associated with the object
     type: string
     example: acc_123xyz
+  platform_account_id:
+    description: the account_id for the platform account associated with the object
+    type: string
+    example: acc_321abc

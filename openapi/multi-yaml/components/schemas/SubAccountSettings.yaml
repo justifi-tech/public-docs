@@ -31,6 +31,10 @@ properties:
         description: insurance feature enabled
         type: boolean
         example: false
+      platform_wallet_account:
+        description: platform_wallet_account feature enabled
+        type: boolean
+        example: false
   payouts:
     type: object
     properties:

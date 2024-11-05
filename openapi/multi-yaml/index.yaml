@@ -79,6 +79,143 @@ tags:
       | rejected           | this sub account didn't pass approval, so they won't be able to process payments |
       | disabled           | this sub account was previously approved, but has since become ineligible to process payments (e.g. due to fraud) |
       | archived           | this sub account has been archived; they won't be able to process payments (but their record will remain for historical reasons) |
+
+  - name: Platform Wallet Accounts
+    description: |
+      A Platform Wallet Account allows you to store payment methods centrally and use them across multiple sub accounts within your platform.
+      This feature enables you to maintain a single source of stored payment methods while processing payments through different sub accounts.
+
+      ## Enable a Platform Wallet Account
+      <small>*Note: You can choose a sub account as your platform_wallet_account once it is underwritten and enabled for payments.*</small>
+
+      Contact us at [customer_success@justifi.tech](mailto:customer_success@justifi.tech) to enable the `platform_wallet_account` setting for your designated platform wallet account. 
+
+      ## Key Features
+      Once enabled, you can:
+      - Store payment methods in the designated platform wallet account
+      - Use these payment methods across your platform's sub accounts
+      - Group payment methods for easier management using [PaymentMethodGroups](https://docs.justifi.tech/api-spec#tag/Payment-Method-Groups), to associate multiple payment methods to your customer
+
+      ## Using Platform Wallet Payment Methods
+      <small>*Note: While the PaymentMethods and Payments API allow you to tokenize a payment method we strongly suggest using the [Unified Fintech Checkout](https://storybook.justifi.ai/?path=/docs/payment-facilitation-unified-fintech-checkout%E2%84%A2--docs) or [PaymentForm](https://storybook.justifi.ai/?path=/docs/payment-facilitation-payment-form--docs) web components instead to avoid PCI scope*</small>
+
+      ### 1. Manage Payment Methods
+      Create and organize payment methods in your platform wallet account. All payment method operations require the platform wallet account ID in the Sub-Account header.
+
+      ```
+      // Example: Create payment method group
+      const group = await fetch('https://api.justifi.ai/v1/payment_method_groups', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Sub-Account': platformWalletAccountId,  // Platform wallet account
+          'Content-Type': 'application/json'
+        }
+      });
+
+      // Example: Add payment methods to group
+      const updatedGroup = await fetch(`https://api.justifi.ai/v1/payment_method_groups/${groupId}`, {
+        method: 'PATCH',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Sub-Account': platformWalletAccountId,  // Platform wallet account
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          "payment_method_ids": ["pm_walletaccxyz", "pm_walletaccabc"]
+        })
+      });
+      ```
+
+      ### 2. Process Payments
+      You can process payments using wallet payment methods either through the [Unified Fintech Checkout web component](https://storybook.justifi.ai/?path=/docs/payment-facilitation-unified-fintech-checkout%E2%84%A2--docs) or via API
+
+      #### Via Checkout Component
+      [Checkout via Component Walkthrough](https://docs.justifi.tech/api-spec#tag/Checkout-via-Component)
+      ```
+      // Create checkout
+      const checkout = await fetch('https://api.justifi.ai/v1/checkouts', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Sub-Account': processingSubAccountId,  // Processing sub account
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          "amount": 1799,
+          "description": "Example item",
+          "payment_method_group_id": "pmg_walletGroupId", // Group from wallet account
+          "origin_url": "http://localhost:3000"  // Required for component
+        })
+      });
+
+      // Render component
+      <justifi-checkout 
+        auth-token="${webComponentToken}" 
+        checkout-id="${checkout.id}">
+      </justifi-checkout>
+      ```
+
+      #### Via API
+      ```
+      // Create checkout
+      const checkout = await fetch('https://api.justifi.ai/v1/checkouts', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Sub-Account': processingSubAccountId,  // Processing sub account
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          "amount": 1799,
+          "description": "Example item",
+          "payment_method_group_id": "pmg_walletGroupId" // Group from wallet account
+        })
+      });
+
+      // Complete checkout with wallet payment method
+      const completion = await fetch(`https://api.justifi.ai/v1/checkouts/${checkoutId}/complete`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Sub-Account': processingSubAccountId,  // Processing sub account
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          "payment_token": "pm_walletPaymentMethodToken"
+        })
+      });
+      ```
+
+      ## Updating Wallet Payment Methods
+      - You can update a payment method via the [payment methods API](https://docs.justifi.tech/api-spec#tag/Payment-Methods/operation/UpdatePaymentMethod)
+      - Updates should always be made to the payment method in the platform wallet account
+      - Any changes made to the platform wallet payment method automatically propagate to all cloned payment methods across sub accounts
+      - Available update options include:
+        - Card expiration date
+        - Payment method metadata
+      - The system maintains consistency by:
+        - Automatically syncing updates to all cloned versions of the payment method
+
+      ## Important Notes
+      - Header Requirements:
+        - Use **platform wallet account ID** for:
+          - Creating/managing payment methods
+          - Creating/managing payment method groups
+        - Use **processing sub account ID** for:
+          - Creating checkouts
+          - Completing payments
+      - The system automatically:
+        - Validates wallet payment method access
+        - Creates payment method clones for processing sub accounts
+        - Returns new sub account specific tokens in responses
+      - All sub accounts must be on the same platform as the platform wallet account
+
+      For complete details on specific endpoints, see:
+      - [Checkout via Component](https://docs.justifi.tech/api-spec#tag/Checkout-via-Component)
+      - [Checkout via API](https://docs.justifi.tech/api-spec#tag/Checkouts/operation/CreateCheckout)
+      - [Payments API](https://docs.justifi.tech/api-spec#tag/Payments/operation/CreatePayment)
+
   - name: Onboarding via Component
     description:
       $ref: ../docs/onboarding.md
@@ -216,6 +353,7 @@ x-tagGroups:
   - name: For Platforms
     tags:
       - Sub Accounts
+      - Platform Wallet Accounts
       - Onboarding via Component
       - Hosted Onboarding
       - Onboarding via API
