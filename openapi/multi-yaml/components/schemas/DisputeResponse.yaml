@@ -5,7 +5,7 @@ properties:
     description: any additional evidence or statements
   cancellation_policy_disclosure:
     type: string
-    description: an explanation of how and when the customer was shown your refund policy prior to purchase
+    description: an explanation of how and when the customer was shown your cancellation policy prior to purchase
   cancellation_rebuttal:
     type: string
     description: a justification for why the customer’s subscription was not canceled
