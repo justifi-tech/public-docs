@@ -32,6 +32,10 @@ properties:
     type: string
     example: usd
     enum: [usd]
+  bank_name:
+    description: bank name
+    type: string
+    example: Wells Fargo
   metadata:
     type: object
     format: json
