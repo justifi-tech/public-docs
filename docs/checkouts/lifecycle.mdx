@@ -76,5 +76,5 @@ A Checkout is not a Payment; it has its own data model, lifecycle, and statuses.
   is recorded in the `completions` attribute.
 - The Checkout completion attribute serves as a **history/log** of all completion attempts,
   including failed attempts and any successful payment.
-- **Important:** this history is not updated if the payment is refunded.
+- **Important:** This history is never updated, even if a payment has been refunded.
 
