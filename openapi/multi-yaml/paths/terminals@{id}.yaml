@@ -19,3 +19,40 @@ get:
                     example: terminal
                   data:
                     $ref: ../components/schemas/Terminal.yaml
+patch:
+  summary: Update a Terminal
+  operationId: updateTerminal
+  tags:
+    - Terminals
+  parameters:
+    - $ref: ../components/parameters/id-path.yaml
+    - $ref: ../components/parameters/authorization-header.yaml
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          properties:
+            nickname:
+              type: string
+              description: terminal nickname
+              example: My Favorite Terminal
+  responses:
+    '200':
+      description: Successfully update a terminal
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope.yaml
+              - properties:
+                  type:
+                    example: terminal
+                  data:
+                    $ref: ../components/schemas/Terminal.yaml
+
+
+
+
+
+
