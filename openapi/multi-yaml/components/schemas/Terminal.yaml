@@ -20,6 +20,10 @@ properties:
     description: terminal identification (from provider)
     type: string
     example: 123-456-789
+  nickname:
+    description: terminal custom identification
+    type: string
+    example: My Favorite Terminal
   verified_at:
     type: string
     format: date-time
