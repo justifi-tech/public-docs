@@ -1,0 +1,14 @@
+post:
+  summary: Post Identify Terminal
+  operationId: postIdentifyTerminal
+  description: |
+    This API will attempt to display the nickname or provider id on
+    the screen of the given terminal for 20 seconds.
+  tags:
+    - Terminals
+  parameters:
+    - $ref: ../components/parameters/id-path.yaml
+    - $ref: ../components/parameters/authorization-header.yaml
+  responses:
+    '204':
+      description: The request was sent to the terminal
