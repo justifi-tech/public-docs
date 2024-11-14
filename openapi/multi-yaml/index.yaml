@@ -503,6 +503,8 @@ paths:
     $ref: paths/terminals@{id}.yaml
   /terminals/{id}/status:
     $ref: paths/terminals@{id}@status.yaml
+  /terminals/{id}/identify:
+    $ref: paths/terminals@{id}@identify.yaml
   /web_component_tokens:
     $ref: paths/web_component_tokens.yaml
   /checkouts:
