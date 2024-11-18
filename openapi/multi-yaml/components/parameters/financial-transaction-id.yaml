@@ -1,8 +1,0 @@
-in: query
-name: financial_transaction_id
-schema:
-  type: string
-required: false
-example: "ft_123xyz"
-description: |
-  filter records which are associated with a financial transaction.
