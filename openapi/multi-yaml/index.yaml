@@ -35,6 +35,9 @@ tags:
     description: |
       Payment methods refer to the specific form of payment each customer uses
       (e.g. their credit card). Payment methods are tokenized, then charged at time of payment.
+  - name: Tokenize via Component
+    description: 
+      $ref: ../docs/tokenize.md
   - name: Payment Method Groups
     description: |
       Payment method groups are a way to associate payment methods to a single group for easy access.
@@ -362,6 +365,7 @@ x-tagGroups:
       - Payments
       - Payment Intents (use checkouts)
       - Payment Methods
+      - Tokenize via Component
       - Payment Method Groups
       - Refunds
       - Disputes
