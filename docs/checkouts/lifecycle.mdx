@@ -1,7 +1,7 @@
 ---
 title: Checkout lifecycle
 sidebar_label: Lifecycle
-description: Understand a Checkout lifecycle
+description: Understanding the lifecycle of a checkout
 keywords:
   - checkouts
   - features
@@ -16,14 +16,18 @@ import CheckoutStatuses from "@site/static/img/checkout_statuses.png";
 ## Overview
 
 A Checkout is not a Payment; it has its own data model, lifecycle, and statuses.
+It contains the information necessary to prepare for possibly multiple payment transactions.
+During checkout completion a payment is created, processed and linked to the checkout.
 
 ### Diagram
 
-- When a Checkout is created it status is set to `created`.
+- When a Checkout is created its status is set to `created`.
 - If a payment attempt fails, it transitions to the status `attempted`
   and remains there until it either expires or a payment is successful.
 - If a payment succeeds, it transitions to the status `completed`.
 - If not completed within 1 week, it automatically transitions to the status `expired`.
+- A checkout can have multiple failed payment attempts and/or 1 succeeded payment attempt -
+  see [Checkout Completion Attribute](lifecycle/#checkout-completion-attribute).
 
 <Figure
   caption="The Checkout states and transitions."
@@ -33,7 +37,7 @@ A Checkout is not a Payment; it has its own data model, lifecycle, and statuses.
 
 ### Datamodel
 
-- A Checkout has its own attributes set at creation and can be updated if not completed or expired.
+- A checkout has its own attributes set at creation and can be updated if not completed or expired.
 - Use the [Get Checkout API](https://docs.justifi.tech/api-spec#tag/Checkouts/operation/GetCheckout)
   to check the current Checkout state, as in the following example:
 
