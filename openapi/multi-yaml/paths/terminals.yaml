@@ -5,6 +5,50 @@ get:
     - Terminals
   parameters:
     - $ref: ../components/parameters/authorization-header.yaml
+    - in: query
+      name: status
+      schema:
+        type: string
+        enum: [connected, disconnected, unknown, pending_configuration]
+      required: false
+      example: "active"
+      description: |
+        the terminal status
+    - in: query
+      name: terminal_id
+      schema:
+        type: string
+      required: false
+      example: "trm_abc123"
+      description: |
+        the terminal id
+    - in: query
+      name: verified_after
+      schema:
+        type: string
+        format: date-time
+      required: false
+      example: "2024-01-01T00:00:00Z"
+      description: |
+        filter the records which were verified after the date and time (UTC) specified. Dates without time specified will default to 00:00:00
+    - in: query
+      name: verified_before
+      schema:
+        type: string
+        format: date-time
+      required: false
+      example: "2024-01-01T00:00:00Z"
+      description: |
+        filter the records which were verified before the date and time (UTC) specified. Dates without time specified will default to 00:00:00
+    - in: query
+      name: verified_on
+      schema:
+        type: string
+        format: date
+      required: false
+      example: "2024-01-01"
+      description: |
+        filter the records which were verified on the date specified between 00:00:00 and 23:59:59 (UTC)
   responses:
     '200':
       description: Successfully list terminals
