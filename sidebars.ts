@@ -54,7 +54,7 @@ const sidebars: SidebarsConfig = {
         type: "generated-index",
         title: "Entities",
         description:
-          " Learn how leveraging Entities elevates your platform to the next level",
+          "Learn how leveraging Entities elevates your platform to the next level",
         keywords: ["entities"],
       },
       items: [
@@ -62,6 +62,24 @@ const sidebars: SidebarsConfig = {
         "entities/businesses",
         "entities/identities",
         // "entities/provisioning",
+      ],
+      collapsible: true,
+      collapsed: true,
+    },
+    {
+      type: "category",
+      label: "Checkouts",
+      link: {
+        type: "generated-index",
+        title: "Checkouts",
+        description:
+          "Learn how Checkouts give you the power to create a seamless payment experience",
+        keywords: ["checkouts"],
+      },
+      items: [
+        "checkouts/overview",
+        "checkouts/features",
+        "checkouts/lifecycle",
       ],
       collapsible: true,
       collapsed: true,

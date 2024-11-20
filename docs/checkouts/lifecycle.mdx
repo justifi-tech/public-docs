@@ -1,0 +1,84 @@
+---
+title: Checkout lifecycle
+sidebar_label: Lifecycle
+description: Understanding the lifecycle of a checkout
+keywords:
+  - checkouts
+  - features
+  - lifecycle
+---
+
+import Figure from "@site/src/components/Figures";
+import CheckoutStatuses from "@site/static/img/checkout_statuses.png";
+
+# Lifecycle
+
+## Overview
+
+A Checkout is not a Payment; it has its own data model, lifecycle, and statuses.
+It contains the information necessary to prepare for possibly multiple payment transactions.
+During checkout completion a payment is created, processed and linked to the checkout.
+
+### Diagram
+
+- When a Checkout is created its status is set to `created`.
+- If a payment attempt fails, it transitions to the status `attempted`
+  and remains there until it either expires or a payment is successful.
+- If a payment succeeds, it transitions to the status `completed`.
+- If not completed within 1 week, it automatically transitions to the status `expired`.
+- A checkout can have multiple failed payment attempts and/or 1 succeeded payment attempt -
+  see [Checkout Completion Attribute](lifecycle/#checkout-completion-attribute).
+
+<Figure
+  caption="The Checkout states and transitions."
+  alt="Checkout Statuses"
+  src={CheckoutStatuses}
+/>
+
+### Datamodel
+
+- A checkout has its own attributes set at creation and can be updated if not completed or expired.
+- Use the [Get Checkout API](https://docs.justifi.tech/api-spec#tag/Checkouts/operation/GetCheckout)
+  to check the current Checkout state, as in the following example:
+
+```json
+{
+  "id": 1,
+  "type": "checkout",
+  "data": {
+    "id": "cho_xyz",
+    "account_id": "acc_xyz",
+    "platform_account_id": "acc_xyz",
+    "payment_amount": 10000,
+    "payment_currency": "usd",
+    "payment_description": "my_order_xyz",
+    "payment_methods": [],
+    "payment_method_group_id": "pmg_xyz",
+    "status": "created",
+    "mode": "test",
+    "successful_payment_id": "py_xyz",
+    "statement_descriptor": "Big Business",
+    "application_fees": {
+      "card": {
+        "amount": 300
+      },
+      "bank_account": {
+        "amount": 150
+      }
+    },
+    "payment_settings": {},
+    "created_at": "2024-01-01T12:00:00Z",
+    "updated_at": "2024-01-01T12:00:00Z"
+  },
+  "page_info": "string"
+}
+```
+
+### Checkout Completion Attribute
+
+- Each attempt to complete a checkout with one of the available payment options
+  is recorded in the `completions` attribute.
+- The Checkout completion attribute serves as a **history/log** of all completion attempts,
+  including failed attempts and any successful payment.
+- **Important:** This history is never updated, even if a payment has been refunded.
+

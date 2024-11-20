@@ -1,0 +1,89 @@
+---
+title: Checkout features
+sidebar_label: Features
+description: Showcase Checkout features
+keywords:
+  - checkouts
+  - features
+  - lifecycle
+---
+
+# Features
+
+## Overview
+
+Checkouts offer consolidated payment collection,
+payment method tokenization into groups,
+and customizable application fees in a single workflow.
+Supported payment types include Card Payments, ACH Payments,
+Insurance Quote Payments, BNPL (Buy Now Pay Later) Payments (API support pending),
+and Terminal (Card Reader) Payments.
+
+_note: New features will be documented here as they become available._
+
+### Card and ACH Payment
+
+- To process a card or ACH payment through this API, refer to [Checkout via API](https://docs.justifi.tech/api-spec#tag/Checkout-via-API)
+- To process a card or ACH payment using the Unified Fintech Checkout™ Component, refer to [Checkout via Component](https://docs.justifi.tech/api-spec#tag/Checkout-via-Component)
+
+### Insurance Quote Payments
+
+- To include an insurance quote in a Checkout, first contact [customer_success@justifi.tech](mailto:customer_success@justifi.tech)
+  to enable insurance payments for your platform. Ensure the required insurance type is available through our provider.
+- After creating a Checkout, use the [Unified Fintech Checkout™ Component with insurance](https://storybook.justifi.ai/?path=/story/payment-facilitation-unified-fintech-checkout%E2%84%A2--checkout-insurance)
+  to collect the insurance payment.
+
+### BNPL Payments
+
+- To enable BNPL payments, contact [customer_success@justifi.tech](mailto:customer_success@justifi.tech)
+  to activate BNPL for your platform and sub account.
+- After creating a Checkout, use the [Unified Fintech Checkout™ Component](https://storybook.justifi.ai/?path=/story/payment-facilitation-unified-fintech-checkout%E2%84%A2--example)
+  with the BNPL option (default).
+
+_note: Disable the BNPL option by passing the correspondent prop to the web component:
+[disable-bnpl](https://storybook.justifi.ai/?path=/docs/payment-facilitation-unified-fintech-checkout%E2%84%A2--docs)_
+
+### Terminal (Card Reader) Payments
+
+- For terminal payments, contact [customer_success@justifi.tech](mailto:customer_success@justifi.tech)
+  to enable the card-present feature. JustiFi will then provision and configure terminals for your sub accounts.
+- Find detailed steps in the [Terminals API](https://docs.justifi.tech/api-spec#tag/Terminals)
+
+### Application Fees
+
+- Application Fees are configured at the Platform level and can be customized for specific sub accounts.
+  Checkouts add an additional layer of flexibility by allowing the use of the `application_fees` parameter
+  when creating a checkout.
+
+- **Create a Checkout:** Use the [Create Checkout API](https://docs.justifi.tech/api-spec#tag/Checkouts)
+   with custom application fees (in cents) for card and bank payments, as in the following example:
+
+```json
+{
+   "amount": 1000,
+   "description": "test checkout application fees",
+   "application_fees": {
+      "card": {
+         "amount": "200"
+      },
+      "bank_account": {
+         "amount": "100"
+      }
+   }
+}
+```
+
+- The application fee applies based on the selected payment method during checkout.
+  It overwrites the `application_fee_rate` set for the sub account.
+  _note: available for Card, ACH and Terminal (Card Present) only!_
+
+### Payment Method Group
+
+- **Create a Payment Method Group:** Use the [Payment Method Group API](https://docs.justifi.tech/api-spec#tag/Payment-Method-Groups)
+  to create a group for easy payment method access.
+- **Create a Checkout:** Use the [Create Checkout API](https://docs.justifi.tech/api-spec#tag/Checkouts/operation/CreateCheckout)
+  and pass the `payment_method_group_id`.
+- **Checkout Web Component:** Use the [Unified Fintech Checkout™ Component](https://storybook.justifi.ai/?path=/docs/payment-facilitation-unified-fintech-checkout%E2%84%A2--docs)
+  and pass the checkout id. This allows the component to display a list of tokenized payment methods
+  in the group, and an option to **Save new payment method** is also available.
+
