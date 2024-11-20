@@ -74,7 +74,7 @@ _note: Disable the BNPL option by passing the correspondent prop to the web comp
 ```
 
 - The application fee applies based on the selected payment method during checkout.
-  It overwrites the `application_fee_rate` set for the platform and/or sub account.
+  It overwrites the `application_fee_rate` set for the sub account.
   _note: available for Card, ACH and Terminal (Card Present) only!_
 
 ### Payment Method Group
@@ -84,6 +84,6 @@ _note: Disable the BNPL option by passing the correspondent prop to the web comp
 - **Create a Checkout:** Use the [Create Checkout API](https://docs.justifi.tech/api-spec#tag/Checkouts/operation/CreateCheckout)
   and pass the `payment_method_group_id`.
 - **Checkout Web Component:** Use the [Unified Fintech Checkout™ Component](https://storybook.justifi.ai/?path=/docs/payment-facilitation-unified-fintech-checkout%E2%84%A2--docs)
-  with the created checkout. This allows the component to display a list of tokenized payment methods
+  and pass the checkout id. This allows the component to display a list of tokenized payment methods
   in the group, and an option to **Save new payment method** is also available.
 
