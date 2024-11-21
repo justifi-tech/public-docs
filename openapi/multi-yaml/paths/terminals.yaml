@@ -5,6 +5,7 @@ get:
     - Terminals
   parameters:
     - $ref: ../components/parameters/authorization-header.yaml
+    - $ref: ../components/parameters/sub-account.yaml
     - in: query
       name: status
       schema:
