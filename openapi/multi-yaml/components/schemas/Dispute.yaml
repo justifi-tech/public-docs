@@ -4,6 +4,16 @@ properties:
     description: unique dispute id
     type: string
     example: dp_xyz
+  payment_id:
+    description: the disputed payment
+    type: string
+    format: uuid
+    example: py_xyz
+  account_id:
+    description: id of the account associated with the dispute
+    type: string
+    format: uuid
+    example: acc_xyz
   amount:
     description: amount disputed in cents
     type: number
@@ -12,11 +22,6 @@ properties:
     type: string
     enum: [usd]
     example: usd
-  payment_id:
-    description: the disputed payment
-    type: string
-    format: uuid
-    example: py_xyz
   reason:
     type: string
     description: the reason this payment was disputed
