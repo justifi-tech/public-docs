@@ -543,5 +543,7 @@ x-webhooks:
     $ref: events/checkouts.yaml
   checkout_completions:
     $ref: events/checkout_completions.yaml
+  payment_setting_updated:
+    $ref: events/account_payment_setting_updated.yaml
   payout_setting_updated:
     $ref: events/account_payout_setting_updated.yaml
