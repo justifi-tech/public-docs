@@ -4,19 +4,3 @@ properties:
     $ref: ./PaymentSetting.yaml     
   payouts:
     $ref: ./PayoutSetting.yaml
-      # id:
-      #   description: unique payout settings id
-      #   type: string
-      #   example: stpo_1FrQmV9ByJEKjpKf5diaA4
-      # enabled:
-      #   description: payouts enabled for the sub account
-      #   type: boolean
-      #   example: true
-      # interval:
-      #   description: frequency of payouts
-      #   type: string
-      #   example: daily
-      # statement_descriptor:
-      #   description: statement descriptor for the payout
-      #   type: string
-      #   example: JustiFi
