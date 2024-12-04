@@ -44,4 +44,5 @@ We will publish the following events:
 - checkout.completed
 - checkout.completion.succeeded
 - checkout.completion.failed
+- account.payment_setting.updated
 - account.payout_setting.updated
