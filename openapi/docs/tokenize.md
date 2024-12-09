@@ -83,7 +83,5 @@ An `error` event means there was an issue with the Tokenize Payment Method web c
 
 At this point, the payment method has been tokenized and can be used for future payments!
 
-*Note: If you want to save multiple payment methods for a single customer consider using the [Payment Method Group API](https://docs.justifi.tech/api-spec#tag/Payment-Method-Groups). Oce created you can pass the `payment_method_group_id` to the Tokenize Payment Method web component and the newly collected payment method will be automatically added to that payment method group if the customer checks the `Save new payment method` checkbox.*
-
 ### Listen to payment method events
 In addition to the web component events you can listen to [payment method specific events](https://docs.justifi.tech/api-spec#tag/Events) via event publisher. To set up an event publisher go to the Developer > Event Pubslisher section of the JustiFi dashboard. 
