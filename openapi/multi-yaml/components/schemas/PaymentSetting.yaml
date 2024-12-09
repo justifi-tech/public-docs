@@ -1,0 +1,38 @@
+type: object
+properties:
+  id:
+    description: unique payment setting id
+    type: string
+    example: stpy_123abc
+  account_id:
+    description: unique id of the associated account
+    type: string
+    example: acc_123abc
+  mcc_code:
+    description: merchant category code configured
+    type: string
+    example: 5045
+  credit_card_payments:
+    description: credit card payments enabled for processing
+    type: boolean
+    example: true
+  ach_payments:
+    description: ach payments enabled for processing
+    type: boolean
+    example: true
+  card_present:
+    description: card present feature enabled for processing
+    type: boolean
+    example: false
+  bnpl_payments:
+    description: buy now pay later feature enabled
+    type: boolean
+    example: false
+  insurance_payments:
+    description: insurance feature enabled
+    type: boolean
+    example: false
+  platform_wallet_account:
+    description: wether this account is configured as platform_wallet_account
+    type: boolean
+    example: false

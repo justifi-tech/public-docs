@@ -1,22 +1,22 @@
 type: object
 properties:
-  account_id:
-    description: unique identifier for the associated account
+  id:
+    description: unique payoutt setting id
     type: string
-    example: acc_123
+    example: stpo_213abc
+  account_id:
+    description: unique id of the associated account
+    type: string
+    example: acc_123abc
   enabled:
     description: whether the payout setting is currently enabled
     type: boolean
     example: true
   interval:
-    description: frequency of payouts
+    description: payout frequency
     type: string
     example: daily
   statement_descriptor:
     description: custom text to appear on bank statements
     type: string
-    example: ""
-  public_id:
-    description: unique public identifier for the payout setting
-    type: string
-    example: stpo_213
+    example: "Name of Account"
