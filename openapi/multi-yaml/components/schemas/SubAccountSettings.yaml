@@ -1,6 +1,52 @@
 type: object
 properties:
   payments:
-    $ref: ./PaymentSetting.yaml     
+   type: object
+    properties:
+      id:
+        description: unique payment settings id
+        type: string
+        example: stpy_7KRQzIYhUGxNscgLJP0Aum
+      mcc_code:
+        description: merchant category code configured
+        type: string
+        example: 5045
+      credit_card_payments:
+        description: credit card payments enabled for processing
+        type: boolean
+        example: true
+      ach_payments:
+        description: ach payments enabled for processing
+        type: boolean
+        example: true
+      card_present:
+        description: card present feature enabled for processing
+        type: boolean
+        example: false
+      bnpl_payments:
+        description: buy now pay later feature enabled
+        type: boolean
+        example: false
+      insurance_payments:
+        description: insurance feature enabled
+        type: boolean
+        example: false
+      platform_wallet_account:
+        description: platform_wallet_account feature enabled
+        type: boolean
+        example: false
   payouts:
-    $ref: ./PayoutSetting.yaml
+    type: object
+    properties:
+      id:
+        description: unique payout settings id
+        type: string
+        example: stpo_1FrQmV9ByJEKjpKf5diaA4
+      enabled:
+        description: payouts enabled for the sub account
+        type: boolean
+        example: true
+      statement_descriptor:
+        description: statement descriptor for the payout
+        type: string
+        example: JustiFi

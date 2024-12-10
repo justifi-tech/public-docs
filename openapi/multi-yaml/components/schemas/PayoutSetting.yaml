@@ -1,7 +1,7 @@
 type: object
 properties:
-  id:
-    description: unique payoutt setting id
+  public_id:
+    description: unique payout setting id
     type: string
     example: stpo_213abc
   account_id:
