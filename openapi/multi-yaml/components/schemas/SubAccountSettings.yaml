@@ -1,7 +1,7 @@
 type: object
 properties:
   payments:
-   type: object
+    type: object
     properties:
       id:
         description: unique payment settings id
