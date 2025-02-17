@@ -329,6 +329,10 @@ tags:
     description:
       $ref: ../docs/terminals.md
 
+  - name: Terminals Orders
+    description: |
+      Terminals Orders API for order management
+
   - name: Checkouts
     description: |
       Checkouts can be used to collect payments directly via API, or using our Checkout component.
@@ -393,6 +397,7 @@ x-tagGroups:
   - name: Card Present Resources
     tags:
       - Terminals
+      - Terminals Orders
   - name: Libraries
     tags:
       - JustiFi Web Components
@@ -509,6 +514,8 @@ paths:
     $ref: paths/terminals@{id}@status.yaml
   /terminals/{id}/identify:
     $ref: paths/terminals@{id}@identify.yaml
+  /terminals/orders/{id}:
+    $ref: paths/terminals_orders@{id}.yaml
   /terminals/orders:
     $ref: paths/terminals_orders.yaml
   /web_component_tokens:

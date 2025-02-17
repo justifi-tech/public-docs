@@ -1,9 +1,9 @@
 post:
   summary: Order Terminals (DRAFT)
   description: Order (one or multiple) terminals from one of our technology partners
-  operationId: terminalOrder
+  operationId: terminalsOrder
   tags:
-    - Terminals
+    - Terminals Orders
   parameters:
     - $ref: ../components/parameters/authorization-header.yaml
   requestBody:
@@ -54,6 +54,6 @@ post:
               - $ref: ../components/schemas/Envelope.yaml
               - properties:
                   type:
-                    example: terminal_order
+                    example: terminals_order
                   data:
-                    $ref: ../components/schemas/TerminalOrder.yaml
+                    $ref: ../components/schemas/TerminalsOrder.yaml
