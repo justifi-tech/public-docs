@@ -1,0 +1,53 @@
+type: object
+properties:
+  id:
+    description: unique terminal order id
+    type: string
+    example: tord_xyz
+  business_id:
+    type: string
+    format: uuid
+    example: biz_xyz
+  account_id:
+    type: string
+    format: uuid
+    example: acc_xyz
+  provider:
+    type: string
+    enum: [verifone]
+    example: verifone
+  order_type:
+    type: string
+    enum: [boarding_only, boarding_shipping]
+    example: boarding_only
+  order_status:
+    type: string
+    enum: [submitted, completed]
+    description: status of the order
+  terminals:
+    type: array
+    description: list of ordered terminals
+    items:
+      type: object
+      properties:
+        terminal_id:
+          type: string
+          format: uuid
+          description: unique terminal id
+          example: tmn_abc
+        terminal_did:
+          type: string
+          description: terminal device identification
+          example: "12345678"
+        model_name:
+          type: string
+          enum: [v400, p400+, e285]
+          example: v400
+  created_at:
+    type: string
+    format: date-time
+    example: '2024-01-01T12:00:00Z'
+  updated_at:
+    type: string
+    format: date-time
+    example: '2024-01-01T12:00:00Z'

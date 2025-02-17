@@ -36,7 +36,7 @@ tags:
       Payment methods refer to the specific form of payment each customer uses
       (e.g. their credit card). Payment methods are tokenized, then charged at time of payment.
   - name: Tokenize via Component
-    description: 
+    description:
       $ref: ../docs/tokenize.md
   - name: Payment Method Groups
     description: |
@@ -69,8 +69,8 @@ tags:
       These fees can vary depending on the policies of the financial institution and the reason for the return.
   - name: Sub Accounts
     description: |
-      Sub Accounts are the representation of your platform's customers for payment processing in JustiFi and are associated with your platform account. 
-      To gain approval for payment processing each of your customers need to be onboarded as a business via [web compoenent](https://docs.justifi.tech/api-spec#tag/Onboarding-via-Component), [hosted onboarding](https://docs.justifi.tech/api-spec#tag/Hosted-Onboarding) or [API](https://docs.justifi.tech/api-spec#tag/Onboarding-via-API).  
+      Sub Accounts are the representation of your platform's customers for payment processing in JustiFi and are associated with your platform account.
+      To gain approval for payment processing each of your customers need to be onboarded as a business via [web compoenent](https://docs.justifi.tech/api-spec#tag/Onboarding-via-Component), [hosted onboarding](https://docs.justifi.tech/api-spec#tag/Hosted-Onboarding) or [API](https://docs.justifi.tech/api-spec#tag/Onboarding-via-API).
       During the onboarding process a sub account is automatically created for each business and updated along the way.
       Payments can be processed through a sub account once it's status is `enabled`.
       | Status             | Description |
@@ -91,7 +91,7 @@ tags:
       ## Enable a Platform Wallet Account
       <small>*Note: You can choose a sub account as your platform_wallet_account once it is underwritten and enabled for payments.*</small>
 
-      Contact us at [customer_success@justifi.tech](mailto:customer_success@justifi.tech) to enable the `platform_wallet_account` setting for your designated platform wallet account. 
+      Contact us at [customer_success@justifi.tech](mailto:customer_success@justifi.tech) to enable the `platform_wallet_account` setting for your designated platform wallet account.
 
       ## Key Features
       Once enabled, you can:
@@ -153,8 +153,8 @@ tags:
       });
 
       // Render component
-      <justifi-checkout 
-        auth-token="${webComponentToken}" 
+      <justifi-checkout
+        auth-token="${webComponentToken}"
         checkout-id="${checkout.id}">
       </justifi-checkout>
       ```
@@ -509,6 +509,8 @@ paths:
     $ref: paths/terminals@{id}@status.yaml
   /terminals/{id}/identify:
     $ref: paths/terminals@{id}@identify.yaml
+  /terminals/orders:
+    $ref: paths/terminals_orders.yaml
   /web_component_tokens:
     $ref: paths/web_component_tokens.yaml
   /checkouts:
