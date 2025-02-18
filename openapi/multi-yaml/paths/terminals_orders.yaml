@@ -1,0 +1,59 @@
+post:
+  summary: Order Terminals (DRAFT)
+  description: Order (one or multiple) terminals from one of our technology partners
+  operationId: terminalsOrder
+  tags:
+    - Terminals Orders
+  parameters:
+    - $ref: ../components/parameters/authorization-header.yaml
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          properties:
+            business_id:
+              type: string
+              format: uuid
+              example: biz_abc123
+              description: id of the business entity ordering a terminal
+            account_id:
+              type: string
+              format: uuid
+              example: acc_abc123
+              description: id of the account all terminals from this order will be associated
+            provider:
+              type: string
+              enum: [verifone]
+              example: verifone
+            order_type:
+              type: string
+              enum: [boarding_only, boarding_shipping]
+              example: boarding_only
+            order_items:
+              type: array
+              description: list of terminals being ordered
+              items:
+                type: object
+                properties:
+                  model_name:
+                    type: string
+                    enum: [v400, p400+, e285]
+                    example: v400
+                  quantity:
+                    type: integer
+                    example: 1
+          required: [business_id, account_id, provider, order_type, order_items]
+  responses:
+    '201':
+      description: Successful place a Terminal Order
+      content:
+        application/json:
+          schema:
+             allOf:
+              - $ref: ../components/schemas/Envelope.yaml
+              - properties:
+                  type:
+                    example: terminals_order
+                  data:
+                    $ref: ../components/schemas/TerminalsOrder.yaml
