@@ -22,10 +22,6 @@ post:
               format: uuid
               example: acc_abc123
               description: id of the account all terminals from this order will be associated
-            provider:
-              type: string
-              enum: [verifone]
-              example: verifone
             order_type:
               type: string
               enum: [boarding_only, boarding_shipping]

@@ -12,10 +12,6 @@ properties:
     type: string
     format: uuid
     example: acc_xyz
-  provider:
-    type: string
-    enum: [verifone]
-    example: verifone
   order_type:
     type: string
     enum: [boarding_only, boarding_shipping]
