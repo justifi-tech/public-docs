@@ -68,7 +68,7 @@ post:
               format: uuid
               example: biz_abc123
               description: id of the business entity ordering a terminal
-            account_id:
+            sub_account_id:
               type: string
               format: uuid
               example: acc_abc123
@@ -90,7 +90,7 @@ post:
                   quantity:
                     type: integer
                     example: 1
-          required: [business_id, account_id, provider, order_type, order_items]
+          required: [business_id, sub_account_id, provider, order_type, order_items]
   responses:
     '201':
       description: Successful place a Terminal Order
