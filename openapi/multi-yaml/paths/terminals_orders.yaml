@@ -1,3 +1,54 @@
+get:
+  summary: List Terminal Orders (DRAFT)
+  description: Retrieve a list of terminal orders for your account. This endpoint supports [pagination](https://docs.justifi.tech/api-spec#section/Pagination).
+  operationId: ListTerminalsOrders
+  tags:
+    - Terminals Orders
+  parameters:
+    - $ref: ../components/parameters/authorization-header.yaml
+    - $ref: ../components/parameters/created-before.yaml
+    - $ref: ../components/parameters/created-after.yaml
+    - in: query
+      name: order_type
+      schema:
+        type: string
+        enum: [boarding_only, boarding_shipping]
+      required: false
+      example: boarding_only
+      description: |
+        filter terminal orders of a specific type
+    - in: query
+      name: order_status
+      schema:
+        type: string
+        enum: [created, submitted, completed]
+      required: false
+      example: created
+      description: |
+        filter terminal orders of a specific status
+    - in: query
+      name: sub_account_id
+      schema:
+        type: string
+      required: false
+      example: acc_123xyz
+      description: |
+        filter terminal orders of a specific sub account
+  responses:
+    '200':
+      description: Successful response
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope.yaml
+              - properties:
+                  type:
+                    example: terminals_orders
+                  data:
+                    type: array
+                    items:
+                      $ref: ../components/schemas/TerminalsOrder.yaml
 post:
   summary: Order Terminals (DRAFT)
   description: Order (one or multiple) terminals from one of our technology partners
@@ -17,7 +68,7 @@ post:
               format: uuid
               example: biz_abc123
               description: id of the business entity ordering a terminal
-            account_id:
+            sub_account_id:
               type: string
               format: uuid
               example: acc_abc123
@@ -34,12 +85,12 @@ post:
                 properties:
                   model_name:
                     type: string
-                    enum: [v400, p400+, e285]
-                    example: v400
+                    enum: [V400m, P400, E285]
+                    example: V400m
                   quantity:
                     type: integer
                     example: 1
-          required: [business_id, account_id, provider, order_type, order_items]
+          required: [business_id, sub_account_id, provider, order_type, order_items]
   responses:
     '201':
       description: Successful place a Terminal Order

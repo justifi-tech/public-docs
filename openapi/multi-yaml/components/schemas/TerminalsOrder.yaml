@@ -18,7 +18,7 @@ properties:
     example: boarding_only
   order_status:
     type: string
-    enum: [submitted, completed]
+    enum: [created, submitted, completed]
     description: status of the order
   terminals:
     type: array
@@ -37,8 +37,8 @@ properties:
           example: "12345678"
         model_name:
           type: string
-          enum: [v400, p400+, e285]
-          example: v400
+          enum: [V400m, P400, E285]
+          example: V400m
   created_at:
     type: string
     format: date-time
