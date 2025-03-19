@@ -7,7 +7,7 @@ properties:
   payment_mode:
     type: string
     example: ecom
-    enum: [ecom]
+    enum: [ecom, bnpl, card_present]
   status:
     type: string
     enum: [succeeded, failed]
@@ -15,7 +15,7 @@ properties:
     description: the status of the completion, only succeeded or failed
   payment_status:
     type: string
-    enum: [succeeded, failed, pending, canceled]
+    enum: [succeeded, failed, pending, canceled, skipped]
     example: succeeded
     description: depending upon payment mode, the status of the payment API call, bnpl transaction, or card reader transaction.
   payment_error_code:
@@ -28,7 +28,7 @@ properties:
     description: when payment fails, related error description
   payment_response:
     type: object
-    description: the API response when trying to process the payment
+    description: the payment API response when trying to process the payment
   checkout_id:
     type: string
     format: uuid
