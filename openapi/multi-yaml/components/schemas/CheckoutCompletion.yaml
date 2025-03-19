@@ -8,6 +8,10 @@ properties:
     type: string
     example: ecom
     enum: [ecom, bnpl, card_present]
+  payment_token:
+    type: string
+    example: pm_xyz123
+    description: the payment method token used to process the payment, only for ecom payments
   status:
     type: string
     enum: [succeeded, failed]
@@ -33,6 +37,7 @@ properties:
     type: string
     format: uuid
     description: id of the checkout for this completion
+    example: co_xyz123
   additional_transactions:
     type: array
     description: any other transactions we processed while completing this checkout. For example, insurance payments
