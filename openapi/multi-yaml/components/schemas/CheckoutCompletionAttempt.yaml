@@ -1,0 +1,61 @@
+type: object
+properties:
+  id:
+    description: unique checkout completion id
+    type: string
+    example: chc_xyz123
+  payment_mode:
+    type: string
+    example: ecom
+    enum: [ecom, bnpl, card_present]
+  payment_token:
+    type: string
+    example: pm_xyz123
+    description: the payment method token used to process the payment, only for ecom payments
+  status:
+    type: string
+    enum: [succeeded, failed]
+    example: succeeded
+    description: the status of the completion, only succeeded or failed
+  payment_status:
+    type: string
+    enum: [succeeded, failed, pending, canceled, skipped]
+    example: succeeded
+    description: depending upon payment mode, the status of the payment API call, bnpl transaction, or card reader transaction.
+  payment_error_code:
+    type: string
+    example: card_declined
+    description: when payment fails, related error code
+  payment_error_description:
+    type: string
+    example: Your card was declined
+    description: when payment fails, related error description
+  payment_response:
+    type: object
+    description: the payment API response when trying to process the payment
+  checkout_id:
+    type: string
+    format: uuid
+    example: cho_xyz123
+    description: id of the checkout for this completion
+  additional_transactions:
+    type: array
+    description: any other transactions we processed while completing this checkout. For example, insurance payments
+  payment_id:
+    type: string
+    format: uuid
+    example: 'py_xyz123'
+    description: id of the payment associated with this checkout, when successful
+  payment_method_id:
+    type: string
+    format: uuid
+    example: 'pm_xyz123'
+    description: id of the payment method associated with this checkout, when successful
+  created_at:
+    type: string
+    format: date-time
+    example: '2024-01-01T12:00:00Z'
+  updated_at:
+    type: string
+    format: date-time
+    example: '2024-01-01T12:00:00Z'
