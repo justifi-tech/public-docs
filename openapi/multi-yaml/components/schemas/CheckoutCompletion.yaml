@@ -53,6 +53,11 @@ properties:
     format: uuid
     example: 'pm_xyz123'
     description: id of the payment associated with this checkout, when successful
+  terminal_id:
+    type: string
+    format: uuid
+    example: 'trm_xyz123'
+    description: id of the terminal used for this checkout, when mode is card present
   created_at:
     type: string
     format: date-time
