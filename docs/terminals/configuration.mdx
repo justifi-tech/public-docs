@@ -1,0 +1,65 @@
+---
+title: Configure the Terminal Device
+sidebar_label: Configuration
+description: Connect the device to Wifi and enter the device ID
+keywords:
+  - terminals
+  - ordering
+  - configuration
+  - payment
+  - refund
+---
+
+import TerminalSetupGuide1 from "../../static/img/terminal-set-up-guide1.png";
+import TerminalSetupGuide2 from "../../static/img/terminal-set-up-guide2.png";
+import TerminalSetupGuide3 from "../../static/img/terminal-set-up-guide3.png";
+
+# Terminal Device Configuration
+
+## Overview
+
+Once you receive your terminal order you will need to connect the device(s) to Wifi and enter the device ID. 
+To do that, follow these steps: 
+
+<!-- <Box> -->
+<!--   <Flex display="flex" align-items="center" justify-content="center"> -->
+
+    <img
+      src={TerminalSetupGuide1}
+      alt="terminal set up guide steps 1 to 6"
+      object-fit="contain"
+      width="100%"
+      height="100%"
+    />
+
+    <img
+      src={TerminalSetupGuide2}
+      alt="terminal set up guide steps 7 to 11"
+      object-fit="contain"
+      width="100%"
+      height="100%"
+    />
+
+    <img
+      src={TerminalSetupGuide3}
+      alt="terminal set up guide steps 12 to 17"
+      object-fit="contain"
+      width="100%"
+      height="100%"
+    />
+<!--   </Flex> -->
+
+## After Configuration
+You should be able to see any configured terminals in the [List Terminals API response](https://developer.justifi.ai/api-spec#tag/Terminals/operation/listTerminals). 
+
+## Check Terminal Status
+To double check that a terminal is in “CONNECTED” mode call the [Get Terminal Status API](https://developer.justifi.ai/api-spec#tag/Terminals/operation/getTerminalStatus) and pass the terminal ID. 
+Or go to https://app.justifi.ai/ and choose “Terminals” from the “Payments” dropdown. On the detail view of a terminal click the `Check Terminal Status` button and the latest status will be retrieved. 
+
+## Identify a Terminal
+To ping a terminal device and display the nickname or provider ID for 20 seconds on the device display you can send a request to the [Post Identify Terminal API](https://docs.justifi.tech/api-spec#tag/Terminals/operation/postIdentifyTerminal).
+
+## Reset Terminal
+A Terminal is in “ACTIVE” mode when it is processing a payment and can sometimes get stuck. You can reset it by holding down the red “X”, normally it will be in “CONNECTED” mode once it is reset.
+
+Once you have a device set up and confirmed it is in “CONNECTED” mode you can attempt a payment.
