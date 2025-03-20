@@ -79,7 +79,7 @@ properties:
     example: '2024-01-01T12:00:00Z'
   completions: 
     type: array
-    description: list of checkout completion attempts
+    description: list of checkout completion attempts, if any
     items:
       $ref: ./CheckoutCompletionAttempt.yaml
 
