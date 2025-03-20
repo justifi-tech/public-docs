@@ -38,8 +38,9 @@ properties:
     description: status of the checkout
   mode:
     type: string
-    enum: [test live]
+    enum: [test, live]
     description: mode of the checkout
+    example: test
   successful_payment_id:
     type: string
     format: uuid
@@ -76,3 +77,9 @@ properties:
     type: string
     format: date-time
     example: '2024-01-01T12:00:00Z'
+  completions: 
+    type: array
+    description: list of checkout completion attempts, if any
+    items:
+      $ref: ./CheckoutCompletionAttempt.yaml
+
