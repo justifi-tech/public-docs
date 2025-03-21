@@ -114,6 +114,22 @@ const sidebars: SidebarsConfig = {
         },
       ],
     },
+    {
+      type: "category",
+      label: "Terminals",
+      link: {
+        type: "generated-index",
+        title: "Terminals",
+        description: "Learn how to order, configure and process payments on terminal devices",
+      },
+      items: [
+        "terminals/overview",
+        "terminals/ordering",
+        "terminals/configuration",
+        "terminals/payment",
+        "terminals/refund"
+      ]
+    }
   ],
 };
 
