@@ -12,34 +12,36 @@ keywords:
 
 # Process a Card Present Payment
 
-## Verify Terminal
-To test the device is configured correctly you can process a test payment of $1 on the device via “Verify Terminal” button 
-on the JustiFi dashboard (Go to https://app.justifi.ai/ and choose “Terminals” from the “Payments” dropdown. 
-Click into the specific device you want to test). 
-Once you confirm the “Verify Terminal” dialog the terminal will receive the $1 payment 
+## Verify the Terminal
+To test the device is configured correctly you can process a test payment of $1 via **"Verify Terminal"** 
+on the JustiFi dashboard:\
+Go to https://app.justifi.ai/ and choose **"Terminals"** from the **"Payments"** dropdown. 
+Click into the specific terminal you want to test and click **"Verify Terminal"** on the detail view.\
+Once you confirm the dialog the terminal device will receive the $1 payment 
 which you can complete with a valid credit card.
 
-After the terminal payment has been completed you can view the payment in your JustiFi dashboard 
-(Go to https://app.justifi.ai/ and choose “Payments” from the “Payments” dropdown) 
+After the terminal payment has been completed you can view the payment on the JustiFi dashboard:\
+Go to https://app.justifi.ai/ and choose **"Payments"** from the **"Payments"** dropdown 
 or retrieve it via the [List Payments API](https://docs.justifi.tech/api-spec#tag/Payments/operation/ListPayments).
 
 ## Technical Payment Integration
 We have outlined how to integrate payment processing via terminals in our [Card Present documentation](https://developer.justifi.ai/tag/Terminals).
 
-The short version is: Create a Checkout. Pick a terminal and use the [Pay Terminal API](https://docs.justifi.tech/api-spec#tag/Terminals/operation/payTerminal) 
+The short version is: [Create a checkout](https://docs.justifi.tech/api-spec#tag/Checkouts/operation/CreateCheckout). Pick a terminal and use the [Pay Terminal API](https://docs.justifi.tech/api-spec#tag/Terminals/operation/payTerminal) 
 to process the checkout. If there are errors, the checkout completion record will be updated with information 
 on what error occurred. 
 
-We recommend listening to the `checkout.completion.succeeded` event to handle successful payments and the `checkout.completion.failed` event to handle a failed or canceled terminal payment. 
+We recommend listening to the `checkout.completion.succeeded` event to handle successful payments and the `checkout.completion.failed` event to handle a failed 
+or canceled terminal payment.\
 See the [Checkout Completion Event documentation](https://docs.justifi.tech/api-spec#tag/Events/operation/checkoutCompletionEvent) for more information.
 
 A few other notes:
-Terminal payments will eventually time out, they are set at 90 seconds at the moment
-You can click the “X” on the device to cancel a terminal payment
-The credit card information collected for a terminal payment is stored in a payment method record that can currently not be used for other payments. The payment method is considered “single use” and has the payment method type “card_present”.
+- Terminal payments will eventually time out, they are set at 90 seconds at the moment
+- You can click the **"X"** on the device to cancel a terminal payment
+- The credit card information collected for a terminal payment is stored in a payment method record that can currently not be used for other payments. 
+The payment method is considered "single use" and has the `payment_method_type` `card_present`.
+- Once a payment is successfully collected for a checkout, the payment ID will be added to the checkout record as `successful_payment_id`. 
 
-Once a payment is successfully collected for a checkout, the payment ID will be added to the checkout record as `successful_payment_id`. 
-
-To retrieve the checkout or payment use the [Get Checkout API](https://docs.justifi.tech/api-spec#tag/Checkouts/operation/GetCheckout) or the [Get Payment API](https://docs.justifi.tech/api-spec#tag/Payments/operation/GetPayment).
-
-The checkout as well as the payment also appear in your JustiFi dashboard: Go to https://app.justifi.ai/ and choose “Checkouts” or “Payments” from the “Payments” dropdown.
+To retrieve the checkout or payment use the [Get Checkout API](https://docs.justifi.tech/api-spec#tag/Checkouts/operation/GetCheckout) or the [Get Payment API](https://docs.justifi.tech/api-spec#tag/Payments/operation/GetPayment).\
+The checkout as well as the payment also appear in your JustiFi dashboard:\
+Go to https://app.justifi.ai/ and choose **"Checkouts"** or **"Payments"** from the **"Payments"** dropdown.
