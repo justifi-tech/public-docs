@@ -1,6 +1,8 @@
 post:
   description: |
-    Received for the following events: checkout.completion.succeeded, checkout.completion.failed
+    Received for the following events: checkout.completion.succeeded, checkout.completion.failed, and
+    checkout.completion.processing. Note checkout.completion.processing is only sent for terminal payments when
+    a payment amount is sent to a terminal for processing.
   tags:
     - Events
   operationId: checkoutCompletionEvent
