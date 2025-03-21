@@ -14,7 +14,7 @@ properties:
     description: the payment method token used to process the payment, only for ecom payments
   status:
     type: string
-    enum: [succeeded, failed]
+    enum: [succeeded, failed, processing]
     example: succeeded
     description: the status of the completion, only succeeded or failed
   payment_status:
