@@ -20,6 +20,10 @@ properties:
     type: string
     enum: [created, submitted, completed]
     description: status of the order
+  company_name:
+    type: string
+    description: business legal name when the terminal order was created
+    example: Business Name
   terminals:
     type: array
     description: list of ordered terminals
