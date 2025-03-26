@@ -1,7 +1,7 @@
 ---
 title: Order Terminal Devices
-sidebar_label: Ordering
-description: How to order terminal devices
+sidebar_label: Ordering Process
+description: How do you get terminal devices
 keywords:
   - terminals
   - ordering
@@ -18,16 +18,27 @@ set up the Order Terminals web component on your platform or place the order on 
 The sub account you intend to order terminals for must be onboarded with JustiFi and enabled for payment processing. 
 
 ## Via Terminal Orders API
-Use the [Order Terminals API](https://docs.justifi.tech/api-spec#tag/Terminals-Orders/operation/terminalsOrder) to order one or multiple terminal devices for an enabled sub account.\
+Use the [Order Terminals API](https://docs.justifi.tech/api-spec#tag/Terminals-Orders/operation/terminalsOrder) 
+to order one or multiple terminal devices for an enabled sub account.\
 Once the order is placed you can retrieve it via [Get Terminals Order API](https://docs.justifi.tech/api-spec#tag/Terminals-Orders/operation/GetTerminalsOrder).\
-To get the `sub_account_id` and `business_id` of the sub account use the [List Sub Accounts API](https://docs.justifi.tech/api-spec#tag/Sub-Accounts/operation/ListSubAccounts) and filter by `enabled` status.
+To get the necessary `sub_account_id` and `business_id` of the sub account use the [List Sub Accounts API](https://docs.justifi.tech/api-spec#tag/Sub-Accounts/operation/ListSubAccounts) and filter by `enabled` status.
 
 ## Via Order Terminals Web Component
-If you prefer for your sub accounts to directly order terminal devices on your platform you can use the Terminal Orders web component. More information to come.
+If you prefer for your sub accounts to directly order terminal devices on your platform you can set up the Terminal Orders web component.
+Details coming soon. 
 
 ## Via JustiFi Dashboard
-Go to https://app.justifi.ai/ and choose **"Terminals'** from the **"Payments"** dropdown and select the **"Terminal Orders"** tab. 
+Go to https://app.justifi.ai/ and choose **"Terminals"** from the **"Payments"** dropdown. On the **"Terminals"** list select the **"Terminal Orders"** tab. 
 Click the **"Order Terminals"** button and select the business you are ordering devices for. 
 Confirm the **"Shipping Address"** displayed in the dialog is correct. 
 Select the model(s) and the number of devices (up to 20) and submit the order.\
-The submitted order will appear in the list of **"Terminal Orders"**. To view the order details click into the order on the list.
+The `created` order will appear in the list of **"Terminal Orders"**. To view the order details click into the order on the list.
+You can track the order via the **"Order Status"**. Once the order was submitted to Verifon the order status will change from `created` to `submitted`.
+The order status will be `completed` as soon as the order was shipped to the sub account.
+
+<!--
+### Provision Terminal Devices
+If you bulk ordered terminal devices from JustiFi and want to provision them for specific sub accounts use the **"Provision Terminals"** button 
+on the **"Terminal Orders"** tab instead. The provisioning process will preset the specified number of devices for the sub account. 
+You will then need to ship the devices to the sub account.
+-->
