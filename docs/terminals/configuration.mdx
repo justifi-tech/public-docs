@@ -22,33 +22,29 @@ Once you receive your terminal order you will need to connect the device(s) to W
 You can find the device ID in the Welcome Email from Verifone.\
 Follow these steps to configure your device(s): 
 
-<!-- <Box> -->
-<!--   <Flex display="flex" align-items="center" justify-content="center"> -->
+<img
+  src={TerminalConfiguration1}
+  alt="terminal set up guide steps 1 to 6"
+  object-fit="contain"
+  width="100%"
+  height="100%"
+/>
 
-    <img
-      src={TerminalConfiguration1}
-      alt="terminal set up guide steps 1 to 6"
-      object-fit="contain"
-      width="100%"
-      height="100%"
-    />
+<img
+  src={TerminalConfiguration2}
+  alt="terminal set up guide steps 7 to 11"
+  object-fit="contain"
+  width="100%"
+  height="100%"
+/>
 
-    <img
-      src={TerminalConfiguration2}
-      alt="terminal set up guide steps 7 to 11"
-      object-fit="contain"
-      width="100%"
-      height="100%"
-    />
-
-    <img
-      src={TerminalConfiguration3}
-      alt="terminal set up guide steps 12 to 17"
-      object-fit="contain"
-      width="100%"
-      height="100%"
-    />
-<!--   </Flex> -->
+<img
+  src={TerminalConfiguration3}
+  alt="terminal set up guide steps 12 to 17"
+  object-fit="contain"
+  width="100%"
+  height="100%"
+/>
 
 ## After Configuration
 You should be able to see any configured terminals in the response of the [List Terminals API response](https://developer.justifi.ai/api-spec#tag/Terminals/operation/listTerminals) 
@@ -68,7 +64,7 @@ On the detail view of a terminal click **"Identify Terminal"**.
 
 ## Reset a Terminal
 A terminal is in `ACTIVE` mode when it is processing a payment. It can occasionally get unresponsive. 
-In this case you can reset it by holding down the red **"X"**. Once reset the device will usually be in `CONNECTED` mode.\
+In this case you can reset it by holding down the red **"X"**. Once reset the device will usually be in `CONNECTED` mode.
 
 Once your device is configured and you have confirmed it is in `CONNECTED` mode you can [attempt a payment](https://docs.justifi.tech/terminals/payment).
 
