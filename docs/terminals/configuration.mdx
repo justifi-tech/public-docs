@@ -19,8 +19,8 @@ import TerminalConfiguration3 from "../../static/img/terminal-configuration3.png
 ## Overview
 
 Once you receive your terminal order you will need to connect the device(s) to Wifi and then enter the device ID (DID).\
-You can find the device ID in the Welcome Email from Verifone and on the shipping list affixed to the terminal shipping box.\
-Follow these steps to configure you device(s): 
+You can find the device ID in the Welcome Email from Verifone.\
+Follow these steps to configure your device(s): 
 
 <!-- <Box> -->
 <!--   <Flex display="flex" align-items="center" justify-content="center"> -->
@@ -51,23 +51,26 @@ Follow these steps to configure you device(s):
 <!--   </Flex> -->
 
 ## After Configuration
-You should be able to see any configured terminals in the [List Terminals API response](https://developer.justifi.ai/api-spec#tag/Terminals/operation/listTerminals) and in the 
-**"Terminals List"** on the JustiFi dashboard. (Go to https://app.justifi.ai/ and choose **“Terminals”** from the **"Payments"** dropdown.)
+You should be able to see any configured terminals in the response of the [List Terminals API response](https://developer.justifi.ai/api-spec#tag/Terminals/operation/listTerminals) 
+and in the **"Terminals List"** on the JustiFi dashboard. (Go to https://app.justifi.ai/ and choose **“Terminals”** from the **"Payments"** dropdown.)
 
 ## Check the Terminal Status
 To double check that a terminal is in `CONNECTED` mode call the [Get Terminal Status API](https://developer.justifi.ai/api-spec#tag/Terminals/operation/getTerminalStatus) and pass the terminal ID. 
-Or go to https://app.justifi.ai/ and choose **“Terminals”** from the **"Payments"** dropdown. On the detail view of a terminal click the **"Check Terminal Status"** button and the latest status will be retrieved. 
+Or go to https://app.justifi.ai/ and choose **“Terminals”** from the **"Payments"** dropdown. On the **"Terminals"** list click into a terminal you want to check.
+On the detail view of a terminal click the **"Check Terminal Status"** button and the latest status will be retrieved. 
 
 ## Identify a Terminal
 To ping a terminal device and display the nickname or serial number for 20 seconds on its display you can send a 
 request to the [Identify Terminal API](https://docs.justifi.tech/api-spec#tag/Terminals/operation/postIdentifyTerminal).
 Or go to https://app.justifi.ai/ and choose **“Terminals”** from the **"Payments"** dropdown. 
+On the **"Terminals"** list click into a terminal you want to ping. 
 On the detail view of a terminal click **"Identify Terminal"**.  
 
 ## Reset a Terminal
-A terminal is in `ACTIVE` mode when it is processing a payment and can sometimes get stuck. 
-You can reset it by holding down the red **"X"**. Normally it will be in `CONNECTED` mode once it is reset.\
-Once you have a device set up and confirmed it is in `CONNECTED` mode. At that point you can attempt a payment.
+A terminal is in `ACTIVE` mode when it is processing a payment. It can occasionally get unresponsive. 
+In this case you can reset it by holding down the red **"X"**. Once reset the device will usually be in `CONNECTED` mode.\
+
+Once your device is configured and you have confirmed it is in `CONNECTED` mode you can [attempt a payment](https://docs.justifi.tech/terminals/payment).
 
 ## FAQ
 **Q:** How long will the Device ID screen wait before timeout?\
@@ -97,6 +100,6 @@ the battery is lower than 20%. It is best practice to attach the terminal to the
 the VHQ DID software update process.
 
 **Q:** What if I cannot find the Welcome email for the terminal?\
-**A:** If the welcome email is missing, check the packaging list affixed to the terminal's box. 
+**A:** If the welcome email is missing and your package was sent from Verifone, check the packaging list affixed to the terminal's box. 
 The DID is listed under “Reference” on the bottom of the packaging list.\
-If you can't find either please contact [JustiFi Customer Success](mailto:customer_success@justifi.tech).
+If you can't find either or your package was not sent from Verifon please contact [JustiFi Customer Success](mailto:platform_success@justifi.tech).
