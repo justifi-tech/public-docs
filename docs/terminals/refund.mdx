@@ -1,0 +1,32 @@
+---
+title: Refund a Terminal Payment
+sidebar_label: Refund
+description: Process a refund of a terminal payment
+keywords:
+  - terminals
+  - ordering
+  - configuration
+  - payment
+  - refund
+---
+
+# Refund a Terminal Payment
+You can refund a terminal payment via API or on the JustiFi dashboard.
+
+## Via API
+We offer 2 different APIs to execute a refund.\
+If you want to refund a specific payment use the payment ID from the checkout record and call the [Create Refund API](https://developer.justifi.ai/tag/Refunds#operation/CreateRefund).\
+To refund a checkout (which can potentially include multiple payments) send a request to the [Refund Checkout API](https://docs.justifi.tech/api-spec#tag/Checkouts/operation/RefundCheckout). 
+
+## Via JustiFi Dashboard
+To refund the payment go to https://app.justifi.ai/ and choose **"Payments"** from the **"Payments"** dropdown. 
+If you have the payment ID you can filter the **"Payments"** list by the payment ID. 
+Click into the payment to view the details and click the **"Refund"** button.
+
+
+To refund the checkout go to https://app.justifi.ai/ and choose **"Checkouts"** from the **"Payments"** dropdown. 
+On the **"Checkouts"** list find the specific checkout you want to refund and click on it. 
+If you have the checkout ID click into any checkout in the **"Checkouts"** list and replace 
+the last part of the url with your checkout ID and click enter.
+On the detail page of your checkout click the **"Refund"** button.
+
