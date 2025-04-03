@@ -1,8 +1,8 @@
 post:
-  summary: Post Identify Terminal
+  summary: Identify Terminal
   operationId: postIdentifyTerminal
   description: |
-    This API will attempt to display the nickname or provider id on
+    This API will attempt to display the nickname or serial number on
     the screen of the given terminal for 20 seconds.
   tags:
     - Terminals
