@@ -1,5 +1,5 @@
 get:
-  summary: List Terminal Orders (DRAFT)
+  summary: List Terminal Orders
   description: Retrieve a list of terminal orders for your account. This endpoint supports [pagination](https://docs.justifi.tech/api-spec#section/Pagination).
   operationId: ListTerminalsOrders
   tags:
@@ -50,7 +50,7 @@ get:
                     items:
                       $ref: ../components/schemas/TerminalsOrder.yaml
 post:
-  summary: Order Terminals (DRAFT)
+  summary: Order Terminals
   description: Order (one or multiple) terminals from one of our technology partners
   operationId: terminalsOrder
   tags:
