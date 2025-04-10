@@ -18,8 +18,12 @@ import TerminalConfiguration3 from "../../static/img/terminal-configuration3.png
 
 ## Overview
 
-Once you receive your terminal order you will need to connect the device(s) to Wifi and then enter the device ID (DID).\
-You can find the device ID in the Welcome Email from Verifone.\
+When you receive your terminal order you will need to connect the device(s) to Wifi and then enter the device ID (DID). 
+You can find the 8 digit device ID(s) in the Welcome Email from Verifone and on the **"Terminals"** list in the JustiFi dashboard.\
+To view the **"Terminals"** list go to https://app.justifi.ai/ and choose **“Terminals”** from the **"Payments"** dropdown.
+Filter the list by sub account. Choose a device ID from the list of terminals that match the **"Model Name"** you want to configure 
+and have no assigned **"Serial Number"**. The **"Serial Number"** will be assigned to the device after configuration is finished.\
+
 Follow these steps to configure your device(s): 
 
 <img
@@ -48,7 +52,15 @@ Follow these steps to configure your device(s):
 
 ## After Configuration
 You should be able to see any configured terminals in the response of the [List Terminals API response](https://developer.justifi.ai/api-spec#tag/Terminals/operation/listTerminals) 
-and in the **"Terminals List"** on the JustiFi dashboard. (Go to https://app.justifi.ai/ and choose **“Terminals”** from the **"Payments"** dropdown.)
+and in the **"Terminals List"** on the JustiFi dashboard:\
+Go to https://app.justifi.ai/ and choose **“Terminals”** from the **"Payments"** dropdown. 
+Confirm that the device you just configured has an assigned **"Serial Number"** that matches the serial number on the back of your device.
+
+## Assign Nickname
+To simplify identifying and handling specific terminal devices we recommend you assign a nickname to each.
+You can do that via the [Update Terminal API](https://docs.justifi.tech/api-spec#tag/Terminals/operation/updateTerminal)
+or on the JustiFi dashboard on the 
+as soon as the terminal order was created and anytime after. The nickname can also be changed using the same API endpoint.
 
 ## Check the Terminal Status
 To double check that a terminal is in `CONNECTED` mode call the [Get Terminal Status API](https://developer.justifi.ai/api-spec#tag/Terminals/operation/getTerminalStatus) and pass the terminal ID. 
@@ -96,6 +108,6 @@ the battery is lower than 20%. It is best practice to attach the terminal to the
 the VHQ DID software update process.
 
 **Q:** What if I cannot find the Welcome email for the terminal?\
-**A:** If the welcome email is missing and your package was sent from Verifone, check the packaging list affixed to the terminal's box. 
-The DID is listed under “Reference” on the bottom of the packaging list.\
+**A:** If your package was sent from Verifone, check the packaging list affixed to the terminal's box. 
+The 8 digit DID is listed under “Reference” on the bottom of the packaging list.\
 If you can't find either or your package was not sent from Verifon please contact [JustiFi Customer Success](mailto:platform_success@justifi.tech).
