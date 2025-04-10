@@ -90,14 +90,14 @@ The `error` event means there was an issue with the PaymentProvisioning form con
 ```
 <script>
   const justifiPaymentProvisioning = document.querySelector('justifi-payment-provisioning');
-  justifiPaymentProvisioning.addEventListener('submitted', (event) => {
+  justifiPaymentProvisioning.addEventListener('submit-event', (event) => {
     if (event.details.data) {
       console.log("Form sumbission succeeded!");
     } else {
       console.log("An error occured")
     }
   });
-  justifiPaymentProvisioning.addEventListener('error', (event) => {
+  justifiPaymentProvisioning.addEventListener('error-event', (event) => {
     console.log(event);
   });
 </script>

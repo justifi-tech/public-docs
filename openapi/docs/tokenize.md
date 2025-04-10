@@ -72,7 +72,7 @@ An `error` event means there was an issue with the Tokenize Payment Method web c
 ```
 <script>
   const justifiTokenizePaymentMethod = document.querySelector('justifi-tokenize-payment-method');
-  justifiTokenizePaymentMethod.addEventListener('submitted', (event) => {
+  justifiTokenizePaymentMethod.addEventListener('submit-event', (event) => {
     console.log('Submitted data:', event.detail);
   });
   justifiTokenizePaymentMethod.addEventListener('error-event', (event) => {
