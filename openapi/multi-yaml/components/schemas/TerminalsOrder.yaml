@@ -42,7 +42,7 @@ properties:
     example: Doe
   contact_email:
     type: string
-    description: company's contact e-mail
+    description: company's contact email
     example: john.doe@example.com
   contact_phone_number:
     type: string
@@ -72,6 +72,7 @@ properties:
     example: USA
   shipping_tracking_reference:
     type: string
+    description: FedEx tracking number associated with the terminal order shipment. This field is populated only when the terminal order status is completed and the order includes a physical shipment. Always null for boarding_only terminal orders, as no shipment occurs.
     example: 12345678
   created_at:
     type: string
