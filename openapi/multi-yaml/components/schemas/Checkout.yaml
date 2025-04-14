@@ -3,12 +3,15 @@ properties:
   id:
     description: unique checkout id
     type: string
+    format: uuid
     example: cho_xyz
   account_id:
+    description: id of the account associated with the checkout
     type: string
     format: uuid
     example: acc_xyz
   platform_account_id:
+    description: id of the platform account associated with the checkout
     type: string
     format: uuid
     example: acc_xyz
@@ -18,18 +21,41 @@ properties:
     example: 10000
   payment_currency:
     type: string
-    enum: [usd]
-    example: usd
+    enum: [USD]
+    example: USD
   payment_description:
     type: string
     description: your meaningful description of the payment (e.g. an order number or other value from your system)
-    example: my_order_xyz
+    example: my order xyz
   payment_methods:
     type: array
-    description: list of payment methods when a payment method group has been provided
+    description: if payment_method_group_id was provided, list of payment methods contained in that payment method group
+    example: [{
+        id: pm_123xyz,
+        type: card,
+        status: valid,
+        invalid_reason: null,
+        name: John Doe,
+        brand: visa,
+        acct_last_four: "4321",
+        month: "12",
+        year: "2031",
+        address_line1_check: pass,
+        address_postal_code_check: pass,
+        bin_details: {}
+      },
+      { id: pm_789abc,
+        type: bank_account,
+        status: valid,
+        invalid_reason: null,
+        account_owner_name: Mary Lane,
+        account_type: checking,
+        bank_name: Altra,
+        acct_last_four: "4512"
+      }]
   payment_method_group_id:
     type: string
-    description: payment method group id provided for checkout
+    description: id of payment method group used for checkout, if provided
     format: uuid
     example: pmg_xyz
   status:
@@ -44,7 +70,7 @@ properties:
   successful_payment_id:
     type: string
     format: uuid
-    example: py_xyz
+    example: py_123xyz
     description: payment id, if this checkout was paid for successfully
   statement_descriptor:
     type: string
@@ -52,7 +78,7 @@ properties:
     example: Big Business
   application_fees:
     type: object
-    description: custom application fee amount that applies to this payment
+    description: custom application fee amount that applies to this payment, if provided
     properties:
       card:
         type: object
