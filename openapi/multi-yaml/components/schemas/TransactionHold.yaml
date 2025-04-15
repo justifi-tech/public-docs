@@ -9,3 +9,4 @@ properties:
     description: financial transaction id the transaction hold is associated to
     format: uuid
     example: ft_123xyz
+    
