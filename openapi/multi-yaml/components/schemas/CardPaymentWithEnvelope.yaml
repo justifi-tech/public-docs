@@ -1,0 +1,17 @@
+type: object
+properties:
+  id:
+    description: unique payment id, same as id in data object
+    type: string
+    example: py_xyz
+  type:
+    description: the object type
+    type: string
+    example: payment
+  data:
+    $ref: ./CardPayment.yaml
+  page_info:
+    description: information for cursor style pagination, is null for single records
+    type: null
+    nullable: true
+
