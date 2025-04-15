@@ -95,6 +95,12 @@ properties:
   payment_settings:
     type: object
     description: payment configuration information for the checkout
+    example: {
+      ach_payments: true,
+      bnpl_payments: false,
+      credit_card_payments: true,
+      insurance_payments: false
+    }
   created_at:
     type: string
     format: date-time
