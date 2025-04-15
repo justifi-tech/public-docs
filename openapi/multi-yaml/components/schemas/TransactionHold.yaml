@@ -1,0 +1,11 @@
+type: object
+properties:
+  id:
+    description: unique transaction hold id
+    type: string
+    example: th_123xyz
+  financial_transaction_id:
+    type: string
+    description: financial transaction id the transaction hold is associated to
+    format: uuid
+    example: ft_123xyz

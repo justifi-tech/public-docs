@@ -54,6 +54,7 @@ post:
                 refunded: false
                 returned: false
                 status: succeeded
+                terminal_id: trm_123_xyz
                 updated_at: "2021-01-01T12:00:00Z"
                 payment_method:
                   card:
@@ -81,6 +82,9 @@ post:
                   currency: usd
                   created_at: "2021-01-01T12:00:00Z"
                   updated_at: "2021-01-01T12:00:00Z"
+                transaction_hold:
+                  id: th_123xyz
+                  financial_transaction_id: ft_123xyz
                 refunds: []
                 disputes: []
               event_name: payment.created
@@ -137,6 +141,9 @@ post:
                   currency: usd
                   created_at: "2021-01-01T12:00:00Z"
                   updated_at: "2021-01-01T12:00:00Z"
+                transaction_hold:
+                  id: th_123xyz
+                  financial_transaction_id: ft_123xyz
                 refunds: []
                 disputes: []
               event_name: payment.created

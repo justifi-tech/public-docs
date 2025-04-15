@@ -84,11 +84,15 @@ properties:
   checkout_id:
     type: string
     description: unique id of associated checkout
-    example: "cho_123"
+    example: "cho_123xyz"
   payment_method:
     $ref: ./CardPaymentMethod.yaml
   application_fee:
     $ref: ./ApplicationFee.yaml
+  application_fee_rate_id:
+    type: string
+    description: unique id of application fee rate applied to this payment, if any
+    example: afr_123xyz
   refunded:
     type: boolean
     description: whether or not this payment has any refunds
@@ -111,6 +115,15 @@ properties:
     type: string
     example: ecom
     enum: [ecom, ach, card_present]
+  terminal_id:
+    type: string
+    description: id of terminal used to process the card payment, if any
+    example: trm_123xyz
+  transaction_hold:
+    allOf:
+      - type: object
+      - description: present when the payment has been flagged for review and held from payouts
+      - $ref: ./TransactionHold.yaml
   created_at:
     type: string
     format: date-time
