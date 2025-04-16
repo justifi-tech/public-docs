@@ -735,6 +735,10 @@ Many of our `4XX` errors will provide an error code in addition to their HTTP st
     <td><code>do_not_retry</code></td>
     <td>This card has been rejected, please try a different payment method and have the cardholder contact their issuing bank for details</td>
   </tr>
+  <tr>
+    <td><code>refund_in_progress</code></td>
+    <td>A refund for this payment is already in progress</td>
+  </tr>
 </table>
 
 ### Network Error Codes
