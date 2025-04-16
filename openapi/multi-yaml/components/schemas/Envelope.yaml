@@ -1,9 +1,10 @@
 type: object
 properties:
   id:
-    description: the object id
-    type: number
-    example: 1
+    description: the object id, also found in the data object
+    type: string
+    format: uuid
+    example: prefix_xyz (same as id of data object)
   type:
     description: the object type, or array of objects
     type: string
@@ -13,5 +14,5 @@ properties:
     type: object
   page_info:
     description: information for cursor style pagination, is null for single records
-    type: string
+    type: null
     nullable: true

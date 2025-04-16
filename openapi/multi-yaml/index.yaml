@@ -556,3 +556,5 @@ x-webhooks:
     $ref: events/account_payment_setting_updated.yaml
   payout_setting_updated:
     $ref: events/account_payout_setting_updated.yaml
+  terminal_orders:
+    $ref: events/terminal_orders.yaml

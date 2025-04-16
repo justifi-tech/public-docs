@@ -57,6 +57,14 @@ get:
       example: archived
       description: |
         Return accounts with specific status
+    - in: query
+      name: business_id
+      schema:
+        type: string
+      required: false
+      example: biz_123abc
+      description: |
+        Filter accounts associated with a business record
 
   responses:
     '200':

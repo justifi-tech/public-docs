@@ -46,3 +46,5 @@ We will publish the following events:
 - checkout.completion.failed
 - account.payment_setting.updated
 - account.payout_setting.updated
+- terminal_order.created
+- terminal_order.updated

@@ -89,6 +89,10 @@ properties:
     $ref: ./BankAccountPaymentMethod.yaml
   application_fee:
     $ref: ./ApplicationFee.yaml
+  application_fee_rate_id:
+    type: string
+    description: unique id of application fee rate applied to this payment, if any
+    example: afr_123xyz
   refunded:
     type: boolean
     description: whether or not this payment has any refunds
@@ -107,14 +111,23 @@ properties:
         disputed,
       ]
     description: status of the payment
-  created_at:
-    type: string
-    format: date-time
-    example: "2021-01-01T12:00:00Z"
   payment_mode:
     type: string
     example: ecom
     enum: [ecom, ach, card_present]
+  terminal_id:
+    type: string
+    description: id of terminal used to process a card payment, null for bank account payments 
+    example: trm_123xyz
+  transaction_hold:
+    allOf:
+      - type: object
+      - description: present when the payment has been flagged for review and held from payouts
+      - $ref: ./TransactionHold.yaml
+  created_at:
+    type: string
+    format: date-time
+    example: "2021-01-01T12:00:00Z"
   updated_at:
     type: string
     format: date-time

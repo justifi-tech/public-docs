@@ -1,5 +1,5 @@
 get:
-  summary: Get Terminals Order (DRAFT)
+  summary: Get Terminals Order
   operationId: GetTerminalsOrder
   description: Get information about terminals order
   tags:

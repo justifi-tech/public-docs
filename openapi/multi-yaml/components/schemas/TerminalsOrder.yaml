@@ -24,6 +24,64 @@ properties:
     type: string
     description: business legal name when the terminal order was created
     example: Business Name
+  mcc:
+    type: string
+    description: Merchant Category Code
+    example: 7998
+  receiver_name:
+    type: string
+    description: name of the person receiving the terminal
+    example: John Doe
+  contact_first_name:
+    type: string
+    description: company's representative first name
+    example: John
+  contact_last_name:
+    type: string
+    description: company's representative last name
+    example: Doe
+  contact_email:
+    type: string
+    description: company's contact email
+    example: john.doe@example.com
+  contact_phone_number:
+    type: string
+    description: company's contact phone number
+    example: 2125554567
+  line1:
+    type: string
+    example: 123 Main St
+  line2:
+    type: string
+    example: Apt 4B
+  city:
+    type: string
+    example: Minneapolis
+  state:
+    type: string
+    example: MN
+  postal_code:
+    type: string
+    example: 55401
+  time_zone:
+    type: string
+    description: determined by postal code
+    example: US/Central
+  country:
+    type: string
+    example: USA
+  shipping_tracking_reference:
+    type: string
+    description: FedEx tracking number associated with the terminal order shipment. This field is populated only when the terminal order status is completed and the order includes a physical shipment. Always null for boarding_only terminal orders, as no shipment occurs.
+    example: 12345678
+  created_at:
+    type: string
+    format: date-time
+    example: '2024-01-01T12:00:00Z'
+  updated_at:
+    type: string
+    format: date-time
+    example: '2024-01-01T12:00:00Z'
   terminals:
     type: array
     description: list of ordered terminals
@@ -43,11 +101,3 @@ properties:
           type: string
           enum: [V400m, P400, E285]
           example: V400m
-  created_at:
-    type: string
-    format: date-time
-    example: '2024-01-01T12:00:00Z'
-  updated_at:
-    type: string
-    format: date-time
-    example: '2024-01-01T12:00:00Z'

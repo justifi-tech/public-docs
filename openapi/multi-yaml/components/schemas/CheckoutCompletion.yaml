@@ -31,16 +31,18 @@ properties:
     example: Your card was declined
     description: when payment fails, related error description
   payment_response:
-    type: object
-    description: the payment API response when trying to process the payment
+   allOf:
+    - type: object
+    - description: payment object if completion attempt was successful, error object if not successful
+    - $ref: ./CardPaymentWithEnvelope.yaml
   checkout_id:
     type: string
     format: uuid
     description: id of the checkout for this completion
     example: cho_xyz123
   additional_transactions:
-    type: array
-    description: any other transactions we processed while completing this checkout. For example, insurance payments
+    type: array of objects 
+    description: legacy attribute, other transactions processed during checkout completion. For example, insurance payments
   checkout:
     $ref: ./Checkout.yaml
   payment_id:
