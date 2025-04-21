@@ -49,3 +49,21 @@ properties:
     type: string
     format: date-time
     example: '2021-01-01T12:00:00Z'
+  dispute_response: 
+    allOf:
+      - type: object
+      - description: present when evidence was submitted to counter dispute
+      - $ref: ./DisputeResponse.yaml
+      - nullable: true
+  dispute_reversal:
+    type: object
+    description: present when dispute gets reversed from lost to won
+    properties:
+      description:
+        type: string
+        example: Dispute was reversed
+      created_at:
+        type: string
+        format: date-time
+        example: '2021-01-01T12:00:00Z'
+    nullable: true
