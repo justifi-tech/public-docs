@@ -56,11 +56,14 @@ and in the **"Terminals List"** on the JustiFi dashboard:\
 Go to https://app.justifi.ai/ and choose **“Terminals”** from the **"Payments"** dropdown. 
 Confirm that the device you just configured has an assigned **"Serial Number"** that matches the serial number on the back of your device.
 
+<--
 ## Assign Nickname
-To simplify identifying and handling specific terminal devices we recommend you assign a nickname to each.
-You can do that via the [Update Terminal API](https://docs.justifi.tech/api-spec#tag/Terminals/operation/updateTerminal)
-or on the JustiFi dashboard on the 
-as soon as the terminal order was created and anytime after. The nickname can also be changed using the same API endpoint.
+To simplify identifying and handling a specific terminal device you can assign a nickname to it
+as soon as the terminal order was created and anytime after. 
+To do that use the [Update Terminal API](https://docs.justifi.tech/api-spec#tag/Terminals/operation/updateTerminal)
+or edit the **"Nickname"** field on the **"Order Details"** page on the JustiFi dashboard.
+The nickname can be changed at any time via the same methods.
+-->
 
 ## Check the Terminal Status
 To double check that a terminal is in `CONNECTED` mode call the [Get Terminal Status API](https://developer.justifi.ai/api-spec#tag/Terminals/operation/getTerminalStatus) and pass the terminal ID. 
