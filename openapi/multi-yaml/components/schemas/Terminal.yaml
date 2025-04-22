@@ -45,12 +45,12 @@ properties:
   terminal_order_created_at:
     type: string
     format: date-time
-    description: timestamp of when the order for the terminal was placed
+    description: timestamp of when the terminal order was placed
     example: '2024-01-01T15:00:00Z'
   status_last_requested_at:
     type: string
     format: date-time
-    description: timestamp of when the status of the terminal was last requested
+    description: timestamp of last terminal status request
     example: '2024-01-01T15:00:00Z'
   created_at:
     type: string
