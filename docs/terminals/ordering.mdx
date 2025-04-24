@@ -18,17 +18,17 @@ set up the Order Terminals web component on your platform or place the order on 
 The sub account you intend to order terminals for must be onboarded with JustiFi and enabled for payment processing. 
 The terminals will be automatically shipped to your sub account.
 
-## Via Terminal Orders API
+### Via Terminal Orders API
 Use the [Order Terminals API](https://docs.justifi.tech/api-spec#tag/Terminals-Orders/operation/terminalsOrder) and pass `"boarding_shipping"` as `order_type` 
 to order one or multiple terminal devices for an enabled sub account.\
 Once the order is placed you can retrieve it via [Get Terminals Order API](https://docs.justifi.tech/api-spec#tag/Terminals-Orders/operation/GetTerminalsOrder).\
 To get the necessary `sub_account_id` and `business_id` of the sub account use the [List Sub Accounts API](https://docs.justifi.tech/api-spec#tag/Sub-Accounts/operation/ListSubAccounts) and filter by `enabled` status.
 
-## Via Order Terminals Web Component
+### Via Order Terminals Web Component
 If you prefer for your sub accounts to directly order terminal devices on your platform 
 you can utilize the [Order Terminals web component](https://storybook.justifi.ai/?path=/docs/merchant-tools-order-terminals--docs).
 
-## Via JustiFi Dashboard
+### Via JustiFi Dashboard
 Go to https://app.justifi.ai/ and choose **"Terminals"** from the **"Payments"** dropdown. On the **"Terminals"** list select the **"Terminal Orders"** tab. 
 Click the **"Order Terminals"** button and select the business you order devices for. 
 Confirm the **"Shipping Address"** displayed in the dialog is correct. 
@@ -53,8 +53,10 @@ Click `Add Publisher` and select the terminal order events.
 To simplify identifying and handling a specific terminal device you can assign a nickname to it
 as soon as the terminal order was created and the ordered terminals appear in the **"Associated Terminals"** list
 on the bottom of the **"Order Details"** page. 
-To do that use the [Update Terminal API](https://docs.justifi.tech/api-spec#tag/Terminals/operation/updateTerminal)
+To do that use the [Update Terminal API](https://docs.justifi.tech/api-spec#tag/Terminals/operation/updateTerminal).
+<!--
 or edit the **"Nickname"** field on the **"Terminal Details"** page on the JustiFi dashboard.
+-->
 The nickname can be changed at any time via the same methods.
 
 ## Provision Terminal Devices
@@ -65,12 +67,12 @@ You can provision terminals for your sub accounts via the Terminal Orders API or
 The sub account you provision terminals for must be onboarded with JustiFi and enabled for payment processing. 
 Once you have provisioned the devices you can send them to your sub account(s).
 
-## Via Terminal Orders API
+### Via Terminal Orders API
 Use the [Order Terminals API](https://docs.justifi.tech/api-spec#tag/Terminals-Orders/operation/terminalsOrder) and pass `"boarding_only"` as `order_type`.\
 Once the provisioning order is placed you can retrieve it via [Get Terminals Order API](https://docs.justifi.tech/api-spec#tag/Terminals-Orders/operation/GetTerminalsOrder).\
 To get the necessary `sub_account_id` and `business_id` of the sub account use the [List Sub Accounts API](https://docs.justifi.tech/api-spec#tag/Sub-Accounts/operation/ListSubAccounts) and filter by `enabled` status.
 
-## Via JustiFi Dashboard
+### Via JustiFi Dashboard
 Go to https://app.justifi.ai/ and choose **"Terminals"** from the **"Payments"** dropdown. 
 On the **"Terminals"** list select the **"Terminal Orders"** tab. 
 Click the **"Provision Terminals"** button and select the business you provision devices for. 
