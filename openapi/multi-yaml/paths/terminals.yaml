@@ -14,7 +14,7 @@ get:
       required: false
       example: "active"
       description: |
-        fitler records by the terminal status. Accepts multiple comma separated status values.
+        filter records by the terminal status. Accepts multiple comma separated status values.
     - in: query
       name: terminal_id
       schema:
@@ -30,7 +30,7 @@ get:
       required: false
       example: "23456789"
       description: |
-        fitler records by provider id, also called device id (DID). Accepts multiple comma separated provider ids.
+        filter records by provider id, also called device id (DID). Accepts multiple comma separated provider ids.
     - in: query
       name: terminal_order_id
       schema:
@@ -38,7 +38,7 @@ get:
       required: false
       example: "tord_123xyz"
       description: |
-        fitler records by terminal order id
+        filter records by terminal order id
     - in: query
       name: verified_after
       schema:
