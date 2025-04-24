@@ -14,7 +14,7 @@ get:
       required: false
       example: "active"
       description: |
-        the terminal status
+        fitler records by the terminal status. Accepts multiple comma separated status values.
     - in: query
       name: terminal_id
       schema:
@@ -22,7 +22,23 @@ get:
       required: false
       example: "trm_abc123"
       description: |
-        the terminal id
+        filter records by terminal id
+    - in: query
+      name: provider_id
+      schema:
+        type: string
+      required: false
+      example: "23456789"
+      description: |
+        fitler records by provider id, also called device id (DID). Accepts multiple comma separated provider ids.
+    - in: query
+      name: terminal_order_id
+      schema:
+        type: string
+      required: false
+      example: "tord_123xyz"
+      description: |
+        fitler records by terminal order id
     - in: query
       name: verified_after
       schema:
@@ -31,7 +47,7 @@ get:
       required: false
       example: "2024-01-01T00:00:00Z"
       description: |
-        filter the records which were verified after the date and time (UTC) specified. Dates without time specified will default to 00:00:00
+        filter records which were verified after the date and time (UTC) specified. Dates without time specified will default to 00:00:00
     - in: query
       name: verified_before
       schema:
@@ -40,7 +56,7 @@ get:
       required: false
       example: "2024-01-01T00:00:00Z"
       description: |
-        filter the records which were verified before the date and time (UTC) specified. Dates without time specified will default to 00:00:00
+        filter records which were verified before the date and time (UTC) specified. Dates without time specified will default to 00:00:00
     - in: query
       name: verified_on
       schema:
@@ -49,7 +65,7 @@ get:
       required: false
       example: "2024-01-01"
       description: |
-        filter the records which were verified on the date specified between 00:00:00 and 23:59:59 (UTC)
+        filter records which were verified on the date specified between 00:00:00 and 23:59:59 (UTC)
   responses:
     '200':
       description: Successfully list terminals
