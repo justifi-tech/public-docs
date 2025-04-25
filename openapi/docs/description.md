@@ -609,7 +609,7 @@ Many of our `4XX` errors will provide an error code in addition to their HTTP st
   </tr>
   <tr>
     <td><code>invalid_charge_amount</code></td>
-    <td>The specified amount is invalid. The charge amount must be a positive integer in the smallest currency unit, and not exceed the minimum or maximum amount.</td>
+    <td>Your transaction was declined because the payment amount is outside the limits set by your card issuer. Please contact your bank for details or try a different payment method</td>
   </tr>
   <tr>
     <td><code>invalid_cvc</code></td>
