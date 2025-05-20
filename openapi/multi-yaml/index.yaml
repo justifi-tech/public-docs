@@ -55,6 +55,10 @@ tags:
       Each day, a payout containing that day's funds is automatically created for the
       purpose of distributing those funds to the active bank account. Payout amounts are calculated by
       summing the associated balance transactions for that specific day.
+
+      Payouts are processed each day at 11:30am US/Central time. A Platform can also configure each
+      sub account to have an expedited payout priority. If this is enabled, the payout will be settled on the
+      day the payout is generated. Otherwise, standard payouts will settle the next business day.
   - name: Balance Transactions
     description: |
       Balance transactions are the reflection of any movement of funds that affects the balance of an account.
