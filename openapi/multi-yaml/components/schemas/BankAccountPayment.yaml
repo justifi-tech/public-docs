@@ -124,6 +124,11 @@ properties:
       - type: object
       - description: present when the payment has been flagged for review and held from payouts
       - $ref: ./TransactionHold.yaml
+  expedited:
+    type: boolean
+    nullable: true
+    description: settlement priority of the payment, only applies to ACH payments
+    example: true
   created_at:
     type: string
     format: date-time

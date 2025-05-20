@@ -63,6 +63,11 @@ properties:
     type: string
     example: paid
     enum: [paid failed forwarded scheduled in_transit canceled]
+  settlement_priority:
+    description: settlement priority of the payout, either standard or expedited.
+    type: string
+    example: standard
+    enum: [standard expedited]
   metadata:
     type: object
     format: json
