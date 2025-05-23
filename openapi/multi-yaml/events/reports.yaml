@@ -1,0 +1,19 @@
+post:
+  description: |
+    Received for the following events: report.scheduled, report.processing, report.completed, report.failed, report.canceled
+  tags:
+    - Events
+  operationId: reportEvent
+  summary: Reports
+  requestBody:
+    content:
+      application/json:
+        schema:
+          allOf:
+            - $ref: ../components/schemas/Event.yaml
+            - properties:
+                data:
+                  $ref: ../components/schemas/Report.yaml
+  responses:
+    "200":
+      description: Return a 200 status to indicate that the data was received successfully. You must respond within 5 seconds.
