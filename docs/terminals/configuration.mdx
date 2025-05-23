@@ -18,13 +18,25 @@ import TerminalConfiguration3 from "../../static/img/terminal-configuration3.png
 
 ## Overview
 
-When you receive your terminal order you will need to connect the device(s) to Wifi and then enter the device ID (DID). 
+When you receive your terminal order you will need to connect the device(s) to Wifi and then enter the **device ID (DID**). 
 You can find the 8 digit device ID(s) in the Welcome Email from Verifone and on the **"Terminals"** list in the JustiFi dashboard.\
 To view the **"Terminals"** list go to https://app.justifi.ai/ and choose **“Terminals”** from the **"Payments"** dropdown.
 Filter the list by sub account. Choose a device ID from the list of terminals that match the **"Model Name"** you want to configure 
-and have no assigned **"Serial Number"**. The **"Serial Number"** will be assigned to the device after configuration is finished.\
+and have no assigned **"Serial Number"**. The **"Serial Number"** will be assigned to the device after configuration is finished.
 
-Follow these steps to configure your device(s): 
+#### Follow these steps to configure your device(s): 
+
+<div style={{padding:"56.25% 0 0 0", position:"relative"}}>
+  <iframe src="https://player.vimeo.com/video/1085717984?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" 
+    frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" 
+    style={{position: "absolute", top:"0", left:"0", width: "100%", height:"100%"}}
+    title="JustiFi + Verifone: Terminal Configuration">
+  </iframe>
+</div>
+<script src="https://player.vimeo.com/api/player.js"></script>
+
+
+#### The same steps are listed in the following images
 
 <img
   src={TerminalConfiguration1}
@@ -84,33 +96,33 @@ In this case you can reset it by holding down the red **"X"**. Once reset the de
 Once your device is configured and you have confirmed it is in `CONNECTED` mode you can [attempt a payment](https://docs.justifi.tech/terminals/payment).
 
 ## FAQ
-**Q:** How long will the Device ID screen wait before timeout?\
-**A:** The Device ID timeout does not take effect when entering the Device ID. The DID will remain until the
+**How long will the Device ID screen wait before timeout?**\
+The Device ID timeout does not take effect when entering the Device ID. The DID will remain until the
 form is completed, even after rebooting.
 
-**Q:** What if I power down the device before entering DID?\
-**A:** The terminal will return the device ID screen until the user enters the device ID.
+**What if I power down the device before entering DID?**\
+The terminal will return the device ID screen until the user enters the device ID.
 
-**Q:** What if I do not enter DID and press OK?\
-**A:** After pressing **"OK"**, the terminal will return to the Welcome screen. On the next reboot, it will display
+**What if I do not enter DID and press OK?**\
+After pressing **"OK"**, the terminal will return to the Welcome screen. On the next reboot, it will display
 the device ID entry screen.
 
-**Q:** How long does it take to complete the software installation after entering the device ID?\
-**A:** After the update job is scheduled by Verifone, it will take 15 to 20 minutes to complete. The download and
+**How long does it take to complete the software installation after entering the device ID?**\
+After the update job is scheduled by Verifone, it will take 15 to 20 minutes to complete. The download and
 update usually are complete within 20 to 30 seconds.
 
-**Q:** What if power is lost during the software installation process?\
-**A:** The device will recover from the reboot and continue the software installation process.
+**What if power is lost during the software installation process?**\
+The device will recover from the reboot and continue the software installation process.
 
-**Q:** Are hidden WIFI networks supported?\
-**A:** At this time, hidden networks will require engineering assistance.
+**Are hidden WIFI networks supported?**\
+At this time, hidden networks will require engineering assistance.
 
-**Q:** What if my device's battery charge level is low before I enter the DID?\
-**A:** Please be sure the battery level is above 50% before entering DID. The device will postpone updates if
+**What if my device's battery charge level is low before I enter the DID?**\
+Please be sure the battery level is above 50% before entering DID. The device will postpone updates if
 the battery is lower than 20%. It is best practice to attach the terminal to the AC power adapter during
 the VHQ DID software update process.
 
-**Q:** What if I cannot find the Welcome email for the terminal?\
-**A:** If your package was sent from Verifone, check the packaging list affixed to the terminal's box. 
+**What if I cannot find the Welcome email for the terminal?**\
+If your package was sent from Verifone, check the packaging list affixed to the terminal's box. 
 The 8 digit DID is listed under “Reference” on the bottom of the packaging list.\
 If you can't find either or your package was not sent from Verifone please contact [JustiFi Customer Success](mailto:platform_success@justifi.tech).
