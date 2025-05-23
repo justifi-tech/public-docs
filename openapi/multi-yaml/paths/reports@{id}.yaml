@@ -1,0 +1,23 @@
+get:
+  summary: Get a report
+  description: Get and generate the download url for a report
+  operationId: GetReport
+  tags:
+    - Reports
+  parameters:
+    - $ref: ../components/parameters/authorization-header.yaml
+    - $ref: ../components/parameters/sub-account.yaml
+    - $ref: ../components/parameters/id-path.yaml
+  responses:
+    "200":
+      description: Successfully get a report
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope.yaml
+              - properties:
+                  type:
+                    example: refund
+                  data:
+                    $ref: ../components/schemas/Report.yaml

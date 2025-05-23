@@ -1,0 +1,4 @@
+description: which report was generated
+type: string
+example: proceeds
+enum: [proceeds, payout, interchange_fee, sub_account_summary, payment_list]
