@@ -1,0 +1,16 @@
+type: object
+required: [report_type]
+properties:
+  report_type:
+    type: string
+    enum: [interchange_fee]
+  start_date:
+    type: string
+    format: date
+    example: "2025-12-25"
+    description: Start date to filter by. Maximum allowed date rage is 1 month
+  end_date:
+    type: string
+    format: date
+    example: "2025-12-30"
+    description: End date to filter by. Maximum allowed date rage is 1 month

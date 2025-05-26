@@ -1,0 +1,45 @@
+type: object
+properties:
+  id:
+    description: report unique id
+    type: string
+    example: rpt_xyz
+  report_type:
+    $ref: ./ReportType.yaml
+  status:
+    description: the report status
+    type: string
+    example: scheduled
+    enum: [scheduled, processing, completed, failed, canceled, expired]
+  scheduled_at:
+    description: when the report was scheduled
+    type: string
+    format: date
+    example: "2025-12-25T14:44:45.026Z"
+  run_at:
+    description: when the report started processing
+    type: string
+    format: date
+    example: "2025-12-30T14:44:45.026Z"
+  created_at:
+    description: when the report was created
+    type: string
+    format: date
+    example: "2025-12-31T14:44:45.026Z"
+  error_description:
+    description: error description in case of errors
+    type: string
+  account_id:
+    description: the account id the report was created for
+    type: string
+    example: acc_xyz
+  presigned_url:
+    description: the url to download the report when completed
+    type: string
+    format: url
+  platform_account_id:
+    description: the platform account id the report was created for
+    type: string
+    example: acc_xyz
+  parameters:
+    $ref: ./ReportParameters.yaml

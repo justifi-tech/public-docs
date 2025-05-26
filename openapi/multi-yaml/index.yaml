@@ -355,6 +355,11 @@ tags:
     description:
       $ref: ../docs/checkout_api.md
 
+  - name: Reports
+    description: |
+      Reports can be used to pull data for various different resources. Reports are generated in the background and once complete
+      you will receive a Webhook event notifying about the completion.
+
 x-tagGroups:
   - name: Authorization
     tags:
@@ -368,6 +373,7 @@ x-tagGroups:
       - Hosted Onboarding
       - Onboarding via API
       - Proceeds
+      - Reports
   - name: Payment Resources
     tags:
       - Payments
@@ -532,6 +538,10 @@ paths:
     $ref: paths/checkouts@{id}@complete.yaml
   /checkouts/{id}/refunds:
     $ref: paths/checkouts@{id}@refunds.yaml
+  /reports:
+    $ref: paths/reports.yaml
+  /reports/{id}:
+    $ref: paths/reports@{id}.yaml
 
 x-webhooks:
   payments:
@@ -562,3 +572,5 @@ x-webhooks:
     $ref: events/account_payout_setting_updated.yaml
   terminal_orders:
     $ref: events/terminal_orders.yaml
+  reports:
+    $ref: events/reports.yaml
