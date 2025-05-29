@@ -741,6 +741,9 @@ Many of our `4XX` errors will provide an error code in addition to their HTTP st
   </tr>
 </table>
 
+## Network Errors
+We provide the network error code, and the network error category to help inform you how to handle a decline. These are only returned when a transaction fails while trying to process on teh card network. Please take a look at each section. The network error category is especially relevant for recurring payments. It can reduce retries on transactions which will never succeed.
+
 ### Network Error Codes
 
 In addition to the standard error codes provided by JustiFi, some errors may include a `network_error_code` that provides more specific information about the error from the payment network. Here's a list of common `network_error_code` values and their meanings:
