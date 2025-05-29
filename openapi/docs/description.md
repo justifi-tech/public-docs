@@ -742,7 +742,7 @@ Many of our `4XX` errors will provide an error code in addition to their HTTP st
 </table>
 
 ## Network Errors
-We provide the network error code, and the network error category to help inform you how to handle a decline. These are only returned when a transaction fails while trying to process on teh card network. Please take a look at each section. The network error category is especially relevant for recurring payments. It can reduce retries on transactions which will never succeed.
+We provide the network error code, and the network error category to help inform you how to handle a decline. These are only returned when a transaction fails while trying to process on the card network. Please take a look at each section. The network error category is especially relevant for recurring payments. It can reduce retries on transactions which will never succeed.
 
 ### Network Error Codes
 
