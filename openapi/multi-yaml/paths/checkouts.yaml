@@ -69,9 +69,12 @@ post:
                   format: json
                   description: Adds metadata to the payment record
                   example: {}
+                expedited:
+                  type: boolean
+                  description: settlement priority of the payment, only applies to ACH payments
           required: [amount, description]
   responses:
-    '201':
+    "201":
       description: Checkout was created successfully
       content:
         application/json:
@@ -118,7 +121,7 @@ get:
       description: |
         the status of the payment which was use to complete the checkout
   responses:
-    '200':
+    "200":
       description: Successfully list checkouts
       content:
         application/json:
