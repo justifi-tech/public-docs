@@ -791,7 +791,7 @@ In addition to the standard error codes provided by JustiFi, some errors may inc
 | 907  | Card issuer or switch inoperative or processor not available | There was an issue with the card issuer's systems or payment processor during this transaction. The customer should retry later or use another payment method. |
 
 ### Network Error Category
-Both Visa and Mastercard send additional information about how to handle a declined payment for recurring payments. Effective May 30th, 2025 we pass through this information to help handle failures. We have added the `network` and `network_error_category` attributes to declined payments, when we get the additional information from the card networks.
+Both Visa and Mastercard send additional information about how to handle a declined payment for recurring payments. Effective May 30th, 2025 we pass through this information to help handle failures. We have added the `network` and `network_error_category` attributes to declined payments, when we get the additional information from the card networks. We are working on further classification of errors, for now please only respond to those documented here.
 
 | network | network_error_category | Definition |
 |------|--------------|--------------------------------------|
@@ -802,4 +802,3 @@ Both Visa and Mastercard send additional information about how to handle a decli
 | MASTERCARD | 01 | Updated information needed. Similar to Visa code 3. |
 | MASTERCARD | 02 | Try again later. Similar to Visa code 2. |
 | MASTERCARD | 03 | Do not try again.  Do not attempt again. Similar to Visa code 2. |
-| MASTERCARD | 40-43 | Lost, stolen, or not supported card usage. Do not try again. |
