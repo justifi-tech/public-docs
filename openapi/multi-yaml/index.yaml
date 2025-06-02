@@ -456,6 +456,8 @@ paths:
     $ref: paths/payment_method_groups.yaml
   /payment_method_groups/{id}:
     $ref: paths/payment_method_groups@{id}.yaml
+  /payment_method_groups/{id}/payment_methods/{payment_method_id}:
+    $ref: paths/payment_method_groups@{id}@payment_methods@{payment_method_id}.yaml
   /payouts:
     $ref: paths/payouts.yaml
   /payouts/{id}:

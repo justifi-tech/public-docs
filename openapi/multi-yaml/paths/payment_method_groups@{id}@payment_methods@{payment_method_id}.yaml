@@ -1,0 +1,22 @@
+delete:
+  summary: Remove a Payment Method from a Payment Method Group
+  description: |
+    Removes a payment method from a payment method group
+  operationId: RemovePaymentMethodFromGroup
+  tags:
+    - Payment Method Groups
+  parameters:
+    - $ref: ../components/parameters/authorization-header.yaml
+    - $ref: ../components/parameters/sub-account.yaml
+    - $ref: ../components/parameters/id-path.yaml
+    - name: payment_method_id
+      in: path
+      required: true
+      description: ID of the payment method to remove
+      schema:
+        type: string
+        format: uuid
+        example: pm_123xyz
+  responses:
+    '200':
+      description: Payment method successfully removed from group
