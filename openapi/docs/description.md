@@ -801,4 +801,4 @@ Both Visa and Mastercard send additional information about how to handle a decli
 | VISA | R00/R01 | Recurring payment not allowed on card. Do not attempt again. |
 | MASTERCARD | 01 | Updated information needed. Similar to Visa code 3. |
 | MASTERCARD | 02 | Try again later. Similar to Visa code 2. |
-| MASTERCARD | 03 | Do not try again.  Do not attempt again. Similar to Visa code 2. |
+| MASTERCARD | 03 | Do not try again.  Do not attempt again. Similar to Visa code 1. |
