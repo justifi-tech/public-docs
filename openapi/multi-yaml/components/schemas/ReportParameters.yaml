@@ -1,0 +1,51 @@
+oneOf:
+  - allOf:
+      - $ref: "./ReportProceedsParameters.yaml"
+      - type: object
+        properties:
+          account_id:
+            type: string
+            example: acc_xyz
+          platform_account_id:
+            type: string
+            example: acc_xyz
+  - allOf:
+      - $ref: "./ReportPayoutParameters.yaml"
+      - type: object
+        properties:
+          account_id:
+            type: string
+            example: acc_xyz
+          platform_account_id:
+            type: string
+            example: acc_xyz
+  - allOf:
+      - $ref: "./ReportInterchangeFeeParameters.yaml"
+      - type: object
+        properties:
+          account_id:
+            type: string
+            example: acc_xyz
+          platform_account_id:
+            type: string
+            example: acc_xyz
+  - allOf:
+      - $ref: "./ReportSubAccountSummaryParameters.yaml"
+      - type: object
+        properties:
+          account_id:
+            type: string
+            example: acc_xyz
+          platform_account_id:
+            type: string
+            example: acc_xyz
+  - allOf:
+      - $ref: "./ReportPaymentListParameters.yaml"
+      - type: object
+        properties:
+          account_id:
+            type: string
+            example: acc_xyz
+          platform_account_id:
+            type: string
+            example: acc_xyz

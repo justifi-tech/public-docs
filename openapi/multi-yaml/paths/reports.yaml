@@ -1,0 +1,59 @@
+post:
+  summary: Create a report
+  description: |
+    Create a report for any of the available report types
+  operationId: CreateReport
+  tags:
+    - Reports
+  parameters:
+    - $ref: ../components/parameters/authorization-header.yaml
+    - $ref: ../components/parameters/sub-account.yaml
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          anyOf:
+            - $ref: "../components/schemas/ReportInterchangeFeeParameters.yaml"
+            # - $ref: "../components/schemas/ReportProceedsParameters.yaml"
+            # - $ref: "../components/schemas/ReportPayoutParameters.yaml"
+            # - $ref: "../components/schemas/ReportSubAccountSummaryParameters.yaml"
+            # - $ref: "../components/schemas/ReportPaymentListParameters.yaml"
+  responses:
+    "200":
+      description: Report was created successfully
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope.yaml
+              - properties:
+                  type:
+                    example: report
+                  data:
+                    $ref: ../components/schemas/Report.yaml
+
+get:
+  summary: List Reports
+  description: |
+    List all generated reports
+  operationId: ListSubAccounts
+  tags:
+    - Reports
+  parameters:
+    - $ref: ../components/parameters/authorization-header.yaml
+    - $ref: ../components/parameters/sub-account.yaml
+  responses:
+    "200":
+      description: Successfully list reports
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope-list.yaml
+              - properties:
+                  type:
+                    example: array
+                  data:
+                    items:
+                      $ref: ../components/schemas/Report.yaml

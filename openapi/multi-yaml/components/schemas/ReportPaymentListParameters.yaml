@@ -1,0 +1,29 @@
+type: object
+required: [report_type]
+properties:
+  report_type:
+    type: string
+    enum: [payment_list]
+  payment_status:
+    description: the payment status to filter by
+    type: string
+    enum: [authorized, failed, succeeded, canceled]
+    example: succeeded
+  payment_method_id:
+    description: the payment method id to filter by
+    type: string
+    example: pm_xyz
+  terminal_id:
+    description: the terminal_id to filter by
+    type: string
+    example: trm_xyz
+  start_date:
+    type: string
+    format: date
+    example: "2025-12-25"
+    description: Start date to filter by. Maximum allowed date rage is 1 month
+  end_date:
+    type: string
+    format: date
+    example: "2025-12-30"
+    description: End date to filter by. Maximum allowed date rage is 1 month

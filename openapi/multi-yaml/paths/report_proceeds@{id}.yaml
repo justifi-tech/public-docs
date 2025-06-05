@@ -1,6 +1,7 @@
 get:
+  deprecated: true
   summary: Get a Proceeds Report
-  description: Get a link to a CSV and JSON report with information about payout and balance transactions related to that proceeds payout. CSV report headers include id, currency, amount, fee, net, source_id, source_account_id, source_type, source_amount, application_fee_amount, platform_fee_amount, proceeds, available_on and created_at. The link is valid for 60 minutes.
+  description: "[DEPRECATION WARNING] This endpoint will be deprecated, please use [Reports API](#tag/Reports)."
   operationId: GetProceedsReport
   tags:
     - Proceeds
@@ -8,7 +9,7 @@ get:
     - $ref: ../components/parameters/id-path.yaml
     - $ref: ../components/parameters/authorization-header.yaml
   responses:
-    '200':
+    "200":
       description: Successfully get a link to a csv and json report for a proceeds payout
       content:
         application/json:
