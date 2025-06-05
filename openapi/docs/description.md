@@ -545,7 +545,7 @@ Many of our `4XX` errors will provide an error code in addition to their HTTP st
   </tr>
   <tr>
     <td><code>expired_card</code></td>
-    <td>The card has expired. Check the expiration date or use a different card.</td>
+    <td>The card has expired. Please check the expiration date or try a different card or payment method.</td>
   </tr>
   <tr>
     <td><code>gateway_account_id_required</code></td>
@@ -597,35 +597,43 @@ Many of our `4XX` errors will provide an error code in addition to their HTTP st
   </tr>
   <tr>
     <td><code>invalid_address</code></td>
-    <td>The card’s address is incorrect. Check the card’s address or use a different card.</td>
+    <td>The card’s address is incorrect. Please check the address or try a different card or payment method.</td>
   </tr>
   <tr>
     <td><code>invalid_card_number</code></td>
-    <td>The card number is incorrect. Check the card number or use a different card.</td>
+    <td>The card’s number is incorrect. Please check the number or try a different card or payment method.</td>
+  </tr>
+  <tr>
+    <td><code>invalid_card_brand</code></td>
+    <td>The card’s brand is not supported. Please use Visa, Mastercard, American Express, or Discover, or try a different payment method.</td>
   </tr>
   <tr>
     <td><code>invalid_characters</code></td>
-    <td>This value provided to the field contains characters that are unsupported by the field</td>
+    <td>This value provided to the field contains characters that are unsupported by the field.</td>
   </tr>
   <tr>
     <td><code>invalid_charge_amount</code></td>
-    <td>Your transaction was declined because the payment amount is outside the limits set by your card issuer. Please contact your bank for details or try a different payment method</td>
+    <td>Your transaction was declined because the payment amount is outside the limits set by your card issuer. Please try a different card or payment method.</td>
   </tr>
   <tr>
     <td><code>invalid_cvc</code></td>
-    <td>The card’s security code is incorrect. Check the card’s security code or use a different card.</td>
+    <td>The card’s security code is incorrect. Please check the security code or try a different card or payment method.</td>
   </tr>
   <tr>
     <td><code>invalid_expiry_month</code></td>
-    <td>The card’s expiration month is incorrect. Check the expiration date or use a different card.</td>
+    <td>The card’s expiration month is incorrect. Please check the expiration date or try a different card or payment method.</td>
   </tr>
   <tr>
     <td><code>invalid_expiry_year</code></td>
-    <td>The card’s expiration year is incorrect. Check the expiration date or use a different card.</td>
+    <td>The card’s expiration year is incorrect. Please check the expiration date or try a different card or payment method.</td>
+  </tr>
+  <tr>
+    <td><code>invalid_expiry_date</code></td>
+    <td>The provided expiration date is invalid. Please check the expiration date or try a different card or payment method.</td>
   </tr>
   <tr>
     <td><code>invalid_zip_code</code></td>
-    <td>The card’s postal code is incorrect. Check the card’s postal code or use a different card.</td>
+    <td>The card’s postal code is incorrect. Please check the postal code or try a different card or payment method.</td>
   </tr>
   <tr>
     <td><code>month_invalid</code></td>
@@ -732,12 +740,76 @@ Many of our `4XX` errors will provide an error code in addition to their HTTP st
     <td>This account is not permitted to process the type of transaction being requested, or the surcharge amount is invalid</td>
   </tr>
   <tr>
+    <td><code>do_not_honor</code></td>
+    <td>This card has been rejected by the issuing bank. Please try a different card or payment method.</td>
+  </tr>
+  <tr>
     <td><code>do_not_retry</code></td>
-    <td>This card has been rejected, please try a different payment method and have the cardholder contact their issuing bank for details</td>
+    <td>This card has been rejected. Please try a different card or payment method.</td>
   </tr>
   <tr>
     <td><code>refund_in_progress</code></td>
     <td>A refund for this payment is already in progress</td>
+  </tr>
+  <tr>
+    <td><code>invalid_sub_account</code></td>
+    <td>The sub account cannot process a payment for this card. Please contact customer support.</td>
+  </tr>
+  <tr>
+    <td><code>new_card_issued</code></td>
+    <td>The transaction was denied because the issuing bank has issued a new card. Please try a different card or payment method.</td>
+  </tr>
+  <tr>
+    <td><code>account_closed</code></td>
+    <td>The account associated with this payment method is been closed. Please try a different card or payment method.</td>
+  </tr>
+  <tr>
+    <td><code>restricted_card</code></td>
+    <td>This card has a restriction preventing approval for this transaction. Please try a different card or payment method.</td>
+  </tr>
+  <tr>
+    <td><code>restricted_card</code></td>
+    <td>This card has a restriction preventing approval for this transaction. Please try a different card or payment method.</td>
+  </tr>
+  <tr>
+    <td><code>insufficient_funds</code></td>
+    <td>This card has insufficient funds. Please try a different card or payment method.</td>
+  </tr>
+  <tr>
+    <td><code>exceeds_card_limit</code></td>
+    <td>The payment amount would exceed a limit placed on this card.</td>
+  </tr>
+  <tr>
+    <td><code>pin_tries_exceeded</code></td>
+    <td>The number of PIN retries has been exceeded.</td>
+  </tr>
+  <tr>
+    <td><code>incorrect_pin</code></td>
+    <td>The entered PIN is incorrect.</td>
+  </tr>
+  <tr>
+    <td><code>pin_required</code></td>
+    <td>A PIN is required.</td>
+  </tr>
+  <tr>
+    <td><code>payment_outside_void_window</code></td>
+    <td>The void cannot be processed because the associated payment is outside the void window. Try a refund instead.</td>
+  </tr>
+  <tr>
+    <td><code>issuer_not_available</code></td>
+    <td>The card issuer is not available. Please try again later.</td>
+  </tr>
+  <tr>
+    <td><code>amount_too_small</code></td>
+    <td>The specified amount is less than the minimum amount allowed. Use a higher amount and try again.</td>
+  </tr>
+  <tr>
+    <td><code>amount_too_large</code></td>
+    <td>The specified amount is less than the minimum amount allowed. Use a higher amount and try again.</td>
+  </tr>
+  <tr>
+    <td><code>gateway_error_please_retry</code></td>
+    <td>There was a temporary issue processing this payment. Please try again.</td>
   </tr>
 </table>
 
@@ -751,6 +823,7 @@ In addition to the standard error codes provided by JustiFi, some errors may inc
 | Code | Description | Customer Impact & Suggested Actions |
 |------|--------------|--------------------------------------|
 | 005  | Do not honor (Declined by card association) | The payment was declined by the card association. The customer should try a different payment method or contact the card issuer for more information. |
+| 100  |  Do not honor (Declined by card association) | The payment was declined by the card association. The customer should try a different payment method or contact the card issuer for more information. |
 | 101  | Expired card | The provided card has expired. The customer needs to update with a new, non-expired card or provide a different payment method. |
 | 102  | Suspected Fraud | The payment was flagged as potentially fraudulent activity. The customer should contact the card issuer to verify the transaction. |
 | 104  | Restricted card | The provided card is restricted and cannot be used for this transaction type. The customer needs to use a different payment method or contact the card issuer. |
