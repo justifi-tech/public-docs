@@ -360,7 +360,7 @@ tags:
       _Note: This API is in preview release and may change in the future. We will be releasing more reports as well as an interface in
       our Fintech Dashboard to view and generate reports. Currently we have an Interchange Fee report available. We will provide new Payout, Proceeds, and Sub Account summary reports soon._
 
-      Reports can be used to pull data for various different resources. The they all CSV formatted, and can be filtered by date and sub-account.
+      Reports can be used to pull data for various different resources. They are CSV format, and can be filtered by date and sub account.
       Once a the create endpoint is called via POST, a report will be in `created` status. The report will move to `processing` status once it is being generated.
       Finally, when the report is generated, and the CSV file is available, the report will be in `completed` status.
 
