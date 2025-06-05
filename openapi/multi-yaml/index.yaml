@@ -355,10 +355,17 @@ tags:
     description:
       $ref: ../docs/checkout_api.md
 
-  - name: Reports
+  - name: Reports (Preview Release)
     description: |
-      Reports can be used to pull data for various different resources. Reports are generated in the background and once complete
-      you will receive a Webhook event notifying about the completion.
+      _Note: This API is in preview release and may change in the future. We will be releasing more reports as well as an interface in
+      our Fintech Dashboard to view and generate reports. Currently we have an Interchange Fee report available. We will provide new Payout, Proceeds, and Sub Account summary reports soon._
+
+      Reports can be used to pull data for various different resources. The they all CSV formatted, and can be filtered by date and sub-account.
+      Once a the create endpoint is called via POST, a report will be in `created` status. The report will move to `processing` status once it is being generated.
+      Finally, when the report is generated, and the CSV file is available, the report will be in `completed` status.
+
+      To download a report, you can use the `download_url` provided in the response when retrieving a report. We use presigned URLs to allow you to download the report directly 
+      from our S3 bucket.
 
 x-tagGroups:
   - name: Authorization
@@ -373,7 +380,7 @@ x-tagGroups:
       - Hosted Onboarding
       - Onboarding via API
       - Proceeds
-      - Reports
+      - Reports (Preview Release)
   - name: Payment Resources
     tags:
       - Payments

@@ -3,7 +3,7 @@ get:
   description: Get and generate the download url for a report
   operationId: GetReport
   tags:
-    - Reports
+    - Reports (Preview Release)
   parameters:
     - $ref: ../components/parameters/authorization-header.yaml
     - $ref: ../components/parameters/sub-account.yaml

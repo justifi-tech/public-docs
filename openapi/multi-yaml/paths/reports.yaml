@@ -4,7 +4,7 @@ post:
     Create a report for any of the available report types
   operationId: CreateReport
   tags:
-    - Reports
+    - Reports (Preview Release)
   parameters:
     - $ref: ../components/parameters/authorization-header.yaml
     - $ref: ../components/parameters/sub-account.yaml
@@ -21,7 +21,7 @@ post:
             # - $ref: "../components/schemas/ReportPaymentListParameters.yaml"
   responses:
     "200":
-      description: Report was created successfully
+      description: Report was queued successfully
       content:
         application/json:
           schema:
@@ -39,7 +39,7 @@ get:
     List all generated reports
   operationId: ListSubAccounts
   tags:
-    - Reports
+    - Reports (Preview Release)
   parameters:
     - $ref: ../components/parameters/authorization-header.yaml
     - $ref: ../components/parameters/sub-account.yaml
