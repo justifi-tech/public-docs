@@ -16,14 +16,17 @@ properties:
         type: string
         example: This card has been rejected. Please try a different card or payment method
       network:
-        description: network of the card used for payment
+        description: card network used for payment
         type: string
+        nullable: true
         example: MASTERCARD
       network_error_category:
         description: network error category code
         type: string
+        nullable: true
         example: "03"
       network_error_code:
         description: network error code
         type: string
+        nullable: true
         example: "504"
