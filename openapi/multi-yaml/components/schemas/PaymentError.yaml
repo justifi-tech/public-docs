@@ -1,0 +1,32 @@
+type: object
+properties:
+  error:
+    type: object
+    properties:
+      code:
+        description: error code if the payment fails
+        type: string
+        example: card_declined
+      decline_code:
+        description: decline code if the payment fails
+        type: string
+        example: do_not_retry
+      message:
+        description: text description of the error code
+        type: string
+        example: This card has been rejected. Please try a different card or payment method
+      network:
+        description: card network used for payment
+        type: string
+        nullable: true
+        example: MASTERCARD
+      network_error_category:
+        description: network error category code
+        type: string
+        nullable: true
+        example: "03"
+      network_error_code:
+        description: network error code
+        type: string
+        nullable: true
+        example: "504"

@@ -269,6 +269,24 @@ post:
                   refunds: []
                   disputes: []
                 page_info: null
+    "402":
+      description: Error when processing the payment
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/PaymentError.yaml
+          example:
+          examples:
+            "Card_payment_error":
+              value:
+                error:
+                  code: card_declined
+                  decline_code: do_not_retry
+                  message: This card has been rejected. Please try a different card or payment method
+                  network: MASTERCARD
+                  network_error_category: "03"
+                  network_error_code: "504"
 
 get:
   summary: List Payments
