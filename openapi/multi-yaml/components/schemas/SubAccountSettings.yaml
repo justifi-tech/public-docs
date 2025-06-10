@@ -10,7 +10,7 @@ properties:
       mcc_code:
         description: merchant category code configured
         type: string
-        example: 5045
+        example: '5045'
       credit_card_payments:
         description: credit card payments enabled for processing
         type: boolean
