@@ -93,7 +93,7 @@ tags:
       This feature enables you to maintain a single source of stored payment methods while processing payments through different sub accounts.
 
       ## Enable a Platform Wallet Account
-      <small>*Note: You can choose a sub account as your platform_wallet_account once it is underwritten and enabled for payments.*</small>
+      *Note: You can choose a sub account as your platform_wallet_account once it is underwritten and enabled for payments.*
 
       Contact us at [customer_success@justifi.tech](mailto:customer_success@justifi.tech) to enable the `platform_wallet_account` setting for your designated platform wallet account.
 
@@ -104,7 +104,7 @@ tags:
       - Group payment methods for easier management using [PaymentMethodGroups](https://docs.justifi.tech/api-spec#tag/Payment-Method-Groups), to associate multiple payment methods to your customer
 
       ## Using Platform Wallet Payment Methods
-      <small>*Note: While the PaymentMethods and Payments API allow you to tokenize a payment method we strongly suggest using the [Unified Fintech Checkout](https://storybook.justifi.ai/?path=/docs/payment-facilitation-unified-fintech-checkout%E2%84%A2--docs) or [PaymentForm](https://storybook.justifi.ai/?path=/docs/payment-facilitation-payment-form--docs) web components instead to avoid PCI scope*</small>
+      *Note: While the PaymentMethods and Payments API allow you to tokenize a payment method we strongly suggest using the [Unified Fintech Checkout](https://storybook.justifi.ai/?path=/docs/payment-facilitation-unified-fintech-checkout%E2%84%A2--docs) or [Tokenize Payment Method](https://storybook.justifi.ai/?path=/docs/payment-facilitation-tokenize-payment-method--docs) web components instead to avoid PCI scope*
 
       ### 1. Manage Payment Methods
       Create and organize payment methods in your platform wallet account. All payment method operations require the platform wallet account ID in the Sub-Account header.
