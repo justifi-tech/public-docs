@@ -26,7 +26,7 @@ properties:
     type: string
     nullable: true
   deposits_at:
-    description: in UTC, the date and time of the payout deposit (or in rare cases, withdrawal)
+    description: in UTC, the estimated date and time of the payout deposit (or in rare cases, withdrawal)
     type: string
     format: date-time
     example: '2021-01-01T12:00:00Z'
