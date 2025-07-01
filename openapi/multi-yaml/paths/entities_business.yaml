@@ -121,7 +121,13 @@ get:
     - Business
   parameters:
     - $ref: ../components/parameters/authorization-header.yaml
-
+    - in: query
+      name: business_name
+      schema:
+        type: string
+      required: false
+      example: "\"Company Name\""
+      description: filter businesses by name
   responses:
     '200':
       description: Successfully list businesses
