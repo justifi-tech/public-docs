@@ -1,7 +1,9 @@
 post:
   summary: Create a Payment
   description: |
-    Authorize, capture, and charge a payment method.
+    Authorize, capture, and charge a payment method. We limit concurrency to 10 concurrent requests per platform.
+    This is due to the nature of the payments API, to reduce rejections, and false positive fraud detection during bulk
+    payment processing.
 
     *Note: If the sub account status is not `enabled`, `400` will be returned.*
   operationId: CreatePayment
