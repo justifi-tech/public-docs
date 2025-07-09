@@ -6,6 +6,11 @@ properties:
     example: rpt_xyz
   report_type:
     $ref: ./ReportType.yaml
+  nickname:
+    description: the report nickname
+    type: string
+    example: My Report
+    nullable: true
   status:
     description: the report status
     type: string
