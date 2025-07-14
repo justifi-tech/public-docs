@@ -4,7 +4,7 @@ post:
     Create a report for any of the available report types
   operationId: CreateReport
   tags:
-    - Reports (Preview Release)
+    - Reports
   parameters:
     - $ref: ../components/parameters/authorization-header.yaml
     - $ref: ../components/parameters/sub-account.yaml
@@ -39,7 +39,7 @@ get:
     List all generated reports
   operationId: ListSubAccounts
   tags:
-    - Reports (Preview Release)
+    - Reports
   parameters:
     - $ref: ../components/parameters/authorization-header.yaml
     - $ref: ../components/parameters/sub-account.yaml
