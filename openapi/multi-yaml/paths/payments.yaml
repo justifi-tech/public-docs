@@ -61,7 +61,14 @@ post:
             metadata:
               type: object
               format: json
-              description: any useful information you'd like to store alongside this payment
+              description: |
+                Any useful information you'd like to store alongside this payment.
+                
+                **Testing Disputes**: Include `dispute_test_spec` to create test disputes:
+                - `expected_result`: `"won"` or `"lost"` - Final dispute outcome
+                - `reason`: Dispute reason (`"fraudulent"`, `"unrecognized"`, `"duplicate"`, `"subscription_canceled"`, `"product_unacceptable"`, `"product_not_received"`, `"processing_error"`, `"credit_not_processed"`, `"general"`)
+                - `due_date`: Response deadline in YYYY-MM-DD format
+                - `event_publish_delay_in_seconds`: Delay before dispute creation (default: 0)
               example: {}
             expedited:
               type: boolean
@@ -130,6 +137,49 @@ post:
                   month: "3"
                   year: "2040"
                   address_postal_code: "55555"
+
+          "Create_Test_Dispute_Won":
+            value:
+              amount: 5000
+              currency: "usd"
+              capture_strategy: "automatic"
+              email: example@test.com
+              description: Test payment that will generate a won dispute
+              metadata:
+                dispute_test_spec:
+                  expected_result: "won"
+                  reason: "fraudulent"
+                  due_date: "2024-02-15"
+                  event_publish_delay_in_seconds: 60
+              payment_method:
+                card:
+                  name: John Doe
+                  number: "4242424242424242"
+                  verification: "123"
+                  month: "12"
+                  year: "2030"
+                  address_postal_code: "12345"
+
+          "Create_Test_Dispute_Lost":
+            value:
+              amount: 10000
+              currency: "usd"
+              capture_strategy: "automatic"
+              email: example@test.com
+              description: Test payment that will generate a lost dispute
+              metadata:
+                dispute_test_spec:
+                  expected_result: "lost"
+                  reason: "product_not_received"
+                  due_date: "2024-02-20"
+              payment_method:
+                card:
+                  name: Jane Smith
+                  number: "4242424242424242"
+                  verification: "456"
+                  month: "6"
+                  year: "2029"
+                  address_postal_code: "67890"
   responses:
     "201":
       description: Payment was created successfully

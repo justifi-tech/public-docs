@@ -35,7 +35,7 @@ properties:
     description: status of the dispute
     type: string
     example: won
-    enum: [needs_response, under_review, won, lost]
+    enum: [needs_response, warning_needs_response, under_review, won, lost]
   metadata:
     type: object
     format: json
