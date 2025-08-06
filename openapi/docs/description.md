@@ -388,6 +388,160 @@ Use these card numbers to test successful transactions as well as various error 
   </tr>
 </table>
 
+#### Testing Disputes
+
+The dispute system provides a full-featured test environment that simulates the complete dispute lifecycle. Test disputes are created by configuring payment metadata before capturing a payment.
+
+##### Creating Test Disputes
+
+To create a test dispute, add the `dispute_test_spec` metadata to your payment before capturing:
+
+```json
+{
+  "payment_method_id": "pm_test_123",
+  "amount": 5000,
+  "currency": "usd",
+  "metadata": {
+    "dispute_test_spec": {
+      "expected_result": "won",
+      "reason": "fraudulent",
+      "due_date": "2024-02-15",
+      "event_publish_delay_in_seconds": 60,
+      "forfeit": false
+    }
+  }
+}
+```
+
+##### Test Dispute Configuration Options
+
+<table layout="fixed">
+  <tr>
+    <th style="width: 200px">Parameter</th>
+    <th>Description</th>
+    <th>Values</th>
+  </tr>
+  <tr>
+    <td><code>expected_result</code></td>
+    <td>Final outcome of the dispute</td>
+    <td><code>won</code>, <code>lost</code></td>
+  </tr>
+  <tr>
+    <td><code>reason</code></td>
+    <td>Dispute reason code</td>
+    <td><code>fraudulent</code>, <code>unrecognized</code>, <code>duplicate</code>, <code>subscription_canceled</code>, <code>product_unacceptable</code>, <code>product_not_received</code>, <code>processing_error</code>, <code>credit_not_processed</code>, <code>general</code></td>
+  </tr>
+  <tr>
+    <td><code>due_date</code></td>
+    <td>Response deadline (YYYY-MM-DD format)</td>
+    <td>Any future date (typically 7-10 business days)</td>
+  </tr>
+  <tr>
+    <td><code>event_publish_delay_in_seconds</code></td>
+    <td>Delay before dispute creation event</td>
+    <td>Any positive integer (default: 0)</td>
+  </tr>
+  <tr>
+    <td><code>forfeit</code></td>
+    <td>Skips dispute resolution, it'll ignore the expected_result and wait for a forfeit happens</td>
+    <td>Boolean</td>
+  </tr>
+</table>
+
+##### Test Dispute Workflow
+
+1. **Payment Capture**: Create a payment with `dispute_test_spec` metadata
+2. **Dispute Creation**: System creates dispute with `needs_response` status after configured delay
+3. **Response Management**: Test evidence upload, response updates, and submission
+4. **Resolution**: Dispute resolves to configured `expected_result` after `event_publish_delay_in_seconds` seconds
+5. **Webhook Events**: Receive all dispute lifecycle events
+
+##### Testing Evidence Upload
+
+Test evidence uploads using any of the supported file types:
+
+<table layout="fixed">
+  <tr>
+    <th style="width: 150px">File Type</th>
+    <th>Extensions</th>
+    <th>MIME Types</th>
+  </tr>
+  <tr>
+    <td>Images</td>
+    <td><code>.jpg</code>, <code>.jpeg</code>, <code>.png</code></td>
+    <td><code>image/jpeg</code>, <code>image/png</code></td>
+  </tr>
+  <tr>
+    <td>Documents</td>
+    <td><code>.pdf</code></td>
+    <td><code>application/pdf</code></td>
+  </tr>
+  <tr>
+    <td>Archives</td>
+    <td><code>.zip</code></td>
+    <td><code>application/zip</code>, <code>application/x-zip-compressed</code></td>
+  </tr>
+</table>
+
+##### Evidence Categories for Testing
+
+<table layout="fixed">
+  <tr>
+    <th style="width: 200px">Category</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><code>receipt</code></td>
+    <td>Purchase receipts and invoices</td>
+  </tr>
+  <tr>
+    <td><code>shipping_documentation</code></td>
+    <td>Tracking numbers, delivery confirmations</td>
+  </tr>
+  <tr>
+    <td><code>customer_communication</code></td>
+    <td>Email exchanges, chat logs</td>
+  </tr>
+  <tr>
+    <td><code>customer_signature</code></td>
+    <td>Signed delivery receipts</td>
+  </tr>
+  <tr>
+    <td><code>refund_policy</code></td>
+    <td>Terms of service, refund policies</td>
+  </tr>
+  <tr>
+    <td><code>cancellation_policy</code></td>
+    <td>Cancellation terms and conditions</td>
+  </tr>
+  <tr>
+    <td><code>service_documentation</code></td>
+    <td>Proof of service delivery</td>
+  </tr>
+  <tr>
+    <td><code>duplicate_charge_documentation</code></td>
+    <td>Evidence for duplicate charge disputes</td>
+  </tr>
+  <tr>
+    <td><code>activity_log</code></td>
+    <td>System activity logs</td>
+  </tr>
+  <tr>
+    <td><code>uncategorized_file</code></td>
+    <td>Other supporting documents</td>
+  </tr>
+</table>
+
+##### Webhook Testing
+
+Test disputes generate all standard webhook events:
+- `dispute_created`
+- `dispute_resolved`
+- `dispute_funds_returned` (for won disputes)
+- `dispute_reversed`
+
+Configure webhook endpoints in your test account to receive these events during dispute testing.
+
 ## HTTP Errors
 The JustiFi API may return a number of standard HTTP errors due to invalid requests. Some common errors are described
 below to help you build with JustiFi.
