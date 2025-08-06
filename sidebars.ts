@@ -116,6 +116,23 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: "category",
+      label: "Disputes",
+      link: {
+        type: "generated-index",
+        title: "Disputes",
+        description: "Learn how to manage payment disputes and chargebacks effectively",
+        keywords: ["disputes", "chargebacks"],
+      },
+      items: [
+        "disputes/overview",
+        "disputes/lifecycle",
+        "disputes/testing",
+      ],
+      collapsible: true,
+      collapsed: true,
+    },
+    {
+      type: "category",
       label: "Terminals",
       link: {
         type: "generated-index",
