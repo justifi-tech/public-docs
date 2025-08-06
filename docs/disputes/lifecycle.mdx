@@ -1,0 +1,133 @@
+# Dispute Lifecycle
+
+Understanding the dispute lifecycle is crucial for effective dispute management. This guide covers each stage of the process and the actions you can take at each step.
+
+## Dispute Creation
+
+Disputes are created when a cardholder contacts their card issuer to question a payment. When this happens:
+
+1. **Notification**: You receive a `dispute_created` webhook event
+2. **Timeline**: You have 7-10 business days to respond (varies by card network)
+
+## Response Phase
+
+### Building Your Response
+
+During the response phase, you can:
+
+- **Upload Evidence**: Add supporting documents via the evidence API
+- **Update Response Fields**: Fill in detailed information about the transaction
+
+### Response Fields
+
+Provide comprehensive information across these categories:
+
+#### Customer Information
+- `customer_name` - Full customer name
+- `customer_email_address` - Customer email
+- `customer_billing_address` - Billing address
+- `customer_purchase_ip_address` - IP address at purchase time
+
+#### Transaction Details
+- `product_description` - Detailed product/service description
+- `service_date` - Date service was provided
+- `duplicate_charge_original_payment_id` - Reference for duplicate charges
+- `duplicate_charge_explanation` - Explanation for duplicate charges
+
+#### Shipping Information
+- `shipping_address` - Delivery address
+- `shipping_carrier` - Shipping company
+- `shipping_date` - Ship date
+- `shipping_tracking_number` - Tracking number
+
+#### Policy Information
+- `refund_policy_disclosure` - Refund policy terms
+- `cancellation_policy_disclosure` - Cancellation policy terms
+- `refund_refusal_explanation` - Why refund was refused
+- `cancellation_rebuttal` - Response to cancellation claims
+
+#### Additional Context
+- `additional_statement` - Free-form additional information
+
+## Evidence Management
+
+### Evidence Categories
+
+Choose appropriate categories for maximum impact:
+
+| Category | Best Used For |
+|----------|---------------|
+| `receipt` | Purchase confirmations, invoices |
+| `shipping_documentation` | Delivery proof, tracking info |
+| `customer_communication` | Email exchanges, support tickets |
+| `customer_signature` | Signed delivery receipts |
+| `refund_policy` | Terms of service, policies |
+| `cancellation_policy` | Cancellation terms |
+| `service_documentation` | Proof of service delivery |
+| `duplicate_charge_documentation` | Duplicate charge evidence |
+| `activity_log` | System logs, usage data |
+| `uncategorized_file` | Other supporting documents |
+
+### File Requirements
+
+- **Supported formats**: PDF, JPG, JPEG, PNG, ZIP
+- **Validation**: File extension must match MIME type
+
+## Submission and Review
+
+### Forfeiture Option
+
+If you choose not to contest the dispute you should do `POST` request to `/disputes/{id}/response` with the following body:
+
+```json
+{
+  forfeit: true
+}
+```
+
+This immediately transitions the dispute to `lost` status.
+
+## Resolution Phase
+
+### Possible Outcomes
+
+#### Won (`won` status)
+- **Funds Returned**: Disputed amount returned to your account
+- **Notification**: `dispute_resolved` and `dispute_funds_returned` webhook events
+
+#### Lost (`lost` status)
+- **Funds Retained**: Platform keeps the disputed amount
+- **Notification**: `dispute_resolved` webhook event
+
+### Dispute Reversals
+
+Card networks can reverse lost disputes:
+
+1. **Reversal Trigger**: New evidence or network decision
+3. **Fund Return**: Previously lost funds are returned
+4. **Notification**: `dispute_reversed` webhook event
+
+## Status Transitions
+
+```
+needs_response → warning_needs_response → under_review → won/lost
+                                      ↓
+                                   forfeited
+```
+
+### Status Descriptions
+
+- **`needs_response`** - Initial status, response deadline active
+- **`warning_needs_response`** - Near deadline warning (typically 1-2 days remaining)
+- **`under_review`** - Response submitted, card network reviewing
+- **`won`** - Dispute resolved in your favor
+- **`lost`** - Dispute resolved against you
+
+## Webhook Events
+
+Monitor these events for real-time updates:
+
+- **`dispute_created`** - New dispute received
+- **`dispute_resolved`** - Final outcome determined
+- **`dispute_funds_returned`** - Funds returned for won dispute
+- **`dispute_reversed`** - Lost dispute reversed
