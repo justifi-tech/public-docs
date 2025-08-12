@@ -253,29 +253,65 @@ Use these card numbers to test successful transactions as well as various error 
     <td>Any 3 digits</td>
     <td>Any future date</td>
   </tr>
+</table>
+
+#### Declined Test Cards
+<table layout="fixed">
   <tr>
-    <td><code>3056930009020004</code></td>
-    <td>Diners Club</td>
-    <td>Any 3 digits</td>
-    <td>Any future date</td>
+    <th style="width: 200px">Number</th>
+    <th>Description</th>
   </tr>
   <tr>
-    <td><code>36227206271667</code></td>
-    <td>Diners Club (14 digit card)</td>
-    <td>Any 3 digits</td>
-    <td>Any future date</td>
+    <td><code>4000000000000101</code></td>
+    <td>
+      If a CVC number is provided, the cvc_check fails.
+    </td>
   </tr>
   <tr>
-    <td><code>3566002020360505</code></td>
-    <td>JCB</td>
-    <td>Any 3 digits</td>
-    <td>Any future date</td>
+    <td><code>4000000000000341</code></td>
+    <td>
+      Tokenizing this card succeeds, but attempts to make a payment fail.
+    </td>
   </tr>
   <tr>
-    <td><code>6200000000000005</code></td>
-    <td>UnionPay</td>
-    <td>Any 3 digits</td>
-    <td>Any future date</td>
+    <td><code>4000000000000002</code></td>
+    <td>Payment is declined with a card_declined code.</td>
+  </tr>
+  <tr>
+    <td><code>4000000000009995</code></td>
+    <td>
+      Payment is declined with a card_declined code. The decline_code attribute is insufficient_funds.
+    </td>
+  </tr>
+  <tr>
+    <td><code>4000000000009987</code></td>
+    <td>
+      Payment is declined with a card_declined code. The decline_code attribute is lost_card.
+    </td>
+  </tr>
+  <tr>
+    <td><code>4000000000009979</code></td>
+    <td>
+      Payment is declined with a card_declined code. The decline_code attribute is stolen_card.
+    </td>
+  </tr>
+  <tr>
+    <td><code>4000000000000069</code></td>
+    <td>Payment is declined with an expired_card code.</td>
+  </tr>
+  <tr>
+    <td><code>4000000000000127</code></td>
+    <td>Payment is declined with an invalid_cvc code.</td>
+  </tr>
+  <tr>
+    <td><code>4000000000000119</code></td>
+    <td>Payment is declined with a gateway_error code.</td>
+  </tr>
+  <tr>
+    <td><code>4242424242424241</code></td>
+    <td>
+      Payment is declined with an card_number_invalid code as the card number fails the Luhn check.
+    </td>
   </tr>
 </table>
 
@@ -288,6 +324,43 @@ Use these card numbers to test successful transactions as well as various error 
   <tr>
     <td><code>110000000</code></td>
     <td><code>000123456789</code></td>
+  </tr>
+</table>
+
+#### Declined Bank Accounts (ACH)
+<table layout="fixed">
+  <tr>
+    <th>Routing Number</th>
+    <th>Account Number</th>
+    <th>Payment Error</th>
+  </tr>
+  <tr>
+    <td><code>110000000</code></td>
+    <td><code>000222222227</code></td>
+    <td>
+      Insufficient Funds
+    </td>
+  </tr>
+  <tr>
+    <td><code>110000000</code></td>
+    <td><code>000333333335</code></td>
+    <td>
+      The account doesn't support debits
+    </td>
+  </tr>
+  <tr>
+    <td><code>110000000</code></td>
+    <td><code>000111111113</code></td>
+    <td>
+      The account is closed
+    </td>
+  </tr>
+  <tr>
+    <td><code>110000000</code></td>
+    <td><code>000111111116</code></td>
+    <td>
+      The account doesn't exist
+    </td>
   </tr>
 </table>
 
