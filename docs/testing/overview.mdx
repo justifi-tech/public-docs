@@ -1,0 +1,45 @@
+---
+title: Testing Overview
+description: Understand how to test your JustiFi integration
+sidebar_label: Overview
+keywords:
+  - testing
+---
+
+# Testing JustiFi Integration
+This guide explains how to test various payment scenarios when integrating with JustiFi's 
+payment processing system. By using specific test scenarios in your API requests, you can 
+simulate different payment outcomes without processing real transactions.
+
+## Overview
+JustiFi provides a comprehensive testing framework that allows you to simulate various payment 
+scenarios including successful payments, card declines, gateway errors, and other edge cases. 
+This helps you build robust error handling and ensure your integration works 
+correctly in all situations.
+
+## How Testing Works
+To trigger specific test scenarios, include a metadata field in your payment requests with the following structure:
+```json
+{
+  "metadata": {
+    "payment_test": {
+      "scenario": "scenario_name"
+    }
+  }
+}
+```
+
+Replace `scenario_name` with one of the available test scenarios listed in each resource specific section in the sidebar
+
+
+### Best Practices for Testing
+
+- Test All Scenarios: Ensure your application handles each type of error appropriately
+- Error Message Display: Test how error messages are displayed to end users
+- Retry Logic: Implement and test appropriate retry logic for different error types
+- Logging: Verify that errors are logged properly for debugging
+- User Experience: Test the complete user flow for both successful and failed payments
+
+### Next Steps
+Once you've thoroughly tested your integration using these scenarios, you'll be ready to process live payments. Remember to remove or modify any test scenario metadata when moving to production.
+For more information about JustiFi's payment processing capabilities, refer to our Payments API documentation.Add to Conversation
