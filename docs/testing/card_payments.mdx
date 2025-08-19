@@ -1,0 +1,242 @@
+---
+title: Card Payment Testing
+description: Understand how to test your JustiFi card payments
+sidebar_label: Card Payments
+keywords:
+  - testing
+  - payments
+---
+
+## Successful Card Payment
+`successful_payment`
+Simulates a successful payment transaction.
+
+**Expected Response Containing:**
+```json
+{
+  "status": "succeeded",
+  "captured": true
+  "success": true
+}
+```
+
+## Failed Card Payment Scenarios
+`insufficient_funds`
+Simulates a payment declined due to insufficient funds on the card.
+
+**Expected Response Containing:**
+```json
+{
+  "error": {
+    "code": "card_declined",
+    "decline_code": "insufficient_funds", 
+    "message": "Your card has insufficient funds.",
+    "network_error_code": "116"
+  }
+}
+```
+
+`expired_card``
+Simulates a payment with an expired card.
+
+**Expected Response Containing:**
+```json
+{
+  "error": {
+    "code": "card_declined",
+    "decline_code": "expired_card",
+    "message": "Your card has expired.", 
+    "network_error_code": "101"
+  }
+}
+```
+
+`invalid_card_number`
+Simulates a payment with an invalid card number.
+
+**Expected Response Containing:**
+```json
+{
+  "error": {
+    "code": "card_declined",
+    "decline_code": "invalid_card_number",
+    "message": "The card number is invalid.",
+    "network_error_code": "131"
+  }
+}
+```
+
+`invalid_cvc`
+Simulates a payment with an invalid CVC/security code.
+
+**Expected Response Containing:**
+
+```json
+{
+  "error": {
+    "code": "card_declined",
+    "decline_code": "invalid_cvc",
+    "message": "Your card's security code is invalid.",
+    "network_error_code": "517"
+  }
+}
+```
+
+`do_not_honor`
+Simulates a generic card decline from the issuer.
+
+**Expected Response Containing:**
+```json
+{
+  "error": {
+    "code": "card_declined",
+    "decline_code": "do_not_honor",
+    "message": "The card was declined.",
+    "network_error_code": "005"
+  }
+}
+```
+
+`restricted_card`
+Simulates a payment with a restricted card.
+
+**Expected Response Containing**:
+```json
+{
+  "error": {
+    "code": "card_declined",
+    "decline_code": "restricted_card", 
+    "message": "Your card has been restricted.",
+    "network_error_code": "102"
+  }
+}
+```
+
+`exceeds_card_limit`
+Simulates a payment that exceeds the card's limit.
+
+**Expected Response Containing**:
+```json
+{
+  "error": {
+    "code": "card_declined",
+    "decline_code": "exceeds_card_limit",
+    "message": "The amount exceeds your card's limit.",
+    "network_error_code": "121"
+  }
+}
+```
+
+`gateway_error`
+Simulates a payment processing error at the gateway level.
+
+**Expected Response Containing:**
+```json
+{
+  "error": {
+    "code": "gateway_error",
+    "decline_code": null,
+    "message": "An error occurred while processing your payment. Please try again.",
+    "network_error_code": "963"
+  }
+}
+```
+
+`gateway_timeout`
+Simulates a gateway timeout error.
+
+Expected Response:
+```json
+{
+  "error": {
+    "code": "gateway_timeout_error",
+    "decline_code": null,
+    "message": "The payment gateway timed out. Please try again."
+  }
+}
+```
+
+### Additional Card Scenarios
+`card_blocked`
+Simulates a payment with a blocked card.
+
+`incorrect_pin`
+Simulates a payment with an incorrect PIN.
+
+`new_card_issued`
+Simulates a decline because a new card has been issued.
+
+`do_not_retry`
+Simulates a decline that should not be retried.
+
+`account_closed`
+Simulates a payment with a card from a closed account.
+
+`pin_required`
+Simulates a transaction that requires PIN verification.
+
+`pin_tries_exceeded`
+Simulates a scenario where PIN attempt limit has been exceeded.
+
+`amount_too_large`
+Simulates a payment with an amount that's too large to process.
+
+`amount_too_small`
+Simulates a payment with an amount that's too small to process.
+
+`invalid_expiry_month`
+Simulates a payment with an invalid expiration month.
+
+`invalid_expiry_year`
+Simulates a payment with an invalid expiration year.
+
+`invalid_charge_amount`
+Simulates a payment with an invalid charge amount format.
+
+`service_not_allowed`
+Simulates a transaction type that is not allowed.
+
+`issuer_not_available`
+Simulates when the card issuer is temporarily unavailable.
+
+`currency_not_supported`
+Simulates a payment with an unsupported currency.
+
+`three_d_secure_not_supported`
+Simulates a card that doesn't support 3D Secure authentication.
+
+`test_mode_live_card`
+Simulates the error when trying to use a real card number in test mode.
+
+`generic_decline`
+Simulates a generic payment decline with no specific reason.
+
+### Example Implementation
+Here's an example of how to create a test payment using cURL:
+
+```bash
+curl -X POST https://api.justifi.tech/v1/payments \
+  -H "Authorization: Bearer your_api_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "amount": 1000,
+    "currency": "usd",
+    "payment_method": {
+      "card": {
+        "number": "4242424242424242",
+        "exp_month": 12,
+        "exp_year": 2025,
+        "cvc": "123"
+      }
+    },
+    "metadata": {
+      "payment_test": {
+        "scenario": "insufficient_funds"
+      }
+    }
+  }'
+```
+
+## Webhook Events
+
+The events related to each test payment created will be sent to the configured webhooks on the test account.

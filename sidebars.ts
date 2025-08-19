@@ -129,6 +129,21 @@ const sidebars: SidebarsConfig = {
         "terminals/payment",
         "terminals/refund"
       ]
+    },
+    {
+      type: "category",
+      label: "Testing",
+      link: {
+        type: "generated-index",
+        title: "Testing",
+        description: "Learn how to test your JustiFi integration",
+      },
+      items: [
+        "testing/overview",
+        "testing/card_payments",
+        "testing/ach_payments",
+        "testing/payouts"
+      ]
     }
   ],
 };
