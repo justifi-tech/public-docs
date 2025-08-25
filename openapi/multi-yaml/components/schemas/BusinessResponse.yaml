@@ -51,6 +51,11 @@ properties:
   date_of_incorporation:
     type: string
     example: "2015-02-20"
+  country_of_establishment:
+    type: string
+    enum: [USA, CAN]
+    example: "USA"
+    description: country where the business was established
   terms_conditions_accepted:
     type: boolean
     example: false
