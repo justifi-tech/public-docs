@@ -1,0 +1,131 @@
+# Testing Disputes
+
+:::info Pre-Release Feature
+This feature is currently in pre-release. API endpoints and functionality may change before general availability.
+:::
+
+The JustiFi dispute system provides a comprehensive test environment that simulates the complete dispute lifecycle. This allows you to test your dispute handling workflows without affecting live data or moving real money.
+
+## Creating Test Disputes
+
+Test disputes are created by adding `dispute_test_spec` with the expected params when creating a payment
+
+```json
+{
+  "metadata": {
+    "dispute_test_spec": {
+      "expected_result": "won",
+      "reason": "fraudulent",
+      "forfeit": false,
+      "due_date": "2024-02-15",
+      "event_publish_delay_in_seconds": 60
+    }
+  }
+}
+```
+
+## Configuration Options
+
+### Expected Results
+- **`won`** - Dispute resolves in your favor, funds returned
+- **`lost`** - Dispute resolves against you, funds retained by platform
+
+### Dispute Reasons
+- `fraudulent` - Customer claims they didn't authorize the payment
+- `unrecognized` - Customer doesn't recognize the transaction
+- `duplicate` - Customer claims they were charged multiple times
+- `subscription_canceled` - Customer claims they canceled their subscription
+- `product_unacceptable` - Customer claims the product was defective
+- `product_not_received` - Customer claims they never received the product
+- `processing_error` - Customer claims there was a processing error
+- `credit_not_processed` - Customer claims a refund wasn't processed
+- `general` - General dispute reason
+- `debit_not_authorized` - The debit was not authorized
+- `incorrect_account` - The account is not correct
+
+### Timing Configuration
+- **`due_date`** - Response deadline in YYYY-MM-DD format (typically 7-10 business days)
+- **`event_publish_delay_in_seconds`** - Delay before dispute creation event (default: 60)
+
+## Test Workflow
+
+1. **Payment Creation**: A payment with `dispute_test_spec` key inside metadata
+2. **Dispute Creation**: System creates dispute with `needs_response` status
+3. **Response Building**: Test evidence upload and response field updates
+5. **Resolution**: Dispute resolves based on your `expected_result` configuration after `event_publish_delay_in_seconds` seconds
+6. **Webhook Events**: Receive all lifecycle events for testing
+
+## Testing Evidence Upload
+
+### Supported File Types
+
+| File Type | Extensions | MIME Types |
+|-----------|------------|------------|
+| Images | `.jpg`, `.jpeg`, `.png` | `image/jpeg`, `image/png` |
+| Documents | `.pdf` | `application/pdf` |
+| Archives | `.zip` | `application/zip`, `application/x-zip-compressed` |
+
+### Evidence Categories
+
+Choose the appropriate category for each piece of evidence:
+
+- **`receipt`** - Purchase receipts and invoices
+- **`shipping_documentation`** - Tracking numbers, delivery confirmations
+- **`customer_communication`** - Email exchanges, chat logs
+- **`customer_signature`** - Signed delivery receipts
+- **`refund_policy`** - Terms of service, refund policies
+- **`cancellation_policy`** - Cancellation terms and conditions
+- **`service_documentation`** - Proof of service delivery
+- **`duplicate_charge_documentation`** - Evidence for duplicate charge disputes
+- **`activity_log`** - System activity logs
+- **`uncategorized_file`** - Other supporting documents
+
+## Testing Response Scenarios
+
+### Comprehensive Response Example
+
+```json
+{
+  "customer_name": "John Doe",
+  "customer_email_address": "john@example.com",
+  "customer_billing_address": "123 Main St, Anytown, ST 12345",
+  "customer_purchase_ip_address": "192.168.1.1",
+  "product_description": "Premium software subscription with advanced features",
+  "service_date": "2024-01-15",
+  "shipping_address": "123 Main St, Anytown, ST 12345",
+  "shipping_carrier": "FedEx",
+  "shipping_date": "2024-01-16",
+  "shipping_tracking_number": "1234567890",
+  "refund_policy_disclosure": "Customer agreed to no-refund policy during checkout",
+  "additional_statement": "Customer received and actively used the service as confirmed by login logs and feature usage analytics."
+}
+```
+
+### Testing Forfeiture
+
+If you choose not to contest the dispute you should do `POST` request to `/disputes/{id}/response` with the following body:
+
+```json
+{
+  "forfeit": true
+}
+```
+
+## Status Flow Testing
+
+Test each status transition:
+
+1. **`needs_response`** - Initial status after dispute creation
+3. **`under_review`** - Automatic after response submission
+4. **`won`** or **`lost`** - Based on `expected_result` configuration
+
+## Webhook Testing
+
+Test disputes generate all standard webhook events:
+
+- `dispute_created` - New dispute received
+- `dispute_resolved` - Final outcome determined
+- `dispute_funds_returned` - Funds returned for won disputes
+- `dispute_reversed` - Lost dispute reversed by card network
+
+Configure webhook endpoints in your test account to receive and process these events.
