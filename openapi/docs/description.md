@@ -253,30 +253,6 @@ Use these card numbers to test successful transactions as well as various error 
     <td>Any 3 digits</td>
     <td>Any future date</td>
   </tr>
-  <tr>
-    <td><code>3056930009020004</code></td>
-    <td>Diners Club</td>
-    <td>Any 3 digits</td>
-    <td>Any future date</td>
-  </tr>
-  <tr>
-    <td><code>36227206271667</code></td>
-    <td>Diners Club (14 digit card)</td>
-    <td>Any 3 digits</td>
-    <td>Any future date</td>
-  </tr>
-  <tr>
-    <td><code>3566002020360505</code></td>
-    <td>JCB</td>
-    <td>Any 3 digits</td>
-    <td>Any future date</td>
-  </tr>
-  <tr>
-    <td><code>6200000000000005</code></td>
-    <td>UnionPay</td>
-    <td>Any 3 digits</td>
-    <td>Any future date</td>
-  </tr>
 </table>
 
 #### Declined Test Cards
