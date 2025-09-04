@@ -114,15 +114,14 @@ Card networks can reverse lost disputes:
 ## Status Transitions
 
 ```
-needs_response → warning_needs_response → under_review → won/lost
-                                      ↓
-                                   forfeited
+needs_response → under_review → won/lost
+                              ↓
+                          forfeited
 ```
 
 ### Status Descriptions
 
 - **`needs_response`** - Initial status, response deadline active
-- **`warning_needs_response`** - Near deadline warning (typically 1-2 days remaining)
 - **`under_review`** - Response submitted, card network reviewing
 - **`won`** - Dispute resolved in your favor
 - **`lost`** - Dispute resolved against you
