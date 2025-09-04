@@ -124,7 +124,6 @@ const sidebars: SidebarsConfig = {
           items: [
             "disputes/overview",
             "disputes/lifecycle",
-            "disputes/testing",
           ],
           collapsible: true,
           collapsed: true,
@@ -159,7 +158,8 @@ const sidebars: SidebarsConfig = {
         "testing/overview",
         "testing/card_payments",
         "testing/ach_payments",
-        "testing/payouts"
+        "testing/payouts",
+        "testing/disputes"
       ]
     }
   ],
