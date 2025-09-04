@@ -1,0 +1,110 @@
+---
+title: ACH Payment Testing
+description: Understand how to test your JustiFi ACH payments
+sidebar_label: ACH Payments
+keywords:
+  - testing
+  - payments
+---
+
+## Successful ACH Payment
+`success`
+Simulates a successful ACH payment transaction.
+
+**Expected Recorded ACH Payment Containing:**
+```json
+{
+  "status": "succeeded",
+  "error": null
+  "error_description": null
+}
+```
+
+## Failed ACH Payment Scenarios
+`account_closed`
+Simulates an ACH payment declined due to account closed
+
+**Expected Recorded ACH payment Containing:**
+```json
+{
+  "error": {
+    "status": "failed",
+    "error_code": "account_closed",
+    "error_description": "The customer's bank account has been closed.",
+  }
+}
+```
+
+`account_frozen`
+Simulates an ACH payment declined due to account frozen
+
+**Expected Recorded ACH payment Containing:**
+```json
+{
+  "error": {
+    "status": "failed",
+    "error_code": "account_frozen",
+    "error_description": "The customer's bank account is frozen.",
+  }
+}
+```
+
+`bank_account_restricted`
+Simulates an ACH payment declined due to bank account restricted 
+
+**Expected Recorded ACH payment Containing:**
+```json
+{
+  "error": {
+    "status": "failed",
+    "error_code": "bank_account_restricted",
+    "error_description": "This payment could not be processed.",
+  }
+}
+```
+
+`insufficient_funds`
+Simulates an ACH payment declined due to insufficient_funds 
+
+**Expected Recorded ACH payment Containing:**
+```json
+{
+  "error": {
+    "status": "failed",
+    "error_code": "insufficient_funds",
+    "error_description": "The customer's account has insufficient funds to cover this payment.",
+  }
+}
+```
+
+`invalid_account_number`
+Simulates an ACH payment declined due to invalid account number
+
+**Expected Recorded ACH payment Containing:**
+```json
+{
+  "error": {
+    "status": "failed",
+    "error_code": "invalid_account_number",
+    "error_description": "The account number specified does not have the correct number structure.",
+  }
+}
+```
+
+`no_account`
+Simulates an ACH payment declined due to insufficient_funds 
+
+**Expected Recorded ACH payment Containing:**
+```json
+{
+  "error": {
+    "status": "failed",
+    "error_code": "no_account",
+    "error_description": "The customer's bank account could not be located.",
+  }
+}
+```
+
+## Webhook Events
+
+The events related to each test payment created will be sent to the configured webhooks on the test account.
