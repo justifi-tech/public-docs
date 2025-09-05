@@ -14,7 +14,7 @@ Disputes (also known as chargebacks) occur when a cardholder questions a payment
 ## Key Features
 
 - **Unified Management**: Handle disputes across all payment gateways through a single API
-- **Evidence System**: Upload supporting documents via secure S3 presigned URLs
+- **Evidence System**: Upload supporting documents via secure S3 presigned URLs using a web component or API
 - **Real-time Tracking**: Monitor dispute progress with webhook notifications
 - **Comprehensive Response**: Submit detailed responses with 20+ evidence fields
 - **Automatic Reversals**: System handles card network dispute reversals
@@ -22,6 +22,7 @@ Disputes (also known as chargebacks) occur when a cardholder questions a payment
 
 ## Getting Started
 
-1. Set up webhook endpoints to receive dispute notifications
-2. Implement dispute response workflows in your application
-3. Test the complete dispute lifecycle using the test environment
+1. Create an event publisher on the [JustiFi dashboard](https://app.justifi.ai/admin) -> Developer -> Event Publisher and subscribe to dispute events
+2. Set up webhook endpoints in your application to receive dispute notifications
+3. Implement dispute response workflows in your application via [Dispute Management Web Component](https://storybook.justifi.ai/?path=/docs/payment-facilitation-dispute-management--docs)
+4. Test the complete dispute lifecycle using the test environment as described below

@@ -15,7 +15,7 @@ Understanding the dispute lifecycle is crucial for effective dispute management.
 
 Disputes are created when a cardholder contacts their card issuer to question a payment. When this happens:
 
-1. **Notification**: You receive a `dispute_created` webhook event
+1. **Notification**: You receive a `payment.dispute.created` webhook event
 2. **Timeline**: You have 7-10 business days to respond (varies by card network)
 
 ## Response Phase
@@ -24,7 +24,7 @@ Disputes are created when a cardholder contacts their card issuer to question a 
 
 During the response phase, you can:
 
-- **Upload Evidence**: Add supporting documents via the evidence API
+- **Upload Evidence**: Add supporting documents via the create [dispute evidence API](https://docs.justifi.tech/api-spec#tag/Disputes/operation/GetDispute) or via [Dispute Management web component](https://storybook.justifi.ai/?path=/docs/payment-facilitation-dispute-management--docs)
 - **Update Response Fields**: Fill in detailed information about the transaction
 
 ### Response Fields
@@ -84,13 +84,15 @@ Provide comprehensive information across these categories:
 
 ### Forfeiture Option
 
-If you choose not to contest the dispute you should make a `POST` request to `/disputes/{id}/response` with the following body:
+If you choose not to contest the dispute either use the [submit dispute response API](https://docs.justifi.tech/api-spec#tag/Disputes/operation/SubmitDisputeResponse) with the following body:
 
 ```json
 {
   "forfeit": true
 }
 ```
+
+Or instead forfeit the dispute via [Dispute Management web component](https://storybook.justifi.ai/?path=/docs/payment-facilitation-dispute-management--docs).
 
 This immediately transitions the dispute to `lost` status.
 
@@ -99,20 +101,21 @@ This immediately transitions the dispute to `lost` status.
 ### Possible Outcomes
 
 #### Won (`won` status)
-- **Funds Returned**: Disputed amount returned to your account
-- **Notification**: `dispute_resolved` and `dispute_funds_returned` webhook events
+- **Funds Returned**: Disputed amount returned to your merchant's account.
+- **Notification**: `payment.dispute.closed` webhook event
 
 #### Lost (`lost` status)
-- **Funds Retained**: Funds return to the cardholder
-- **Notification**: `dispute_resolved` webhook event
+- **Funds Retained**: No funds are moved.
+- **Notification**: `payment.dispute.closed` webhook event
 
 ### Dispute Reversals
 
 Card networks can reverse lost disputes:
 
 1. **Reversal Trigger**: New evidence or network decision
+2. **Dispute updated**: Status of dispute is update to won
 3. **Fund Return**: Previously lost funds are returned
-4. **Notification**: `dispute_reversed` webhook event
+4. **Notification**: `payment.dispute.closed` webhook event
 
 ## Status Transitions
 
@@ -133,7 +136,10 @@ needs_response → under_review → won/lost
 
 Monitor these events for real-time updates:
 
-- **`dispute_created`** - New dispute received
-- **`dispute_resolved`** - Final outcome determined
-- **`dispute_funds_returned`** - Funds returned for won dispute
-- **`dispute_reversed`** - Lost dispute reversed
+- **`payment.dispute.created`** - Lets you know anytime a customer opens a payment dispute
+- **`payment.dispute.closed`** - Lets you know anytime a payment dispute is closed
+- **`payment.dispute.funds_returned`** - Lets you know anytime a payment dispute won and funds are returned
+- **`payment.dispute_evidence.created`** - Lets you know anytime a dispute evidence is created
+- **`payment.dispute_evidence.uploaded`** - Lets you know anytime a dispute evidence is uploaded
+- **`payment.dispute.forfeited`** - Lets you know anytime a dispute response is forfeited
+- **`payment.dispute.submitted`** - Lets you know anytime a dispute response is submitted

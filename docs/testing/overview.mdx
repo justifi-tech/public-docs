@@ -7,18 +7,22 @@ keywords:
 ---
 
 # Testing JustiFi Integration
+
 This guide explains how to test various payment scenarios when integrating with JustiFi's 
 payment processing system. By using specific test scenarios in your API requests, you can 
 simulate different payment outcomes without processing real transactions.
 
 ## Overview
+
 JustiFi provides a comprehensive testing framework that allows you to simulate various payment 
 scenarios including successful payments, card declines, gateway errors, and other edge cases. 
 This helps you build robust error handling and ensure your integration works 
 correctly in all situations.
 
 ## How Testing Works
-To trigger specific test scenarios, include a metadata field in your payment requests with the following structure:
+
+To trigger specific test scenarios, include a metadata field in your [create payment API](https://docs.justifi.tech/api-spec#tag/Payments/operation/CreatePayment) requests with the following structure:
+
 ```json
 {
   "metadata": {
@@ -41,5 +45,6 @@ Replace `scenario_name` with one of the available test scenarios listed in each 
 - User Experience: Test the complete user flow for both successful and failed payments
 
 ### Next Steps
-Once you've thoroughly tested your integration using these scenarios, you'll be ready to process live payments. Remember to remove or modify any test scenario metadata when moving to production.
-For more information about JustiFi's payment processing capabilities, refer to our Payments API documentation.Add to Conversation
+
+Once you've thoroughly tested your integration using these scenarios, you'll be ready to process live payments. To do so create a live API key on the [JustiFi dashboard](www.justifi.ai/admin) Developers -> API Keys, and use its credentials to generate an [access token](https://docs.justifi.tech/api-spec#tag/API-Credentials). Remember to remove or modify any test scenario metadata when moving to production.
+For more information about JustiFi's payment processing capabilities, refer to our Payments API documentation.

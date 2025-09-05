@@ -1,6 +1,6 @@
 ---
 title: ACH Payment Testing
-description: Understand how to test your JustiFi ACH payments
+description: Simulate success and error scenarios for JustiFi ACH payments
 sidebar_label: ACH Payments
 keywords:
   - testing
@@ -8,10 +8,13 @@ keywords:
 ---
 
 ## Successful ACH Payment
+
 `success`
+
 Simulates a successful ACH payment transaction.
 
 **Expected Recorded ACH Payment Containing:**
+
 ```json
 {
   "status": "succeeded",
@@ -21,10 +24,13 @@ Simulates a successful ACH payment transaction.
 ```
 
 ## Failed ACH Payment Scenarios
+
 `account_closed`
+
 Simulates an ACH payment declined due to account closed
 
 **Expected Recorded ACH payment Containing:**
+
 ```json
 {
   "error": {
@@ -36,9 +42,11 @@ Simulates an ACH payment declined due to account closed
 ```
 
 `account_frozen`
+
 Simulates an ACH payment declined due to account frozen
 
 **Expected Recorded ACH payment Containing:**
+
 ```json
 {
   "error": {
@@ -50,9 +58,11 @@ Simulates an ACH payment declined due to account frozen
 ```
 
 `bank_account_restricted`
+
 Simulates an ACH payment declined due to bank account restricted 
 
 **Expected Recorded ACH payment Containing:**
+
 ```json
 {
   "error": {
@@ -64,9 +74,11 @@ Simulates an ACH payment declined due to bank account restricted
 ```
 
 `insufficient_funds`
+
 Simulates an ACH payment declined due to insufficient_funds 
 
 **Expected Recorded ACH payment Containing:**
+
 ```json
 {
   "error": {
@@ -78,9 +90,11 @@ Simulates an ACH payment declined due to insufficient_funds
 ```
 
 `invalid_account_number`
+
 Simulates an ACH payment declined due to invalid account number
 
 **Expected Recorded ACH payment Containing:**
+
 ```json
 {
   "error": {
@@ -92,9 +106,11 @@ Simulates an ACH payment declined due to invalid account number
 ```
 
 `no_account`
+
 Simulates an ACH payment declined due to insufficient_funds 
 
 **Expected Recorded ACH payment Containing:**
+
 ```json
 {
   "error": {
