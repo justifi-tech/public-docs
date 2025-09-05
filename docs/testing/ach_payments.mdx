@@ -7,6 +7,36 @@ keywords:
   - payments
 ---
 
+An ACH payment will initially have the status pending when it was successfully submitted to JustiFi. Only when it was transferred to the bank will the status update to succeeded or failed which can take a few business days (depending on the chosen settlement strategy). Subscribing to the payment related webhook events is the best way to get notified when the status of an ACH payment changes.
+
+The test environment simulates this behavior. In the response of the payment request the status will be pending. It will then immediately update to succeeded or failed depending on the chosen testing scenario.
+
+To simulate different scenarios (success and failure) [create a payment via API](https://docs.justifi.tech/api-spec#tag/Payments/operation/CreatePayment) and pass the test scenario in the metadata property.
+Here's an example of how to create a test payment using cURL:
+
+```
+curl -X POST https://api.justifi.tech/v1/payments \
+  -H "Authorization: Bearer your_api_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "amount": 1000,
+    "currency": "usd",
+    "payment_method": {
+      "card": {
+        "number": "4242424242424242",
+        "exp_month": 12,
+        "exp_year": 2025,
+        "cvc": "123"
+      }
+    },
+    "metadata": {
+      "payment_test": {
+        "scenario": "succeeded"
+      }
+    }
+  }'
+```
+
 ## Successful ACH Payment
 
 `success`
