@@ -9,15 +9,11 @@ keywords:
 
 # Testing Disputes
 
-:::info Pre-Release Feature
-This feature is currently in pre-release. API endpoints and functionality be adjusted before general availability.
-:::
-
 The JustiFi dispute system provides a comprehensive test environment that simulates the complete dispute lifecycle. This allows you to test your dispute handling workflows without affecting live data or moving real money.
 
 ## Creating Test Disputes
 
-To create a dispute call the [create payment API](https://docs.justifi.tech/api-spec#tag/Payments/operation/CreatePayment) and pass the dispute_test_spec parameter in the metadata property as outlined below.
+To create a dispute call the [create payment API](https://docs.justifi.tech/api-spec#tag/Payments/operation/CreatePayment) and pass the `dispute_test_spec` parameter in the metadata property as outlined below.
 This will create a successful payment with an associated dispute.
 
 ```json
@@ -47,10 +43,12 @@ This will create a successful payment with an associated dispute.
 The following options are available to customize the dispute details and outcome.
 
 ### Expected Results
-- **`won`** - Dispute resolves in your favor, funds returned
-- **`lost`** - Dispute resolves against you, funds retained by platform
+
+- **`won`** - Dispute resolves in the merchant`s favor, funds returned to the merchant
+- **`lost`** - Dispute resolves against the merchant, no funds are moved
 
 ### Dispute Reasons
+
 - `fraudulent` - Customer claims they didn't authorize the payment
 - `unrecognized` - Customer doesn't recognize the transaction
 - `duplicate` - Customer claims they were charged multiple times
@@ -64,6 +62,7 @@ The following options are available to customize the dispute details and outcome
 - `incorrect_account` - The account is not correct
 
 ### Timing Configuration
+
 - **`due_date`** - Response deadline in YYYY-MM-DD format (typically 7-10 business days)
 - **`event_publish_delay_in_seconds`** - Delay before dispute creation event (default: 60)
 
@@ -117,13 +116,17 @@ Choose the appropriate category for each piece of evidence:
 
 ### Testing Forfeiture
 
-If you choose not to contest the dispute you should do `POST` request to `/disputes/{id}/response` with the following body:
+If you choose not to contest the dispute either use the [submit dispute response API](https://docs.justifi.tech/api-spec#tag/Disputes/operation/SubmitDisputeResponse) with the following body:
 
 ```json
 {
   "forfeit": true
 }
 ```
+
+Or instead forfeit the dispute via [Dispute Management web component](https://storybook.justifi.ai/?path=/docs/payment-facilitation-dispute-management--docs).
+
+This immediately transitions the dispute to `lost` status.
 
 ## Status Flow Testing
 

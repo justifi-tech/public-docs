@@ -9,11 +9,12 @@ keywords:
 
 # Dispute Lifecycle
 
-Understanding the dispute lifecycle is crucial for effective dispute management. This guide covers each stage of the process and the actions you can take at each step.
-
 ## Dispute Creation
 
-Disputes are created when a cardholder contacts their card issuer to question a payment. When this happens:
+A dispute (also known as chargeback) is created when a cardholder contacts their card issuer to question a payment.
+The card issuer opens a chargeback and returns the questioned funds to the cardholder.
+JustiFi is notified of the chargeback, creates a dispute associated with the payment and pulls the payment funds (and a dispute fee) back from the merchant.
+As soon as JustiFi has created the dispute:
 
 1. **Notification**: You receive a `payment.dispute.created` webhook event
 2. **Timeline**: You have 7-10 business days to respond (varies by card network)
@@ -113,7 +114,7 @@ This immediately transitions the dispute to `lost` status.
 Card networks can reverse lost disputes:
 
 1. **Reversal Trigger**: New evidence or network decision
-2. **Dispute updated**: Status of dispute is update to won
+2. **Dispute updated**: Status of dispute is updated to won
 3. **Fund Return**: Previously lost funds are returned
 4. **Notification**: `payment.dispute.closed` webhook event
 
@@ -128,9 +129,9 @@ needs_response → under_review → won/lost
 ### Status Descriptions
 
 - **`needs_response`** - Initial status, response deadline active
-- **`under_review`** - Response submitted, card network reviewing
-- **`won`** - Dispute resolved in your favor
-- **`lost`** - Dispute resolved against you
+- **`under_review`** - Response submitted, card network is reviewing
+- **`won`** - Dispute resolved in merchant's favor
+- **`lost`** - Dispute resolved against the merchant
 
 ## Webhook Events
 
