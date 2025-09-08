@@ -4,7 +4,7 @@ post:
     Create a report for any of the available report types
   operationId: CreateReport
   tags:
-    - Reports (Preview Release)
+    - Reports
   parameters:
     - $ref: ../components/parameters/authorization-header.yaml
     - $ref: ../components/parameters/sub-account.yaml
@@ -15,10 +15,10 @@ post:
         schema:
           anyOf:
             - $ref: "../components/schemas/ReportInterchangeFeeParameters.yaml"
-            # - $ref: "../components/schemas/ReportProceedsParameters.yaml"
-            # - $ref: "../components/schemas/ReportPayoutParameters.yaml"
-            # - $ref: "../components/schemas/ReportSubAccountSummaryParameters.yaml"
-            # - $ref: "../components/schemas/ReportPaymentListParameters.yaml"
+            - $ref: "../components/schemas/ReportProceedsParameters.yaml"
+            - $ref: "../components/schemas/ReportPayoutParameters.yaml"
+            - $ref: "../components/schemas/ReportSubAccountSummaryParameters.yaml"
+            - $ref: "../components/schemas/ReportPaymentListParameters.yaml"
   responses:
     "200":
       description: Report was queued successfully
@@ -39,10 +39,18 @@ get:
     List all generated reports
   operationId: ListSubAccounts
   tags:
-    - Reports (Preview Release)
+    - Reports
   parameters:
     - $ref: ../components/parameters/authorization-header.yaml
     - $ref: ../components/parameters/sub-account.yaml
+    - in: query
+      name: nickname
+      schema:
+        type: string
+      required: false
+      example: "\"My Report\""
+      description: |
+        the nickname of the report
   responses:
     "200":
       description: Successfully list reports

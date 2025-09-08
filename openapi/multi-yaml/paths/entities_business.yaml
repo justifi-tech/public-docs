@@ -60,6 +60,11 @@ post:
               type: string
               example: "2015-02-20"
               description: the specific day when this business was officially registered with a relevant government authority and was then permitted to carry out its activities
+            country_of_establishment:
+              type: string
+              enum: [USA, CAN]
+              example: "USA"
+              description: country where the business was established. Defaults to "USA" if not provided (_cannot be changed after creation_)
             metadata:
               type: object
               description: any useful information you'd like to store alongside this business
@@ -121,7 +126,13 @@ get:
     - Business
   parameters:
     - $ref: ../components/parameters/authorization-header.yaml
-
+    - in: query
+      name: business_name
+      schema:
+        type: string
+      required: false
+      example: "\"Company Name\""
+      description: filter businesses by name
   responses:
     '200':
       description: Successfully list businesses

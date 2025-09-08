@@ -99,7 +99,8 @@ properties:
       ach_payments: true,
       bnpl_payments: false,
       credit_card_payments: true,
-      insurance_payments: false
+      insurance_payments: false,
+      bank_account_verification: false
     }
   payment:
     type: object
