@@ -1,0 +1,146 @@
+---
+title: Dispute Lifecycle
+description: Understand disputes lifecycle
+sidebar_label: Dispute Lifecycle
+keywords:
+  - disputes
+  - lifecycle
+---
+
+# Dispute Lifecycle
+
+## Dispute Creation
+
+A dispute (also known as chargeback) is created when a cardholder contacts their card issuer to question a payment.
+The card issuer opens a chargeback and returns the questioned funds to the cardholder.
+JustiFi is notified of the chargeback, creates a dispute associated with the payment and pulls the payment funds (and a dispute fee) back from the merchant.
+As soon as JustiFi has created the dispute:
+
+1. **Notification**: You receive a `payment.dispute.created` webhook event
+2. **Timeline**: You have 7-10 business days to respond (varies by card network)
+
+## Response Phase
+
+### Building Your Response
+
+During the response phase, you can:
+
+- **Upload Evidence**: Add supporting documents via the create [dispute evidence API](https://docs.justifi.tech/api-spec#tag/Disputes/operation/GetDispute) or via [Dispute Management web component](https://storybook.justifi.ai/?path=/docs/payment-facilitation-dispute-management--docs)
+- **Update Response Fields**: Fill in detailed information about the transaction
+
+### Response Fields
+
+Provide comprehensive information across these categories:
+
+#### Customer Information
+- `customer_name` - Full customer name
+- `customer_email_address` - Customer email
+- `customer_billing_address` - Billing address
+- `customer_purchase_ip_address` - IP address at purchase time
+
+#### Transaction Details
+- `product_description` - Detailed product/service description
+- `service_date` - Date service was provided
+- `duplicate_charge_original_payment_id` - Reference for duplicate charges
+- `duplicate_charge_explanation` - Explanation for duplicate charges
+
+#### Shipping Information
+- `shipping_address` - Delivery address
+- `shipping_carrier` - Shipping company
+- `shipping_date` - Ship date
+- `shipping_tracking_number` - Tracking number
+
+#### Policy Information
+- `refund_policy_disclosure` - Refund policy terms
+- `cancellation_policy_disclosure` - Cancellation policy terms
+- `refund_refusal_explanation` - Why refund was refused
+- `cancellation_rebuttal` - Response to cancellation claims
+
+#### Additional Context
+- `additional_statement` - Free-form additional information
+
+## Evidence Management
+
+### Evidence Categories
+
+| Category | Best Used For |
+|----------|---------------|
+| `receipt` | Purchase confirmations, invoices |
+| `shipping_documentation` | Delivery proof, tracking info |
+| `customer_communication` | Email exchanges, support tickets |
+| `customer_signature` | Signed delivery receipts |
+| `refund_policy` | Terms of service, policies |
+| `cancellation_policy` | Cancellation terms |
+| `service_documentation` | Proof of service delivery |
+| `duplicate_charge_documentation` | Duplicate charge evidence |
+| `activity_log` | System logs, usage data |
+| `uncategorized_file` | Other supporting documents |
+
+### File Requirements
+
+- **Supported formats**: PDF, JPG, JPEG, PNG, ZIP
+- **Validation**: File extension must match MIME type
+
+## Submission and Review
+
+### Forfeiture Option
+
+If you choose not to contest the dispute either use the [submit dispute response API](https://docs.justifi.tech/api-spec#tag/Disputes/operation/SubmitDisputeResponse) with the following body:
+
+```json
+{
+  "forfeit": true
+}
+```
+
+Or instead forfeit the dispute via [Dispute Management web component](https://storybook.justifi.ai/?path=/docs/payment-facilitation-dispute-management--docs).
+
+This immediately transitions the dispute to `lost` status.
+
+## Resolution Phase
+
+### Possible Outcomes
+
+#### Won (`won` status)
+- **Funds Returned**: Disputed amount returned to your merchant's account.
+- **Notification**: `payment.dispute.closed` webhook event
+
+#### Lost (`lost` status)
+- **Funds Retained**: No funds are moved.
+- **Notification**: `payment.dispute.closed` webhook event
+
+### Dispute Reversals
+
+Card networks can reverse lost disputes:
+
+1. **Reversal Trigger**: New evidence or network decision
+2. **Dispute updated**: Status of dispute is updated to won
+3. **Fund Return**: Previously lost funds are returned
+4. **Notification**: `payment.dispute.closed` webhook event
+
+## Status Transitions
+
+```
+needs_response → under_review → won/lost
+                              ↓
+                          forfeited
+```
+
+### Status Descriptions
+
+- **`needs_response`** - Initial status, response deadline active
+- **`under_review`** - Response submitted, card network is reviewing
+- **`won`** - Dispute resolved in merchant's favor
+- **`lost`** - Dispute resolved against the merchant
+
+## Webhook Events
+
+Monitor these events for real-time updates:
+
+- **`payment.dispute.created`** - Lets you know anytime a customer opens a payment dispute
+- **`payment.dispute.closed`** - Lets you know anytime a payment dispute is closed
+- **`payment.dispute.funds_returned`** - Lets you know anytime a payment dispute won and funds are returned
+- **`payment.dispute_evidence.created`** - Lets you know anytime a dispute evidence is created
+- **`payment.dispute_evidence.uploaded`** - Lets you know anytime a dispute evidence is uploaded
+- **`payment.dispute.forfeited`** - Lets you know anytime a dispute response is forfeited
+- **`payment.dispute.submitted`** - Lets you know anytime a dispute response is submitted

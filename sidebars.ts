@@ -112,6 +112,22 @@ const sidebars: SidebarsConfig = {
             "payments/guides/paymentForm",
           ],
         },
+        {
+          type: "category",
+          label: "Disputes",
+          link: {
+            type: "generated-index",
+            title: "Disputes",
+            description: "Learn how to manage payment disputes and chargebacks effectively",
+            keywords: ["disputes", "chargebacks"],
+          },
+          items: [
+            "disputes/overview",
+            "disputes/lifecycle",
+          ],
+          collapsible: true,
+          collapsed: true,
+        },
       ],
     },
     {
@@ -128,6 +144,22 @@ const sidebars: SidebarsConfig = {
         "terminals/configuration",
         "terminals/payment",
         "terminals/refund"
+      ]
+    },
+    {
+      type: "category",
+      label: "Testing",
+      link: {
+        type: "generated-index",
+        title: "Testing",
+        description: "Learn how to test your JustiFi integration",
+      },
+      items: [
+        "testing/overview",
+        "testing/card_payments",
+        "testing/ach_payments",
+        "testing/payouts",
+        "testing/disputes"
       ]
     }
   ],
