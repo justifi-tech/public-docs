@@ -59,18 +59,22 @@ post:
                       payment_id:
                         type: string
                         format: uuid
+                        example: py_abc123
                       payment_intent_id:
                         type: string
                         format: uuid
                       terminal_id:
                         type: string
                         format: uuid
+                        example: trm_abc123
                       account_id:
                         type: string
                         format: uuid
+                        example: acc_abc123
                       platform_account_id:
                         type: string
                         format: uuid
+                        example: acc_abc123
                       checkout_id:
                         type: string
                         format: uuid

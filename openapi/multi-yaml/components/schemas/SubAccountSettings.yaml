@@ -7,6 +7,10 @@ properties:
         description: unique payment settings id
         type: string
         example: stpy_7KRQzIYhUGxNscgLJP0Aum
+      account_id:
+        type: string
+        description: unique sub account id this setting is applied to
+        example: acc_123xyz
       mcc_code:
         description: merchant category code configured
         type: string
@@ -50,3 +54,8 @@ properties:
         description: statement descriptor for the payout
         type: string
         example: JustiFi
+      settlement_priority:
+        description: 
+        type: enum[standard expedited]
+        example: standard
+
