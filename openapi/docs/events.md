@@ -1,7 +1,6 @@
 Our event publishing system allows you to subscribe to certain events on the JustiFi platform.
 Once subscribed, your application will be notified anytime those events occur, so you can react
-accordingly in real time. We support two event-delivery mechanisms; you can receive them via
-webhooks or directly to an AWS Eventbridge event bus.
+accordingly in real time. You can receive events via webhooks. See the [Webhook Delivery section](https://docs.justifi.tech/api-spec#tag/Webhook-Delivery) for more details.
 
 We will publish the following events:
 
