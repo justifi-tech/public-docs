@@ -14,5 +14,5 @@ Upon successful checkout creation, use the checkout ID from the response to crea
 
 ## Custom Redirects
 
-JustiFi hosted checkout has default behavior and redirects for when a checkout is completed successfully or has expired. If the desired behavior is to redirect back to your application upon completion of the checkout, you can use the `success_redirect_url` parameter to override the default redirect:
+By default JustiFi Hosted Checkout redirects to a generic `Checkout Complete` page after successful checkout or a `Checkout Session Expired` page if the checkout has expired. If the desired behavior is to redirect back to your application upon completion of the checkout, you can use the `success_redirect_url` parameter to override the default redirect:
 ```components.justifi.ai/checkout/chk_abc123def456?success_redirect_url=https://yourapp.com/payment-success```
