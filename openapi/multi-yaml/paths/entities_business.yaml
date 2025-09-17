@@ -39,11 +39,35 @@ post:
               description: (deprecated) use classification instead - see [classification mapping table](https://docs.justifi.tech/api-spec#tag/Business)
             business_structure:
               type: string
-              enum: [sole_proprietorship, single_llc, multi_llc, private_partnership, private_corporation, unincorporated_association, public_partnership, public_corporation, incorporated, unincorporated, government_unit, government_instrumentality, tax_exempt_government_instrumentality]
+              enum:
+                [
+                  sole_proprietorship,
+                  single_llc,
+                  multi_llc,
+                  private_partnership,
+                  private_corporation,
+                  unincorporated_association,
+                  public_partnership,
+                  public_corporation,
+                  incorporated,
+                  unincorporated,
+                  government_unit,
+                  government_instrumentality,
+                  tax_exempt_government_instrumentality,
+                ]
               description: (deprecated) use classification instead - see [classification mapping table](https://docs.justifi.tech/api-spec#tag/Business)
             classification:
               type: string
-              enum: [government limited non_profit partnership corporation public_company sole_proprietor]
+              enum:
+                [
+                  government,
+                  limited,
+                  non_profit,
+                  partnership,
+                  corporation,
+                  public_company,
+                  sole_proprietor,
+                ]
               description: simplified classification, use instead of business_type and business_structure - see [classification mapping table](https://docs.justifi.tech/api-spec#tag/Business)
             industry:
               type: string
@@ -104,7 +128,7 @@ post:
                         example: idty_xyz
 
   responses:
-    '201':
+    "201":
       description: Business entity was created successfully
       content:
         application/json:
@@ -131,10 +155,10 @@ get:
       schema:
         type: string
       required: false
-      example: "\"Company Name\""
+      example: '"Company Name"'
       description: filter businesses by name
   responses:
-    '200':
+    "200":
       description: Successfully list businesses
       content:
         application/json:
