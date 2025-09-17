@@ -33,10 +33,34 @@ properties:
     enum: [for_profit, non_profit, government_entity, individual]
   business_structure:
     type: string
-    enum: [sole_proprietorship, single_llc, multi_llc, private_partnership, private_corporation, unincorporated_association, public_partnership, public_corporation, incorporated, unincorporated, government_unit, government_instrumentality, tax_exempt_government_instrumentality]
+    enum:
+      [
+        sole_proprietorship,
+        single_llc,
+        multi_llc,
+        private_partnership,
+        private_corporation,
+        unincorporated_association,
+        public_partnership,
+        public_corporation,
+        incorporated,
+        unincorporated,
+        government_unit,
+        government_instrumentality,
+        tax_exempt_government_instrumentality,
+      ]
   classification:
     type: string
-    enum: [government limited non_profit partnership corporation public_company sole_proprietor]
+    enum:
+      [
+        government,
+        limited,
+        non_profit,
+        partnership,
+        corporation,
+        public_company,
+        sole_proprietor,
+      ]
   industry:
     type: string
     example: "Big Business"
@@ -67,7 +91,7 @@ properties:
   associated_accounts:
     type: array of objects
     descriptin: the id of the sub account associated with the business, is populated once the business has been provisioned
-    example: [{id: acc_123xyx}]
+    example: [{ id: acc_123xyx }]
   legal_address:
     $ref: AddressResponse.yaml
   representative:
@@ -89,8 +113,8 @@ properties:
   created_at:
     type: string
     format: date-time
-    example: '2021-01-01T12:00:00Z'
+    example: "2021-01-01T12:00:00Z"
   updated_at:
     type: string
     format: date-time
-    example: '2021-01-01T12:00:00Z'
+    example: "2021-01-01T12:00:00Z"

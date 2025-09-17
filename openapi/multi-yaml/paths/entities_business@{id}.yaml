@@ -38,7 +38,22 @@ patch:
               enum: [for_profit, non_profit, government_entity, individual]
             business_structure:
               type: string
-              enum: [sole_proprietorship, single_llc, multi_llc, private_partnership, private_corporation, unincorporated_association, public_partnership, public_corporation, incorporated, unincorporated, government_unit, government_instrumentality, tax_exempt_government_instrumentality]
+              enum:
+                [
+                  sole_proprietorship,
+                  single_llc,
+                  multi_llc,
+                  private_partnership,
+                  private_corporation,
+                  unincorporated_association,
+                  public_partnership,
+                  public_corporation,
+                  incorporated,
+                  unincorporated,
+                  government_unit,
+                  government_instrumentality,
+                  tax_exempt_government_instrumentality,
+                ]
             industry:
               type: string
               example: "Big Business"
