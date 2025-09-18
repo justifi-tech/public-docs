@@ -19,9 +19,9 @@ First, create a checkout following our [Create a Checkout API documentation](htt
 
 Upon successful checkout creation, use the checkout ID from the response to create a hosted checkout link:
 
-```components.justifi.ai/checkout/:checkoutId```
+```components.justifi.ai/hosted-checkout/:checkoutId```
 
 ## Custom Redirects
 
 By default JustiFi Hosted Checkout redirects to a generic `Checkout Complete` page after successful checkout or a `Checkout Session Expired` page if the checkout has expired. If the desired behavior is to redirect back to your application upon completion of the checkout, you can use the `success_redirect_url` parameter to override the default redirect:
-```components.justifi.ai/checkout/chk_abc123def456?success_redirect_url=https://yourapp.com/payment-success```
+```components.justifi.ai/hosted-checkout/cho_abc123def456?success_redirect_url=https://yourapp.com/payment-success```
