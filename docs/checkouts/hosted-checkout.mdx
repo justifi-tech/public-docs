@@ -1,0 +1,27 @@
+---
+title: Hosted Checkout
+sidebar_label: Hosted Checkout
+description: How to use Hosted Checkout
+keywords:
+  - checkouts
+  - features
+---
+
+# Hosted Checkout
+
+Hosted Checkout is the quickest and easiest way to use JustiFi checkouts without the need to build a user interface. Once a checkout is created via API, a link to that checkout can be shared and will take the user to a JustiFi hosted checkout solution.
+
+**Note:** JustiFi checkouts expire after 1 week. Please keep this in mind when generating and sharing links to hosted checkouts.
+
+## Getting Started
+
+First, create a checkout following our [Create a Checkout API documentation](https://docs.justifi.tech/api-spec#tag/Checkouts/operation/CreateCheckout).
+
+Upon successful checkout creation, use the checkout ID from the response to create a hosted checkout link:
+
+```components.justifi.ai/hosted-checkout/:checkoutId```
+
+## Custom Redirects
+
+By default JustiFi Hosted Checkout redirects to a generic `Checkout Complete` page after successful checkout or a `Checkout Session Expired` page if the checkout has expired. If the desired behavior is to redirect back to your application upon completion of the checkout, you can use the `success_redirect_url` parameter to override the default redirect:
+```components.justifi.ai/hosted-checkout/cho_abc123def456?success_redirect_url=https://yourapp.com/payment-success```
