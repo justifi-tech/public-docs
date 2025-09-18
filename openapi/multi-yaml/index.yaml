@@ -238,10 +238,10 @@ tags:
       Proceeds represent your platform's take-home portion of the fees from your sub account's financial transactions.
       Proceeds are batched together according to the payout schedule configured on your account, then transferred
       to your active bank account.
-  - name: EventBridge (AWS) Delivery
-    x-traitTag: true
-    description:
-      $ref: ../docs/event_bridge.md
+  # - name: EventBridge (AWS) Delivery
+  #   x-traitTag: true
+  #   description:
+  #     $ref: ../docs/event_bridge.md
   - name: Webhook Delivery
     x-traitTag: true
     description:
