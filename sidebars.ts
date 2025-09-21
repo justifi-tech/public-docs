@@ -80,6 +80,7 @@ const sidebars: SidebarsConfig = {
         "checkouts/overview",
         "checkouts/features",
         "checkouts/lifecycle",
+        "checkouts/hosted-checkout",
       ],
       collapsible: true,
       collapsed: true,
