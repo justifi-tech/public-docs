@@ -4,7 +4,7 @@ post:
     - Voids
   summary: Void a Payment
   description: |
-    Void a payment transaction to cancel a payment before it reaches settlement. Payment transactions are voidable within 25 minutes of the original transaction. Only payments created with a card payment_method are eligible to be voided at this time.
+    Void a payment transaction to cancel a payment before it reaches settlement. Payment transactions are voidable within 25 minutes of the original transaction.
   operationId: VoidPayment
   parameters:
     - $ref: ../components/parameters/id-path.yaml

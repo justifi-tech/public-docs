@@ -1,4 +1,4 @@
-In addition to direct EventBridge publishing, we offer event delivery to your app via webhooks.
+We offer event delivery to your app via webhooks.
 Webhooks are a reliable method to subscribe to our published events via an API endpoint.
 
 Webhooks are secured by signature verification, which you will need to verify by generating a SHA-256 hex using the following information:
@@ -33,5 +33,5 @@ For test accounts, webhooks are retried 3 times over 1 hour.
 **When you're ready to get started:**
 
 - Create the endpoint on your server that will receive published events
-- Add an event publisher with webhook delivery method in the Developer Tools section of the app (you’ll subscribe your endpoint to the event types of your choice). We recommend starting with a test account.
+- Add an event publisher with webhook delivery method in the **"Developers"** section of the JustiFi dashboard (www.justifi.ai -> Developers -> Event Publishers). You’ll subscribe your endpoint to the event types of your choice. We recommend starting with a test account.
 - Test the publisher by prompting one of the event types you chose and making sure your subscribed endpoint receives the published event
