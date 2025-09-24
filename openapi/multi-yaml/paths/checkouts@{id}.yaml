@@ -6,9 +6,8 @@ get:
     - Checkouts
   parameters:
     - $ref: ../components/parameters/authorization-header.yaml
-    - $ref: ../components/parameters/sub-account.yaml
   responses:
-    '200':
+    "200":
       description: Successfully get a checkout
       content:
         application/json:
@@ -25,8 +24,8 @@ patch:
   description: Change a checkout's amount or description
   operationId: UpdateCheckout
   parameters:
-  - $ref: ../components/parameters/id-path.yaml
-  - $ref: ../components/parameters/authorization-header.yaml
+    - $ref: ../components/parameters/id-path.yaml
+    - $ref: ../components/parameters/authorization-header.yaml
   tags:
     - Checkouts
   requestBody:
@@ -66,7 +65,7 @@ patch:
                       description: custom application fee amount that applies to bank account payment method.
                       example: 150
   responses:
-    '200':
+    "200":
       description: Checkout update was successful
       content:
         application/json:
