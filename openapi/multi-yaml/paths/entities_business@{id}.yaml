@@ -64,7 +64,7 @@ patch:
               description: merchant category code for this business, if known. Please note, the JustiFi underwriting team may modify this. If you are unsure, just submit a description in the industry field instead of an MCC
             tax_id:
               type: string
-              description: the federal tax identification number/EIN issued to this sub account by the IRS (for Individual type, this will be their full SSN)
+              description: the federal tax identification number/EIN issued to this sub account by the IRS (for Individual type, this will be their full SSN), the value is saved but not returned in any API response
             date_of_incorporation:
               type: string
               example: "2015-02-20"
