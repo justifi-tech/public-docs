@@ -80,7 +80,7 @@ properties:
     description: description of the payment that will be available on the account's bank statement
     example: Big Business
   metadata:
-    type: string
+    type: object
     example: {}
   application_fees:
     type: object
