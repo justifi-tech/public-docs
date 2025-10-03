@@ -1,11 +1,12 @@
 get:
   summary: List Balance Transactions
-  description: List the balance transactions for your account. This endpoint supports [pagination](https://docs.justifi.tech/api-spec#section/Pagination).
+  description: List the balance transactions for your account. This API is limited to a single sub account or payout. This endpoint supports [pagination](https://docs.justifi.tech/api-spec#section/Pagination).
   operationId: ListBalanceTransactions
   tags:
     - Balance Transactions
   parameters:
     - $ref: ../components/parameters/authorization-header.yaml
+    - $ref: ../components/parameters/sub-account.yaml
     - in: query
       name: payout_id
       schema:
