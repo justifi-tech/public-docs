@@ -10,7 +10,7 @@ get:
       name: status
       schema:
         type: string
-        enum: [connected, disconnected, unknown, pending_configuration]
+        enum: [connected, disconnected, unknown, pending_configuration, archived]
       required: false
       example: "active"
       description: |
