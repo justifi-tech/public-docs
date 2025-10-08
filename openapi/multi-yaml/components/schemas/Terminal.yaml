@@ -20,14 +20,14 @@ properties:
     example: verifone
   status:
     description: last known terminal status. For performance reasons, this field is only updated when you check the terminal status via API.
-    type: enum[connected, disconnected, unknown]
+    type: enum[connected, disconnected, unknown, pending_configuration, archived]
     example: disconnected
   provider_id:
     description: terminal identification from provider, also called device id (DID)
     type: string
     example: "23456789"
   provider_serial_number:
-    description: serial number of the terminal device. Present after device was configured by entering the provider id (also called device id) into device. 
+    description: serial number of the terminal device. Present after device was configured by entering the provider id (also called device id) into device.
     type: string
     example: '888-222-444'
   nickname:
