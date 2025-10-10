@@ -18,10 +18,6 @@ post:
               type: integer
               example: 4900
               description: Amount to be refunded. If missing, the total amount will be used.
-            currency:
-              type: string
-              example: "USD"
-              description: Currency used with the Checkout. If missing, the checkout currency will be used.
         examples:
           "Partial_refund":
             value:

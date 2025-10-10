@@ -15,6 +15,11 @@ properties:
     type: string
     format: uuid
     example: acc_xyz
+  payment_intent_id:
+    description: id of the payment intent associated with the checkout
+    type: string
+    format: uuid
+    example: pi_xyz
   payment_amount:
     description: the amount charged in cents
     type: number
@@ -55,7 +60,7 @@ properties:
         bank_name: Altra,
         acct_last_four: "4512"
       }
-      ]
+    ]
   payment_method_group_id:
     type: string
     description: id of payment method group used for checkout, if provided
@@ -84,7 +89,7 @@ properties:
     example: {}
   application_fees:
     type: object
-    description: custom application fee amount applied to this payment if it was passed during checkout creation, or null 
+    description: custom application fee amount applied to this payment if it was passed during checkout creation, or null
     properties:
       card:
         type: object
@@ -120,7 +125,7 @@ properties:
         type: object
         format: json
         description: any useful custom information stored alongside this payment
-        example: { new: info } 
+        example: { new: info }
       expedited:
         type: boolean
         description: settlement priority of the payment, defaults to false
@@ -133,7 +138,7 @@ properties:
     type: string
     format: date-time
     example: '2024-01-01T12:00:00Z'
-  completions: 
+  completions:
     type: array
     description: list of checkout completion attempts, if any
     items:
