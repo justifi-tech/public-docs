@@ -41,7 +41,7 @@ properties:
     description: id of the checkout for this completion
     example: cho_xyz123
   additional_transactions:
-    type: array of objects 
+    type: array of objects
     description: legacy attribute, other transactions processed during checkout completion. For example, insurance payments
   checkout:
     $ref: ./Checkout.yaml

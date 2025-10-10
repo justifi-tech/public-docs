@@ -20,7 +20,7 @@ post:
             amount:
               type: number
               example: 10000
-              description: amount to charge in cents
+              description: amount to charge in cents, must be an integer greater than 50 (equivalent to $0.50)
             description:
               type: string
               description: your meaningful description of the checkout (e.g. an order number or other value from your system)
@@ -31,13 +31,16 @@ post:
               example: http://localhost:3000
             payment_method_group_id:
               type: string
-              format: uuid
               description: payment method group to associate with the checkout
               example: pmg_xyz123
             statement_descriptor:
               type: string
               description: description of the payment that will be available on the account's bank statement, must have between 5-22 alphanumeric characters and can include dash or underscore
               example: Big Business
+            currency:
+              type: string
+              description: three-letter ISO currency code, in lowercase. Currently, only `usd` is supported
+              example: usd
             metadata:
               type: object
               format: json
@@ -105,7 +108,7 @@ get:
       name: payment_mode
       schema:
         type: string
-        enum: [bnpl, ecom]
+        enum: [bnpl, ecom, card_present, apple_pay]
       required: false
       example: "bnpl"
       description: |
@@ -123,6 +126,9 @@ get:
       name: payment_status
       schema:
         type: string
+        enum: [succeeded, failed, canceled, skipped, pending]
+      required: false
+      example: "succeeded"
       description: |
         the status of the payment which was use to complete the checkout
   responses:

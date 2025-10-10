@@ -38,7 +38,7 @@ patch:
             amount:
               type: number
               example: 10000
-              description: amount to charge in cents
+              description: amount to charge in cents, must be an integer greater than 50 (equivalent to $0.50)
             description:
               type: string
               description: your meaningful description of the checkout (e.g. an order number or other value from your system)
@@ -47,6 +47,10 @@ patch:
               type: string
               description: description of the payment that will be available on the account's bank statement, must have between 5-22 alphanumeric characters and can include dash or underscore
               example: Big Business
+            currency:
+              type: string
+              description: three-letter ISO currency code, in lowercase. Currently, only `usd` is supported
+              example: usd
             metadata:
               type: object
               format: json

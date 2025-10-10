@@ -18,11 +18,17 @@ post:
               type: string
               example: "pm_asdfakjsd23"
               description: Payment Method token which you want to use to complete the payment
+            payment_mode:
+              type: string
+              example: ecom
+              enum: [ecom, bnpl, card_present, apple_pay]
+              description: The mode in which the checkout is being completed. If not provided, defaults to `ecom`
           required: [payment_token]
         examples:
           "Complete_a_checkout":
             value:
               payment_token: "pm_asdfakjsd23"
+              payment_mode: "ecom"
   responses:
     '201':
       description: Checkout was created successfully
