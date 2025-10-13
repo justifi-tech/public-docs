@@ -36,4 +36,12 @@ post:
                 description: |
                   Use this field in the `auth-token` parameter of the web component you would like to render
                 type: string
+              expires_in:
+                description: |
+                  The amount of seconds until the token expires
+                type: number
+              token_type:
+                description: |
+                  Type of token, this will always return Bearer
+                type: string
 
