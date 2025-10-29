@@ -1,0 +1,49 @@
+# Apple Pay Web Component Implementation Documentation
+
+## Prerequisites
+
+- Any device **compatible**, take a look [here](https://support.apple.com/en-us/102896) for a comprehensive list.
+- Your application must be served over **HTTPS**.
+- Ability to host a file under `/.well-known/`.
+
+## Enabling Apple Pay for your account
+
+There are a few necessary steps to get your platform registered with JustiFi and Apple to be able to process Apple Pay payments, 
+we wil list all steps and it's recommendations below, make sure to use it as a checklist to ensure your platform is setup properly.
+
+### Platform Domain Names
+
+You will be asked to provide all domain names that will be used to process payments from, these domains will be registered and validated 
+with Apple, ensure you have access to host files under all provided domains.
+
+It is important to mention that the FQDN (Fully Qualified Domain Name) is required, wildcard domains are not supported at the moment.
+
+### Merchant Registration
+
+In this step a merchant will be registered for your platform with all the domains provided in the step above, but **before** JustiFi can 
+register your platform with Apple you will need to host a file (see below) on all provided domains under the path `/.well-known/<file_name>`.
+
+Once the file is in place for all domains JustiFi will register your platform, if Apple is not able to reach and validate the files the 
+registration will fail.
+
+[Apple Pay merchant validation file](<link_to_the_file_here>)
+
+### Adding new domains
+
+Adding new domains to your platform will require going through the step above again for the new domains, no change needed for the already 
+registered domains.
+
+### Processing Apple Pay Payments
+
+Once your platform is successfully registered with Apple you are ready to start processing payments, you will be able to use our modular checkout 
+to easily integrate Apple Pay payments, you will find the documentation [here](<modular_checkout_apple_pay_doc>). Below you will find an example 
+implementation of the modular checkout and apple pay components:
+
+```html
+<justifi-modular-checkout
+  auth-token="your-auth-token"
+  checkout-id="your-checkout-id"
+>
+  <justifi-apple-pay display-name="your-custom-display-name" />
+</justifi-modular-checkout>
+```
