@@ -21,7 +21,7 @@ It is important to mention that the FQDN (Fully Qualified Domain Name) is requir
 ### Merchant Registration
 
 In this step a merchant will be registered for your platform with all the domains provided in the step above, but **before** JustiFi can 
-register your platform with Apple you will need to host a file (see below) on all provided domains under the path `/.well-known/<file_name>`.
+register your platform with Apple you will need to host a file provided on all domains under the path `/.well-known/apple-developer-merchantid-domain-association`.
 
 Once the file is in place for all domains JustiFi will register your platform, if Apple is not able to reach and validate the files the 
 registration will fail.
