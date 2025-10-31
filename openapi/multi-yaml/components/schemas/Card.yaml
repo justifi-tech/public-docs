@@ -12,6 +12,9 @@ properties:
   brand:
     description: card brand or bank name
     example: Visa
+  digital_wallet:
+    decription: which digital wallet provider the card is tied to
+    example: apple_pay
   name:
     description: card or account holder name
     example: Amanda Kessel
