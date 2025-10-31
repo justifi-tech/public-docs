@@ -100,6 +100,11 @@ const sidebars: SidebarsConfig = {
         "payments/tokenization",
         "payments/paymentsApi",
         {
+          type: "doc",
+          label: "Apple Pay",
+          id: "payments/applePay"
+        },
+        {
           type: "category",
           label: "Web Components",
           link: {
