@@ -59,6 +59,12 @@ tags:
       Payouts are processed each day at 11:30am US/Central time. A Platform can also configure each
       sub account to have an expedited payout priority. If this is enabled, the payout will be settled on the
       day the payout is generated. Otherwise, standard payouts will settle the next business day.
+  - name: Payout Holds
+    description: |
+      Payout Holds is a resource that allows platforms to temporarily hold or pause payouts for seller accounts.
+      This feature is used for risk management, compliance, or business rule enforcement.
+      Holds can be created automatically by the system (e.g., for first payments) or manually by platform administrators
+      or the Justifi team.
   - name: Balance Transactions
     description: |
       Balance transactions are the reflection of any movement of funds that affects the balance of an account.
@@ -361,7 +367,7 @@ tags:
       Once a the create endpoint is called via POST, a report will be in `created` status. The report will move to `processing` status once it is being generated.
       Finally, when the report is generated, and the CSV file is available, the report will be in `completed` status.
 
-      To download a report, you can use the `download_url` provided in the response when retrieving a report. We use presigned URLs to allow you to download the report directly 
+      To download a report, you can use the `download_url` provided in the response when retrieving a report. We use presigned URLs to allow you to download the report directly
       from our S3 bucket.
 
 x-tagGroups:
@@ -388,6 +394,7 @@ x-tagGroups:
       - Refunds
       - Disputes
       - Payouts
+      - Payout Holds
       - Balance Transactions
       - Ach Return Fees
       - Payment Method Migration
