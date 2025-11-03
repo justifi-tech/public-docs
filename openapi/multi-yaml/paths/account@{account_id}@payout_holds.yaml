@@ -1,0 +1,61 @@
+get:
+  summary: List Payout Holds
+  description: Retrieve a paginated list of payout holds for an account.
+  operationId: ListPayoutHolds
+  tags:
+    - Payout Holds
+  parameters:
+    - $ref: ../components/parameters/account-id-path.yaml
+    - $ref: ../components/parameters/authorization-header.yaml
+    - $ref: ../components/parameters/pagination-after.yaml
+    - $ref: ../components/parameters/created-before.yaml
+    - $ref: ../components/parameters/created-after.yaml
+    - $ref: ../components/parameters/start-date-before.yaml
+    - $ref: ../components/parameters/start-date-after.yaml
+    - $ref: ../components/parameters/end-date-before.yaml
+    - $ref: ../components/parameters/end-date-after.yaml
+  responses:
+    '200':
+      description: Successfully list payout holds
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope-list.yaml
+              - properties:
+                  type:
+                    example: array
+                  data:
+                    items:
+                      $ref: ../components/schemas/PayoutHold.yaml
+
+post:
+  summary: Create Payout Hold
+  description: Create a new payout hold for a seller account.
+  operationId: CreatePayoutHold
+  tags:
+    - Payout Holds
+  parameters:
+    - $ref: ../components/parameters/account-id-path.yaml
+    - $ref: ../components/parameters/authorization-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: ../components/schemas/PayoutHoldRequest.yaml
+  responses:
+    '201':
+      description: Payout hold created successfully
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope.yaml
+              - properties:
+                  type:
+                    example: payout_hold
+                  data:
+                    $ref: ../components/schemas/PayoutHold.yaml
+

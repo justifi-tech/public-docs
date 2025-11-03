@@ -1,0 +1,9 @@
+in: query
+name: start_date_before
+schema:
+  type: string
+  format: date
+required: false
+example: '2024-01-31'
+description: Filter by start date before the specified date (ISO 8601 format)
+

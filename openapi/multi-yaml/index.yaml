@@ -481,6 +481,10 @@ paths:
     $ref: paths/payouts@{id}.yaml
   /reports/payouts/{id}:
     $ref: paths/csv_report_payouts@{id}.yaml
+  /account/{account_id}/payout_holds:
+    $ref: paths/account@{account_id}@payout_holds.yaml
+  /account/{account_id}/payout_holds/{payout_hold_id}:
+    $ref: paths/account@{account_id}@payout_holds@{payout_hold_id}.yaml
   /balance_transactions:
     $ref: paths/balance_transactions.yaml
   /balance_transactions/{id}:
