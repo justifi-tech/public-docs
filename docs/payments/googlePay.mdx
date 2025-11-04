@@ -1,0 +1,19 @@
+# Apple Pay Web Component Implementation Documentation
+
+## Prerequisites
+
+- Any device **compatible**, take a look [here](https://developers.google.com/pay/issuers/overview/supported-devices) for a comprehensive list.
+- Your application must be served over **HTTPS**.
+
+### Processing Apple Pay Payments
+
+To start processing Google Pay payments take a look at our [modular checkout docs](https://storybook.justifi.ai/?path=/docs/modular-checkout--docs).
+
+```html
+<justifi-modular-checkout
+  auth-token="your-auth-token"
+  checkout-id="your-checkout-id"
+>
+  <justifi-google-pay />
+</justifi-modular-checkout>
+```
