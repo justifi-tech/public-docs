@@ -787,6 +787,10 @@ Many of our `4XX` errors will provide an error code in addition to their HTTP st
     <td><code>gateway_error_please_retry</code></td>
     <td>There was a temporary issue processing this payment. Please try again.</td>
   </tr>
+  <tr>
+    <td><code>checkout_invalid_currency</code></td>
+    <td>The currency parameter does not match the currency this account is configured to process.</td>
+  </tr>
 </table>
 
 ## Network Errors
