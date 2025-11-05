@@ -47,10 +47,6 @@ patch:
               type: string
               description: description of the payment that will be available on the account's bank statement, must have between 5-22 alphanumeric characters and can include dash or underscore
               example: Big Business
-            currency:
-              type: string
-              description: three-letter ISO currency code, in lowercase. Currently, only `usd` is supported
-              example: usd
             metadata:
               type: object
               format: json
