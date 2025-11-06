@@ -12,6 +12,12 @@ properties:
   brand:
     description: card brand or bank name
     example: Visa
+  digital_wallet:
+    description: which digital wallet provider the card is tied to
+    type: string
+    enum: [apple_pay, google_pay, null]
+    example: apple_pay
+    nullable: true
   name:
     description: card or account holder name
     example: Amanda Kessel

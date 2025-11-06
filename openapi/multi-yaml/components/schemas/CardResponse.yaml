@@ -56,6 +56,12 @@ properties:
             description: card brand or institution
             type: string
             example: visa
+          digital_wallet:
+            description: which digital wallet provider the card is tied to
+            type: string
+            enum: [apple_pay, google_pay, null]
+            example: apple_pay
+            nullable: true
           token:
             description: |
               same value as unique bank account id; can be saved and used to process multiple
