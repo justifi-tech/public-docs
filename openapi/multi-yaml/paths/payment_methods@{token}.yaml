@@ -19,6 +19,7 @@ get:
             oneOf:
               - $ref: ../components/schemas/CardResponse.yaml
               - $ref: ../components/schemas/BankAccountResponse.yaml
+              - $ref: ../components/schemas/CardPresentResponse.yaml
 
 patch:
   summary: Update a Payment Method
@@ -50,3 +51,4 @@ patch:
             oneOf:
               - $ref: ../components/schemas/CardResponse.yaml
               - $ref: ../components/schemas/BankAccountResponse.yaml
+              - $ref: ../components/schemas/CardPresentResponse.yaml

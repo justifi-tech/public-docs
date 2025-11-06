@@ -1,0 +1,70 @@
+# Is not wrapped in envelope, so contains envelope contents
+type: object
+properties:
+  id:
+    description: the object id
+    type: number
+    example: pm_123xyz
+  type:
+    description: the object type, or array of objects
+    type: string
+    example: payment_method
+  data:
+    description: the attributes for the object
+    type: object
+    properties:
+      signature:
+        description: unique signature associated with the payment_method
+        type: string
+        example: "3aGWnUznQ"
+      customer_id:
+        description: customer_id is a deprecated field. Please use our payment method groups instead.
+        type: string
+        example: "cust_123abc"
+      account_id:
+        description: account id associated with payment method
+        type: string
+        example: "acc_123"
+        nullable: true
+      status:
+        description: signals whether the payment method is valid or invalid
+        type: string
+        example: "valid"
+      invalid_reason:
+        description: informs reason that the payment method has been marked invalid, if status is invalid 
+        type: string
+        example: "INVALID_ACCOUNT_NUMBER"
+        nullable: true
+      card_present:
+        description: the card present payment method
+        type: object
+        properties:
+          id:
+            description: unique card present payment method id
+            type: string
+            format: uuid
+            example: cp_7SdSRKRMADOn2Yi5expjej
+          brand:
+            description: card brand or institution
+            type: string
+            example: visa
+          cardholder_name:
+            description: name of the cardholder
+            type: string
+            example: CARDHOLDER/VISA
+          last4:
+            description: last 4 digits of the card number
+            type: string
+            example: "2970"
+          expiry:
+            description: card expiration date in MM/YY format
+            type: string
+            example: "11/30"
+          type:
+            description: the payment method type
+            type: string
+            example: card_present
+  page_info:
+    description: information for cursor style pagination, is null for single records
+    type: string
+    nullable: true
