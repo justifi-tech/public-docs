@@ -1,0 +1,55 @@
+type: object
+properties:
+  status:
+    description: signals whether the payment method is valid or invalid
+    type: string
+    example: "valid"
+  invalid_reason:
+    description: informs reason that the payment method has been marked invalid, if status is invalid 
+    type: string
+    example: nil
+    nullable: true
+  card_present:
+    type: object
+    properties:
+      id:
+        description: unique card present payment method id
+        type: string
+        format: uuid
+        example: cp_7SdSRKRMADOn2Yi5expjej
+      brand:
+        description: card brand or institution
+        type: string
+        example: visa
+      cardholder_name:
+        description: name of the cardholder
+        type: string
+        example: CARDHOLDER/VISA
+      last4:
+        description: last 4 digits of the card number
+        type: string
+        example: "2970"
+      expiry:
+        description: card expiration date in MM/YY format
+        type: string
+        example: "11/30"
+      type:
+        description: the payment method type
+        type: string
+        example: card_present
+  customer_id:
+    description: id of the customer associated with the payment method
+    type: string
+    example: "cust_xyz"
+    nullable: true
+  signature:
+    description: signature that uniquely identifies a credit card or bank account across payment methods
+    type: string
+    example: "4guAJNkVA3lRLVlanNVoBK"
+    nullable: true
+  account_id:
+    description: account id associated with payment method
+    type: string
+    example: "acc_123"
+    nullable: true
+

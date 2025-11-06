@@ -115,6 +115,7 @@ post:
             oneOf:
               - $ref: ../components/schemas/CardResponse.yaml
               - $ref: ../components/schemas/BankAccountResponse.yaml
+              - $ref: ../components/schemas/CardPresentResponse.yaml
 
 get:
   summary: List Payment Methods
@@ -142,3 +143,4 @@ get:
                     items:
                       - $ref: ../components/schemas/CardPaymentMethodWithBinDetails.yaml
                       - $ref: ../components/schemas/BankAccountPaymentMethodWithStatus.yaml
+                      - $ref: ../components/schemas/CardPresentPaymentMethod.yaml

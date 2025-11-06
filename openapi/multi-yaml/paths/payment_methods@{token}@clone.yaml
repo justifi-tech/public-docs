@@ -30,3 +30,4 @@ post:
             oneOf:
               - $ref: ../components/schemas/CardResponse.yaml
               - $ref: ../components/schemas/BankAccountResponse.yaml
+              - $ref: ../components/schemas/CardPresentResponse.yaml
