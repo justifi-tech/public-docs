@@ -3,6 +3,5 @@ name: account_id
 schema:
   type: string
 required: true
-example: acc_seller123
+example: acc_sub123
 description: Account public ID
-

@@ -61,7 +61,7 @@ tags:
       day the payout is generated. Otherwise, standard payouts will settle the next business day.
   - name: Payout Holds
     description: |
-      Payout Holds is a resource that allows platforms to temporarily hold or pause payouts for seller accounts.
+      Payout Holds is a resource that allows platforms to temporarily hold or pause payouts for sub accounts.
       This feature is used for risk management, compliance, or business rule enforcement.
       Holds can be created automatically by the system (e.g., for first payments) or manually by platform administrators
       or the Justifi team.

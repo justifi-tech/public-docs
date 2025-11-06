@@ -5,7 +5,7 @@ required:
 properties:
   account_id:
     type: string
-    example: acc_seller123
+    example: acc_sub123
   start_date:
     type: string
     format: date

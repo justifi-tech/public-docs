@@ -5,7 +5,7 @@ properties:
     example: poh_abc123xyz
   account_id:
     type: string
-    example: acc_seller123
+    example: acc_sub123
   hold_type:
     type: string
     enum: [first_payment, manual]

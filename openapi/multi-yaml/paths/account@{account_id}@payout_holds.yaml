@@ -1,13 +1,12 @@
 get:
   summary: List Payout Holds
-  description: Retrieve a paginated list of payout holds for an account.
+  description: List the payout holds for your account. This endpoint supports [pagination](https://docs.justifi.tech/api-spec#section/Pagination).
   operationId: ListPayoutHolds
   tags:
     - Payout Holds
   parameters:
     - $ref: ../components/parameters/account-id-path.yaml
     - $ref: ../components/parameters/authorization-header.yaml
-    - $ref: ../components/parameters/pagination-after.yaml
     - $ref: ../components/parameters/created-before.yaml
     - $ref: ../components/parameters/created-after.yaml
     - $ref: ../components/parameters/start-date-before.yaml
@@ -15,7 +14,7 @@ get:
     - $ref: ../components/parameters/end-date-before.yaml
     - $ref: ../components/parameters/end-date-after.yaml
   responses:
-    '200':
+    "200":
       description: Successfully list payout holds
       content:
         application/json:
@@ -31,7 +30,7 @@ get:
 
 post:
   summary: Create Payout Hold
-  description: Create a new payout hold for a seller account.
+  description: Create a new payout hold for a sub account.
   operationId: CreatePayoutHold
   tags:
     - Payout Holds
@@ -46,7 +45,7 @@ post:
         schema:
           $ref: ../components/schemas/PayoutHoldRequest.yaml
   responses:
-    '201':
+    "201":
       description: Payout hold created successfully
       content:
         application/json:
@@ -58,4 +57,3 @@ post:
                     example: payout_hold
                   data:
                     $ref: ../components/schemas/PayoutHold.yaml
-
