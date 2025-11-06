@@ -141,6 +141,7 @@ get:
                     example: array
                   data:
                     items:
-                      - $ref: ../components/schemas/CardPaymentMethodWithBinDetails.yaml
-                      - $ref: ../components/schemas/BankAccountPaymentMethodWithStatus.yaml
-                      - $ref: ../components/schemas/CardPresentPaymentMethod.yaml
+                      anyOf:
+                        - $ref: ../components/schemas/CardPaymentMethodWithBinDetails.yaml
+                        - $ref: ../components/schemas/BankAccountPaymentMethodWithStatus.yaml
+                        - $ref: ../components/schemas/CardPresentPaymentMethod.yaml

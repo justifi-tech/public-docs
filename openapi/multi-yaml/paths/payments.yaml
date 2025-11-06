@@ -236,6 +236,7 @@ post:
                       id: pm_123xyz
                       acct_last_four: "4242"
                       brand: visa
+                      digital_wallet: null
                       name: Sylvia Fowles
                       token: pm_123xyz
                       metadata: {}
