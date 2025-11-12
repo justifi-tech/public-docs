@@ -1,6 +1,6 @@
 get:
   summary: List Payout Holds
-  description: List the payout holds that belongs to this account. This endpoint supports [pagination](https://docs.justifi.tech/api-spec#section/Pagination).
+  description: List the payout holds that belong to this account. This endpoint supports [pagination](https://docs.justifi.tech/api-spec#section/Pagination).
   operationId: ListPayoutHolds
   tags:
     - Payout Holds
