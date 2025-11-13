@@ -67,3 +67,13 @@ web component is used, Plaid will automatically appear as a payment method optio
 - If [Modular Checkout](https://storybook.justifi.ai/?path=/docs/modular-checkout--docs) web component is used, the
 [Plaid Sub Component](https://storybook.justifi.ai/?path=/docs/modular-checkout-sub-components-plaid-payment-method--docs)
 needs to be included.
+
+## Testing Plaid Bank Account Verification
+
+To test Plaid bank account verification, Platform Accounts and Sub Accounts can use test accounts that connect to
+Plaid's Sandbox environment. These accounts simulate real bank accounts and allow testing of the verification process
+without using actual bank account information. All Web Components and Hosted Checkout automatically connect to Plaid's
+Sandbox when in test mode.
+
+In Plaid's Sandbox, any values are accepted for user credentials and verification codes. All data is simulated, no real
+bank accounts are used.
