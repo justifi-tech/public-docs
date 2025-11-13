@@ -1,0 +1,34 @@
+type: object
+properties:
+  id:
+    type: string
+    example: poh_abc123xyz
+  account_id:
+    type: string
+    example: acc_sub123
+  hold_type:
+    type: string
+    enum: [first_payment, manual]
+    example: manual
+  issued_by:
+    type: string
+    enum: [system, platform]
+    example: platform
+  start_date:
+    type: string
+    format: date
+    example: '2024-01-01'
+  end_date:
+    type: string
+    format: date
+    nullable: true
+    example: '2024-01-31'
+  created_at:
+    type: string
+    format: date-time
+    example: '2024-01-01T10:00:00Z'
+  updated_at:
+    type: string
+    format: date-time
+    example: '2024-01-01T10:00:00Z'
+
