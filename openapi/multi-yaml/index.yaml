@@ -61,9 +61,9 @@ tags:
       day the payout is generated. Otherwise, standard payouts will settle the next business day.
   - name: Payout Holds
     description: |
-      A payout hold is a resource that temporarily hold or pause payouts for sub accounts.
+      A payout hold is a resource that temporarily hold or pause payouts for a sub account.
       This feature is used for risk management, compliance, or business rule enforcement.
-      Holds can be created automatically by the system (e.g., for first payments).
+      Holds can be created automatically by the system (e.g., for first payments) or manually by JustiFi staff..
   - name: Balance Transactions
     description: |
       Balance transactions are the reflection of any movement of funds that affects the balance of an account.
