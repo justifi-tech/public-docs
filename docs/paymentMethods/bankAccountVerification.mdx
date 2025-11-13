@@ -1,0 +1,69 @@
+---
+title: Bank Account Verification
+sidebar_label: Bank Account Verification
+description: Learn about bank account verification and its importance
+keywords:
+  - payment methods
+  - bank account verification
+  - ach
+  - plaid
+---
+
+# Bank Account Verification
+
+Bank account verification is a crucial step in ensuring the authenticity of bank accounts used for ACH payments. This
+process provides a more secure and reliable way to link bank accounts to payment systems. For Bank Account Verification,
+JustiFi supports integration with [Plaid](https://plaid.com/), a leading financial technology company that
+specializes in connecting applications to users' bank accounts.
+
+## Prerequisites
+
+For bank account verification using Plaid, it's necessary to use JustiFi's Hosted Checkout or one of JustiFi's Web
+Components that support Plaid integration, such as the
+[Plaid Sub Component](https://storybook.justifi.ai/?path=/docs/modular-checkout-sub-components-plaid-payment-method--docs).
+
+## Plaid Provisioning for Sub Accounts
+
+To start using Plaid for bank account verification, it's essential to first provision the bank account verification
+feature for the desired Sub Account. This can be done by adding the necessary information to the linked Business entity
+and calling the entity provisioning endpoint, or by contacting JustiFi support for assistance.
+
+The necessary information for the Business entity includes:
+- Business Legal Name
+- Business Website URL
+- Business Legal Address
+
+The entity provisioning endpoint should include the business ID and enable the `bank_account_verification` product
+category.
+
+```bash
+curl --request POST \
+  --url https://api.justifi.ai/v1/entities/provisioning \
+  --header 'authorization: Bearer {{access_token}}' \
+  --header 'content-type: application/json' \
+  --data '{
+  "business_id": "biz_123",
+  "product_category": "bank_account_verification"
+}'
+```
+
+After provisioning, JustiFi will handle the setup with Plaid, and once completed, the Sub Account will be able to use
+Plaid for bank account verification.
+
+## Plaid Provisioning for Platform Accounts
+
+For Platform Accounts, it's necessary to contact JustiFi support to enable the bank account verification feature.
+JustiFi will handle the provisioning process with Plaid on behalf of the Platform Account, and once completed, all Sub
+Accounts under the Platform Account will be able to use Plaid for bank account verification.
+
+## Using Plaid Bank Account Verification
+
+After provisioning is complete and the bank account verification setting is enabled, Plaid can be used as a payment
+method option during the checkout process:
+- If [Hosted Checkout](../checkouts/hosted-checkout.mdx) is used, Plaid will automatically appear as a payment method
+option after provisioning is completed.
+- If [Unified Checkout](https://storybook.justifi.ai/?path=/docs/payment-facilitation-unified-fintech-checkout%E2%84%A2--docs)
+web component is used, Plaid will automatically appear as a payment method option.
+- If [Modular Checkout](https://storybook.justifi.ai/?path=/docs/modular-checkout--docs) web component is used, the
+[Plaid Sub Component](https://storybook.justifi.ai/?path=/docs/modular-checkout-sub-components-plaid-payment-method--docs)
+needs to be included.

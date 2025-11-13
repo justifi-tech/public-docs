@@ -150,7 +150,8 @@ const sidebars: SidebarsConfig = {
         "paymentMethods/cardNotPresent",
         "paymentMethods/cardPresent",
         "paymentMethods/integratingPaymentMethods",
-        "paymentMethods/paymentMethodGroups"
+        "paymentMethods/paymentMethodGroups",
+        "paymentMethods/bankAccountVerification"
       ],
       collapsible: true,
       collapsed: true,
