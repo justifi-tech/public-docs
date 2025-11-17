@@ -17,18 +17,20 @@ properties:
   start_date:
     type: string
     format: date
-    example: '2024-01-01'
+    example: "2024-01-01"
   end_date:
     type: string
     format: date
     nullable: true
-    example: '2024-01-31'
+    example: "2024-01-31"
+  active:
+    type: boolean
+    example: true
   created_at:
     type: string
     format: date-time
-    example: '2024-01-01T10:00:00Z'
+    example: "2024-01-01T10:00:00Z"
   updated_at:
     type: string
     format: date-time
-    example: '2024-01-01T10:00:00Z'
-
+    example: "2024-01-01T10:00:00Z"
