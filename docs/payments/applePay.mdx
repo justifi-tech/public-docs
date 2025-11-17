@@ -1,43 +1,56 @@
-# Apple Pay Web Component Implementation Documentation
+# Apple Pay
+Apple Pay is available via the following JustiFi checkout options:
+- [Hosted Checkout](https://docs.justifi.tech/checkouts/hosted-checkout)
+- [Unified Fintech Checkout web component](https://storybook.justifi.ai/?path=/docs/payment-facilitation-unified-fintech-checkout%E2%84%A2--docs) 
+- [Modular Checkout web component](https://storybook.justifi.ai/?path=/docs/modular-checkout--docs)
+
+Apple Pay is not available in the [Tokenize Payment Method web component](https://storybook.justifi.ai/?path=/docs/payment-facilitation-tokenize-payment-method--docs) or via API.
 
 ## Prerequisites
 
-- Any device **compatible**, take a look [here](https://support.apple.com/en-us/102896) for a comprehensive list.
+- Use any **compatible** device, a comprehensive list can be found [here](https://support.apple.com/en-us/102896)
 - Your application must be served over **HTTPS**.
-- Ability to host a file under `/.well-known/` in the domain the checkout will be hosted.
+- Ability to host a file under `/.well-known/` in the domain(s) the checkout will be hosted.
+- Use one of the JustiFi Checkout options ([Hosted Checkout](https://docs.justifi.tech/checkouts/hosted-checkout), 
+[Unified Fintech Checkout](https://storybook.justifi.ai/?path=/docs/payment-facilitation-unified-fintech-checkout%E2%84%A2--docs) 
+or [Modular Checkout](https://storybook.justifi.ai/?path=/docs/modular-checkout--docs) web component)
 
 ## Enabling Apple Pay for your account
 
-There are a few necessary steps to get your platform registered with JustiFi and Apple to be able to process Apple Pay payments, 
-we wil list all steps and it's recommendations below, make sure to use it as a checklist to ensure your platform is setup properly.
+To process Apple Pay payments via JustiFi's checkout your platform needs to be registered with Apple.
+The following steps describe the registration process.
 
-### Platform Domain Names
+### Host Apple Merchant Validation 
 
-You will be asked to provide all domain names that will be used to process payments from, these domains will be registered and validated 
-with Apple, ensure you have access to host files under all provided domains.
-
-It is important to mention that the FQDN (Fully Qualified Domain Name) is required, wildcard domains are not supported.
-
-### Merchant Registration
-
-In this step a merchant will be registered for your platform with all the domains provided in the step above, but **before** JustiFi can 
-register your platform with Apple you will need to host a file provided on all domains under the path `/.well-known/apple-developer-merchantid-domain-association`.
-
-Once the file is in place for all domains JustiFi will register your platform, if Apple is not able to reach and validate the files the 
-registration will fail.
+Apple requires that each domain you will use to process Apple Pay payments from hosts a specific file (linked below) under the path `/.well-known/apple-developer-merchantid-domain-association`.\
+Ensure you have access to host the file under all provided domains.\
+**Note:** The FQDN (Fully Qualified Domain Name) is required, wildcard domains are not supported.
 
 [Apple Pay merchant validation file](https://components.justifi.ai/.well-known/apple-developer-merchantid-domain-association)
 
+### Provide Platform Domain Names
+
+Once you have added the Apple Pay merchant validation file on youe platform provide your domain(s) to JustiFi for registration.
+
+### Merchant Registration
+
+JustiFi will initiate the registration with Apple for the provided domains.\
+After Apple validates the files and confirms the registration JustiFi will enable your platform for Apple Pay.\
+If Apple is not able to reach and validate the files the registration will fail.
+
 ### Adding new domains
 
-Adding new domains to your platform will require going through the step above again for the new domains, no change needed for the already 
-registered domains.
+If you add the Apple Pay payment options to new domains on your platform at a later point you will need to register these new domains with Apple folling the steps described above. 
+Already registered domains are not impacted by this change.
 
 ### Processing Apple Pay Payments
 
-Once your platform is successfully registered with Apple you are ready to start processing payments, you will be able to use our modular checkout 
-to easily integrate Apple Pay payments, you will find the documentation [here](https://storybook.justifi.ai/?path=/docs/modular-checkout--docs). Below you will find an example 
-implementation of the modular checkout and apple pay components:
+Once your platform is successfully registered with Apple you are ready to process Apple Pay payments. 
+If you use Hosted Checkout or the Unified Fintech Checkout web component the Apple Pay button will automatically appear
+in the checkout form.\
+To add Apple Pay to the Modular Checkout web component include the **Apple Pay** sub component in the Modular Checkout
+as the example below shows.
+For more details refer to the [Modular Checkout docs](https://storybook.justifi.ai/?path=/docs/modular-checkout--docs)
 
 ```html
 <justifi-modular-checkout
@@ -47,3 +60,32 @@ implementation of the modular checkout and apple pay components:
   <justifi-apple-pay />
 </justifi-modular-checkout>
 ```
+JustiFi will create a payment method record (ID starting with `pm_`) for each transaction processed via Apple Pay.
+**Note:** JustiFi payment methods created via Apple Pay are one time use only. They cannot be used for later payments or recurring payments.
+
+## Testing your Apple Pay Integration
+When you use Apple Pay in JustiFi's test environment the Apple Pay checkout process will simulate a live Apple Pay payment 
+with a live Apple Pay payment method. Instead of charging the live payment method used for the test transaction JustiFi will replace it with a 
+test payment method (account number `4111***1111`) and simulate the payment transaction.\
+JustiFi will **NOT** charge or save the real credit card for these test transactions.
+
+### Provision Test account
+To set up your Apple Pay test environment follow these steps:
+1. Host the [Apple Pay merchant validation file](https://components.justifi.ai/.well-known/apple-developer-merchantid-domain-association) on your test domain(s)
+2. Provide the test domain(s) to JustiFi
+3. Provide a JustiFi test account ID you want to use to test Apple Pay
+**Note:** The test domain needs to be publicly available so Apple Pay can verify the validation file
+
+### Checkout via Apple Pay
+The easiest and fastest way to see Apple Pay in action is via the JustiFi dashboard:
+- On desktop use the **Safari** browser to log in to the JustiFi dashboard (https://app.justifi.ai)
+- Go to the **"Developers"** section and enable "Test Mode"
+- From the **"Payments"** section select **"Checkouts"**
+- Create a checkout via the **Create Checkout"** button and provide the account ID of the Apple Pay enabled sub account
+- Open the newly created checkout and click on the **"Hosted Checkout URL"**. This will open the JustiFi **Hosted Checkout** form with the **Apple Pay** button visible
+- Using Apple Pay will prompt the use of a real Apple Pay wallet on an iPhone
+- Accepting the payment will simulate a successful payment but will not charge the real Apple Pay card.
+
+To provide Apple Pay on your platorm via embedded JustiFi Checkout web components follow this integration guide:\
+[Checkout via web component](https://docs.justifi.tech/api-spec#tag/Checkout-via-Component) 
+
