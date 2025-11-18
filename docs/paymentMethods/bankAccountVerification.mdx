@@ -18,43 +18,54 @@ specializes in connecting applications to users' bank accounts.
 
 ## Prerequisites
 
-For bank account verification using Plaid, it's necessary to use JustiFi's Hosted Checkout or one of JustiFi's Web
-Components that support Plaid integration, such as the
-[Plaid Sub Component](https://storybook.justifi.ai/?path=/docs/modular-checkout-sub-components-plaid-payment-method--docs).
+Bank account verification via Plaid is available in the following JustiFi checkout options:
 
-## Plaid Provisioning for Sub Accounts
+- [Hosted Checkout](https://docs.justifi.tech/checkouts/hosted-checkout)
+- [Unified Fintech Checkout web component](https://storybook.justifi.ai/?path=/docs/payment-facilitation-unified-fintech-checkout%E2%84%A2--docs)
+- [Modular Checkout web component](https://storybook.justifi.ai/?path=/docs/modular-checkout--docs) if the Plaid Payment
+Method sub component is included
 
-To start using Plaid for bank account verification, it's essential to first provision the bank account verification
-feature for the desired Sub Account. This can be done by adding the necessary information to the linked Business entity
-and calling the entity provisioning endpoint, or by contacting JustiFi support for assistance.
+Is not available in the [Tokenize Payment Method web component](https://storybook.justifi.ai/?path=/docs/payment-facilitation-tokenize-payment-method--docs)
+or via JustiFi API.
 
-The necessary information for the Business entity includes:
-- Business Legal Name
-- Business Website URL
-- Business Legal Address
+## Plaid Provisioning
+To get started your platform or specific sub accounts need to be provisioned with Plaid. This section explains the
+process.
 
-The entity provisioning endpoint should include the business ID and enable the `bank_account_verification` product
-category.
+### Provision your Platform
 
-```bash
-curl --request POST \
-  --url https://api.justifi.ai/v1/entities/provisioning \
-  --header 'authorization: Bearer {{access_token}}' \
-  --header 'content-type: application/json' \
-  --data '{
-  "business_id": "biz_123",
-  "product_category": "bank_account_verification"
-}'
-```
+To enable Plaid bank account verification for all sub account of your platform please contact [JustiFi Customer Success](platform_success@justifi.tech).
+JustiFi will handle the provisioning process with Plaid on behalf of your platform account.
 
-After provisioning, JustiFi will handle the setup with Plaid, and once completed, the Sub Account will be able to use
-Plaid for bank account verification.
+### Provision a Sub Account
 
-## Plaid Provisioning for Platform Accounts
+To provision a Sub Account with plaid use the JustiFi API:
 
-For Platform Accounts, it's necessary to contact JustiFi support to enable the bank account verification feature.
-JustiFi will handle the provisioning process with Plaid on behalf of the Platform Account, and once completed, all Sub
-Accounts under the Platform Account will be able to use Plaid for bank account verification.
+1. Determine the business ID of the sub account you want to enable for bank account verification via [get sub account
+API](https://docs.justifi.tech/api-spec#tag/Sub-Accounts/operation/GetSubAccount). The business ID is listed in the
+response. (Note: The sub account you are provisioning needs to be enabled for
+payment processing)
+
+2. Get the business via get business API and confirm the business includes the following information:
+   - Business Legal Name
+   - Business Website URL
+   - Business Legal Address
+
+    Add any missing information to the business via [update business API](https://docs.justifi.tech/api-spec#tag/Business/operation/UpdateBusiness).
+
+3. Provision the business via the [provisioning API](https://docs.justifi.tech/api-spec#tag/Provisioning). Pass the
+business ID and `bank_account_verification` as `product_category`.
+
+    ```bash
+      curl --request POST \
+      --url https://api.justifi.ai/v1/entities/provisioning \
+      --header 'authorization: Bearer {{access_token}}' \
+      --header 'content-type: application/json' \
+      --data '{
+        "business_id": "biz_123",
+        "product_category": "bank_account_verification"
+      }'
+    ```
 
 ## Using Plaid Bank Account Verification
 
@@ -62,7 +73,7 @@ After provisioning is complete and the bank account verification setting is enab
 method option during the checkout process:
 - If [Hosted Checkout](../checkouts/hosted-checkout.mdx) is used, Plaid will automatically appear as a payment method
 option after provisioning is completed.
-- If [Unified Checkout](https://storybook.justifi.ai/?path=/docs/payment-facilitation-unified-fintech-checkout%E2%84%A2--docs)
+- If [Unified Fintech Checkout](https://storybook.justifi.ai/?path=/docs/payment-facilitation-unified-fintech-checkout%E2%84%A2--docs)
 web component is used, Plaid will automatically appear as a payment method option.
 - If [Modular Checkout](https://storybook.justifi.ai/?path=/docs/modular-checkout--docs) web component is used, the
 [Plaid Sub Component](https://storybook.justifi.ai/?path=/docs/modular-checkout-sub-components-plaid-payment-method--docs)
@@ -70,10 +81,8 @@ needs to be included.
 
 ## Testing Plaid Bank Account Verification
 
-To test Plaid bank account verification, Platform Accounts and Sub Accounts can use test accounts that connect to
-Plaid's Sandbox environment. These accounts simulate real bank accounts and allow testing of the verification process
-without using actual bank account information. All Web Components and Hosted Checkout automatically connect to Plaid's
-Sandbox when in test mode.
+Plaid bank account verification is available in test mode and utilizes Plaid's sandbox environment with simulated bank
+accounts. The Unified Fintech Checkout and Modular Checkout web components as well as Hosted Checkout automatically
+connect to Plaid's sandbox when in test mode.
 
-In Plaid's Sandbox, any values are accepted for user credentials and verification codes. All data is simulated, no real
-bank accounts are used.
+To simulate a Plaid bank account verification any values for user credentials and verification codes are accepted.
