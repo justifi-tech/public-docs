@@ -1,0 +1,33 @@
+---
+title: Release Flow for Web Components Docs
+description: How versions are cut and docs are synced from the Web Component Library.
+sidebar_label: Release flow
+---
+
+This site hosts the Web Components documentation at `/web-components/*` using a dedicated docs plugin with its own versioning. The content is synced from the public `web-component-library` repository.
+
+## Automated sync
+
+- A GitHub Action runs on manual dispatch to:
+  - Fetch docs from `packages/webcomponents/src/docs/**` and `packages/webcomponents/src/components/*/docs/**`
+  - Copy assets to `static/img/web-components/**`
+  - Open a pull request with changes
+
+## Cutting a docs version
+
+Docs versions should align to the major.minor of `@justifi/webcomponents` (e.g., `6.4`):
+
+```bash
+pnpm version:webcomponents 6.4
+```
+
+This freezes the current docs under `wc-docs/versioned_docs/version-6.4`. The navbar switcher shows the current "Next" and any released versions.
+
+## Mapping of source to target
+
+- `packages/webcomponents/src/docs/overview/**` → `wc-docs/overview/**`
+- Other files under `packages/webcomponents/src/docs/**` → `wc-docs/guides/**`
+- `packages/webcomponents/src/components/<Component>/docs/**` → `wc-docs/components/<Component>/**`
+- Images referenced relatively are rewritten to `/img/web-components/...`
+
+

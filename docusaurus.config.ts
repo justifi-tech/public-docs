@@ -71,6 +71,26 @@ const config: Config = {
       },
     ],
   ],
+  plugins: [
+    [
+      "@docusaurus/plugin-content-docs",
+      {
+        id: "web-components",
+        path: "wc-docs",
+        routeBasePath: "web-components",
+        sidebarPath: require.resolve("./sidebars.web-components.ts"),
+        editUrl: undefined,
+        showLastUpdateAuthor: false,
+        showLastUpdateTime: false,
+        versions: {
+          current: {
+            label: "Next",
+            banner: "none",
+          },
+        },
+      },
+    ],
+  ],
   themeConfig: {
     // Replace with your project's social card
     image: "img/justifi-logo-light.png",
@@ -94,16 +114,21 @@ const config: Config = {
           position: "left",
         },
         {
+          to: "/web-components/overview/intro",
+          label: "Web Components",
+          position: "right",
+        },
+        {
+          type: "docsVersionDropdown",
+          position: "right",
+          docsPluginId: "web-components",
+        },
+        {
           href: "https://storybook.justifi.ai/?path=/docs/changelog--docs",
           label: "Changelog",
           position: "right",
         },
         // { to: "/blog", label: "Blog", position: "left" },
-        {
-          href: "https://storybook.justifi.ai",
-          label: "Storybook",
-          position: "right",
-        },
         {
           href: "https://github.com/justifi-tech",
           label: "GitHub",

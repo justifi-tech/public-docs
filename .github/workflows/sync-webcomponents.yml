@@ -1,0 +1,40 @@
+name: Sync Web Components Docs
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Docs version to cut (e.g., 6.4)"
+        required: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: "pnpm"
+      - name: Install deps
+        run: pnpm install --no-frozen-lockfile
+      - name: Sync docs from web-component-library
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: pnpm sync:webcomponents
+      - name: Optionally cut version
+        if: ${{ inputs.version != '' }}
+        run: pnpm version:webcomponents ${{ inputs.version }}
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: "chore(wc-docs): sync web components docs"
+          title: "chore(wc-docs): sync web components docs"
+          body: "Automated sync of Web Components docs from web-component-library."
+          branch: "chore/sync-wc-docs"
+          labels: "automation,docs"
+
+

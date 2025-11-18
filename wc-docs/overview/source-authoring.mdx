@@ -1,0 +1,39 @@
+---
+title: Source Authoring Guidelines
+description: Conventions for writing docs in web-component-library so they import cleanly.
+sidebar_label: Authoring guidelines
+---
+
+Author docs next to code in the Web Component Library:
+
+## Locations
+
+- Component docs:
+  - `packages/webcomponents/src/components/<Component>/docs/`
+  - `index.mdx` (overview), optional `examples/*.mdx`, and `assets/*` for images
+- General docs:
+  - `packages/webcomponents/src/docs/overview/*`
+  - `packages/webcomponents/src/docs/guides/*`
+
+## Frontmatter
+
+Each MD/MDX page should include:
+
+```mdx
+---
+title: Page title
+description: Short summary for SEO
+sidebar_label: Optional short label
+slug: Optional custom slug
+---
+```
+
+## Assets and links
+
+- Reference images relatively, e.g. `./assets/example.png`.
+- Avoid absolute repo paths; use relative links between docs.
+- Tabs, admonitions and standard MDX are supported.
+
+During sync, assets are moved to `/img/web-components/**` and links are rewritten automatically.
+
+
