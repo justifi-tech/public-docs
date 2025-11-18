@@ -149,7 +149,7 @@ const sidebars: SidebarsConfig = {
         "paymentMethods/achPayments",
         "paymentMethods/cardNotPresent",
         "paymentMethods/cardPresent",
-        "paymentMethods/integratingPaymentMethods",
+        "paymentMethods/providingPaymentMethodOptions",
         "paymentMethods/paymentMethodGroups",
         "paymentMethods/bankAccountVerification"
       ],
