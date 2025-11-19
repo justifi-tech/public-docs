@@ -17,24 +17,25 @@ It also allows you to display already save payment methods to a user in the chec
 [Unified Fintech Checkout](https://storybook.justifi.ai/?path=/docs/payment-facilitation-unified-fintech-checkout%E2%84%A2--docs)
 or [Modular Checkout](https://storybook.justifi.ai/?path=/docs/modular-checkout--docs)).
 
+## Associating existing payment methods
+
 Here is how to use it:
 
 1. Create a payment method group
-2. Associate existing payment methods
+2. Associate existing payment methods to the payment method group
 3. Create a checkout and pass the payment method group ID
 
-## Creating PMGs
+### Creating PMGs
 
 To create a PMG refer to the [Create a Payment Method Group](https://docs.justifi.tech/api-spec#tag/Payment-Method-Groups/operation/CreatePaymentMethodGroup)
 specification.
 
-## Associating payment methods
+### Associating existing payment methods to a PMG
 
-- **Create Checkout:**
+To associate existing payment methods to a PMG refer to the [Update a Payment Method Group](https://docs.justifi.tech/api-spec#tag/Payment-Method-Groups/operation/PatchPaymentMethodGroup)
+specification.
+
+### Using PMGs in a checkout
 Create a checkout via [create checkout API](https://docs.justifi.tech/api-spec#tag/Checkouts/operation/CreateCheckout)
 and pass the payment method group ID as `payment_method_group_id`. Once you load the Hosted Checkout form or the
 checkout web component for this checkout the saved payment methods will be displayed to the user.
-
-- **Associating existing payment methods:**
-Refer to the [Update a Payment Method Group](https://docs.justifi.tech/api-spec#tag/Payment-Method-Groups/operation/PatchPaymentMethodGroup)
-specification.
