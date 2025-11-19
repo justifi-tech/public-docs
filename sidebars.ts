@@ -96,7 +96,6 @@ const sidebars: SidebarsConfig = {
       items: [
         "payments/overview",
         "payments/compliance",
-        "payments/paymentMethods",
         "payments/tokenization",
         "payments/paymentsApi",
         {
@@ -135,6 +134,27 @@ const sidebars: SidebarsConfig = {
           collapsed: true,
         },
       ],
+    },
+    {
+      type: "category",
+      label: "Payment Methods",
+      link: {
+        type: "generated-index",
+        title: "Payment Methods",
+        description: "Learn about the various payment methods supported by JustiFi",
+        keywords: ["payment methods"],
+      },
+      items: [
+        "paymentMethods/overview",
+        "paymentMethods/achPayments",
+        "paymentMethods/cardNotPresent",
+        "paymentMethods/cardPresent",
+        "paymentMethods/providingPaymentMethodOptions",
+        "paymentMethods/paymentMethodGroups",
+        "paymentMethods/bankAccountVerification"
+      ],
+      collapsible: true,
+      collapsed: true,
     },
     {
       type: "category",

@@ -1,0 +1,88 @@
+---
+title: Bank Account Verification
+sidebar_label: Bank Account Verification
+description: Learn about bank account verification and its importance
+keywords:
+  - payment methods
+  - bank account verification
+  - ach
+  - plaid
+---
+
+# Bank Account Verification
+
+Bank account verification is a crucial step in ensuring the authenticity of bank accounts used for ACH payments. This
+process provides a more secure and reliable way to link bank accounts to payment systems. For Bank Account Verification,
+JustiFi supports integration with [Plaid](https://plaid.com/), a leading financial technology company that
+specializes in connecting applications to users' bank accounts.
+
+## Prerequisites
+
+Bank account verification via Plaid is available in the following JustiFi checkout options:
+
+- [Hosted Checkout](https://docs.justifi.tech/checkouts/hosted-checkout)
+- [Unified Fintech Checkout web component](https://storybook.justifi.ai/?path=/docs/payment-facilitation-unified-fintech-checkout%E2%84%A2--docs)
+- [Modular Checkout web component](https://storybook.justifi.ai/?path=/docs/modular-checkout--docs) if the Plaid Payment
+Method sub component is included
+
+Bank Account Verification is not available in the [Tokenize Payment Method web component](https://storybook.justifi.ai/?path=/docs/payment-facilitation-tokenize-payment-method--docs)
+or via JustiFi API.
+
+## Plaid Provisioning
+To get started your platform or specific sub accounts need to be provisioned with Plaid. This section explains the
+process.
+
+### Provision your Platform
+
+To enable Plaid bank account verification for all sub account of your platform please contact [JustiFi Customer Success](platform_success@justifi.tech).
+JustiFi will handle the provisioning process with Plaid on behalf of your platform account.
+
+### Provision a Sub Account
+
+To provision a Sub Account with plaid use the JustiFi API:
+
+1. Determine the business ID of the sub account you want to enable for bank account verification via [get sub account
+API](https://docs.justifi.tech/api-spec#tag/Sub-Accounts/operation/GetSubAccount). The business ID is listed in the
+response. (Note: The sub account you are provisioning needs to be enabled for
+payment processing)
+
+2. Get the business via get business API and confirm the business includes the following information:
+   - Business Legal Name
+   - Business Website URL
+   - Business Legal Address
+
+    Add any missing information to the business via [update business API](https://docs.justifi.tech/api-spec#tag/Business/operation/UpdateBusiness).
+
+3. Provision the business via the [provisioning API](https://docs.justifi.tech/api-spec#tag/Provisioning). Pass the
+business ID and `bank_account_verification` as `product_category`.
+
+    ```bash
+      curl --request POST \
+      --url https://api.justifi.ai/v1/entities/provisioning \
+      --header 'authorization: Bearer {{access_token}}' \
+      --header 'content-type: application/json' \
+      --data '{
+        "business_id": "biz_123",
+        "product_category": "bank_account_verification"
+      }'
+    ```
+
+## Using Plaid Bank Account Verification
+
+After provisioning is complete and the bank account verification setting is enabled, Plaid can be used as a payment
+method option during the checkout process:
+- If [Hosted Checkout](../checkouts/hosted-checkout.mdx) is used, Plaid will automatically appear as a payment method
+option after provisioning is completed.
+- If [Unified Fintech Checkout](https://storybook.justifi.ai/?path=/docs/payment-facilitation-unified-fintech-checkout%E2%84%A2--docs)
+web component is used, Plaid will automatically appear as a payment method option.
+- If [Modular Checkout](https://storybook.justifi.ai/?path=/docs/modular-checkout--docs) web component is used, the
+[Plaid Sub Component](https://storybook.justifi.ai/?path=/docs/modular-checkout-sub-components-plaid-payment-method--docs)
+needs to be included.
+
+## Testing Plaid Bank Account Verification
+
+Plaid bank account verification is available in test mode and utilizes Plaid's sandbox environment with simulated bank
+accounts. The Unified Fintech Checkout and Modular Checkout web components as well as Hosted Checkout automatically
+connect to Plaid's sandbox when in test mode.
+
+To simulate a Plaid bank account verification any values for user credentials and verification codes are accepted.
