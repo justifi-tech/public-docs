@@ -1,7 +1,7 @@
 ---
-title: Bank Account Verification
-sidebar_label: Bank Account Verification
-description: Learn about bank account verification and its importance
+title: Plaid
+sidebar_label: Plaid
+description: Learn about bank account verification via Plaid and its importance
 keywords:
   - payment methods
   - bank account verification
@@ -12,7 +12,7 @@ keywords:
 # Bank Account Verification
 
 Bank account verification is a crucial step in ensuring the authenticity of bank accounts used for ACH payments. This
-process provides a more secure and reliable way to link bank accounts to payment systems. For Bank Account Verification,
+process provides a more secure and reliable way to link bank accounts to payment systems. For bank account verification,
 JustiFi supports integration with [Plaid](https://plaid.com/), a leading financial technology company that
 specializes in connecting applications to users' bank accounts.
 
@@ -25,7 +25,7 @@ Bank account verification via Plaid is available in the following JustiFi checko
 - [Modular Checkout web component](https://storybook.justifi.ai/?path=/docs/modular-checkout--docs) if the Plaid Payment
 Method sub component is included
 
-Bank Account Verification is not available in the [Tokenize Payment Method web component](https://storybook.justifi.ai/?path=/docs/payment-facilitation-tokenize-payment-method--docs)
+Plaid bank account verification is not available in the [Tokenize Payment Method web component](https://storybook.justifi.ai/?path=/docs/payment-facilitation-tokenize-payment-method--docs)
 or via JustiFi API.
 
 ## Plaid Provisioning
@@ -67,7 +67,7 @@ business ID and `bank_account_verification` as `product_category`.
       }'
     ```
 
-## Using Plaid Bank Account Verification
+## Using Plaid bank account verification
 
 After provisioning is complete and the bank account verification setting is enabled, Plaid can be used as a payment
 method option during the checkout process:
