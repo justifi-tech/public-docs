@@ -1,43 +1,43 @@
-import { themes as prismThemes } from "prism-react-renderer";
+import { themes as prismThemes } from 'prism-react-renderer';
 // import { themes as addlThemes } from "prism-themes";
-import type { Config } from "@docusaurus/types";
-import type * as Preset from "@docusaurus/preset-classic";
+import type { Config } from '@docusaurus/types';
+import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
-  title: "JustiFi Documentation",
-  tagline: "JustiFi - Fintech Infrastructure for Platforms",
-  favicon: "img/favicon.png",
+  title: 'JustiFi Documentation',
+  tagline: 'JustiFi - Fintech Infrastructure for Platforms',
+  favicon: 'img/favicon.png',
 
   // Set the production url of your site here
-  url: "https://docs.justifi.tech",
+  url: 'https://docs.justifi.tech',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: "/",
+  baseUrl: '/',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: "justifi-tech", // Usually your GitHub org/user name.
-  projectName: "public-docs", // Usually your repo name.
+  organizationName: 'justifi-tech', // Usually your GitHub org/user name.
+  projectName: 'public-docs', // Usually your repo name.
   trailingSlash: false,
 
-  onBrokenLinks: "throw",
-  onBrokenMarkdownLinks: "warn",
+  onBrokenLinks: 'throw',
+  onBrokenMarkdownLinks: 'warn',
 
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang. For example, if your site is Chinese, you
   // may want to replace "en" with "zh-Hans".
   i18n: {
-    defaultLocale: "en",
-    locales: ["en"],
+    defaultLocale: 'en',
+    locales: ['en'],
   },
 
   presets: [
     [
-      "classic",
+      'classic',
       {
         docs: {
-          routeBasePath: "/",
-          sidebarPath: "./sidebars.ts",
+          routeBasePath: '/',
+          sidebarPath: './sidebars.ts',
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           //   editUrl:
@@ -52,67 +52,89 @@ const config: Config = {
         //   "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/",
         // },
         theme: {
-          customCss: "./src/css/custom.css",
+          customCss: './src/css/custom.css',
         },
       } satisfies Preset.Options,
     ],
     [
-      "redocusaurus",
+      'redocusaurus',
       {
         specs: [
           {
-            spec: "openapi/multi-yaml/index.yaml",
-            route: "/api-spec/",
+            spec: 'openapi/multi-yaml/index.yaml',
+            route: '/api-spec/',
           },
         ],
         theme: {
-          primaryColor: "#fccc32",
+          primaryColor: '#fccc32',
         },
+      },
+    ],
+  ],
+  plugins: [
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'web-components',
+        path: '.wc-current',
+        routeBasePath: 'web-components',
+        sidebarPath: require.resolve('./sidebars.web-components.js'),
+        includeCurrentVersion: true,
+        // Exclude templates and internal helper files from being parsed as docs
+        exclude: ['**/templates/**', '**/scripts/**', '**/*.ts', '**/*.tsx'],
       },
     ],
   ],
   themeConfig: {
     // Replace with your project's social card
-    image: "img/justifi-logo-light.png",
+    image: 'img/justifi-logo-light.png',
     navbar: {
       // title: "JustiFi Documentation",
       logo: {
-        alt: "My Site Logo",
-        src: "img/justifi-logo-light.png",
-        srcDark: "img/justifi-dark-bg.svg",
+        alt: 'My Site Logo',
+        src: 'img/justifi-logo-light.png',
+        srcDark: 'img/justifi-dark-bg.svg',
       },
       items: [
         {
-          type: "docSidebar",
-          sidebarId: "docsSidebar",
-          position: "left",
-          label: "Documentation",
+          type: 'docSidebar',
+          sidebarId: 'docsSidebar',
+          position: 'left',
+          label: 'Documentation',
         },
         {
-          to: "/api-spec/",
-          label: "API Specification",
-          position: "left",
+          to: '/api-spec/',
+          label: 'API Specification',
+          position: 'left',
         },
         {
-          href: "https://storybook.justifi.ai/?path=/docs/changelog--docs",
-          label: "Changelog",
-          position: "right",
+          type: 'doc',
+          docsPluginId: 'web-components',
+          docId: 'introduction/index',
+          label: 'Web Components',
+          position: 'left',
+        },
+        {
+          href: 'https://storybook.justifi.ai/?path=/docs/changelog--docs',
+          label: 'Changelog',
+          position: 'right',
         },
         // { to: "/blog", label: "Blog", position: "left" },
         {
-          href: "https://storybook.justifi.ai",
-          label: "Storybook",
-          position: "right",
+          type: 'docsVersionDropdown',
+          docsPluginId: 'web-components',
+          position: 'right',
+          dropdownActiveClassDisabled: true,
         },
         {
-          href: "https://github.com/justifi-tech",
-          label: "GitHub",
-          position: "right",
+          href: 'https://github.com/justifi-tech',
+          label: 'GitHub',
+          position: 'right',
         },
       ],
     },
     footer: {
-      style: "dark",
+      style: 'dark',
       // links: [
       //   {
       //     title: "Docs",
@@ -160,7 +182,7 @@ const config: Config = {
       // theme: prismThemes.github,
       theme: prismThemes.oceanicNext,
       darkTheme: prismThemes.oceanicNext,
-      additionalLanguages: ["bash", "ruby", "jsx"],
+      additionalLanguages: ['bash', 'ruby', 'jsx'],
     },
   } satisfies Preset.ThemeConfig,
 };
