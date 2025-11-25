@@ -49,7 +49,44 @@ post:
                       example: pm_xyz
             application_fee_amount:
               type: integer
-              description: sets a custom application fee amount that applies to this payment, instead of relying on application fee rates configured at the platform account level (*only Platforms may set application_fee_amount*). Must be greater than zero.
+              description: |
+                Sets a custom application fee amount that applies to this payment, instead of relying on application fee rates configured at the platform account level (*only Platforms may set application_fee_amount*). Must be greater than zero.
+
+                ---
+
+                **Coming Soon: Enhanced Fee Management**
+                We're introducing a new `fees` array that will give you more control over how fees are structured and refunded:
+
+                - **Separate fee types**: Distinguish between `processing_fee` and `platform_fee` in a single transaction
+                - **Selective refunds**: Choose which fees to return when processing refunds—keep your platform fee while refunding the processing fee, or vice versa
+                - **Clear reporting**: See each fee type as a separate line item in balance transactions and payout reports
+
+                **Example request with new fee structure:**
+                ```json
+                {
+                  "amount": 10000,
+                  "currency": "usd",
+                  "capture_strategy": "automatic",
+                  "fees": [
+                    { "type": "processing_fee", "amount": 350 },
+                    { "type": "platform_fee", "amount": 500 }
+                  ],
+                  "payment_method": { "token": "pm_xyz" }
+                }
+                ```
+
+                **Example response:**
+                ```json
+                {
+                  "fees": [
+                    { "type": "processing_fee", "amount": 350, "remaining_amount": 350 },
+                    { "type": "platform_fee", "amount": 500, "remaining_amount": 500 }
+                  ]
+                }
+                ```
+
+                The `remaining_amount` field tracks how much of each fee can still be refunded after partial refunds if applicable.
+
               example: 400
             description:
               type: string
