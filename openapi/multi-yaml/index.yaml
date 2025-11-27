@@ -109,7 +109,7 @@ tags:
       - Group payment methods for easier management using [PaymentMethodGroups](https://docs.justifi.tech/api-spec#tag/Payment-Method-Groups), to associate multiple payment methods to your customer
 
       ## Using Platform Wallet Payment Methods
-      *Note: While the PaymentMethods and Payments API allow you to tokenize a payment method we strongly suggest using the [Unified Fintech Checkout](https://storybook.justifi.ai/?path=/docs/payment-facilitation-unified-fintech-checkout%E2%84%A2--docs) or [Tokenize Payment Method](https://storybook.justifi.ai/?path=/docs/payment-facilitation-tokenize-payment-method--docs) web components instead to avoid PCI scope*
+      *Note: While the PaymentMethods and Payments API allow you to tokenize a payment method we strongly suggest using the [Unified Fintech Checkout](/web-components/payment-facilitation/unified-fintech-checkout%E2%84%A2/index) or [Tokenize Payment Method](/web-components/payment-facilitation/tokenize-payment-method/index) web components instead to avoid PCI scope*
 
       ### 1. Manage Payment Methods
       Create and organize payment methods in your platform wallet account. All payment method operations require the platform wallet account ID in the Sub-Account header.
@@ -140,7 +140,7 @@ tags:
       ```
 
       ### 2. Process Payments
-      You can process payments using wallet payment methods either through the [Unified Fintech Checkout web component](https://storybook.justifi.ai/?path=/docs/payment-facilitation-unified-fintech-checkout%E2%84%A2--docs) or via API
+      You can process payments using wallet payment methods either through the [Unified Fintech Checkout web component](/web-components/payment-facilitation/unified-fintech-checkout%E2%84%A2/index) or via API
 
       #### Via Checkout Component
       [Checkout via Component Walkthrough](https://docs.justifi.tech/api-spec#tag/Checkout-via-Component)

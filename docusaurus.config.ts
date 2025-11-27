@@ -115,7 +115,7 @@ const config: Config = {
           position: 'left',
         },
         {
-          href: 'https://storybook.justifi.ai/?path=/docs/changelog--docs',
+          href: 'https://github.com/justifi-tech/web-component-library/blob/main/packages/webcomponents/CHANGELOG.md',
           label: 'Changelog',
           position: 'right',
         },
