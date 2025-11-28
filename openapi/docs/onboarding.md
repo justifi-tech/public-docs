@@ -4,8 +4,8 @@ To onboard a new business via PaymentProvisioning web component
 
 1. Get an access token
 2. Create a business
-3. Generate a Web Component Token
-4. Render the PaymentProvisioning web component
+3. Generate a web component token
+4. Render the Payment Provisioning web component
 5. Handle success/failure events of the web component
 6. Check the sub account's status
 
@@ -32,7 +32,7 @@ function getToken() {
 const token = await getToken();
 ```
 
-### Create a Business
+### Create a business
 From your backend create a business using the [Business API](https://docs.justifi.tech/api-spec#tag/Business/operation/CreateBusiness). A business only requires one parameter (e.g. `legal_name`) but you can pass as much information about your customer as you have. When you render the web component all the data you passed to the business will be pre-filled in the form and can be updated by your customer. 
 ```
 async function createBusiness(token) {
@@ -53,7 +53,7 @@ async function createBusiness(token) {
 const business = await createBusiness(token);
 ```
 
-### Generate a Web Component Token
+### Generate a web component token
 To render the PaymentProvisioning web component, you must generate a web component token. This is a short lived token which is meant to grant short term, fine grained access. The web component requires the role of `write:business:${businessId}` with the id of the business you created in the previous step.
 ```
 async function getWebComponentToken(token, businessId) {
