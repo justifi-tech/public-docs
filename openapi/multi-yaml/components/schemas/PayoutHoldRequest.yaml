@@ -1,0 +1,18 @@
+type: object
+required:
+  - account_id
+  - start_date
+properties:
+  account_id:
+    type: string
+    example: acc_sub123
+  start_date:
+    type: string
+    format: date
+    example: '2024-01-01'
+  end_date:
+    type: string
+    format: date
+    nullable: true
+    example: '2024-01-31'
+

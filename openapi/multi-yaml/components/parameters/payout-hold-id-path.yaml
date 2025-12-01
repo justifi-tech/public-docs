@@ -1,0 +1,7 @@
+in: path
+name: payout_hold_id
+schema:
+  type: string
+required: true
+example: poh_abc123xyz
+description: Payout hold public ID with poh_ prefix

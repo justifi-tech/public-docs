@@ -1,0 +1,22 @@
+get:
+  summary: Get a Payout Hold
+  description: Retrieve a specific payout hold by ID.
+  operationId: GetPayoutHold
+  tags:
+    - Payout Holds
+  parameters:
+    - $ref: ../components/parameters/payout-hold-id-path.yaml
+    - $ref: ../components/parameters/authorization-header.yaml
+  responses:
+    "200":
+      description: Successfully get a payout hold
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope.yaml
+              - properties:
+                  type:
+                    example: payout_hold
+                  data:
+                    $ref: ../components/schemas/PayoutHold.yaml

@@ -1,0 +1,28 @@
+get:
+  summary: List Payout Holds
+  description: List the payout holds that belong to this account. This endpoint supports [pagination](https://docs.justifi.tech/api-spec#section/Pagination).
+  operationId: ListPayoutHolds
+  tags:
+    - Payout Holds
+  parameters:
+    - $ref: ../components/parameters/authorization-header.yaml
+    - $ref: ../components/parameters/created-before.yaml
+    - $ref: ../components/parameters/created-after.yaml
+    - $ref: ../components/parameters/start-date-before.yaml
+    - $ref: ../components/parameters/start-date-after.yaml
+    - $ref: ../components/parameters/end-date-before.yaml
+    - $ref: ../components/parameters/end-date-after.yaml
+  responses:
+    "200":
+      description: Successfully list payout holds
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope-list.yaml
+              - properties:
+                  type:
+                    example: array
+                  data:
+                    items:
+                      $ref: ../components/schemas/PayoutHold.yaml

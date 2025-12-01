@@ -1,0 +1,9 @@
+in: query
+name: end_date_after
+schema:
+  type: string
+  format: date
+required: false
+example: '2024-01-01'
+description: Filter by end date after the specified date (ISO 8601 format)
+

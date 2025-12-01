@@ -1,0 +1,39 @@
+---
+title: Payment Method Groups (PMG)
+sidebar_label: Payment Method Groups (PMG)
+description: Learn about Payment Method Groups
+keywords:
+  - payment methods
+  - payment method groups
+  - pmg
+---
+
+# Payment Method Groups (PMG)
+
+Payment method groups offer a way to organize and filter payment methods of your users.
+
+It also allows you to display already save payment methods to a user in the checkout form when using
+[Hosted Checkout](../checkouts/hosted-checkout.mdx) or one of the checkout web components (
+[Unified Fintech Checkout](https://storybook.justifi.ai/?path=/docs/payment-facilitation-unified-fintech-checkout%E2%84%A2--docs)
+or [Modular Checkout](https://storybook.justifi.ai/?path=/docs/modular-checkout--docs)).
+
+Here is how to use it:
+
+1. Create a payment method group
+2. Associate existing payment methods to the payment method group
+3. Using a payment method group in a checkout
+
+## Creating PMGs
+
+To create a PMG refer to the [Create a Payment Method Group](https://docs.justifi.tech/api-spec#tag/Payment-Method-Groups/operation/CreatePaymentMethodGroup)
+specification.
+
+## Associating existing payment methods to a PMG
+
+To associate existing payment methods to a PMG refer to the [Update a Payment Method Group](https://docs.justifi.tech/api-spec#tag/Payment-Method-Groups/operation/PatchPaymentMethodGroup)
+specification.
+
+## Using a PMG in a checkout
+Create a checkout via [create checkout API](https://docs.justifi.tech/api-spec#tag/Checkouts/operation/CreateCheckout)
+and pass the payment method group ID as `payment_method_group_id`. Once you load the Hosted Checkout form or the
+checkout web component for this checkout any payment methods associated with the PMG will be displayed to the user.
