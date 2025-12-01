@@ -4,10 +4,9 @@ title: Overview
 
 # Getting Started with JustiFi
 
-Welcome to JustiFi,where we empower software companies to transform into trailblazing Fintech leaders.
-Our suite of Fintech products is designed to seamlessly integrate financial technology into your offerings and opening new horizons in the fintech world.\
-
-This guide will walk you through the essential steps to integrate JustiFi's Fintech products into your platform.
+Welcome to JustiFi, where we empower software companies to transform into trailblazing Fintech leaders.
+Our suite of Fintech products is designed to seamlessly integrate financial technology into your offerings 
+and opening new horizons in the fintech world.\
 
 ## Overview
 
@@ -17,140 +16,50 @@ JustiFi provides a complete payment infrastructure solution that enables platfor
 - Manage merchant payouts and platform earnings
 - Provide comprehensive reporting and analytics
 
-## Prerequisites
+### 1. Merchant Onboarding
 
-Before you begin integration, ensure you have:
-
-### 1. JustiFi Dashboard Access
-- Login credentials provided by your Customer Success representative
-- Access the dashboard at [https://app.justifi.ai](https://app.justifi.ai/)
-
-### 2. API Credentials
-To generate your API credentials:
-1. Log into the JustiFi dashboard
-2. Navigate to **Developers**
-3. Toggle **Test Mode** ON for sandbox environment testing
-4. Go to **API Keys** and create a test API key
-5. Store your API key securely - it determines your environment (test/production)
-
-### 3. Environment Setup
-- **Test Environment**: Use test API keys for development and testing
-- **Production Environment**: Use production API keys for live transactions
-- The API key environment automatically routes your requests to the correct environment
-
-## Quick Start Integration
-
-### Step 1: Generate Access Token
-
-All API requests require an access token. Generate one using your API credentials:
-
-```bash
-curl -X POST https://api.justifi.ai/oauth/token \
-  -H "Content-Type: application/json" \
-  -d '{
-    "client_id": "YOUR_API_KEY",
-    "client_secret": "YOUR_API_SECRET",
-    "grant_type": "client_credentials"
-  }'
-```
-
-Include the access token in all subsequent API requests:
-```bash
-Authorization: Bearer YOUR_ACCESS_TOKEN
-```
-For details see [Geting Started](https://docs.justifi.tech/api-spec#section/Getting-Started)
-
-### Step 2: Create a Business
-
-Start by creating a business entity for your merchant:
-
-```bash
-curl -X POST https://api.justifi.ai/v1/entities/business \
-  -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "legal_name": "Example Business LLC",
-    "doing_business_as": "Example Store",
-    "business_type": "limited_liability_company",
-    "business_structure": "single_member",
-    "industry": "retail",
-    "tax_id": "12-3456789"
-  }'
-```
-
-Save the returned `business_id` - you'll need it for the next steps.
-
-### Step 3: Complete Merchant Onboarding via Hosted Onboarding
-1. Direct merchants to the hosted onboarding URL with their business ID
-2. JustiFi handles all compliance and underwriting requirements
-3. Listen for webhook events to track onboarding status
-
-
-### Step 4: Process Your First Payment
-
-Once your merchant is approved (typically 1-2 business days), you can start processing payments:
-
-#### Using Hosted Checkout:
-```bash
-curl -X POST https://api.justifi.ai/v1/checkouts \
-  -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "sub_account_id": "sa_123",
-    "amount": 1000,
-    "currency": "usd",
-    "description": "Test payment"
-  }'
-```
-
-Redirect customers to the returned `checkout_url`.
-
-
-
-## Core Integration Components
-
-### 1. Business Onboarding
-
-The onboarding process collects necessary business information for underwriting:
+The onboarding process collects necessary business information for underwriting
 
 - **Business Creation**: Store merchant details via the Business API
-- **Sub-Account Creation**: Automatically created upon successful form submission
+- **Sub-Account**: Automatically created upon successful form submission and needed for payment processing
 - **Underwriting**: JustiFi reviews and approves merchants (1-2 business days)
-- **Status Monitoring**: Subscribe to `sub_account.updated` webhooks
+- **Status Monitoring**: Subscribe to `sub_account.updated` webhooks\
+
 Use either of these 2 options to collect your merchants' business information:
 - **Hosted Onboarding**: Include a JustiFi-hosted form via iframe - [see details](https://docs.justifi.tech/api-spec#tag/Hosted-Onboarding)
-- **Payment Provisioning Web Component**: Embed customizable pre-designed form - [see details](https://docs.justifi.tech/api-spec#tag/Onboarding-via-Component)
+- **Payment Provisioning Web Component**: Embed a customizable pre-designed form on your platform - [see details](https://docs.justifi.tech/api-spec#tag/Onboarding-via-Component)
 
 ### 2. Payment Processing
 
-JustiFi offers flexible payment solutions:
+JustiFi offers flexible E-commerce and card present payment solutions.
 
-#### E-commerce Options:
-- **Hosted Checkout**: Minimal integration, JustiFi-hosted form - [see details](https://docs.justifi.tech/checkouts/hosted-checkout)
-- **Unified Checkout Web Component**: Embedded pre-designed checkout - [see details](https://docs.justifi.tech/api-spec#tag/Checkouts/operation/RefundCheckout)
-- **Modular Checkout Web Component**: Fully customizable checkout flow - [see details](https://docs.justifi.tech/api-spec#tag/Checkouts/operation/RefundCheckout)
-The following add ons are available in each of these E-commerce Options:
-- **Apple Pay**: Adds Apple Pay button to checkout form - [see details](https://docs.justifi.tech/payments/applePay)
-- **Google Pay** (coming soon): Adds Google Pay button to checkout form 
-- **Bank Account Verification** (via Plaid): Allows customers to link their bank account for payment 
-- **Buy Now Pay Later** (via Sezzle)
-- **Insurance**
+#### E-commerce Options
+- **Hosted Checkout**: Minimal integration, JustiFi-hosted checkout form - [see details](https://docs.justifi.tech/checkouts/hosted-checkout)
+- **Unified Checkout Web Component**: Embedded pre-designed checkout form - [see details](https://docs.justifi.tech/api-spec#tag/Checkout-via-Component)
+- **Modular Checkout Web Component**: Fully customizable checkout flow - [see details](https://docs.justifi.tech/api-spec#tag/Checkout-via-Component)
 
-#### Additional Payment Features:
-- **Card Present**: Terminal integration via Verifone partnership - [see details](https://docs.justifi.tech/category/terminals) 
-- **Payment Method Tokenization**: Collect payment methods for recurring charges - [see details](https://docs.justifi.tech/api-spec#tag/Tokenize-via-Component) 
+The following add ons are available in each of these E-commerce solutions:
+- **Apple Pay**: Adds Apple Pay to the checkout form - [see details](https://docs.justifi.tech/payments/applePay)
+- **Google Pay** (coming soon): Adds Google Pay to the checkout form 
+- **Bank Account Verification via Plaid**: Allows customers to link their bank account for payment - [see details](https://docs.justifi.tech/paymentMethods/bankAccountVerification)
+- **Buy Now Pay Later via Sezzle**
+- **Insurance**: Add insurance to the checkout flow
+
+#### Additional Payment Features
+- **Card Present Solution**: Terminal integration via Verifone partnership - [see details](https://docs.justifi.tech/category/terminals) 
+- **Payment Method Tokenization**: Collect payment methods for later and recurring charges - [see details](https://docs.justifi.tech/api-spec#tag/Tokenize-via-Component) 
 
 ### 3. Reporting & Analytics
 
-Access comprehensive reporting:
+Access comprehensive reporting on all transaction for your platform as well as merchant specific. 
 
-#### For Your Platform:
+#### Platform Level Reporting
 - **API Access**: Payments, Payouts, Proceeds, and Reporting APIs
 - **Dashboard**: Visual reporting interface at [app.justifi.ai](https://app.justifi.ai/)
 
-#### For Your Merchants:
+#### Merchant Level Reporting
 - **Filtered API Access**: APIs offer merchant-specific data via sub-account filtering
-- **Embedded Web Components**: PaymentsList, PaymentDetails, PayoutsList, PayoutDetails
+- **Embedded Web Components**: Provide insights to your merchants on your platform via PaymentsList, PaymentDetails, PayoutsList, PayoutDetails, etc. 
 
 ## Important Identifiers
 
@@ -160,47 +69,27 @@ Keep track of these key identifiers throughout your integration:
 |------------|---------|---------|
 | API Key | Environment-specific API access | `test_abc123` |
 | Access Token | API request authorization | `Bearer eyJ...` |
+| Web Component Token | Embed component authorization | `wct_123456` |
 | Business ID | Unique business identifier | `biz_a1b2c3d4` |
 | Sub-Account ID | Payment processing identifier | `acc_x1y2z3w4` |
-| Web Component Token | Embed component authorization | `wct_123456` |
 
-## Event Monitoring
-
-Set up webhooks to receive real-time updates:
-
-1. Navigate to **Developers → Event Publishers** in the dashboard
-2. Configure your webhook endpoint
-3. Subscribe to relevant events:
-
-### Recommended Events:
-- **Onboarding**: `sub_account.updated`
-- **Payments**: `payment.pending`, `payment.succeeded`, `payment.faield`, `checkout_completion.succeeded`, `checkout_completion.failed`
-- **Refunds**: `payment.refunded`
-- **Disputes**: `payment.dispute.created`, `payment.dispute.closed`
-For all available events see the [Events section in the docs](https://docs.justifi.tech/api-spec#tag/Events)
 
 ## Testing Your Integration
 
-JustiFi provides a comprehensive sandbox environment:
+JustiFi provides a comprehensive sandbox environment. It can be accessed via API and on the JustiFi dashboard via Test Mode
 
-1. Use test API keys for all development
-2. Test card numbers and bank accounts available in documentation
-3. Webhook testing tools in the dashboard
-4. Full API response simulation
+- Utilize the developer dashboard ([https://app.justifi.ai/](https://app.justifi.ai) -> Developers)
+- Use test API keys for all development
+- Full API response simulation
 
-For detailed testing scenarios, visit: [https://docs.justifi.tech/category/testing](https://docs.justifi.tech/category/testing)
+For detailed testing scenarios, visit [https://docs.justifi.tech/category/testing](https://docs.justifi.tech/category/testing)
 
+{/*
 ## Next Steps
 
-Now that you have the basics:
+Now that you have the basics see the [**Quick Start Guide**](https://docs.justifi.tech/quick-start) to get started
 
-1. **Explore API Documentation**: [https://docs.justifi.tech/api-spec](https://docs.justifi.tech/api-spec)
-2. **Review Integration Guides**:
-   - [Hosted Checkout Guide](https://docs.justifi.tech/checkouts/hosted-checkout)
-   - [Web Components Documentation](https://storybook.justifi.ai/)
-   - [Terminal Integration](https://docs.justifi.tech/category/terminals)
-3. **Contact Support**: Reach out to plaform_success@justifi.tech for assistance
-
+*/}
 ## Security Best Practices
 
 1. **Never expose API keys in client-side code**
@@ -209,13 +98,12 @@ Now that you have the basics:
 4. **Store sensitive data securely**
 5. **Use web component tokens with appropriate expiration times** [see details](https://docs.justifi.tech/api-spec#tag/Web-Component-Tokens)
 
-## Support Resources
+## Resources
 
 - **API Reference**: [https://docs.justifi.tech/api-spec](https://docs.justifi.tech/api-spec)
 - **Web Component Documentation**: [https://storybook.justifi.ai/](https://storybook.justifi.ai/)
-- **Developer Dashboard**: [https://app.justifi.ai/developers](https://app.justifi.ai/developers)
+- **Developer Dashboard**: [https://app.justifi.ai/](https://app.justifi.ai) -> Developers
 - **Status Page**: [https://status.justifi.ai](https://status.justifi.ai)
-- **Support Email**: [platform_support@justifi.tech](platform_support@justifi.tech)
 
 ## Support and Feedback
 
