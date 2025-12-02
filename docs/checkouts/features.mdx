@@ -49,7 +49,47 @@ _note: Disable the BNPL option by passing the correspondent prop to the web comp
   to enable the card-present feature. JustiFi will then provision and configure terminals for your sub accounts.
 - Find detailed steps in the [Terminals API](https://docs.justifi.tech/api-spec#tag/Terminals)
 
-### Application Fees
+### Fees
+
+Checkouts support flexible fee structures that allow you to specify different fee types for each payment method.
+This enables transparent reporting for merchants and selective fee refunds.
+
+#### Using the Fees Array (Recommended)
+
+Use the `fees` parameter to specify separate fee types for card and bank account payments:
+
+```json
+{
+  "amount": 10000,
+  "description": "order_xyz",
+  "fees": {
+    "card": [
+      { "type": "processing_fee", "amount": 295 },
+      { "type": "platform_fee", "amount": 150 }
+    ],
+    "bank_account": [
+      { "type": "processing_fee", "amount": 50 },
+      { "type": "platform_fee", "amount": 150 }
+    ]
+  }
+}
+```
+
+**Supported fee types:**
+- `processing_fee` - Fees related to payment processing costs
+- `platform_fee` - Fees for your platform's services
+
+**Benefits of using the fees array:**
+- **Transparent reporting**: Each fee type appears as a separate line item in merchant balance transactions
+- **Selective refunds**: When processing refunds, you can choose which fees to return to the merchant
+
+For full documentation, see [Enhanced Fee Management](https://docs.justifi.tech/api-spec#section/Enhanced-Fee-Management).
+
+#### Application Fees (Deprecated)
+
+:::caution Deprecated
+The `application_fees` parameter is deprecated. Use the `fees` parameter instead for more granular control over fee types and selective refunds.
+:::
 
 - Application Fees are configured at the Platform level and can be customized for specific sub accounts.
   Checkouts add an additional layer of flexibility by allowing the use of the `application_fees` parameter
@@ -76,6 +116,8 @@ _note: Disable the BNPL option by passing the correspondent prop to the web comp
 - The application fee applies based on the selected payment method during checkout.
   It overwrites the `application_fee_rate` set for the sub account.
   _note: available for Card, ACH and Terminal (Card Present) only!_
+
+**Important**: You cannot use both `application_fees` and `fees` in the same request.
 
 ### Payment Method Group
 
