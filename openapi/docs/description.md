@@ -844,6 +844,30 @@ Many of our `4XX` errors will provide an error code in addition to their HTTP st
     <td><code>checkout_invalid_currency</code></td>
     <td>The currency parameter does not match the currency this account is configured to process.</td>
   </tr>
+  <tr>
+    <td><code>fee_refund_exceeds_remaining</code></td>
+    <td>The requested fee refund amount exceeds the remaining refundable amount for that fee type.</td>
+  </tr>
+  <tr>
+    <td><code>fee_type_not_found</code></td>
+    <td>The fee type specified in the refund was not present in the original payment.</td>
+  </tr>
+  <tr>
+    <td><code>invalid_fee_type</code></td>
+    <td>The fee type is not a valid value. Valid types are: processing_fee, platform_fee.</td>
+  </tr>
+  <tr>
+    <td><code>fees_exceed_payment_amount</code></td>
+    <td>The total fees exceed the payment amount.</td>
+  </tr>
+  <tr>
+    <td><code>duplicate_fee_type</code></td>
+    <td>Multiple fees with the same type were provided. Only one fee of each type is allowed.</td>
+  </tr>
+  <tr>
+    <td><code>fees_and_application_fee_conflict</code></td>
+    <td>Both fees array and application_fee_amount were provided. Use one or the other, not both.</td>
+  </tr>
 </table>
 
 ## Network Errors
@@ -911,37 +935,73 @@ Both Visa and Mastercard send additional information about how to handle a decli
 | MASTERCARD | 02                     | Try again later. Similar to Visa code 2.                                                                                                                                       |
 | MASTERCARD | 03                     | Do not try again. Do not attempt again. Similar to Visa code 1.                                                                                                                |
 
-## Coming Soon: Enhanced Fee Management
+## Enhanced Fee Management
 
-We're introducing a new fee structure that gives platforms more control over how fees are charged and refunded. This replaces the current `application_fee_amount` field with a flexible `fees` array that supports multiple fee types.
+JustiFi provides a flexible fee structure that gives platforms granular control over how fees are charged and refunded. The `fees` array allows you to separate different fee types within each transaction, enabling transparent reporting and selective fee refunds.
 
-### What's Changing
+### Overview
 
-**Separate Fee Types**
+Instead of bundling all fees into a single amount, you can distinguish between different fee types in each transaction:
 
-Instead of bundling all fees into a single amount, you'll be able to distinguish between different fee types in each transaction:
+| Fee Type | Description |
+|----------|-------------|
+| `processing_fee` | Fees related to payment processing costs (card network fees, interchange, acquirer margin) |
+| `platform_fee` | Fees for your platform's services (subscriptions, service fees, etc.) |
 
-- `processing_fee` - Fees related to payment processing costs
-- `platform_fee` - Fees for your platform's services
+This separation provides:
+- **Clear merchant reporting**: Merchants see exactly what they're paying for processing vs. platform services
+- **Flexible refund policies**: Choose which fees to return on refunds based on your business rules
+- **Accurate accounting**: Both platforms and merchants get detailed revenue breakdowns by fee type
 
-This separation provides clearer reporting for your merchants and better visibility into fee composition for your own accounting.
+### Fee Array Structure
 
-**Selective Fee Refunds**
-
-When processing refunds, you'll have control over which fees are returned to the merchant. This enables flexible refund policies—for example, refunding the processing fee while retaining your platform fee for services already rendered.
-
-### API Changes
-
-The new `fees` array will be available on:
+The `fees` array is available on:
 
 - [Create Payment](#tag/Payments/operation/CreatePayment) - Specify fees when creating a payment
 - [Refund a Payment](#tag/Payments/operation/CreateRefund) - Choose which fees to return
 - [Create Checkout](#tag/Checkouts/operation/CreateCheckout) - Specify fees per payment method type
 - [Refund a Checkout](#tag/Checkouts/operation/RefundCheckout) - Choose which fees to return
 
-### Example Usage
+#### Request Structure
 
-**Creating a payment with multiple fee types:**
+Each fee object in the array contains:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `type` | string | The fee type: `processing_fee` or `platform_fee` |
+| `amount` | integer | Fee amount in cents |
+
+```json
+{
+  "fees": [
+    { "type": "processing_fee", "amount": 350 },
+    { "type": "platform_fee", "amount": 500 }
+  ]
+}
+```
+
+#### Response Structure
+
+Responses include an additional `remaining_amount` field that tracks how much of each fee can still be refunded:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `type` | string | The fee type |
+| `amount` | integer | Original fee amount in cents |
+| `remaining_amount` | integer | Amount still available for refund in cents |
+
+```json
+{
+  "fees": [
+    { "type": "processing_fee", "amount": 350, "remaining_amount": 350 },
+    { "type": "platform_fee", "amount": 500, "remaining_amount": 500 }
+  ]
+}
+```
+
+### Creating Payments with Fees
+
+**Example: Creating a payment with multiple fee types**
 
 ```json
 {
@@ -956,44 +1016,194 @@ The new `fees` array will be available on:
 }
 ```
 
-**Payment response with fee tracking:**
+**Response:**
 
 ```json
 {
   "id": "py_123xyz",
-  "amount": 10000,
-  "fees": [
-    { "type": "processing_fee", "amount": 350, "remaining_amount": 350 },
-    { "type": "platform_fee", "amount": 500, "remaining_amount": 500 }
-  ]
+  "type": "payment",
+  "data": {
+    "id": "py_123xyz",
+    "amount": 10000,
+    "fees": [
+      { "type": "processing_fee", "amount": 350, "remaining_amount": 350 },
+      { "type": "platform_fee", "amount": 500, "remaining_amount": 500 }
+    ]
+  }
 }
 ```
 
-The `remaining_amount` field tracks how much of each fee can still be refunded, updating with each partial refund if applicable.
+### Creating Checkouts with Fees
 
-**Processing a refund with selective fee return:**
+For checkouts, fees are nested under the payment method type since different payment methods may have different fee structures:
+
+```json
+{
+  "amount": 10000,
+  "description": "order_xyz",
+  "fees": {
+    "card": [
+      { "type": "processing_fee", "amount": 295 },
+      { "type": "platform_fee", "amount": 150 }
+    ],
+    "bank_account": [
+      { "type": "processing_fee", "amount": 50 },
+      { "type": "platform_fee", "amount": 150 }
+    ]
+  }
+}
+```
+
+### Selective Fee Refunds
+
+When processing refunds, you control exactly which fees are returned to the merchant. This enables flexible refund policies—for example, refunding the processing fee while retaining your platform fee for services already rendered.
+
+**Example: Refunding payment amount and processing fee only**
 
 ```json
 {
   "amount": 5000,
   "reason": "customer_request",
-  "fees": [{ "type": "processing_fee", "amount": 350 }]
+  "fees": [
+    { "type": "processing_fee", "amount": 175 }
+  ]
 }
 ```
 
-In this example, the processing fee is returned to the merchant while the platform fee is retained. If no `fees` array is provided in the refund request, no fees are returned (preserving current behavior).
+In this example:
+- $50.00 of the payment amount is refunded to the customer
+- $1.75 processing fee is returned to the merchant
+- The platform fee is retained
 
-### Reporting
+**Refund Response:**
 
-Each fee type will appear as a separate line item in:
+```json
+{
+  "id": "re_xyz",
+  "type": "refund",
+  "data": {
+    "id": "re_xyz",
+    "amount": 5000,
+    "fees": [
+      { "type": "processing_fee", "amount": 175, "remaining_amount": 0 }
+    ]
+  }
+}
+```
 
-- Balance transactions for both merchants and platforms
-- Subaccount payout reports
-- Platform proceeds reports
+**Important**: If no `fees` array is provided in the refund request, no fees are returned to the merchant (current behavior is preserved).
 
-This gives merchants clear visibility into their true processing costs versus platform charges, and gives platforms detailed revenue breakdowns by fee type.
+### Refund Tracking
 
-### Migration
+The system tracks cumulative fee refunds per transaction. After partial refunds, the payment's `remaining_amount` fields update to reflect what's still available:
 
-The current `application_fee_amount` field will continue to work for existing integrations, but will be deprecated.
+**After the partial refund above, the payment would show:**
 
+```json
+{
+  "fees": [
+    { "type": "processing_fee", "amount": 350, "remaining_amount": 175 },
+    { "type": "platform_fee", "amount": 500, "remaining_amount": 500 }
+  ]
+}
+```
+
+### Error Handling
+
+The API validates fee refund requests and returns clear errors:
+
+| Error Code | Description |
+|------------|-------------|
+| `fee_refund_exceeds_remaining` | The requested fee refund amount exceeds the remaining refundable amount for that fee type |
+| `fee_type_not_found` | The fee type specified in the refund was not present in the original payment |
+| `invalid_fee_type` | The fee type is not a valid value |
+| `fees_exceed_payment_amount` | The total fees exceed the payment amount |
+| `duplicate_fee_type` | Multiple fees with the same type were provided |
+| `fees_and_application_fee_conflict` | Both `fees` array and `application_fee_amount` were provided (use one or the other) |
+
+**Example error response (over-refunding):**
+
+```json
+{
+  "error": {
+    "code": "fee_refund_exceeds_remaining",
+    "message": "The requested refund amount for processing_fee (200) exceeds the remaining amount (175)",
+    "fee_type": "processing_fee",
+    "maximum_remaining_amount": 175
+  }
+}
+```
+
+**Example error response (non-existent fee type):**
+
+```json
+{
+  "error": {
+    "code": "fee_type_not_found",
+    "message": "The fee type 'platform_fee' was not present in the original payment"
+  }
+}
+```
+
+### Reporting & Balance Transactions
+
+Each fee type appears as a separate line item in balance transactions, providing clear visibility for both merchants and platforms:
+
+**Merchant Balance Transaction View:**
+
+| Type | Amount | Description |
+|------|--------|-------------|
+| `seller_payment` | $100.00 | Payment py_123xyz |
+| `processing_fee` | -$3.50 | Processing fee |
+| `platform_fee` | -$5.00 | Platform fee |
+
+**Platform Balance Transaction View:**
+
+| Type | Amount | Description |
+|------|--------|-------------|
+| `processing_fee_credit` | $3.50 | Processing fee from py_123xyz |
+| `platform_fee_credit` | $5.00 | Platform fee from py_123xyz |
+
+**Reports:**
+- **Merchant Payout Report**: Includes columns for each fee type in addition to total fees
+- **Platform Proceeds Report**: Shows aggregated revenue totals by fee type
+
+### Migration from application_fee_amount
+
+The `application_fee_amount` field is deprecated. For platforms with the legacy setting enabled, existing integrations will continue to work, but we recommend migrating to the new `fees` array.
+
+**Important notes:**
+- You cannot use both `application_fee_amount` and `fees` in the same request
+- New integrations should use the `fees` array exclusively
+- Contact support if you need to enable the legacy setting for migration purposes
+
+**Migration example:**
+
+Before (deprecated):
+```json
+{
+  "amount": 10000,
+  "application_fee_amount": 850,
+  "payment_method": { "token": "pm_xyz" }
+}
+```
+
+After (recommended):
+```json
+{
+  "amount": 10000,
+  "fees": [
+    { "type": "processing_fee", "amount": 350 },
+    { "type": "platform_fee", "amount": 500 }
+  ],
+  "payment_method": { "token": "pm_xyz" }
+}
+```
+
+### Validation Rules
+
+- All amounts must be in cents (integers)
+- Only one fee of each type is allowed per request
+- The total of all fees cannot exceed the payment amount
+- Platforms calculate and submit fee amounts—JustiFi does not calculate fees on behalf of platforms
+- An empty fees array `[]` is valid and means no fees will be charged
