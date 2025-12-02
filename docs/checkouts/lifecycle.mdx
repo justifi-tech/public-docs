@@ -58,14 +58,17 @@ During checkout completion a payment is created, processed and linked to the che
     "mode": "test",
     "successful_payment_id": "py_xyz",
     "statement_descriptor": "Big Business",
-    "application_fees": {
-      "card": {
-        "amount": 300
-      },
-      "bank_account": {
-        "amount": 150
-      }
+    "fees": {
+      "card": [
+        { "type": "processing_fee", "amount": 295 },
+        { "type": "platform_fee", "amount": 150 }
+      ],
+      "bank_account": [
+        { "type": "processing_fee", "amount": 50 },
+        { "type": "platform_fee", "amount": 150 }
+      ]
     },
+    "application_fees": null,
     "payment_settings": {},
     "created_at": "2024-01-01T12:00:00Z",
     "updated_at": "2024-01-01T12:00:00Z"
@@ -73,6 +76,12 @@ During checkout completion a payment is created, processed and linked to the che
   "page_info": "string"
 }
 ```
+
+:::note Fee Structure
+The `fees` object contains fee arrays organized by payment method type. Each fee has a `type` (`processing_fee` or `platform_fee`) and an `amount` in cents. The fees are applied based on the payment method used to complete the checkout.
+
+The deprecated `application_fees` field will be `null` when using the new `fees` structure. See [Fees documentation](/docs/checkouts/features#fees) for more details.
+:::
 
 ### Checkout Completion Attribute
 
