@@ -44,7 +44,13 @@ post:
               example: {}
             application_fees:
               type: object
-              description: (card/ach and card present only, not available for bnpl) sets a custom application fee amount that applies to this payment, instead of relying on application fee rates configured at the platform account level. Must be greater than zero.
+              deprecated: true
+              description: |
+                **Deprecated**: Use the `fees` object instead for more granular control over fee types and selective refunds.
+
+                (card/ach and card present only, not available for bnpl) sets a custom application fee amount that applies to this payment, instead of relying on application fee rates configured at the platform account level. Must be greater than zero.
+
+                **Note**: You cannot use both `application_fees` and `fees` in the same request.
               properties:
                 card:
                   type: object
@@ -60,6 +66,64 @@ post:
                       type: number
                       description: custom application fee amount that applies to bank account payment method.
                       example: 150
+            fees:
+              type: object
+              description: |
+                Fee arrays organized by payment method type. Use this instead of `application_fees` for granular control over different fee types and selective refunds. (card/ach and card present only, not available for bnpl)
+
+                Each payment method type contains an array of fee objects with:
+                - `type`: The fee type (`processing_fee` or `platform_fee`)
+                - `amount`: Fee amount in cents
+
+                **Validation rules:**
+                - Only one fee of each type is allowed per payment method
+                - Total fees cannot exceed the payment amount
+                - Cannot be used together with `application_fees`
+
+                See [Enhanced Fee Management](#section/Enhanced-Fee-Management) for full documentation.
+              properties:
+                card:
+                  type: array
+                  description: Fees to apply when checkout is completed with a card payment
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        enum: [processing_fee, platform_fee]
+                        description: The type of fee
+                        example: processing_fee
+                      amount:
+                        type: integer
+                        description: Fee amount in cents
+                        example: 295
+                    required: [type, amount]
+                  example:
+                    - type: processing_fee
+                      amount: 295
+                    - type: platform_fee
+                      amount: 150
+                bank_account:
+                  type: array
+                  description: Fees to apply when checkout is completed with a bank account (ACH) payment
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        enum: [processing_fee, platform_fee]
+                        description: The type of fee
+                        example: processing_fee
+                      amount:
+                        type: integer
+                        description: Fee amount in cents
+                        example: 50
+                    required: [type, amount]
+                  example:
+                    - type: processing_fee
+                      amount: 50
+                    - type: platform_fee
+                      amount: 150
             payment:
               type: object
               description: To override the information saved on the Payment when a checkout is paid via JustiFi card/ach payment, please use these attributes

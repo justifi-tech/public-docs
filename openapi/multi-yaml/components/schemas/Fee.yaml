@@ -1,0 +1,16 @@
+type: object
+description: A fee object specifying type and amount
+properties:
+  type:
+    type: string
+    enum: [processing_fee, platform_fee]
+    description: |
+      The type of fee:
+      - `processing_fee`: Fees related to payment processing costs
+      - `platform_fee`: Fees for your platform's services
+    example: processing_fee
+  amount:
+    type: integer
+    description: Fee amount in cents
+    example: 350
+required: [type, amount]
