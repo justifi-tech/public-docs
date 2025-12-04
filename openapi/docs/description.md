@@ -1,7 +1,9 @@
 ## Introduction
+
 The JustiFi API is a REST-based payment processing API. Our API has predictable, resource-oriented URLs, accepts JSON, and returns JSON. We use HTTP status codes and supply detailed error codes whenever possible. We'll provide you with both a `test` and `live` account with which to use our API. Each account will have its own API key, and the key you use to authenticate each request will determine whether to use your `test` or `live` account. When you use your `test` account, it won't affect your `live` data or move any real money.
 
 ## Getting Started
+
 To process a payment with JustiFi, follow these steps
 
 - [Get Your Accounts](#get-your-accounts)
@@ -13,11 +15,13 @@ To process a payment with JustiFi, follow these steps
 <br>
 
 ### Get Your Accounts
+
 Our customer onboarding team will work with you to create your `test` and `live` accounts. For platforms, our team will also guide you through setting up your sub accounts onboarding. Once you're up and running, you'll have access to the JustiFi API as well as the admin features at https://app.justifi.ai where you can see your account overview, payments, payouts, issue refunds, etc.
 
 <br>
 
 ### Get Your API Keys
+
 Once your `test` and `live` accounts have been created, you'll have access to generate your API keys in the Developer Tools section of the app. You'll need a `test` key and a `live` key. Each key will provide you with a client id and a client secret, which you'll use to authenticate your API requests. Requests authenticated with your `test` key will use your `test` account; requests authenticated with your `live` key will use your `live` account. Make sure to store your client secrets somewhere secure (like a password manager) because this is the only time they'll display in the UI.
 
 Additionally, we can provide access to a sandbox environment upon request.
@@ -25,27 +29,34 @@ Additionally, we can provide access to a sandbox environment upon request.
 <br>
 
 ### Authenticate With JustiFi
+
 <PullRight>
 
 ##### Example OAuth Client Credentials Grant Request
+
 ```sh
 curl -X POST https://api.justifi.ai/oauth/token \
     -H 'Content-Type: application/json' \
     --data '{"client_id":"[your client id]","client_secret":"[your client secret]"}'
 ```
-  ##### Example Authenticated Response
+
+##### Example Authenticated Response
+
 ```json
 {
   "access_token": "... this will be a very long string and is valid for 24 hours"
 }
 ```
+
 ##### Example Authenticated Request
+
 ```sh
 curl -X POST https://api.justifi.ai/v1/payments \
     -H 'Authorization: Bearer [access_token]' \
     -H 'Content-Type: application/json'
     -H 'Idempotency-Key: a-unique-string-for-the-transaction'
 ```
+
 </PullRight>
 
 JustiFi uses the OAuth Client Credentials authentication flow. To access, use your JustiFi client id and client secret to POST to https://api.justifi.ai/oauth/token. These are valid for 24 hours. The test key is prepended with `test_` and the live key is prepended with `live_`.
@@ -55,15 +66,18 @@ Next, take the access token in that response and pass it in all subsequent reque
 This token is valid for 24 hours, so be sure to handle a `401 - Unauthorized` response by getting a new access token via the client credentials grant API.
 
 ## Idempotent Requests
+
 <PullRight>
 
 ##### Example Request with Idempotency-Key Header
+
 ```sh
 curl -X POST https://api.justifi.ai/v1/payments \
     -H 'Authorization: Bearer [access_token]' \
     -H 'Accept: application/json'
     -H 'Idempotency-Key: a-unique-string-for-the-transaction'
 ```
+
 </PullRight>
 
 In order to guarantee that payments and other important transactions are only ever processed a single time, we leverage the `Idempotency-Key` header in our payments APIs. This means that you MUST provide an `Idempotency-Key` header along with your request, otherwise you'll receive an error. If a second request with same idempotent key is processed concurrently, it will result in a `409` error instead of double processing.
@@ -75,15 +89,19 @@ If you try the same `Idempotency-Key` with different parameters, your request wi
 You may use any string to identify your `Idempotency-Key`; we generally recommend using a generated uuid, but you may use any unique string.
 
 ## Pagination
+
 <PullRight>
 
 ##### Example Paginated Request
+
 ```sh
 curl -X GET https://api.justifi.ai/v1/payments?limit=25&after_cursor=token-from-page-info \
     -H 'Authorization: Bearer [access_token]' \
     -H 'Accept: application/json'
 ```
+
 ##### Example Paginated Response
+
 ```sh
 {
     "id": null,
@@ -102,6 +120,7 @@ curl -X GET https://api.justifi.ai/v1/payments?limit=25&after_cursor=token-from-
     }
 }
 ```
+
 </PullRight>
 All top-level API resources have support for bulk fetches via `array` API methods. JustiFi uses cursor-based pagination, which supports `limit`, `before_cursor` and `after_cursor`. Each response will have a `page_info` object that contains the `has_next` and `has_previous` fields, which tells you if there are more items before or after the current page.  The `page_info` object also includes `start_cursor` and `end_cursor` values which can be used in conjunction with `before_cursor` and `after_cursor` to retrieve items from the API one page at a time.
 
@@ -146,6 +165,7 @@ records available than the `limit` value, the response will include all availabl
 allowed is 100 with a default value of 25. If the `limit` value is an invalid type, the default value of 25 is used.
 
 #### Standard API Response Structure
+
 All of our responses are contained in the same envelope, for arrays the id field will be null
 and the object will be an array.
 
@@ -189,9 +209,11 @@ and the object will be an array.
 </table>
 
 ## Testing
+
 Use these card numbers to test successful transactions as well as various error scenarios. Make sure to authenticate your requests using your `test` API key (these cards won't work for `live` payments).
 
 #### Successful Test Cards
+
 <table layout="fixed">
   <tr>
     <th style="width: 200px">Number</th>
@@ -256,77 +278,79 @@ Use these card numbers to test successful transactions as well as various error 
 </table>
 
 #### Declined Test Cards
+
 <table layout="fixed">
   <tr>
     <th style="width: 200px">Number</th>
     <th>Description</th>
-    <th>Tokenization Fails</th>
+    <th>Tokenization Succeeds</th>
   </tr>
   <tr>
     <td><code>4000000000000101</code></td>
     <td>
       If a CVC number is provided, the cvc_check fails.
     </td>
-    <td>false</td>
+    <td>true</td>
   </tr>
   <tr>
     <td><code>4000000000000341</code></td>
     <td>
       Tokenizing this card succeeds, but attempts to make a payment fail.
     </td>
-    <td>false</td>
+    <td>true</td>
   </tr>
   <tr>
     <td><code>4000000000000002</code></td>
     <td>Payment is declined with a card_declined code.</td>
-    <td>false</td>
+    <td>true</td>
   </tr>
   <tr>
     <td><code>4000000000009995</code></td>
     <td>
       Payment is declined with a card_declined code. The decline_code attribute is insufficient_funds.
     </td>
-    <td>false</td>
+    <td>true</td>
   </tr>
   <tr>
     <td><code>4000000000009987</code></td>
     <td>
       Payment is declined with a card_declined code. The decline_code attribute is lost_card.
     </td>
-    <td>false</td>
+    <td>true</td>
   </tr>
   <tr>
     <td><code>4000000000009979</code></td>
     <td>
       Payment is declined with a card_declined code. The decline_code attribute is stolen_card.
     </td>
-    <td>false</td>
+    <td>true</td>
   </tr>
   <tr>
     <td><code>4000000000000069</code></td>
     <td>Payment is declined with an expired_card code.</td>
-    <td>false</td>
+    <td>true</td>
   </tr>
   <tr>
     <td><code>4000000000000127</code></td>
     <td>Payment is declined with an invalid_cvc code.</td>
-    <td>false</td>
+    <td>true</td>
   </tr>
   <tr>
     <td><code>4000000000000119</code></td>
     <td>Payment is declined with a gateway_error code.</td>
-    <td>false</td>
+    <td>true</td>
   </tr>
   <tr>
     <td><code>4242424242424241</code></td>
     <td>
       Payment is declined with an card_number_invalid code as the card number fails the Luhn check.
     </td>
-    <td>true</td>
+    <td>false</td>
   </tr>
 </table>
 
 #### Successful Bank Account (ACH)
+
 <table layout="fixed">
   <tr>
     <th>Routing Number</th>
@@ -339,6 +363,7 @@ Use these card numbers to test successful transactions as well as various error 
 </table>
 
 #### Declined Bank Accounts (ACH)
+
 <table layout="fixed">
   <tr>
     <th>Routing Number</th>
@@ -376,56 +401,73 @@ Use these card numbers to test successful transactions as well as various error 
 </table>
 
 ## HTTP Errors
+
 The JustiFi API may return a number of standard HTTP errors due to invalid requests. Some common errors are described
 below to help you build with JustiFi.
 
 #### Bad Request
+
 The server cannot process the request. This error is most likely due to malformed request syntax.
+
 - code: `400`
 - status: `Bad Request`
 
 #### Unauthorized
+
 Similar to a `403 Forbidden`, but specifically when authentication is provided and has failed, or has not been provided.
 This error is most likely due to not including your API key in the request header.
+
 - code: `401`
 - status: `Unauthorized`
 
 #### Payment Required
+
 There was an error processing the payment. This response is returned when errors occur while tokenizing the payment method, such
 as an invalid cvc or an expiration date in the past. This can also occur when making a payment and the card is declined.
 In that case, the error message will provide more specific information about why the request was declined.
+
 - code: `402`
 - status: `Payment Required`
 
 #### Forbidden
+
 The request was valid, but you are unable to execute the request. This error is most likely due to the API key that
 was used not having the necessary permissions, or attempting a prohibited action such as creating a duplicate
 record where one already exists.
+
 - code: `403`
 - status: `Forbidden`
 
 #### Not Found
+
 The requested resource could not be found, but may be available in the future. This error is most likely due to
 requesting a resource by `id` that doesn't exist. You'll want to double check that you're referencing the correct
 `id` and that it exists on your account.
+
 - code: `404`
 - status: `Not Found`
 
 #### Concurrent Request Error
+
 The request has an identical `Idempotency-Key` header for another request which either failed OR is processing at the same time. You can retry these requests without risk of double processing.
+
 - code: `409`
 - status: `Conflict`
 
 #### Unprocessable Entity
+
 The request was well-formed, but was unable to be processed due to semantic errors. This error is most likely due to
 including invalid data in `POST`, `PATCH`, and `PUT` requests. Double check the request documentation to make sure
 you're supplying the required attributes, and that the attribute types are correct.
+
 - code: `422`
 - status: `Unprocessable Entity`
 
 #### Internal Server Error
+
 An internal server error occurred due to an unexpected condition. This error is most likely due to an issue with our
 servers.
+
 - code: `500`
 - status: `Internal Server Error`
 
@@ -805,73 +847,76 @@ Many of our `4XX` errors will provide an error code in addition to their HTTP st
 </table>
 
 ## Network Errors
+
 We provide the network error code, and the network error category to help inform you how to handle a decline. These are only returned when a transaction fails while trying to process on the card network. Please take a look at each section. The network error category is especially relevant for recurring payments. It can reduce retries on transactions which will never succeed.
 
 ### Network Error Codes
 
 In addition to the standard error codes provided by JustiFi, some errors may include a `network_error_code` that provides more specific information about the error from the payment network. Here's a list of common `network_error_code` values and their meanings:
 
-| Code | Description | Customer Impact & Suggested Actions |
-|------|--------------|--------------------------------------|
-| 005  | Do not honor (Declined by card association) | The payment was declined by the card association. The customer should try a different payment method or contact the card issuer for more information. |
-| 100  |  Do not honor (Declined by card association) | The payment was declined by the card association. The customer should try a different payment method or contact the card issuer for more information. |
-| 101  | Expired card | The provided card has expired. The customer needs to update with a new, non-expired card or provide a different payment method. |
-| 102  | Suspected Fraud | The payment was flagged as potentially fraudulent activity. The customer should contact the card issuer to verify the transaction. |
-| 104  | Restricted card | The provided card is restricted and cannot be used for this transaction type. The customer needs to use a different payment method or contact the card issuer. |
-| 106  | Allowable PIN tries exceeded | The maximum allowable PIN entry attempts have been exceeded. The customer should verify the PIN and try again, or use a different payment method. |
-| 110  | Invalid amount | The payment amount entered is invalid. The customer needs to recheck the amount and retry the transaction. |
-| 116  | Not sufficient funds | There are insufficient funds in the account to cover this payment. The customer should add funds to the account or use a different payment method. |
-| 117  | Incorrect PIN or PIN length error | The entered PIN is incorrect or has an invalid length. The customer should re-enter the correct PIN and try again. |
-| 119  | Transaction not permitted to cardholder | This transaction is not permitted for the provided card/account. The customer should contact the card issuer or use a different payment method. |
-| 121  | Exceeds withdrawal amount limit | The payment amount exceeds the maximum allowed withdrawal limit. The customer should try a smaller amount or use a different payment method. |
-| 122  | Security violation | A security violation was detected with this payment. The customer should contact the card issuer for assistance. |
-| 123  | Exceeds withdrawal frequency limit | The maximum number of allowed withdrawals within the set time period has been exceeded. The customer should try again later or use a different payment method. |
-| 124  | Violation of law | This payment violates applicable laws or regulations and cannot be processed. The customer needs to use a different payment method. |
-| 129  | Suspected counterfeit card | The card has been flagged as potentially counterfeit. The customer should contact the card issuer immediately. |
-| 131  | Invalid account number | The provided account number is invalid. The customer needs to verify the account details and try again with the correct information. |
-| 132  | Unmatched card expiry date | The provided expiration date does not match the card issuer's records. The customer should confirm the correct expiry date and retry. |
-| 134  | Not sufficient funds | There are insufficient funds in the account to cover this payment. The customer should add funds to the account or use a different payment method. |
-| 152  | Exceeds limit | The payment amount exceeds the maximum limit allowed. The customer should try a smaller amount or use a different payment method. |
-| 154  | Over monthly limit | The maximum monthly payment limit has been exceeded. The customer should try again next month or use a different payment method. |
-| 208  | Lost Card / Lost Check | The card or check was reported as lost. The customer needs to use a different, valid payment method. |
-| 209  | Stolen card | The card was reported as stolen. The customer should contact the card issuer immediately and use a different payment method. |
-| 213  | Invalid account number for card type | The provided account number is invalid for the specified card type. The customer needs to verify the account details and retry with the correct information. |
-| 231  | Stop payment requested for all payments | A stop payment has been requested on this account, so no payments can be processed. The customer should contact the card issuer for assistance. |
-| 232  | Stop all payments – account closed | This account has been closed, so no payments can be processed. The customer needs to use a different payment method or contact support to update the account details. |
-| 237  | Deny – new card issued | A new card has been issued for this account. The customer needs to update the payment method with the new card details and retry. |
-| 302  | Account closed | The account the customer is trying to pay from is closed and cannot be used. The customer needs to update with a different, valid payment method. |
-| 317  | Max balance exceeded | This payment would cause the account balance to exceed the maximum allowed limit. The customer should try a smaller amount or use a different payment method. |
-| 351  | Customer PIN authentication required | The customer must authenticate this payment by entering the PIN. The customer should follow the prompts to complete PIN authentication. |
-| 414  | Void/Full Reversal request unable to process due to network cut-off window elapsed | The void or reversal request could not be processed because the network cut-off time has passed. A refund may be required instead. |
-| 503  | New Account Information | New account information is available for this payment method. The customer needs to update the account details and retry the payment. |
-| 504  | Do not try again | This payment was declined and should not be retried with this payment method. The customer needs to use an alternative method. |
-| 505  | Please retry | There was a temporary issue processing this payment. The customer should retry the same payment again. |
-| 512  | Service not allowed or invalid surcharge amount | This service or surcharge amount is not permitted for the account. The customer needs to verify the account details or try a different payment type. |
-| 516  | Please retry – Reasons include: Format Error, Unable to route transaction, Switch or issuer unavailable, System Busy, Timeout | A temporary issue caused this payment to fail, the customer should retry. If it continues to fail, the card issuer should be contacted. |
-| 517  | CVV2 Declined | The entered CVV2/CVC security code was declined. The customer should verify the code and retry with the correct information. |
-| 531  | Retry with 3DS data - 3D Secure authentication is required for this transaction, but not supported at this time | This card requires 3D Secure authentication which is not currently supported. The customer should use an alternative payment method or contact the card issuer. |
-| 528  | Debit/EBT transaction count exceeds pre-determined limit in specified time/ Withdrawal limit exceeded | The maximum allowed debit/EBT transaction count or withdrawal limit for the given time period has been exceeded. The customer should try again later or use a different payment method. |
-| 902  | Invalid Transaction | The payment transaction data was invalid and could not be processed. The customer needs to verify the payment details and retry. |
-| 907  | Card issuer or switch inoperative or processor not available | There was an issue with the card issuer's systems or payment processor during this transaction. The customer should retry later or use another payment method. |
+| Code | Description                                                                                                                   | Customer Impact & Suggested Actions                                                                                                                                                     |
+| ---- | ----------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 005  | Do not honor (Declined by card association)                                                                                   | The payment was declined by the card association. The customer should try a different payment method or contact the card issuer for more information.                                   |
+| 100  | Do not honor (Declined by card association)                                                                                   | The payment was declined by the card association. The customer should try a different payment method or contact the card issuer for more information.                                   |
+| 101  | Expired card                                                                                                                  | The provided card has expired. The customer needs to update with a new, non-expired card or provide a different payment method.                                                         |
+| 102  | Suspected Fraud                                                                                                               | The payment was flagged as potentially fraudulent activity. The customer should contact the card issuer to verify the transaction.                                                      |
+| 104  | Restricted card                                                                                                               | The provided card is restricted and cannot be used for this transaction type. The customer needs to use a different payment method or contact the card issuer.                          |
+| 106  | Allowable PIN tries exceeded                                                                                                  | The maximum allowable PIN entry attempts have been exceeded. The customer should verify the PIN and try again, or use a different payment method.                                       |
+| 110  | Invalid amount                                                                                                                | The payment amount entered is invalid. The customer needs to recheck the amount and retry the transaction.                                                                              |
+| 116  | Not sufficient funds                                                                                                          | There are insufficient funds in the account to cover this payment. The customer should add funds to the account or use a different payment method.                                      |
+| 117  | Incorrect PIN or PIN length error                                                                                             | The entered PIN is incorrect or has an invalid length. The customer should re-enter the correct PIN and try again.                                                                      |
+| 119  | Transaction not permitted to cardholder                                                                                       | This transaction is not permitted for the provided card/account. The customer should contact the card issuer or use a different payment method.                                         |
+| 121  | Exceeds withdrawal amount limit                                                                                               | The payment amount exceeds the maximum allowed withdrawal limit. The customer should try a smaller amount or use a different payment method.                                            |
+| 122  | Security violation                                                                                                            | A security violation was detected with this payment. The customer should contact the card issuer for assistance.                                                                        |
+| 123  | Exceeds withdrawal frequency limit                                                                                            | The maximum number of allowed withdrawals within the set time period has been exceeded. The customer should try again later or use a different payment method.                          |
+| 124  | Violation of law                                                                                                              | This payment violates applicable laws or regulations and cannot be processed. The customer needs to use a different payment method.                                                     |
+| 129  | Suspected counterfeit card                                                                                                    | The card has been flagged as potentially counterfeit. The customer should contact the card issuer immediately.                                                                          |
+| 131  | Invalid account number                                                                                                        | The provided account number is invalid. The customer needs to verify the account details and try again with the correct information.                                                    |
+| 132  | Unmatched card expiry date                                                                                                    | The provided expiration date does not match the card issuer's records. The customer should confirm the correct expiry date and retry.                                                   |
+| 134  | Not sufficient funds                                                                                                          | There are insufficient funds in the account to cover this payment. The customer should add funds to the account or use a different payment method.                                      |
+| 152  | Exceeds limit                                                                                                                 | The payment amount exceeds the maximum limit allowed. The customer should try a smaller amount or use a different payment method.                                                       |
+| 154  | Over monthly limit                                                                                                            | The maximum monthly payment limit has been exceeded. The customer should try again next month or use a different payment method.                                                        |
+| 208  | Lost Card / Lost Check                                                                                                        | The card or check was reported as lost. The customer needs to use a different, valid payment method.                                                                                    |
+| 209  | Stolen card                                                                                                                   | The card was reported as stolen. The customer should contact the card issuer immediately and use a different payment method.                                                            |
+| 213  | Invalid account number for card type                                                                                          | The provided account number is invalid for the specified card type. The customer needs to verify the account details and retry with the correct information.                            |
+| 231  | Stop payment requested for all payments                                                                                       | A stop payment has been requested on this account, so no payments can be processed. The customer should contact the card issuer for assistance.                                         |
+| 232  | Stop all payments – account closed                                                                                            | This account has been closed, so no payments can be processed. The customer needs to use a different payment method or contact support to update the account details.                   |
+| 237  | Deny – new card issued                                                                                                        | A new card has been issued for this account. The customer needs to update the payment method with the new card details and retry.                                                       |
+| 302  | Account closed                                                                                                                | The account the customer is trying to pay from is closed and cannot be used. The customer needs to update with a different, valid payment method.                                       |
+| 317  | Max balance exceeded                                                                                                          | This payment would cause the account balance to exceed the maximum allowed limit. The customer should try a smaller amount or use a different payment method.                           |
+| 351  | Customer PIN authentication required                                                                                          | The customer must authenticate this payment by entering the PIN. The customer should follow the prompts to complete PIN authentication.                                                 |
+| 414  | Void/Full Reversal request unable to process due to network cut-off window elapsed                                            | The void or reversal request could not be processed because the network cut-off time has passed. A refund may be required instead.                                                      |
+| 503  | New Account Information                                                                                                       | New account information is available for this payment method. The customer needs to update the account details and retry the payment.                                                   |
+| 504  | Do not try again                                                                                                              | This payment was declined and should not be retried with this payment method. The customer needs to use an alternative method.                                                          |
+| 505  | Please retry                                                                                                                  | There was a temporary issue processing this payment. The customer should retry the same payment again.                                                                                  |
+| 512  | Service not allowed or invalid surcharge amount                                                                               | This service or surcharge amount is not permitted for the account. The customer needs to verify the account details or try a different payment type.                                    |
+| 516  | Please retry – Reasons include: Format Error, Unable to route transaction, Switch or issuer unavailable, System Busy, Timeout | A temporary issue caused this payment to fail, the customer should retry. If it continues to fail, the card issuer should be contacted.                                                 |
+| 517  | CVV2 Declined                                                                                                                 | The entered CVV2/CVC security code was declined. The customer should verify the code and retry with the correct information.                                                            |
+| 531  | Retry with 3DS data - 3D Secure authentication is required for this transaction, but not supported at this time               | This card requires 3D Secure authentication which is not currently supported. The customer should use an alternative payment method or contact the card issuer.                         |
+| 528  | Debit/EBT transaction count exceeds pre-determined limit in specified time/ Withdrawal limit exceeded                         | The maximum allowed debit/EBT transaction count or withdrawal limit for the given time period has been exceeded. The customer should try again later or use a different payment method. |
+| 902  | Invalid Transaction                                                                                                           | The payment transaction data was invalid and could not be processed. The customer needs to verify the payment details and retry.                                                        |
+| 907  | Card issuer or switch inoperative or processor not available                                                                  | There was an issue with the card issuer's systems or payment processor during this transaction. The customer should retry later or use another payment method.                          |
 
 ### Network Error Category
+
 Both Visa and Mastercard send additional information about how to handle a declined payment for recurring payments. Effective May 30th, 2025 we pass through this information to help handle failures. We have added the `network` and `network_error_category` attributes to declined payments, when we get the additional information from the card networks. We are working on further classification of errors, for now please only respond to those documented here.
 
-| network | network_error_category | Definition |
-|------|--------------|--------------------------------------|
-| VISA | 1 | Issuer will never approve. Do not attempt again. This indicates the card is invalid, never existed or block. Cardholders can contact their bank for more information. |
-| VISA | 2 | Issuer cannot approve at this time. They may try again at another time. This could be related to credit risk, velocity controls, or system issues. |
-| VISA | 3 | Issuer cannot approve based on the details provided. This might be an invalid cvv, expiration date, etc. Do not try again without attempting to obtain additional information. |
-| VISA | R00/R01 | Recurring payment not allowed on card. Do not attempt again. |
-| MASTERCARD | 01 | Updated information needed. Similar to Visa code 3. |
-| MASTERCARD | 02 | Try again later. Similar to Visa code 2. |
-| MASTERCARD | 03 | Do not try again.  Do not attempt again. Similar to Visa code 1. |
+| network    | network_error_category | Definition                                                                                                                                                                     |
+| ---------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| VISA       | 1                      | Issuer will never approve. Do not attempt again. This indicates the card is invalid, never existed or block. Cardholders can contact their bank for more information.          |
+| VISA       | 2                      | Issuer cannot approve at this time. They may try again at another time. This could be related to credit risk, velocity controls, or system issues.                             |
+| VISA       | 3                      | Issuer cannot approve based on the details provided. This might be an invalid cvv, expiration date, etc. Do not try again without attempting to obtain additional information. |
+| VISA       | R00/R01                | Recurring payment not allowed on card. Do not attempt again.                                                                                                                   |
+| MASTERCARD | 01                     | Updated information needed. Similar to Visa code 3.                                                                                                                            |
+| MASTERCARD | 02                     | Try again later. Similar to Visa code 2.                                                                                                                                       |
+| MASTERCARD | 03                     | Do not try again. Do not attempt again. Similar to Visa code 1.                                                                                                                |
 
 ## Coming Soon: Enhanced Fee Management
 
 We're introducing a new fee structure that gives platforms more control over how fees are charged and refunded. This replaces the current `application_fee_amount` field with a flexible `fees` array that supports multiple fee types.
 
 ### What's Changing
+
 **Separate Fee Types**
 
 Instead of bundling all fees into a single amount, you'll be able to distinguish between different fee types in each transaction:
@@ -932,9 +977,7 @@ The `remaining_amount` field tracks how much of each fee can still be refunded, 
 {
   "amount": 5000,
   "reason": "customer_request",
-  "fees": [
-    { "type": "processing_fee", "amount": 350 }
-  ]
+  "fees": [{ "type": "processing_fee", "amount": 350 }]
 }
 ```
 
@@ -953,3 +996,4 @@ This gives merchants clear visibility into their true processing costs versus pl
 ### Migration
 
 The current `application_fee_amount` field will continue to work for existing integrations, but will be deprecated.
+
