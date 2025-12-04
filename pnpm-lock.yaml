@@ -18,8 +18,8 @@ importers:
         specifier: ^3.7.0
         version: 3.7.0(@algolia/client-search@5.20.4)(@mdx-js/react@3.1.0(@types/react@19.0.10)(react@18.3.1))(@types/react@19.0.10)(acorn@8.14.1)(eslint@8.57.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(search-insights@2.17.3)(typescript@5.2.2)
       '@justifi/webcomponents':
-        specifier: '*'
-        version: 6.4.3
+        specifier: 6.5.1-rc.5
+        version: 6.5.1-rc.5
       '@mdx-js/react':
         specifier: ^3.0.0
         version: 3.1.0(@types/react@19.0.10)(react@18.3.1)
@@ -1274,8 +1274,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
 
-  '@justifi/webcomponents@6.4.3':
-    resolution: {integrity: sha512-mgUS8nKH4YW0aOfBpqUD55y/9KemM4+3P/BBiiFwB/hbjFxXPkdJmbFDXxihNFdvo+9LCQ5iavWFKMMz23y0Bw==}
+  '@justifi/webcomponents@6.5.1-rc.5':
+    resolution: {integrity: sha512-3BVPTx2m+JtI5kWEC/FOuRwNitn5vcb/qN5SIfNVWZszDpVEfqGNIf0Kpn22qHs/yp5nNCQSDH/z7PCkF2nYJw==}
 
   '@kurkle/color@0.3.4':
     resolution: {integrity: sha512-M5UknZPHRu3DEDWoipU6sE8PdkZ6Z/S+v4dD+Ke8IaNlpdSQah50lz1KtcFBa2vsdOnwbbnxJwVM4wty6udA5w==}
@@ -8123,7 +8123,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
 
-  '@justifi/webcomponents@6.4.3':
+  '@justifi/webcomponents@6.5.1-rc.5':
     dependencies:
       '@popperjs/core': 2.11.8
       '@stencil/core': 4.38.3
