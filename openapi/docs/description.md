@@ -260,58 +260,69 @@ Use these card numbers to test successful transactions as well as various error 
   <tr>
     <th style="width: 200px">Number</th>
     <th>Description</th>
+    <th>Tokenization Fails</th>
   </tr>
   <tr>
     <td><code>4000000000000101</code></td>
     <td>
       If a CVC number is provided, the cvc_check fails.
     </td>
+    <td>false</td>
   </tr>
   <tr>
     <td><code>4000000000000341</code></td>
     <td>
       Tokenizing this card succeeds, but attempts to make a payment fail.
     </td>
+    <td>false</td>
   </tr>
   <tr>
     <td><code>4000000000000002</code></td>
     <td>Payment is declined with a card_declined code.</td>
+    <td>false</td>
   </tr>
   <tr>
     <td><code>4000000000009995</code></td>
     <td>
       Payment is declined with a card_declined code. The decline_code attribute is insufficient_funds.
     </td>
+    <td>false</td>
   </tr>
   <tr>
     <td><code>4000000000009987</code></td>
     <td>
       Payment is declined with a card_declined code. The decline_code attribute is lost_card.
     </td>
+    <td>false</td>
   </tr>
   <tr>
     <td><code>4000000000009979</code></td>
     <td>
       Payment is declined with a card_declined code. The decline_code attribute is stolen_card.
     </td>
+    <td>false</td>
   </tr>
   <tr>
     <td><code>4000000000000069</code></td>
     <td>Payment is declined with an expired_card code.</td>
+    <td>false</td>
   </tr>
   <tr>
     <td><code>4000000000000127</code></td>
     <td>Payment is declined with an invalid_cvc code.</td>
+    <td>false</td>
   </tr>
   <tr>
     <td><code>4000000000000119</code></td>
     <td>Payment is declined with a gateway_error code.</td>
+    <td>false</td>
   </tr>
   <tr>
     <td><code>4242424242424241</code></td>
     <td>
       Payment is declined with an card_number_invalid code as the card number fails the Luhn check.
     </td>
+    <td>true</td>
   </tr>
 </table>
 
