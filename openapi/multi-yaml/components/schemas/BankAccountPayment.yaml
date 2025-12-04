@@ -93,6 +93,21 @@ properties:
     type: string
     description: unique id of application fee rate applied to this payment, if any
     example: afr_123xyz
+  fees:
+    type: array
+    description: |
+      Array of fee objects showing the fees charged on this payment with their remaining refundable amounts.
+      Present when fees were specified using the `fees` array in the payment request.
+      See [Enhanced Fee Management](https://docs.justifi.tech/api-spec#section/Enhanced-Fee-Management) for full documentation.
+    items:
+      $ref: ./FeeResponse.yaml
+    example:
+      - type: processing_fee
+        amount: 50
+        remaining_amount: 50
+      - type: platform_fee
+        amount: 150
+        remaining_amount: 150
   refunded:
     type: boolean
     description: whether or not this payment has any refunds
