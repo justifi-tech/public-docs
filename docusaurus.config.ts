@@ -107,13 +107,13 @@ const config: Config = {
           label: 'API Specification',
           position: 'left',
         },
-        {
-          type: 'doc',
-          docsPluginId: 'web-components',
-          docId: 'introduction/index',
-          label: 'Web Components',
-          position: 'left',
-        },
+        // {
+        //   type: 'doc',
+        //   docsPluginId: 'web-components',
+        //   docId: 'introduction/index',
+        //   label: 'Web Components',
+        //   position: 'left',
+        // },
         {
           href: 'https://github.com/justifi-tech/web-component-library/blob/main/packages/webcomponents/CHANGELOG.md',
           label: 'Changelog',
