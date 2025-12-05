@@ -1,0 +1,9 @@
+in: query
+name: void_id
+schema:
+  type: string
+required: false
+example: "vo_123xyz"
+description: |
+  filter records which are associated with a void.
+
