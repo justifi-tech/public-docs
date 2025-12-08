@@ -31,6 +31,18 @@ properties:
         description: buy now pay later feature enabled
         type: boolean
         example: false
+      apple_payments:
+        description: apple payments feature enabled
+        type: boolean
+        example: false
+      google_payments:
+        description: google payments feature enabled
+        type: boolean
+        example: false
+      bank_account_verification:
+        description: bank account verification feature enabled
+        type: boolean
+        example: false
       insurance_payments:
         description: insurance feature enabled
         type: boolean
