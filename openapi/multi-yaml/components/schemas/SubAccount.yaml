@@ -16,7 +16,16 @@ properties:
   status:
     description: sub account status
     type: string
-    enum: [created, submitted, information_needed, rejected, enabled, disabled, archived]
+    enum:
+      [
+        created,
+        submitted,
+        information_needed,
+        rejected,
+        enabled,
+        disabled,
+        archived,
+      ]
     example: enabled
   currency:
     type: string
@@ -62,11 +71,17 @@ properties:
         format: uuid
         description: test sub account id
         example: acc_xyz
+  payments_activated_on:
+    description: date and time when the first successful payment was processed on this sub account
+    type: string
+    format: date-time
+    nullable: true
+    example: "2021-01-15T12:00:00Z"
   created_at:
     type: string
     format: date-time
-    example: '2021-01-01T12:00:00Z'
+    example: "2021-01-01T12:00:00Z"
   updated_at:
     type: string
     format: date-time
-    example: '2021-01-01T12:00:00Z'
+    example: "2021-01-01T12:00:00Z"
