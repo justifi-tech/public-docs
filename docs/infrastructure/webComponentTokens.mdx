@@ -11,19 +11,19 @@ Due to the inherent risk of front end authorization, we have a fine-grained acce
 
 ### Roles need for each component
 
-| Component              | Pre-Requisite        | Role                                                        |
-| ---------------------- | -------------------- | ----------------------------------------------------------- |
-| BusinessDetails        | Existing Business Id | read:business:`business_id` or write:business:`business_id` |
-| BusinessForm           | Existing Business Id | write:business:`business_id`                                |
-| BusinessFormStepped    | Existing Business Id | write:business:`business_id`                                |
-| GrossPaymentChart      | Existing Sub Account | read:account:`account_id` or write:account:`id`             |
-| PaymentDetails         | Existing Sub Account | read:account:`account_id` or write:account:`id`             |
-| PaymentList            | Existing Sub Account | read:account:`account_id` or write:account:`id`             |
-| PayoutDetails          | Existing Sub Account | read:account:`account_id` or write:account:`id`             |
-| PayoutList             | Existing Sub Account | read:account:`account_id` or write:account:`id`             |
-| Checkout               | Checkout created     | write:checkout:`checkout_id`                                |
-| CardForm               | Existing Sub Account | write:tokenize:`account_id`                                 |
-| BankAccountForm        | Existing Sub Account | write:tokenize:`account_id`                                 |
+| Component           | Pre-Requisite        | Role                                                        |
+| ------------------- | -------------------- | ----------------------------------------------------------- |
+| BusinessDetails     | Existing Business Id | read:business:`business_id` or write:business:`business_id` |
+| BusinessForm        | Existing Business Id | write:business:`business_id`                                |
+| BusinessFormStepped | Existing Business Id | write:business:`business_id`                                |
+| GrossPaymentChart   | Existing Sub Account | read:account:`account_id` or write:account:`id`             |
+| PaymentDetails      | Existing Sub Account | read:account:`account_id` or write:account:`id`             |
+| PaymentList         | Existing Sub Account | read:account:`account_id` or write:account:`id`             |
+| PayoutDetails       | Existing Sub Account | read:account:`account_id` or write:account:`id`             |
+| PayoutList          | Existing Sub Account | read:account:`account_id` or write:account:`id`             |
+| Checkout            | Checkout created     | write:checkout:`checkout_id`                                |
+| CardForm            | Existing Sub Account | write:tokenize:`account_id`                                 |
+| BankAccountForm     | Existing Sub Account | write:tokenize:`account_id`                                 |
 
 ## General Usage
 
@@ -49,7 +49,7 @@ ACCESS_TOKEN_RESPONSE=$(curl -sS --request POST \
 )
 ```
 
-2. Get the access\_token and print to the console
+2. Get the access_token and print to the console
 
 ```bash
 ACCESS_TOKEN=$(echo $ACCESS_TOKEN_RESPONSE | jq -r '.access_token')
@@ -68,14 +68,14 @@ PAYMENT_LIST=$(curl -sS --request GET \
 )
 ```
 
-4. Get the first payment\_id from payment list (= latest payment) and print to the console
+4. Get the first payment_id from payment list (= latest payment) and print to the console
 
 ```bash
 PAYMENT_ID=$(echo ${PAYMENT_LIST} | jq -r '.data[0].id')
 echo "Payment ID: ${PAYMENT_ID}"
 ```
 
-5. Generate Web Component Token [API](https://docs.justifi.tech/api-spec#tag/Web-Component-Tokens) (*note: replace acc\_abc1234 with the account id from step 3*)
+5. Generate Web Component Token [API](https://docs.justifi.tech/api-spec#tag/Web-Component-Tokens) (_note: replace acc_abc1234 with the account id from step 3_)
 
 ```bash
 WC_TOKEN_RESPONSE=$(curl -sS --request POST \
@@ -86,16 +86,16 @@ WC_TOKEN_RESPONSE=$(curl -sS --request POST \
 )
 ```
 
-6. Get the web\_component\_token and print to the console (*note: this token is good for 60 minutes*)
+6. Get the web*component_token and print to the console (\_note: this token is good for 60 minutes*)
 
 ```bash
 WEB_COMPONENT_TOKEN=$(echo $WC_TOKEN_RESPONSE | jq -r '.access_token')
 echo "Web Component Token: ${WEB_COMPONENT_TOKEN}"
 ```
 
-#### Front end code: payment\_details.html
+#### Front end code: payment_details.html
 
-_note: replace WEB\_COMPONENT\_TOKEN and PAYMENT\_ID with the values from the terminal script above_
+_note: replace WEB_COMPONENT_TOKEN and PAYMENT_ID with the values from the terminal script above_
 
 ```html
 <!doctype html>
@@ -135,13 +135,13 @@ _note: if you have python3 installed, you can run the following command on the f
 python3 -m http.server
 ```
 
-Open the file OR go to [http://localhost:8000/payment_details.html](http://localhost:8000/payment_details.html), you should see the [payment details web component](/web-components/merchant-tools/payout-details/index):
+Open the file OR go to [http://localhost:8000/payment_details.html](http://localhost:8000/payment_details.html), you should see the [payment details web component](/web-components/merchant-tools/payout-details):
 
 ![PaymentDetails](../../static/img/wc_payment_details.png)
 
-#### Front end code: payment\_list.html
+#### Front end code: payment_list.html
 
-_note: replace WEB\_COMPONENT\_TOKEN and ACCOUNT\_ID with the values from the terminal script above_
+_note: replace WEB_COMPONENT_TOKEN and ACCOUNT_ID with the values from the terminal script above_
 
 ```html
 <!doctype html>
@@ -169,7 +169,7 @@ _note: replace WEB\_COMPONENT\_TOKEN and ACCOUNT\_ID with the values from the te
     >
     </justifi-payments-list>
     <script>
-      window.addEventListener("payment-row-clicked", (event) => {
+      window.addEventListener('payment-row-clicked', (event) => {
         // event.detail contains all the necessary information to call an endpoint to get more details on this entity
         const entityID = event.detail.id;
         alert(`You clicked on ${entityID}`);
@@ -179,13 +179,13 @@ _note: replace WEB\_COMPONENT\_TOKEN and ACCOUNT\_ID with the values from the te
 </html>
 ```
 
-Open the file or go to [http://localhost:8000/payment_list.html](http://localhost:8000/payment_list.html), you should see the [payment list web component](/web-components/merchant-tools/payments-list/index):
+Open the file or go to [http://localhost:8000/payment_list.html](http://localhost:8000/payment_list.html), you should see the [payment list web component](/web-components/merchant-tools/payments-list):
 
 ![PaymentList](../../static/img/wc_payment_list.png)
 
 ### Create a business and render the Payment Provisioning component
 
-The following steps shows how to create a business entity, generate a web component token, and render the [PaymentProvisioning web component](/web-components/entities/payment-provisioning/index):
+The following steps shows how to create a business entity, generate a web component token, and render the [PaymentProvisioning web component](/web-components/entities/payment-provisioning):
 
 1. Generate Access Token [API](https://docs.justifi.tech/api-spec#tag/API-Credentials/operation/CreateAccessToken)
 
@@ -195,7 +195,7 @@ ACCESS_TOKEN_RESPONSE=$(curl -sS --request POST \
   --header 'Content-Type: application/json' \
   --data '{
     "client_id":"test_abc1234",
-    "client_secret":"test_xyz9876" 
+    "client_secret":"test_xyz9876"
   }'
 )
 ```
@@ -215,19 +215,19 @@ BUSINESS_RESPONSE=$(curl -sS --request POST \
   --header 'Authorization: Bearer '${ACCESS_TOKEN}'' \
   --header 'Content-Type: application/json' \
   --data '{
-	  "legal_name": "USS Enterprise" 
+	  "legal_name": "USS Enterprise"
   }'
 )
 ```
 
-4. Get the business\_id from the resopnse and print to the console
+4. Get the business_id from the resopnse and print to the console
 
 ```bash
 BUSINESS_ID=$(echo ${BUSINESS_RESPONSE} | jq -r '.id')
 echo "Business ID: ${BUSINESS_ID}"
 ```
 
-5. Generate Web Component Token [API](https://docs.justifi.tech/api-spec#tag/Web-Component-Tokens) (*note: replace biz\_abc1234 with the business id from step 4 above*)
+5. Generate Web Component Token [API](https://docs.justifi.tech/api-spec#tag/Web-Component-Tokens) (_note: replace biz_abc1234 with the business id from step 4 above_)
 
 ```bash
 WC_TOKEN_RESPONSE=$(curl -sS --request POST \
@@ -238,7 +238,7 @@ WC_TOKEN_RESPONSE=$(curl -sS --request POST \
 )
 ```
 
-6. Get the web\_component\_token from the response and print to the console
+6. Get the web_component_token from the response and print to the console
 
 ```bash
 WEB_COMPONENT_TOKEN=$(echo $WC_TOKEN_RESPONSE | jq -r '.access_token')
@@ -247,7 +247,7 @@ echo "Web Component Token: ${WEB_COMPONENT_TOKEN}"
 
 #### Front end code: payment_provisioning.html
 
-_note: replace WEB\_COMPONENT\_TOKEN and BUSINESS\_ID with the values from the terminal script above_
+_note: replace WEB_COMPONENT_TOKEN and BUSINESS_ID with the values from the terminal script above_
 
 ```html
 <!doctype html>
