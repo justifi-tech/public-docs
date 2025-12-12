@@ -25,7 +25,7 @@ As soon as JustiFi has created the dispute:
 
 During the response phase, you can:
 
-- **Upload Evidence**: Add supporting documents via the create [dispute evidence API](https://docs.justifi.tech/api-spec#tag/Disputes/operation/GetDispute) or via [Dispute Management web component](/web-components/payment-facilitation/dispute-management/index)
+- **Upload Evidence**: Add supporting documents via the create [dispute evidence API](https://docs.justifi.tech/api-spec#tag/Disputes/operation/GetDispute) or via [Dispute Management web component](/web-components/payment-facilitation/dispute-management)
 - **Update Response Fields**: Fill in detailed information about the transaction
 
 ### Response Fields
@@ -33,48 +33,53 @@ During the response phase, you can:
 Provide comprehensive information across these categories:
 
 #### Customer Information
+
 - `customer_name` - Full customer name
 - `customer_email_address` - Customer email
 - `customer_billing_address` - Billing address
 - `customer_purchase_ip_address` - IP address at purchase time
 
 #### Transaction Details
+
 - `product_description` - Detailed product/service description
 - `service_date` - Date service was provided
 - `duplicate_charge_original_payment_id` - Reference for duplicate charges
 - `duplicate_charge_explanation` - Explanation for duplicate charges
 
 #### Shipping Information
+
 - `shipping_address` - Delivery address
 - `shipping_carrier` - Shipping company
 - `shipping_date` - Ship date
 - `shipping_tracking_number` - Tracking number
 
 #### Policy Information
+
 - `refund_policy_disclosure` - Refund policy terms
 - `cancellation_policy_disclosure` - Cancellation policy terms
 - `refund_refusal_explanation` - Why refund was refused
 - `cancellation_rebuttal` - Response to cancellation claims
 
 #### Additional Context
+
 - `additional_statement` - Free-form additional information
 
 ## Evidence Management
 
 ### Evidence Categories
 
-| Category | Best Used For |
-|----------|---------------|
-| `receipt` | Purchase confirmations, invoices |
-| `shipping_documentation` | Delivery proof, tracking info |
-| `customer_communication` | Email exchanges, support tickets |
-| `customer_signature` | Signed delivery receipts |
-| `refund_policy` | Terms of service, policies |
-| `cancellation_policy` | Cancellation terms |
-| `service_documentation` | Proof of service delivery |
-| `duplicate_charge_documentation` | Duplicate charge evidence |
-| `activity_log` | System logs, usage data |
-| `uncategorized_file` | Other supporting documents |
+| Category                         | Best Used For                    |
+| -------------------------------- | -------------------------------- |
+| `receipt`                        | Purchase confirmations, invoices |
+| `shipping_documentation`         | Delivery proof, tracking info    |
+| `customer_communication`         | Email exchanges, support tickets |
+| `customer_signature`             | Signed delivery receipts         |
+| `refund_policy`                  | Terms of service, policies       |
+| `cancellation_policy`            | Cancellation terms               |
+| `service_documentation`          | Proof of service delivery        |
+| `duplicate_charge_documentation` | Duplicate charge evidence        |
+| `activity_log`                   | System logs, usage data          |
+| `uncategorized_file`             | Other supporting documents       |
 
 ### File Requirements
 
@@ -93,7 +98,7 @@ If you choose not to contest the dispute either use the [submit dispute response
 }
 ```
 
-Or instead forfeit the dispute via [Dispute Management web component](/web-components/payment-facilitation/dispute-management/index).
+Or instead forfeit the dispute via [Dispute Management web component](/web-components/payment-facilitation/dispute-management).
 
 This immediately transitions the dispute to `lost` status.
 
@@ -102,10 +107,12 @@ This immediately transitions the dispute to `lost` status.
 ### Possible Outcomes
 
 #### Won (`won` status)
+
 - **Funds Returned**: Disputed amount returned to your merchant's account.
 - **Notification**: `payment.dispute.closed` webhook event
 
 #### Lost (`lost` status)
+
 - **Funds Retained**: No funds are moved.
 - **Notification**: `payment.dispute.closed` webhook event
 

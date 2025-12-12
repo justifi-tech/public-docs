@@ -35,8 +35,8 @@ This will create a successful payment with an associated dispute.
 1. **Payment Creation**: A payment with `dispute_test_spec` key inside metadata
 2. **Dispute Creation**: System creates dispute with `needs_response` status
 3. **Response Building**: Test evidence upload and response field updates
-5. **Resolution**: Dispute resolves based on your `expected_result` configuration after `event_publish_delay_in_seconds` seconds
-6. **Webhook Events**: Receive all lifecycle events for testing
+4. **Resolution**: Dispute resolves based on your `expected_result` configuration after `event_publish_delay_in_seconds` seconds
+5. **Webhook Events**: Receive all lifecycle events for testing
 
 ## Configuration Options
 
@@ -68,15 +68,15 @@ The following options are available to customize the dispute details and outcome
 
 ## Testing Evidence Upload
 
-To upload evidence for the dispute you can either use the [Dispute Management web component](/web-components/payment-facilitation/dispute-management/index) or the [create dispute evidence API](https://docs.justifi.tech/api-spec#tag/Disputes/operation/UpdateDispute) and submit [Dispute Response API](https://docs.justifi.tech/api-spec#tag/Disputes/operation/UpdateDisputeResponse)
+To upload evidence for the dispute you can either use the [Dispute Management web component](/web-components/payment-facilitation/dispute-management) or the [create dispute evidence API](https://docs.justifi.tech/api-spec#tag/Disputes/operation/UpdateDispute) and submit [Dispute Response API](https://docs.justifi.tech/api-spec#tag/Disputes/operation/UpdateDisputeResponse)
 
 ### Supported File Types
 
-| File Type | Extensions | MIME Types |
-|-----------|------------|------------|
-| Images | `.jpg`, `.jpeg`, `.png` | `image/jpeg`, `image/png` |
-| Documents | `.pdf` | `application/pdf` |
-| Archives | `.zip` | `application/zip`, `application/x-zip-compressed` |
+| File Type | Extensions              | MIME Types                                        |
+| --------- | ----------------------- | ------------------------------------------------- |
+| Images    | `.jpg`, `.jpeg`, `.png` | `image/jpeg`, `image/png`                         |
+| Documents | `.pdf`                  | `application/pdf`                                 |
+| Archives  | `.zip`                  | `application/zip`, `application/x-zip-compressed` |
 
 ### Evidence Categories
 
@@ -124,7 +124,7 @@ If you choose not to contest the dispute either use the [submit dispute response
 }
 ```
 
-Or instead forfeit the dispute via [Dispute Management web component](/web-components/payment-facilitation/dispute-management/index).
+Or instead forfeit the dispute via [Dispute Management web component](/web-components/payment-facilitation/dispute-management).
 
 This immediately transitions the dispute to `lost` status.
 
@@ -133,8 +133,8 @@ This immediately transitions the dispute to `lost` status.
 Test each status transition:
 
 1. **`needs_response`** - Initial status after dispute creation
-3. **`under_review`** - Automatic after response submission
-4. **`won`** or **`lost`** - Based on `expected_result` configuration
+2. **`under_review`** - Automatic after response submission
+3. **`won`** or **`lost`** - Based on `expected_result` configuration
 
 ## Webhook Testing
 

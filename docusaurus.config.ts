@@ -81,7 +81,13 @@ const config: Config = {
         sidebarPath: require.resolve('./sidebars.web-components.js'),
         includeCurrentVersion: true,
         // Exclude templates and internal helper files from being parsed as docs
-        exclude: ['**/templates/**', '**/scripts/**', '**/*.ts', '**/*.tsx'],
+        exclude: [
+          '**/templates/**',
+          '**/scripts/**',
+          '**/*.ts',
+          '**/*.tsx',
+          '**/node_modules/**',
+        ],
       },
     ],
   ],
@@ -110,7 +116,7 @@ const config: Config = {
         {
           type: 'doc',
           docsPluginId: 'web-components',
-          docId: 'introduction/index',
+          docId: 'introduction',
           label: 'Web Components',
           position: 'left',
         },
