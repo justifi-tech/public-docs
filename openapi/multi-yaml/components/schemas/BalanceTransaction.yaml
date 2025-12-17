@@ -51,6 +51,11 @@ properties:
     description: type of source object associated with the balance transaction (for example payment, refund, dispute, payout)
     type: string
     example: payment
+  source_payment_id:
+    description: id of the payment associated with the source of the balance transaction
+    type: string
+    nullable: true
+    example: py_xyz
   txn_type:
     description: type of transaction object associated with the balance transaction
     type: string
