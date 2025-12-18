@@ -369,6 +369,64 @@ tags:
       To download a report, you can use the `download_url` provided in the response when retrieving a report. We use presigned URLs to allow you to download the report directly
       from our S3 bucket.
 
+      ## Report Types
+
+      ### Payout Report
+      Contains balance transaction data for payouts.
+
+      | Column | Description |
+      | ------ | ----------- |
+      | id | Balance transaction ID |
+      | type | Transaction type |
+      | currency | Currency |
+      | amount | Amount in cents |
+      | fee | Fee amount in cents |
+      | net | Net amount in cents |
+      | source_id | Source object ID |
+      | source_account_id | Source account ID |
+      | source_type | Source object type |
+      | source_amount | Source amount in cents |
+      | available_on | When funds become available |
+      | payment_id | Associated payment ID |
+      | created_at | Creation timestamp |
+      | payment_method_name | Payment method name |
+      | source_payment_id | Payment ID associated with the source |
+      | payout_id | Associated payout ID |
+      | payout_created_at | Payout creation timestamp |
+      | payout_deposits_at | Expected payout deposit date |
+
+      ### Proceeds Report
+      Contains platform proceeds data.
+
+      | Column | Description |
+      | ------ | ----------- |
+      | id | Balance transaction ID |
+      | type | Transaction type |
+      | currency | Currency code |
+      | amount | Amount in cents |
+      | fee | Fee amount in cents |
+      | net | Net amount in cents |
+      | source_id | Source object ID |
+      | source_account_id | Source account ID |
+      | source_type | Source object type |
+      | source_amount | Source amount in cents |
+      | application_fee_amount | Application fee in cents |
+      | platform_fee_amount | Platform fee in cents |
+      | proceeds | Calculated proceeds in cents |
+      | available_on | When funds become available |
+      | created_at | Creation timestamp |
+      | fee_major_category | Fee major category |
+      | fee_minor_category | Fee minor category |
+      | fee_description | Fee description |
+      | fee_product_code | Fee product code |
+      | fee_batch_date | Fee batch date |
+      | payment_method_type | Payment method type |
+      | payment_method_brand | Payment method brand |
+      | source_payment_id | Payment ID associated with the source |
+      | payout_id | Associated payout ID |
+      | payout_created_at | Payout creation timestamp |
+      | payout_deposits_at | Expected payout deposit date |
+
 x-tagGroups:
   - name: Authorization
     tags:
