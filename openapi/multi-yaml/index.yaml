@@ -388,9 +388,9 @@ tags:
       | source_amount | Source amount in cents |
       | available_on | When funds become available |
       | payment_id | Associated payment ID |
-      | source_payment_id | Payment ID associated with the source |
       | created_at | Creation timestamp |
       | payment_method_name | Payment method name |
+      | source_payment_id | Payment ID associated with the source |
       | payout_id | Associated payout ID |
       | payout_created_at | Payout creation timestamp |
       | payout_deposits_at | Expected payout deposit date |
@@ -422,6 +422,7 @@ tags:
       | fee_batch_date | Fee batch date |
       | payment_method_type | Payment method type |
       | payment_method_brand | Payment method brand |
+      | source_payment_id | Payment ID associated with the source |
       | payout_id | Associated payout ID |
       | payout_created_at | Payout creation timestamp |
       | payout_deposits_at | Expected payout deposit date |
