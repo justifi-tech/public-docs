@@ -30,18 +30,18 @@ _note: New features will be documented here as they become available._
 
 - To include an insurance quote in a Checkout, first contact [customer_success@justifi.tech](mailto:customer_success@justifi.tech)
   to enable insurance payments for your platform. Ensure the required insurance type is available through our provider.
-- After creating a Checkout, use the [Unified Fintech Checkout™ Component with insurance](/web-components/payment-facilitation/unified-fintech-checkout%E2%84%A2/index)
+- After creating a Checkout, use the [Unified Fintech Checkout™ Component with insurance](/web-components/payment-facilitation/unified-fintech-checkout%E2%84%A2)
   to collect the insurance payment.
 
 ### BNPL Payments
 
 - To enable BNPL payments, contact [customer_success@justifi.tech](mailto:customer_success@justifi.tech)
   to activate BNPL for your platform and sub account.
-- After creating a Checkout, use the [Unified Fintech Checkout™ Component](/web-components/payment-facilitation/unified-fintech-checkout%E2%84%A2/index)
+- After creating a Checkout, use the [Unified Fintech Checkout™ Component](/web-components/payment-facilitation/unified-fintech-checkout%E2%84%A2)
   with the BNPL option (default).
 
 _note: Disable the BNPL option by passing the correspondent prop to the web component:
-[disable-bnpl](/web-components/payment-facilitation/unified-fintech-checkout%E2%84%A2/index)_
+[disable-bnpl](/web-components/payment-facilitation/unified-fintech-checkout%E2%84%A2)_
 
 ### Terminal (Card Reader) Payments
 
@@ -56,20 +56,20 @@ _note: Disable the BNPL option by passing the correspondent prop to the web comp
   when creating a checkout.
 
 - **Create a Checkout:** Use the [Create Checkout API](https://docs.justifi.tech/api-spec#tag/Checkouts)
-   with custom application fees (in cents) for card and bank payments, as in the following example:
+  with custom application fees (in cents) for card and bank payments, as in the following example:
 
 ```json
 {
-   "amount": 1000,
-   "description": "test checkout application fees",
-   "application_fees": {
-      "card": {
-         "amount": "200"
-      },
-      "bank_account": {
-         "amount": "100"
-      }
-   }
+  "amount": 1000,
+  "description": "test checkout application fees",
+  "application_fees": {
+    "card": {
+      "amount": "200"
+    },
+    "bank_account": {
+      "amount": "100"
+    }
+  }
 }
 ```
 
@@ -83,7 +83,6 @@ _note: Disable the BNPL option by passing the correspondent prop to the web comp
   to create a group for easy payment method access.
 - **Create a Checkout:** Use the [Create Checkout API](https://docs.justifi.tech/api-spec#tag/Checkouts/operation/CreateCheckout)
   and pass the `payment_method_group_id`.
-- **Checkout Web Component:** Use the [Unified Fintech Checkout™ Component](/web-components/payment-facilitation/unified-fintech-checkout%E2%84%A2/index)
+- **Checkout Web Component:** Use the [Unified Fintech Checkout™ Component](/web-components/payment-facilitation/unified-fintech-checkout%E2%84%A2)
   and pass the checkout id. This allows the component to display a list of tokenized payment methods
   in the group, and an option to **Save new payment method** is also available.
-

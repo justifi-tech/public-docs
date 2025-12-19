@@ -18,7 +18,7 @@ importers:
         specifier: ^3.9.2
         version: 3.9.2(@algolia/client-search@5.46.0)(@mdx-js/react@3.1.0(@types/react@19.0.10)(react@18.3.1))(@types/react@19.0.10)(acorn@8.14.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(search-insights@2.17.3)(typescript@5.2.2)
       '@justifi/webcomponents':
-        specifier: ^6.7.2
+        specifier: 6.7.2
         version: 6.7.2
       '@mdx-js/react':
         specifier: ^3.0.0
@@ -1461,8 +1461,8 @@ packages:
     engines: {node: '>=16.0.0', npm: '>=7.10.0'}
     hasBin: true
 
-  '@stencil/store@2.2.1':
-    resolution: {integrity: sha512-RvshZ90bqNXaFG8/F1jhCZpmqQI0CK3P4Vkw6mtg5Cavl59JiBtqXBCocjc7uUhWd3/sq16gB8hMIPu4VWlwKw==}
+  '@stencil/store@2.2.2':
+    resolution: {integrity: sha512-6BxJblhIkSxflEft8eayYwEApTmsIaGeXsRDLI1AAM2BPPFPfrcsG1fBOcA61oMBaXmCGKt0AGTLbxSHnYazxQ==}
     engines: {node: '>=18.0.0', npm: '>=6.0.0'}
     peerDependencies:
       '@stencil/core': '>=2.0.0 || >=3.0.0 || >= 4.0.0-beta.0 || >= 4.0.0'
@@ -8186,7 +8186,7 @@ snapshots:
     dependencies:
       '@popperjs/core': 2.11.8
       '@stencil/core': 4.39.0
-      '@stencil/store': 2.2.1(@stencil/core@4.39.0)
+      '@stencil/store': 2.2.2(@stencil/core@4.39.0)
       bootstrap: 5.3.8(@popperjs/core@2.11.8)
       chart.js: 4.5.1
       date-fns: 4.1.0
@@ -8359,7 +8359,7 @@ snapshots:
       '@rollup/rollup-win32-arm64-msvc': 4.34.9
       '@rollup/rollup-win32-x64-msvc': 4.34.9
 
-  '@stencil/store@2.2.1(@stencil/core@4.39.0)':
+  '@stencil/store@2.2.2(@stencil/core@4.39.0)':
     dependencies:
       '@stencil/core': 4.39.0
 
