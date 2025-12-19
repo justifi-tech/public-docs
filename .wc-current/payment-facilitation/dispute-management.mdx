@@ -1,0 +1,51 @@
+---
+id: dispute-management
+title: Dispute Management
+description: Operator console for reviewing and responding to card disputes.
+sidebar_position: 34
+---
+
+import {
+  PropsMarkdownTable,
+  PartsMarkdownTable,
+  getPropsFromDocs,
+  getComponentParts,
+} from '../helpers';
+import docsJson from '../docs.json';
+import componentTreeJson from '../component-tree.json';
+
+## Overview
+
+Component to render notification of disputed payments and allow platform to respond to dispute via form submission.
+
+## Usage
+
+<pre>
+  <code className="language-html">{`<justifi-dispute-management
+  account-id="acc_123"
+  auth-token="wct_disputes"
+  dispute-id="dp_456"
+/>`}</code>
+</pre>
+
+## Props, Events & Methods
+
+<PropsMarkdownTable
+  props={getPropsFromDocs('justifi-dispute-management', docsJson)}
+/>
+
+### Events
+
+- `evidence-uploaded`: Fires when users add files or notes.
+- `status-changed`: Indicates dispute submission or withdrawal.
+- `error-event`: Captures upload or API issues.
+
+### Public methods
+
+1. `refresh()` – Reload in-progress disputes to reflect new deadlines or statuses.
+
+## Theming & Layout
+
+<PartsMarkdownTable
+  parts={getComponentParts('justifi-dispute-management', componentTreeJson)}
+/>

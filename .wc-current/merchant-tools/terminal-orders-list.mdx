@@ -1,0 +1,48 @@
+---
+id: terminal-orders-list
+title: Terminal Orders List
+description: Reporting table of hardware orders with fulfillment status and tracking info.
+sidebar_position: 51
+---
+
+import {
+  PropsMarkdownTable,
+  PartsMarkdownTable,
+  getPropsFromDocs,
+  getComponentParts,
+} from '../helpers';
+import docsJson from '../docs.json';
+import componentTreeJson from '../component-tree.json';
+
+## Overview
+
+Component to render a formated list of terminal device orders for the requested account.
+
+## Usage
+
+<pre>
+  <code className="language-html">{`<justifi-terminal-orders-list
+  account-id="acc_123"
+  auth-token="wct_terminals"
+/>`}</code>
+</pre>
+
+## Props, Events & Methods
+
+<PropsMarkdownTable
+  props={getPropsFromDocs('justifi-terminal-orders-list', docsJson)}
+/>
+
+### Events
+
+- `click-event`: Surfaces the order ID for navigation.
+
+### Public methods
+
+1. `refresh()` – Reload order data.
+
+## Theming & Layout
+
+<PartsMarkdownTable
+  parts={getComponentParts('justifi-terminal-orders-list', componentTreeJson)}
+/>
