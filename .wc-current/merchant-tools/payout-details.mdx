@@ -1,0 +1,49 @@
+---
+id: payout-details
+title: Payout Details
+description: Drill-down view for a single payout, including ledger items and bank destination info.
+sidebar_position: 41
+---
+
+import {
+  PropsMarkdownTable,
+  PartsMarkdownTable,
+  getPropsFromDocs,
+  getComponentParts,
+} from '../helpers';
+import docsJson from '../docs.json';
+import componentTreeJson from '../component-tree.json';
+
+## Overview
+
+Component to display detailed information about a specific payout.
+
+## Usage
+
+<pre>
+  <code className="language-html">{`<justifi-payout-details
+  account-id="acc_123"
+  auth-token="wct_reporting"
+  payout-id="po_456"
+/>`}</code>
+</pre>
+
+## Props, Events & Methods
+
+<PropsMarkdownTable
+  props={getPropsFromDocs('justifi-payout-details', docsJson)}
+/>
+
+### Events
+
+- `error-event`: Emits when payout data cannot be loaded.
+
+### Public methods
+
+1. `refresh()` – Reload payout data after remediation steps.
+
+## Theming & Layout
+
+<PartsMarkdownTable
+  parts={getComponentParts('justifi-payout-details', componentTreeJson)}
+/>

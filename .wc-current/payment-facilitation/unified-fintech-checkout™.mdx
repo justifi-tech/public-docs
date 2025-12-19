@@ -1,0 +1,51 @@
+---
+id: unified-fintech-checkout™
+title: Unified Fintech Checkout™
+description: Unified Fintech Checkout™ component that orchestrates payment capture, verification, and confirmation states.
+sidebar_position: 20
+---
+
+import {
+  PropsMarkdownTable,
+  PartsMarkdownTable,
+  getComponentParts,
+  getPropsFromDocs,
+} from '../helpers';
+import componentTreeJson from '../component-tree.json';
+import docsJson from '../docs.json';
+
+## Overview
+
+`<justifi-checkout>` renders a complete checkout experience: payment method entry, order summary, error handling, and confirmation states. Use it when you want a turnkey experience without composing Modular Checkout subcomponents manually.
+
+## Usage
+
+<pre>
+  <code className="language-html">{`<justifi-checkout
+  account-id="acc_123"
+  auth-token="wct_checkout"
+  checkout-id="chk_456"
+  locale="en-US"
+/>`}</code>
+</pre>
+
+## Props, Events & Methods
+
+<PropsMarkdownTable props={getPropsFromDocs('justifi-checkout', docsJson)} />
+
+### Events
+
+- `completed`: Emits when payment succeeds; payload includes `checkout_id`, `payment_method_token`, and receipt data.
+- `error`: Fires if payment processing fails; includes error codes for analytics.
+- `step-changed`: Useful when you pipe analytics or breadcrumbs for multi-step flows.
+
+### Public methods
+
+1. `submit()` – Programmatically trigger the pay button (helpful if you hide the built-in CTA).
+2. `reset(checkoutId)` – Reload a different checkout session without re-mounting the component.
+
+## Theming & Layout
+
+<PartsMarkdownTable
+  parts={getComponentParts('justifi-checkout', componentTreeJson)}
+/>
