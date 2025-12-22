@@ -5,6 +5,7 @@ package-lock.json
 
 # Generated files
 .docusaurus
+
 # Misc
 .DS_Store
 .cache-loader
@@ -52,6 +53,7 @@ build/Release
 # Dependency directories
 node_modules/
 jspm_packages/
+.wc-current/node_modules/
 
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/
