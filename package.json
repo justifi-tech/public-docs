@@ -57,10 +57,5 @@
   "engines": {
     "node": ">=18.0"
   },
-  "packageManager": "pnpm@10.6.2+sha512.47870716bea1572b53df34ad8647b42962bc790ce2bf4562ba0f643237d7302a3d6a8ecef9e4bdfc01d23af1969aa90485d4cebb0b9638fa5ef1daef656f6c1b",
-  "pnpm": {
-    "overrides": {
-      "@justifi/webcomponents": "link:../../Library/pnpm/global/5/node_modules/@justifi/webcomponents"
-    }
-  }
+  "packageManager": "pnpm@10.6.2+sha512.47870716bea1572b53df34ad8647b42962bc790ce2bf4562ba0f643237d7302a3d6a8ecef9e4bdfc01d23af1969aa90485d4cebb0b9638fa5ef1daef656f6c1b"
 }
