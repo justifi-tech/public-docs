@@ -10,7 +10,7 @@
     "lint": "eslint --ext .md,.mdx --config .eslintrc.cjs ."
   },
   "dependencies": {
-    "@justifi/webcomponents": "^6.7.2",
+    "@justifi/webcomponents": "6.7.3",
     "markdown-table": "^3.0.4",
     "miragejs": "^0.1.48",
     "react-markdown": "^10.1.0",

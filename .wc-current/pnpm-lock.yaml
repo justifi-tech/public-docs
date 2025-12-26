@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@justifi/webcomponents':
-        specifier: ^6.7.2
-        version: 6.7.2
+        specifier: 6.7.3
+        version: 6.7.3
       markdown-table:
         specifier: ^3.0.4
         version: 3.0.4
@@ -118,8 +118,8 @@ packages:
     resolution: {integrity: sha512-O8jcjabXaleOG9DQ0+ARXWZBTfnP4WNAqzuiJK7ll44AmxGKv/J2M4TPjxjY3znBCfvBXFzucm1twdyFybFqEA==}
     engines: {node: '>=12'}
 
-  '@justifi/webcomponents@6.7.2':
-    resolution: {integrity: sha512-irhGGnjbYZCEt8zkIZZAcSl5YiDosfyOY2cu/8xsSxnrpS/m0+oX6TbTAtL+7mog8+IYZ0O1rGHOk/4JA18gTA==}
+  '@justifi/webcomponents@6.7.3':
+    resolution: {integrity: sha512-/x3pLtFSv/2RKSOVb4uLeFpcmUWtWrrWllExGGAZoHVR8nrGvXJzxL6hZMWzLa40xDdmyQmAz6ZWGdXmrZbVBg==}
 
   '@kurkle/color@0.3.4':
     resolution: {integrity: sha512-M5UknZPHRu3DEDWoipU6sE8PdkZ6Z/S+v4dD+Ke8IaNlpdSQah50lz1KtcFBa2vsdOnwbbnxJwVM4wty6udA5w==}
@@ -202,8 +202,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@stencil/core@4.40.1':
-    resolution: {integrity: sha512-cTHBvYFLf4h61TVHLibZoJcomYAoC+TNW3oi1VHcZMpWQyp/h/pHG1XQeEpzuSscQc/SJJwOYb5IvQ8vVeeCNg==}
+  '@stencil/core@4.38.3':
+    resolution: {integrity: sha512-rSDzGUfi58X8K79ySjlM6KlY+mq7D+ittzgNAdYHcsXHc70sBpdatFhnbOg25uVDiMf7xRAH9slP38pPdXnZOQ==}
     engines: {node: '>=16.0.0', npm: '>=7.10.0'}
     hasBin: true
 
@@ -1406,11 +1406,11 @@ snapshots:
       wrap-ansi: 8.1.0
       wrap-ansi-cjs: wrap-ansi@7.0.0
 
-  '@justifi/webcomponents@6.7.2':
+  '@justifi/webcomponents@6.7.3':
     dependencies:
       '@popperjs/core': 2.11.8
-      '@stencil/core': 4.40.1
-      '@stencil/store': 2.2.2(@stencil/core@4.40.1)
+      '@stencil/core': 4.38.3
+      '@stencil/store': 2.2.2(@stencil/core@4.38.3)
       bootstrap: 5.3.8(@popperjs/core@2.11.8)
       chart.js: 4.5.1
       date-fns: 4.1.0
@@ -1509,7 +1509,7 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.34.9':
     optional: true
 
-  '@stencil/core@4.40.1':
+  '@stencil/core@4.38.3':
     optionalDependencies:
       '@rollup/rollup-darwin-arm64': 4.34.9
       '@rollup/rollup-darwin-x64': 4.34.9
@@ -1520,9 +1520,9 @@ snapshots:
       '@rollup/rollup-win32-arm64-msvc': 4.34.9
       '@rollup/rollup-win32-x64-msvc': 4.34.9
 
-  '@stencil/store@2.2.2(@stencil/core@4.40.1)':
+  '@stencil/store@2.2.2(@stencil/core@4.38.3)':
     dependencies:
-      '@stencil/core': 4.40.1
+      '@stencil/core': 4.38.3
 
   '@types/concat-stream@2.0.3':
     dependencies:
