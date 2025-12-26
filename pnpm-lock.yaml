@@ -4,9 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-overrides:
-  '@justifi/webcomponents': link:../../Library/pnpm/global/5/node_modules/@justifi/webcomponents
-
 importers:
 
   .:
@@ -20,9 +17,6 @@ importers:
       '@docusaurus/theme-search-algolia':
         specifier: ^3.9.2
         version: 3.9.2(@algolia/client-search@5.46.0)(@mdx-js/react@3.1.0(@types/react@19.0.10)(react@18.3.1))(@types/react@19.0.10)(acorn@8.14.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(search-insights@2.17.3)(typescript@5.2.2)
-      '@justifi/webcomponents':
-        specifier: link:../../Library/pnpm/global/5/node_modules/@justifi/webcomponents
-        version: link:../../Library/pnpm/global/5/node_modules/@justifi/webcomponents
       '@mdx-js/react':
         specifier: ^3.0.0
         version: 3.1.0(@types/react@19.0.10)(react@18.3.1)
