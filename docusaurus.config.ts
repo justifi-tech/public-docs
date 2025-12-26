@@ -71,6 +71,26 @@ const config: Config = {
       },
     ],
   ],
+  plugins: [
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'web-components',
+        path: '.wc-current',
+        routeBasePath: 'web-components',
+        sidebarPath: require.resolve('./sidebars.web-components.js'),
+        includeCurrentVersion: true,
+        // Exclude templates and internal helper files from being parsed as docs
+        exclude: [
+          '**/templates/**',
+          '**/scripts/**',
+          '**/*.ts',
+          '**/*.tsx',
+          '**/node_modules/**',
+        ],
+      },
+    ],
+  ],
   themeConfig: {
     // Replace with your project's social card
     image: "img/justifi-logo-light.png",
@@ -94,15 +114,23 @@ const config: Config = {
           position: "left",
         },
         {
-          href: "https://storybook.justifi.ai/?path=/docs/changelog--docs",
-          label: "Changelog",
-          position: "right",
+          type: 'doc',
+          docsPluginId: 'web-components',
+          docId: 'introduction',
+          label: 'Web Components',
+          position: 'left',
+        },
+        {
+          href: 'https://github.com/justifi-tech/web-component-library/blob/main/packages/webcomponents/CHANGELOG.md',
+          label: 'Changelog',
+          position: 'right',
         },
         // { to: "/blog", label: "Blog", position: "left" },
         {
-          href: "https://storybook.justifi.ai",
-          label: "Storybook",
-          position: "right",
+          type: 'docsVersionDropdown',
+          docsPluginId: 'web-components',
+          position: 'right',
+          dropdownActiveClassDisabled: true,
         },
         {
           href: "https://github.com/justifi-tech",

@@ -56,7 +56,7 @@ const checkout = await makeCheckout(token, subAccountId);
 ```
 
 ### Tokenize or select a payment method
-In order to complete a checkout, you must provide a payment method token. To avoid entering PCI scope, we recommend using our [Payment Form](https://storybook.justifi.ai/?path=/docs/payment-facilitation-payment-form--docs) web component. You can also collect the payment method information directly and use our Payment Method APIs, but you will likely be entering PCI scope. Once you have tokenized a payment method you can complete a checkout using the ID of the payment method as payment method token.
+In order to complete a checkout, you must provide a payment method token. To avoid entering PCI scope, we recommend using our [Payment Form](/web-components/payment-facilitation/tokenize-payment-method/index) web component. You can also collect the payment method information directly and use our Payment Method APIs, but you will likely be entering PCI scope. Once you have tokenized a payment method you can complete a checkout using the ID of the payment method as payment method token.
 
 ### Complete a checkout
 To complete a checkout, using the [Complete Checkout API](https://docs.justifi.tech/api-spec#tag/Checkouts/operation/CompleteCheckout) pass the payment method token collected above as well as an `Idempotency-Key`. A checkout completion will be recorded upon success or failure. If the `payment_status` attribute in the response is `succeeded` the payment has been collected. If insurance quotes have been attached, the outcome of those payments will be in the `additional_transactions` attribute.

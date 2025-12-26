@@ -15,14 +15,6 @@ get:
       example: "po_123xyz"
       description: |
         Filter records which are part of the payout with the specified id
-    - in: query
-      name: source_payment_id
-      schema:
-        type: string
-      required: false
-      example: "py_123xyz"
-      description: |
-        Filter records which are associated with the payment with the specified id
 
   responses:
     '200':

@@ -109,7 +109,7 @@ tags:
       - Group payment methods for easier management using [PaymentMethodGroups](https://docs.justifi.tech/api-spec#tag/Payment-Method-Groups), to associate multiple payment methods to your customer
 
       ## Using Platform Wallet Payment Methods
-      *Note: While the PaymentMethods and Payments API allow you to tokenize a payment method we strongly suggest using the [Unified Fintech Checkout](https://storybook.justifi.ai/?path=/docs/payment-facilitation-unified-fintech-checkout%E2%84%A2--docs) or [Tokenize Payment Method](https://storybook.justifi.ai/?path=/docs/payment-facilitation-tokenize-payment-method--docs) web components instead to avoid PCI scope*
+      *Note: While the PaymentMethods and Payments API allow you to tokenize a payment method we strongly suggest using the [Unified Fintech Checkout](/web-components/payment-facilitation/unified-fintech-checkout%E2%84%A2/index) or [Tokenize Payment Method](/web-components/payment-facilitation/tokenize-payment-method/index) web components instead to avoid PCI scope*
 
       ### 1. Manage Payment Methods
       Create and organize payment methods in your platform wallet account. All payment method operations require the platform wallet account ID in the Sub-Account header.
@@ -140,7 +140,7 @@ tags:
       ```
 
       ### 2. Process Payments
-      You can process payments using wallet payment methods either through the [Unified Fintech Checkout web component](https://storybook.justifi.ai/?path=/docs/payment-facilitation-unified-fintech-checkout%E2%84%A2--docs) or via API
+      You can process payments using wallet payment methods either through the [Unified Fintech Checkout web component](/web-components/payment-facilitation/unified-fintech-checkout%E2%84%A2/index) or via API
 
       #### Via Checkout Component
       [Checkout via Component Walkthrough](https://docs.justifi.tech/api-spec#tag/Checkout-via-Component)
@@ -368,64 +368,6 @@ tags:
 
       To download a report, you can use the `download_url` provided in the response when retrieving a report. We use presigned URLs to allow you to download the report directly
       from our S3 bucket.
-
-      ## Report Types
-
-      ### Payout Report
-      Contains balance transaction data for payouts.
-
-      | Column | Description |
-      | ------ | ----------- |
-      | id | Balance transaction ID |
-      | type | Transaction type |
-      | currency | Currency |
-      | amount | Amount in cents |
-      | fee | Fee amount in cents |
-      | net | Net amount in cents |
-      | source_id | Source object ID |
-      | source_account_id | Source account ID |
-      | source_type | Source object type |
-      | source_amount | Source amount in cents |
-      | available_on | When funds become available |
-      | payment_id | Associated payment ID |
-      | created_at | Creation timestamp |
-      | payment_method_name | Payment method name |
-      | source_payment_id | Payment ID associated with the source |
-      | payout_id | Associated payout ID |
-      | payout_created_at | Payout creation timestamp |
-      | payout_deposits_at | Expected payout deposit date |
-
-      ### Proceeds Report
-      Contains platform proceeds data.
-
-      | Column | Description |
-      | ------ | ----------- |
-      | id | Balance transaction ID |
-      | type | Transaction type |
-      | currency | Currency code |
-      | amount | Amount in cents |
-      | fee | Fee amount in cents |
-      | net | Net amount in cents |
-      | source_id | Source object ID |
-      | source_account_id | Source account ID |
-      | source_type | Source object type |
-      | source_amount | Source amount in cents |
-      | application_fee_amount | Application fee in cents |
-      | platform_fee_amount | Platform fee in cents |
-      | proceeds | Calculated proceeds in cents |
-      | available_on | When funds become available |
-      | created_at | Creation timestamp |
-      | fee_major_category | Fee major category |
-      | fee_minor_category | Fee minor category |
-      | fee_description | Fee description |
-      | fee_product_code | Fee product code |
-      | fee_batch_date | Fee batch date |
-      | payment_method_type | Payment method type |
-      | payment_method_brand | Payment method brand |
-      | source_payment_id | Payment ID associated with the source |
-      | payout_id | Associated payout ID |
-      | payout_created_at | Payout creation timestamp |
-      | payout_deposits_at | Expected payout deposit date |
 
 x-tagGroups:
   - name: Authorization
