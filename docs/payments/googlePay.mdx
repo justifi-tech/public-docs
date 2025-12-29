@@ -34,7 +34,7 @@ You must additionally complete the following essential steps to enable Google Pa
 </justifi-modular-checkout>
 ```
 
-For more details on using our modular checkout, see our [modular checkout documentation](https://storybook.justifi.ai/?path=/docs/modular-checkout--docs).
+For more details on using our modular checkout, see our [modular checkout documentation](/web-components/modular-checkout/introduction).
 
 ## Implementation Details
 
@@ -46,7 +46,7 @@ When you integrate with the Google Pay API as a merchant, ensure to set the foll
 
 - **gateway:** The value `justifi` is set by our platform when you load the web component.
 - **gatewayMerchantID:** This value will automatically be set by the JustiFi Google Pay component, to be the sub account which the checkout was created
-under. For example, if you used your account with the id `acc_m9IjrorZoehPX9BA7kIrn`, we will pass `gateway:acc_m9IjrorZoehPX9BA7kIrn` as the merchant id.
+  under. For example, if you used your account with the id `acc_m9IjrorZoehPX9BA7kIrn`, we will pass `gateway:acc_m9IjrorZoehPX9BA7kIrn` as the merchant id.
 
 Here is an example of what our component will pass when initalizing the Google Pay button:
 
@@ -67,6 +67,7 @@ Here is an example of what our component will pass when initalizing the Google P
 Google Pay provides two different authorization methods: `PAN_ONLY` and `CRYPTOGRAM_3DS`. Our integration with Google Pay supports both types of card credentials:
 
 - **PAN_ONLY:** Physical card details stored in Google Pay™.
+
   - 3DS required: Yes, standard 3DS flow applies
   - Supported countries: United States
 

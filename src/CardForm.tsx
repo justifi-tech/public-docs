@@ -141,7 +141,7 @@ export function PaymentFormStory() {
     <div>
     <iframe
       title="Excalibur Storybook Example"
-      src="https://storybook.justifi.ai/iframe.html?args=&id=components-paymentform--basic&viewMode=story"
+      src="/web-components/payment-facilitation/tokenize-payment-method/index"
       frameBorder={0}
       width="100%"
       height="900"
