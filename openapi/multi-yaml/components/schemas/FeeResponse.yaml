@@ -1,6 +1,10 @@
 type: object
 description: A fee object in API responses, including remaining refundable amount
 properties:
+  id:
+    type: string
+    description: Unique identifier for this fee
+    example: fee_xyz
   type:
     type: string
     enum: [processing_fee, platform_fee]
@@ -13,8 +17,13 @@ properties:
     type: integer
     description: Original fee amount in cents
     example: 350
+  amount_currency:
+    type: string
+    description: Currency of the fee amount
+    enum: [usd]
+    example: usd
   remaining_amount:
     type: integer
     description: Amount still available for refund in cents. Updates after each partial refund.
     example: 350
-required: [type, amount, remaining_amount]
+required: [id, type, amount, amount_currency]

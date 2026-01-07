@@ -937,7 +937,9 @@ Both Visa and Mastercard send additional information about how to handle a decli
 
 ## Enhanced Fee Management
 
-JustiFi provides a flexible fee structure that gives platforms granular control over how fees are charged and refunded. The `fees` array allows you to separate different fee types within each transaction, enabling transparent reporting and selective fee refunds.
+JustiFi provides an enhanced fee structure that gives platforms granular control over how fees are charged and refunded. The `fees` array replaces the deprecated `application_fee_amount` field, allowing you to separate different fee types within each transaction for transparent reporting and selective fee refunds.
+
+> **Note**: Existing integrations using `application_fee_amount` will continue to work, but new integrations should use the `fees` array.
 
 ### Overview
 
@@ -982,19 +984,21 @@ Each fee object in the array contains:
 
 #### Response Structure
 
-Responses include an additional `remaining_amount` field that tracks how much of each fee can still be refunded:
+Responses include additional fields to track the fee and its refundable amount:
 
 | Field | Type | Description |
 |-------|------|-------------|
+| `id` | string | Unique identifier for this fee |
 | `type` | string | The fee type |
 | `amount` | integer | Original fee amount in cents |
+| `amount_currency` | string | Currency of the fee amount |
 | `remaining_amount` | integer | Amount still available for refund in cents |
 
 ```json
 {
   "fees": [
-    { "type": "processing_fee", "amount": 350, "remaining_amount": 350 },
-    { "type": "platform_fee", "amount": 500, "remaining_amount": 500 }
+    { "id": "fee_abc", "type": "processing_fee", "amount": 350, "amount_currency": "usd", "remaining_amount": 350 },
+    { "id": "fee_xyz", "type": "platform_fee", "amount": 500, "amount_currency": "usd", "remaining_amount": 500 }
   ]
 }
 ```
@@ -1026,8 +1030,8 @@ Responses include an additional `remaining_amount` field that tracks how much of
     "id": "py_123xyz",
     "amount": 10000,
     "fees": [
-      { "type": "processing_fee", "amount": 350, "remaining_amount": 350 },
-      { "type": "platform_fee", "amount": 500, "remaining_amount": 500 }
+      { "id": "fee_abc", "type": "processing_fee", "amount": 350, "amount_currency": "usd", "remaining_amount": 350 },
+      { "id": "fee_xyz", "type": "platform_fee", "amount": 500, "amount_currency": "usd", "remaining_amount": 500 }
     ]
   }
 }
@@ -1085,7 +1089,7 @@ In this example:
     "id": "re_xyz",
     "amount": 5000,
     "fees": [
-      { "type": "processing_fee", "amount": 175, "remaining_amount": 0 }
+      { "id": "rfee_abc", "type": "processing_fee", "amount": 175, "amount_currency": "usd" }
     ]
   }
 }
@@ -1102,8 +1106,8 @@ The system tracks cumulative fee refunds per transaction. After partial refunds,
 ```json
 {
   "fees": [
-    { "type": "processing_fee", "amount": 350, "remaining_amount": 175 },
-    { "type": "platform_fee", "amount": 500, "remaining_amount": 500 }
+    { "id": "fee_abc", "type": "processing_fee", "amount": 350, "amount_currency": "usd", "remaining_amount": 175 },
+    { "id": "fee_xyz", "type": "platform_fee", "amount": 500, "amount_currency": "usd", "remaining_amount": 500 }
   ]
 }
 ```
@@ -1147,22 +1151,88 @@ The API validates fee refund requests and returns clear errors:
 
 ### Reporting & Balance Transactions
 
-Each fee type appears as a separate line item in balance transactions, providing clear visibility for both merchants and platforms:
+Each fee type appears as a separate line item in balance transactions, providing clear visibility for both merchants and platforms. The balance transaction types vary based on the payment event.
 
-**Merchant Balance Transaction View:**
+#### Payment Captured
 
-| Type | Amount | Description |
-|------|--------|-------------|
-| `seller_payment` | $100.00 | Payment py_123xyz |
-| `processing_fee` | -$3.50 | Processing fee |
-| `platform_fee` | -$5.00 | Platform fee |
+When a payment is captured with fees, the following balance transactions are created:
 
-**Platform Balance Transaction View:**
+**Sub-Account (Merchant) Balance Transactions:**
 
 | Type | Amount | Description |
 |------|--------|-------------|
-| `processing_fee_credit` | $3.50 | Processing fee from py_123xyz |
-| `platform_fee_credit` | $5.00 | Platform fee from py_123xyz |
+| `seller_payment` | +$100.00 | Payment amount received |
+| `processing_fee` | -$3.50 | Processing fee deducted |
+| `platform_fee` | -$5.00 | Platform fee deducted |
+
+**Platform Balance Transactions:**
+
+| Type | Amount | Description |
+|------|--------|-------------|
+| `processing_fee_credit` | +$3.50 | Processing fee received from sub-account |
+| `platform_fee_credit` | +$5.00 | Platform fee received from sub-account |
+| `partner_platform_discount_fee` | -$0.30 | JustiFi discount fee (basis points) |
+| `partner_platform_transaction_fee` | -$0.08 | JustiFi per-transaction fee |
+
+#### Refund with Fee Returns
+
+When a refund is processed with fees returned to the merchant, the following balance transactions are created:
+
+**Sub-Account (Merchant) Balance Transactions:**
+
+| Type | Amount | Description |
+|------|--------|-------------|
+| `processing_fee_return` | +$1.75 | Processing fee returned |
+| `platform_fee_return` | +$2.50 | Platform fee returned |
+
+**Platform Balance Transactions:**
+
+| Type | Amount | Description |
+|------|--------|-------------|
+| `processing_fee_return` | -$1.75 | Processing fee returned to sub-account |
+| `platform_fee_return` | -$2.50 | Platform fee returned to sub-account |
+
+#### Void
+
+When a payment is voided, all fees are automatically returned:
+
+**Sub-Account (Merchant) Balance Transactions:**
+
+| Type | Amount | Description |
+|------|--------|-------------|
+| `processing_fee_return` | +$3.50 | Full processing fee returned |
+| `platform_fee_return` | +$5.00 | Full platform fee returned |
+
+**Platform Balance Transactions:**
+
+| Type | Amount | Description |
+|------|--------|-------------|
+| `processing_fee_return` | -$3.50 | Processing fee returned to sub-account |
+| `platform_fee_return` | -$5.00 | Platform fee returned to sub-account |
+| `partner_platform_discount_fee` | +$0.30 | JustiFi discount fee returned |
+| `partner_platform_transaction_fee` | +$0.08 | JustiFi per-transaction fee returned |
+
+#### ACH Return
+
+When an ACH payment is returned, the fee behavior is the same as a void—all fees are automatically returned. The ACH return fee is charged separately.
+
+#### Dispute Created
+
+When a dispute is created, fees remain held. No fee-related balance transactions are created at this time.
+
+#### Balance Transaction Type Reference
+
+| Type | Direction | Description |
+|------|-----------|-------------|
+| `seller_payment` | Sub-account (+) | Payment amount credited to merchant |
+| `processing_fee` | Sub-account (-) | Processing fee deducted from merchant |
+| `platform_fee` | Sub-account (-) | Platform fee deducted from merchant |
+| `processing_fee_credit` | Platform (+) | Processing fee credited to platform |
+| `platform_fee_credit` | Platform (+) | Platform fee credited to platform |
+| `processing_fee_return` | Sub-account (+) / Platform (-) | Processing fee returned on refund/void |
+| `platform_fee_return` | Sub-account (+) / Platform (-) | Platform fee returned on refund/void |
+| `partner_platform_discount_fee` | Platform (-) | JustiFi basis point fee deducted from platform |
+| `partner_platform_transaction_fee` | Platform (-) | JustiFi per-transaction fee deducted from platform |
 
 **Reports:**
 - **Merchant Payout Report**: Includes columns for each fee type in addition to total fees
@@ -1170,12 +1240,11 @@ Each fee type appears as a separate line item in balance transactions, providing
 
 ### Migration from application_fee_amount
 
-The `application_fee_amount` field is deprecated. For platforms with the legacy setting enabled, existing integrations will continue to work, but we recommend migrating to the new `fees` array.
+The `application_fee_amount` field is deprecated. Existing integrations will continue to work, but new integrations should use the `fees` array.
 
 **Important notes:**
 - You cannot use both `application_fee_amount` and `fees` in the same request
 - New integrations should use the `fees` array exclusively
-- Contact support if you need to enable the legacy setting for migration purposes
 
 **Migration example:**
 

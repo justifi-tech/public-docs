@@ -102,11 +102,15 @@ properties:
     items:
       $ref: ./FeeResponse.yaml
     example:
-      - type: processing_fee
+      - id: fee_abc
+        type: processing_fee
         amount: 50
+        amount_currency: usd
         remaining_amount: 50
-      - type: platform_fee
+      - id: fee_xyz
+        type: platform_fee
         amount: 150
+        amount_currency: usd
         remaining_amount: 150
   refunded:
     type: boolean

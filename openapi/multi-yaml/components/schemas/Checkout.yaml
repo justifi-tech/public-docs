@@ -117,8 +117,9 @@ properties:
     type: object
     deprecated: true
     description: |
-      **Deprecated**: Use the `fees` object instead.
-      Custom application fee amount applied to this payment if it was passed during checkout creation, or null.
+      **Deprecated**: Use the `fees` object instead for granular control over fee types and selective refunds.
+
+      Custom application fee amount applied to this payment if it was passed during checkout creation, or null. Existing integrations will continue to work.
     properties:
       card:
         type: object

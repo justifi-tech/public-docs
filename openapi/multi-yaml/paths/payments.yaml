@@ -51,9 +51,11 @@ post:
               type: integer
               deprecated: true
               description: |
-                **Deprecated**: Use the `fees` array instead for more granular control over fee types and selective refunds.
+                **Deprecated**: Use the `fees` array instead for granular control over fee types and selective refunds.
 
                 Sets a custom application fee amount that applies to this payment, instead of relying on application fee rates configured at the platform account level (*only Platforms may set application_fee_amount*). Must be greater than zero.
+
+                Existing integrations using this field will continue to work, but new integrations should use the `fees` array.
 
                 **Note**: You cannot use both `application_fee_amount` and `fees` in the same request.
               example: 400
@@ -359,11 +361,15 @@ post:
                   terminal_id: null
                   updated_at: "2021-01-01T12:00:00Z"
                   fees:
-                    - type: processing_fee
+                    - id: fee_abc
+                      type: processing_fee
                       amount: 350
+                      amount_currency: usd
                       remaining_amount: 350
-                    - type: platform_fee
+                    - id: fee_xyz
+                      type: platform_fee
                       amount: 500
+                      amount_currency: usd
                       remaining_amount: 500
                   payment_method:
                     card:

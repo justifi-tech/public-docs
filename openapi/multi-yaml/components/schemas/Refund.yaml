@@ -41,9 +41,10 @@ properties:
     items:
       $ref: ./FeeResponse.yaml
     example:
-      - type: processing_fee
+      - id: rfee_abc
+        type: processing_fee
         amount: 175
-        remaining_amount: 0
+        amount_currency: usd
   created_at:
     type: string
     format: date-time
