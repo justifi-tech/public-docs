@@ -57,7 +57,24 @@ properties:
     nullable: true
     example: py_xyz
   txn_type:
-    description: type of transaction object associated with the balance transaction
+    description: |
+      Type of transaction object associated with the balance transaction.
+
+      Common types include:
+      - `seller_payment`: Payment amount credited to merchant
+      - `seller_payment_refund`: Payment refund debited from merchant
+      - `processing_fee`: Processing fee deducted from merchant
+      - `processing_fee_credit`: Processing fee credited to platform
+      - `platform_fee`: Platform fee deducted from merchant
+      - `platform_fee_credit`: Platform fee credited to platform
+      - `processing_fee_return`: Processing fee returned on refund/void
+      - `platform_fee_return`: Platform fee returned on refund/void
+      - `partner_platform_discount_fee`: JustiFi basis point fee deducted from platform
+      - `partner_platform_transaction_fee`: JustiFi per-transaction fee deducted from platform
+      - `payout`: Payout to bank account
+      - `refund`: Refund transaction
+
+      See [Enhanced Fee Management](#section/Enhanced-Fee-Management) for details on fee-related transaction types.
     type: string
     example: seller_payment
   created_at:
