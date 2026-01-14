@@ -1,6 +1,6 @@
 The Tokenize Payment Method web component allows you to securely collect your customers' credit card and ACH (bank accout) payment methods without any sensitive data entering your system. 
 
-The following guide takes you through the few simple steps of integrating the [Tokenize Payment Method web component](/web-components/payment-facilitation/tokenize-payment-method/index) on your platform. We assume you have an activated sub account for payment processing.
+The following guide takes you through the few simple steps of integrating the [Tokenize Payment Method web component](/web-components/payment-facilitation/tokenize-payment-method) on your platform. We assume you have an activated sub account for payment processing.
 
 *Note: If you want to charge a payment at time of payment method tokenization consider using the [Unified Fintech Checkout™ web component](https://docs.justifi.tech/api-spec#tag/Checkout-via-Component) instead.*
 
@@ -57,7 +57,7 @@ const webComponentToken = await getWebComponentToken(token, subAccountId);
 ```
 
 ### Render the web component
-Use the web component token generated above and the sub account id passed to the web component token API to render the [Tokenize Payment Method web component](/web-components/payment-facilitation/tokenize-payment-method/index). This will allow you to collect a customer's credit card or ACH payment method. It will not process a payment.
+Use the web component token generated above and the sub account id passed to the web component token API to render the [Tokenize Payment Method web component](/web-components/payment-facilitation/tokenize-payment-method). This will allow you to collect a customer's credit card or ACH payment method. It will not process a payment.
 
 ```
 <justifi-tokenize-payment-method auth-token="${webComponentToken}" account-id="${subAccountId}"></justifi-tokenize-payment-method>

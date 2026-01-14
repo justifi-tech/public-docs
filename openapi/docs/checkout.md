@@ -1,4 +1,4 @@
-A checkout is used to initiate the collection of a credit card payment, ACH payment, insurance quote payment, BNPL payment, or card reader payment in a single flow. This walk through will take you through collecting a payment via checkout using the [Unified Fintech Checkout™ web component](/web-components/payment-facilitation/unified-fintech-checkout%E2%84%A2/index). We assume you have an activated sub account for payment processing.
+A checkout is used to initiate the collection of a credit card payment, ACH payment, insurance quote payment, BNPL payment, or card reader payment in a single flow. This walk through will take you through collecting a payment via checkout using the [Unified Fintech Checkout™ web component](/web-components/payment-facilitation/unified-fintech-checkout%E2%84%A2). We assume you have an activated sub account for payment processing.
 
 1. Get an access token
 2. Create a Checkout
@@ -78,7 +78,7 @@ const webComponentToken = await getWebComponentToken(token, checkout.id, subAcco
 ```
 
 ### Render the checkout component
-Using the web component token generated above and the checkout id, render the [checkout web component](/web-components/payment-facilitation/unified-fintech-checkout%E2%84%A2/index). This will allow a customer to complete a checkout via credit card payment, ACH payment, or BNPL payment depending upon the sub account configuration. It will also process payments for attached insurance quotes, if the Insurance components were used.
+Using the web component token generated above and the checkout id, render the [checkout web component](/web-components/payment-facilitation/unified-fintech-checkout%E2%84%A2). This will allow a customer to complete a checkout via credit card payment, ACH payment, or BNPL payment depending upon the sub account configuration. It will also process payments for attached insurance quotes, if the Insurance components were used.
 ```
 <justifi-checkout auth-token="${webComponentToken}" checkout-id="${checkout.id}"></justifi-checkout>
 ```
