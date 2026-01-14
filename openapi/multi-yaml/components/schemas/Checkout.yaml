@@ -87,32 +87,18 @@ properties:
   metadata:
     type: object
     example: {}
-  fees:
-    type: object
+  payment_fees:
+    type: array
     description: |
-      Fee arrays organized by payment method type, specifying the fees to be applied when the checkout is completed.
+      Array of fee objects specifying the fees to be applied when the checkout is completed.
       See [Enhanced Fee Management](https://docs.justifi.tech/api-spec#section/Enhanced-Fee-Management) for full documentation.
-    properties:
-      card:
-        type: array
-        description: Fees to apply when checkout is completed with a card payment
-        items:
-          $ref: ./Fee.yaml
-        example:
-          - type: processing_fee
-            amount: 295
-          - type: platform_fee
-            amount: 150
-      bank_account:
-        type: array
-        description: Fees to apply when checkout is completed with a bank account (ACH) payment
-        items:
-          $ref: ./Fee.yaml
-        example:
-          - type: processing_fee
-            amount: 50
-          - type: platform_fee
-            amount: 150
+    items:
+      $ref: ./Fee.yaml
+    example:
+      - type: processing_fee
+        amount: 295
+      - type: platform_fee
+        amount: 150
   application_fees:
     type: object
     deprecated: true

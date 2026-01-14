@@ -1039,22 +1039,16 @@ Responses include additional fields to track the fee and its refundable amount:
 
 ### Creating Checkouts with Fees
 
-For checkouts, fees are nested under the payment method type since different payment methods may have different fee structures:
+For checkouts, use the `payment_fees` array to specify fees:
 
 ```json
 {
   "amount": 10000,
   "description": "order_xyz",
-  "fees": {
-    "card": [
-      { "type": "processing_fee", "amount": 295 },
-      { "type": "platform_fee", "amount": 150 }
-    ],
-    "bank_account": [
-      { "type": "processing_fee", "amount": 50 },
-      { "type": "platform_fee", "amount": 150 }
-    ]
-  }
+  "payment_fees": [
+    { "type": "processing_fee", "amount": 295 },
+    { "type": "platform_fee", "amount": 150 }
+  ]
 }
 ```
 
@@ -1089,7 +1083,14 @@ In this example:
     "id": "re_xyz",
     "amount": 5000,
     "fees": [
-      { "id": "rfee_abc", "type": "processing_fee", "amount": 175, "amount_currency": "usd" }
+      {
+        "id": "rtf_xyz",
+        "fee_type": "processing_fee",
+        "returned_amount_cents": 175,
+        "original_amount_cents": 350,
+        "amount_currency": "usd",
+        "remaining_amount_cents": 175
+      }
     ]
   }
 }

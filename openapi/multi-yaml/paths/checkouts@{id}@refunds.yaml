@@ -18,75 +18,54 @@ post:
               type: integer
               example: 4900
               description: Amount to be refunded. If missing, the total amount will be used.
-            fees:
-              type: object
+            returned_fees:
+              type: array
               description: |
-                Fee arrays to return to the merchant, organized by payment method type. If omitted, no fees are returned.
-
-                Since checkout refunds apply to the completed payment, specify fees for the payment method type that was used to complete the checkout.
+                Array of fee objects to return to the merchant. If omitted, no fees are returned.
 
                 Each fee object specifies:
                 - `type`: The fee type to refund (`processing_fee` or `platform_fee`)
                 - `amount`: Amount to return in cents
 
                 **Validation:**
-                - The requested amount cannot exceed the `remaining_amount` for that fee type on the original payment
+                - The requested amount cannot exceed the remaining amount for that fee type on the original payment
                 - The fee type must exist on the original payment
 
                 See [Enhanced Fee Management](#section/Enhanced-Fee-Management) for full documentation.
-              properties:
-                card:
-                  type: array
-                  description: Fees to refund for card payments
-                  items:
-                    type: object
-                    properties:
-                      type:
-                        type: string
-                        enum: [processing_fee, platform_fee]
-                        description: The type of fee to refund
-                        example: processing_fee
-                      amount:
-                        type: integer
-                        description: Amount to refund in cents
-                        example: 95
-                    required: [type, amount]
-                bank_account:
-                  type: array
-                  description: Fees to refund for bank account (ACH) payments
-                  items:
-                    type: object
-                    properties:
-                      type:
-                        type: string
-                        enum: [processing_fee, platform_fee]
-                        description: The type of fee to refund
-                        example: processing_fee
-                      amount:
-                        type: integer
-                        description: Amount to refund in cents
-                        example: 25
-                    required: [type, amount]
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    enum: [processing_fee, platform_fee]
+                    description: The type of fee to refund
+                    example: processing_fee
+                  amount:
+                    type: integer
+                    description: Amount to refund in cents
+                    example: 95
+                required: [type, amount]
+              example:
+                - type: processing_fee
+                  amount: 95
         examples:
           "Partial_refund":
             value:
               amount: 1000
-          "Partial_refund_with_card_fee_return":
+          "Partial_refund_with_fee_return":
             value:
               amount: 5000
-              fees:
-                card:
-                  - type: processing_fee
-                    amount: 147
-          "Partial_refund_with_ach_fees_returned":
+              returned_fees:
+                - type: processing_fee
+                  amount: 147
+          "Partial_refund_with_multiple_fees_returned":
             value:
               amount: 5000
-              fees:
-                bank_account:
-                  - type: processing_fee
-                    amount: 25
-                  - type: platform_fee
-                    amount: 75
+              returned_fees:
+                - type: processing_fee
+                  amount: 25
+                - type: platform_fee
+                  amount: 75
   responses:
     '200':
       description: Refund was created successfully

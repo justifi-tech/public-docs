@@ -35,16 +35,18 @@ properties:
   fees:
     type: array
     description: |
-      Array of fee objects showing the fees returned to the merchant with this refund.
+      Array of returned fee objects showing the fees returned to the merchant with this refund.
       Present when fees were specified in the refund request.
       See [Enhanced Fee Management](https://docs.justifi.tech/api-spec#section/Enhanced-Fee-Management) for full documentation.
     items:
-      $ref: ./FeeResponse.yaml
+      $ref: ./ReturnedFeeResponse.yaml
     example:
-      - id: rfee_abc
-        type: processing_fee
-        amount: 175
+      - id: rtf_xyz
+        fee_type: processing_fee
+        returned_amount_cents: 175
+        original_amount_cents: 350
         amount_currency: usd
+        remaining_amount_cents: 175
   created_at:
     type: string
     format: date-time
