@@ -1,6 +1,8 @@
 # Google Pay™ Web Component
 
-Google Pay™ lets users pay with their cards stored in their Google account, providing a fast and secure checkout experience. If you provide Google Pay as a payment method to your customers, you must use the official Google Pay logo and button assets in compliance with [Google Pay Web Brand Guidelines](https://developers.google.com/pay/api/web/guides/brand-guidelines), without modifications to the Google Pay asset colors, proportions, or appearance.
+Google Pay™ lets users pay with their cards stored in their Google account, providing a fast and secure checkout experience. If you provide Google Pay™ as a payment method to your customers, you must use the official Google Pay™ logo and button assets in compliance with [Google Pay Web Brand Guidelines](https://developers.google.com/pay/api/web/guides/brand-guidelines), without modifications to the Google Pay™ asset colors, proportions, or appearance.
+
+**Note:** Google Pay™ is currently only supported in the [Hosted Checkout](/checkouts/hosted-checkout) product. Once Google Pay™ is enabled in your JustiFi merchant account dashboard, the Google Pay™ button will automatically appear as a payment option in your hosted checkout flow.
 
 ## Prerequisites
 
@@ -17,38 +19,30 @@ For detailed implementation guidance, refer to the following Google Pay document
 
 ## Processing Google Pay™ Payments with Hosted Checkout
 
-Our hosted checkout integration with Google Pay simplifies your ability to provide Google Pay as a payment option to your customers. With our modular checkout, all the details necessary to display the Google Pay button as well as configuration to make the payment will already be correctly set.
+Our hosted checkout integration with Google Pay™ simplifies your ability to provide Google Pay™ as a payment option to your customers. Once you enable Google Pay™ in your JustiFi merchant account dashboard, the Google Pay™ button will automatically appear as a payment option in your hosted checkout. For more information on setting up and using hosted checkout, see our [Hosted Checkout documentation](/checkouts/hosted-checkout).
 
-You must additionally complete the following essential steps to enable Google Pay functionality:
+You must additionally complete the following essential steps to enable Google Pay™ functionality:
 
-**Adhere to Google policies:** All merchants are required to follow the [Google Pay and Wallet API's Acceptable Use Policy](https://payments.developers.google.com/terms/aup) and accept the terms defined in the [Google Pay API Terms of Service](https://payments.developers.google.com/terms/sellertos).
+**Adhere to Google policies:** When using our hosted checkout with Google Pay™, merchants must adhere to the [Google Pay and Wallet API's Acceptable Use Policy](https://payments.developers.google.com/terms/aup) and accept the terms defined in the [Google Pay API Terms of Service](https://payments.developers.google.com/terms/sellertos).
 
-### Implementation Example
+**Content Security Policy (CSP) settings:** If your application uses Content Security Policy, you may need to update your CSP settings to allow the Google Pay™ SDK to function properly. Ensure your CSP allows connections to Google Pay™ domains and scripts.
 
-```html
-<justifi-modular-checkout
-  auth-token="your-auth-token"
-  checkout-id="your-checkout-id"
->
-  <justifi-google-pay />
-</justifi-modular-checkout>
-```
+**Enable Google Pay™ in your account:** Ensure that Google Pay™ is enabled in your JustiFi merchant account dashboard. Once enabled, the Google Pay™ button will automatically appear as a payment option in your hosted checkout. Contact your account representative if you need assistance enabling this feature.
 
-For more details on using our modular checkout, see our [modular checkout documentation](/web-components/modular-checkout/introduction).
+For more details on using hosted checkout, see our [Hosted Checkout documentation](/checkouts/hosted-checkout).
 
 ## Implementation Details
 
 ### Gateway Configuration
 
-As a supported payment service provider with the Google Pay API, our integration lets you as a merchant use Google Pay API's gateway integration type, where we handle all of the decryption on your behalf.
+As a supported payment service provider with the Google Pay™ API, our integration lets you as a merchant use Google Pay™ API's gateway integration type, where we handle all of the decryption on your behalf.
 
-When you integrate with the Google Pay API as a merchant, ensure to set the following values in the `TokenizationSpecification` object:
+When using hosted checkout with Google Pay™, the following values are automatically set in the `TokenizationSpecification` object:
 
-- **gateway:** The value `justifi` is set by our platform when you load the web component.
-- **gatewayMerchantID:** This value will automatically be set by the JustiFi Google Pay component, to be the sub account which the checkout was created
-  under. For example, if you used your account with the id `acc_m9IjrorZoehPX9BA7kIrn`, we will pass `gateway:acc_m9IjrorZoehPX9BA7kIrn` as the merchant id.
+- **gateway:** The value `justifi` is automatically set by our platform in the hosted checkout.
+- **gatewayMerchantID:** This value is automatically set to the sub account which the checkout was created under. For example, if you used your account with the id `acc_m9IjrorZoehPX9BA7kIrn`, we will pass `gateway:acc_m9IjrorZoehPX9BA7kIrn` as the merchant id.
 
-Here is an example of what our component will pass when initalizing the Google Pay button:
+Here is an example of what our hosted checkout will pass when initializing the Google Pay™ button:
 
 ```json
 {
@@ -64,24 +58,19 @@ Here is an example of what our component will pass when initalizing the Google P
 
 ### Authorization Methods
 
-Google Pay provides two different authorization methods: `PAN_ONLY` and `CRYPTOGRAM_3DS`. Our integration with Google Pay supports both types of card credentials:
+Google Pay™ provides two different authorization methods: `PAN_ONLY` and `CRYPTOGRAM_3DS`. Our hosted checkout integration with Google Pay™ supports both types of card credentials:
 
 - **PAN_ONLY:** Physical card details stored in Google Pay™.
-
-  - 3DS required: Yes, standard 3DS flow applies
   - Supported countries: United States
+  - 3D Secure (3DS) is not currently supported by JustiFi, so your merchants cannot enable 3DS for PAN_ONLY credentials
 
 - **CRYPTOGRAM_3DS:** Tokenized virtual card stored on device.
-  - 3DS required: No, authentication is performed by Google Pay™.
+  - Authentication is performed by Google Pay™.
   - Supported countries: United States
-
-### 3D Secure (3DS) for PAN_ONLY Credentials
-
-We provide 3DS on Google Pay PAN_ONLY transactions. Standard 3DS flow applies to every PAN_ONLY credential returned from a Google Pay PAN_ONLY encrypted payload to initiate 3DS verification.
 
 ### Supported Card Networks
 
-We support the following card networks with the Google Pay API. These values are all passed to the `allowedCardNetworks` property by the JustiFi component and find the appropriate values in [Google Pay's web developer documentation](https://developers.google.com/pay/api/web/guides/test-and-deploy/integration-checklist):
+We support the following card networks with the Google Pay™ API in hosted checkout. These values are all passed to the `allowedCardNetworks` property automatically and find the appropriate values in [Google Pay's web developer documentation](https://developers.google.com/pay/api/web/guides/test-and-deploy/integration-checklist):
 
 - VISA
 - Mastercard
@@ -90,16 +79,16 @@ We support the following card networks with the Google Pay API. These values are
 
 ### Billing Address Requirements
 
-A billing address is not required for our implementation of Google Pay.
+A billing address is not required for our hosted checkout implementation of Google Pay™.
 
-## Handling Google Pay Payment Data
+## Handling Google Pay™ Payment Data
 
-When a customer pays with Google Pay, it generates encrypted data which contains the payment data. The encrypted data is automatically sent to the JustiFi backend, and tokenized to a JustiFi Payment method.
+When a customer pays with Google Pay™ through hosted checkout, it generates encrypted data which contains the payment data. The encrypted data is automatically sent to the JustiFi backend, and tokenized to a JustiFi Payment method.
 
-### Completing a Checkout with Google Pay
+### Completing a Checkout with Google Pay™
 
-The JustiFi Google Pay web component automatically handles the secure data, for you, and will complete a checkout upon a successful response from Google Pay.
+The hosted checkout automatically handles the secure Google Pay™ data and will complete a checkout upon a successful response from Google Pay™.
 
-The Google Pay token will be extracted from the `paymentMethodData.tokenizationData.token` property of the PaymentData response object returned by Google Pay.
+The Google Pay™ token will be extracted from the `paymentMethodData.tokenizationData.token` property of the PaymentData response object returned by Google Pay™.
 
 For more information on completing checkouts, see our [Checkout API documentation](https://docs.justifi.tech/api-spec#tag/Checkouts/operation/CompleteCheckout).
