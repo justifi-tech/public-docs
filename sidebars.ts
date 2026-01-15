@@ -104,6 +104,11 @@ const sidebars: SidebarsConfig = {
           id: "payments/applePay"
         },
         {
+          type: "doc",
+          label: "Google Pay™",
+          id: "payments/googlePay"
+        },
+        {
           type: "category",
           label: "Web Components",
           link: {
