@@ -1,4 +1,4 @@
-In order to process payments, each of your customers must be onboarded on the JustiFi platform. Once they are added they go through an approval process. JustiFi's [PaymentProvisioning web component](/web-components/entities/payment-provisioning/index) allows you to collect the required business and financial information from each of your customers. Once approved, your customer can process payments through JustiFi.
+In order to process payments, each of your customers must be onboarded on the JustiFi platform. Once they are added they go through an approval process. JustiFi's [PaymentProvisioning web component](/web-components/entities/payment-provisioning) allows you to collect the required business and financial information from each of your customers. Once approved, your customer can process payments through JustiFi.
 
 To onboard a new business via PaymentProvisioning web component
 
@@ -75,7 +75,7 @@ const webComponentToken = await getWebComponentToken(token, business.id);
 ```
 
 ### Render the PaymentProvisioning web component
-Using the web component token generated above and the business id, render the [PaymentProvisioning web component](/web-components/entities/payment-provisioning/index). This will allow your customer to provide all business information required for payment processing
+Using the web component token generated above and the business id, render the [PaymentProvisioning web component](/web-components/entities/payment-provisioning). This will allow your customer to provide all business information required for payment processing
 ```
 <justifi-payment-provisioning auth-token="${webComponentToken}" business-id="${business.id}"></justifi-payment-provisioning>
 ```
