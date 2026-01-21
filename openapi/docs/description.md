@@ -845,27 +845,27 @@ Many of our `4XX` errors will provide an error code in addition to their HTTP st
     <td>The currency parameter does not match the currency this account is configured to process.</td>
   </tr>
   <tr>
-    <td><code>fee_refund_exceeds_remaining</code></td>
+    <td><code>returned_fee_exceeds_remaining_amount</code></td>
     <td>The requested fee refund amount exceeds the remaining refundable amount for that fee type.</td>
   </tr>
   <tr>
-    <td><code>fee_type_not_found</code></td>
+    <td><code>fee_type_must_exist_on_payment_fees</code></td>
     <td>The fee type specified in the refund was not present in the original payment.</td>
   </tr>
   <tr>
-    <td><code>invalid_fee_type</code></td>
+    <td><code>fees_invalid</code></td>
     <td>The fee type is not a valid value. Valid types are: processing_fee, platform_fee.</td>
   </tr>
   <tr>
-    <td><code>fees_exceed_payment_amount</code></td>
+    <td><code>fee_amount_greater_than_payment_amount</code></td>
     <td>The total fees exceed the payment amount.</td>
   </tr>
   <tr>
-    <td><code>duplicate_fee_type</code></td>
+    <td><code>multiple_of_same_fee_type</code></td>
     <td>Multiple fees with the same type were provided. Only one fee of each type is allowed.</td>
   </tr>
   <tr>
-    <td><code>fees_and_application_fee_conflict</code></td>
+    <td><code>fee_and_application_fee_declared</code></td>
     <td>Both fees array and application_fee_amount were provided. Use one or the other, not both.</td>
   </tr>
 </table>
@@ -1099,7 +1099,7 @@ In this example:
   "data": {
     "id": "re_xyz",
     "amount": 5000,
-    "fees": [
+    "returned_fees": [
       {
         "id": "rtfee_xyz",
         "payment_fee_id": "pyfee_abc",
@@ -1137,22 +1137,20 @@ The API validates fee refund requests and returns clear errors:
 
 | Error Code | Description |
 |------------|-------------|
-| `fee_refund_exceeds_remaining` | The requested fee refund amount exceeds the remaining refundable amount for that fee type |
-| `fee_type_not_found` | The fee type specified in the refund was not present in the original payment |
-| `invalid_fee_type` | The fee type is not a valid value |
-| `fees_exceed_payment_amount` | The total fees exceed the payment amount |
-| `duplicate_fee_type` | Multiple fees with the same type were provided |
-| `fees_and_application_fee_conflict` | Both `fees` array and `application_fee_amount` were provided (use one or the other) |
+| `returned_fee_exceeds_remaining_amount` | The requested fee refund amount exceeds the remaining refundable amount for that fee type |
+| `fee_type_must_exist_on_payment_fees` | The fee type specified in the refund was not present in the original payment |
+| `fees_invalid` | The fee type is not a valid value |
+| `fee_amount_greater_than_payment_amount` | The total fees exceed the payment amount |
+| `multiple_of_same_fee_type` | Multiple fees with the same type were provided |
+| `fee_and_application_fee_declared` | Both `fees` array and `application_fee_amount` were provided (use one or the other) |
 
 **Example error response (over-refunding):**
 
 ```json
 {
   "error": {
-    "code": "fee_refund_exceeds_remaining",
-    "message": "The requested refund amount for processing_fee (200) exceeds the remaining amount (175)",
-    "type": "processing_fee",
-    "maximum_remaining_amount": 175
+    "code": "returned_fee_exceeds_remaining_amount",
+    "message": "Returned fees amount cannot exceed the remaining amount for the corresponding payment fee"
   }
 }
 ```
@@ -1162,8 +1160,8 @@ The API validates fee refund requests and returns clear errors:
 ```json
 {
   "error": {
-    "code": "fee_type_not_found",
-    "message": "The fee type 'platform_fee' was not present in the original payment"
+    "code": "fee_type_must_exist_on_payment_fees",
+    "message": "The payment does not have a fee type matching the refund fee types provided"
   }
 }
 ```

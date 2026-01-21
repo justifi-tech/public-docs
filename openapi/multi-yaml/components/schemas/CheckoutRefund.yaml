@@ -21,6 +21,14 @@ properties:
     type: integer
     example: 4900
     description: the amount requested to refund (or full checkout amount)
+  refund_error_code:
+    type: string
+    description: error code when refund fails, null on success
+    example: null
+  refund_error_description:
+    type: string
+    description: error description when refund fails, null on success
+    example: null
   returned_fees:
     type: array
     description: |
