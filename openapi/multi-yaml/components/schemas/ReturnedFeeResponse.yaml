@@ -4,8 +4,12 @@ properties:
   id:
     type: string
     description: Unique identifier for this returned fee
-    example: rtf_xyz
-  fee_type:
+    example: rtfee_xyz
+  payment_fee_id:
+    type: string
+    description: Unique identifier for the original payment fee that was partially or fully returned
+    example: pyfee_abc
+  type:
     type: string
     enum: [processing_fee, platform_fee]
     description: |
@@ -13,20 +17,20 @@ properties:
       - `processing_fee`: Processing fee returned to merchant
       - `platform_fee`: Platform fee returned to merchant
     example: processing_fee
-  returned_amount_cents:
+  returned_amount:
     type: integer
     description: Amount returned to the merchant in cents
     example: 175
-  original_amount_cents:
+  original_amount:
     type: integer
     description: Original fee amount in cents from the payment
     example: 350
-  amount_currency:
+  currency:
     type: string
     description: Currency of the fee amounts
     example: usd
-  remaining_amount_cents:
+  remaining_amount:
     type: integer
     description: Amount still available for refund on the original payment fee in cents
     example: 175
-required: [id, fee_type, returned_amount_cents, original_amount_cents, amount_currency, remaining_amount_cents]
+required: [id, payment_fee_id, type, returned_amount, original_amount, currency, remaining_amount]

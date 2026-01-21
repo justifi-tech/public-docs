@@ -41,12 +41,13 @@ properties:
     items:
       $ref: ./ReturnedFeeResponse.yaml
     example:
-      - id: rtf_xyz
-        fee_type: processing_fee
-        returned_amount_cents: 175
-        original_amount_cents: 350
-        amount_currency: usd
-        remaining_amount_cents: 175
+      - id: rtfee_xyz
+        payment_fee_id: pyfee_abc
+        type: processing_fee
+        returned_amount: 175
+        original_amount: 350
+        currency: usd
+        remaining_amount: 175
   created_at:
     type: string
     format: date-time

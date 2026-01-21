@@ -1,10 +1,12 @@
 type: object
-description: A fee object in API responses, including remaining refundable amount
+description: |
+  A fee object in API responses. When creating a payment, returns basic fee confirmation.
+  When fetching a payment, includes additional tracking fields like `id` and `remaining_amount`.
 properties:
   id:
     type: string
-    description: Unique identifier for this fee
-    example: fee_xyz
+    description: Unique identifier for this fee. Present when fetching a payment.
+    example: pyfee_xyz
   type:
     type: string
     enum: [processing_fee, platform_fee]
@@ -15,15 +17,15 @@ properties:
     example: processing_fee
   amount:
     type: integer
-    description: Original fee amount in cents
+    description: Fee amount in cents
     example: 350
-  amount_currency:
+  currency:
     type: string
-    description: Currency of the fee amount
+    description: Currency of the fee amount. Present when fetching a payment.
     enum: [usd]
     example: usd
   remaining_amount:
     type: integer
-    description: Amount still available for refund in cents. Updates after each partial refund.
+    description: Amount still available for refund in cents. Updates after each partial refund. Present when fetching a payment.
     example: 350
-required: [id, type, amount, amount_currency]
+required: [type, amount]

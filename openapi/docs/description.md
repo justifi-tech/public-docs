@@ -984,24 +984,24 @@ Each fee object in the array contains:
 
 #### Response Structure
 
-Responses include additional fields to track the fee and its refundable amount:
+Fee responses vary slightly depending on the endpoint:
+
+**Create Payment Response** - Returns basic fee confirmation:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `type` | string | The fee type (`processing_fee` or `platform_fee`) |
+| `amount` | integer | Fee amount in cents |
+
+**Get Payment Response** - Returns full fee details with tracking information:
 
 | Field | Type | Description |
 |-------|------|-------------|
 | `id` | string | Unique identifier for this fee |
-| `type` | string | The fee type |
-| `amount` | integer | Original fee amount in cents |
-| `amount_currency` | string | Currency of the fee amount |
+| `type` | string | The fee type (`processing_fee` or `platform_fee`) |
+| `amount` | integer | Fee amount in cents |
+| `currency` | string | Currency of the fee amount |
 | `remaining_amount` | integer | Amount still available for refund in cents |
-
-```json
-{
-  "fees": [
-    { "id": "fee_abc", "type": "processing_fee", "amount": 350, "amount_currency": "usd", "remaining_amount": 350 },
-    { "id": "fee_xyz", "type": "platform_fee", "amount": 500, "amount_currency": "usd", "remaining_amount": 500 }
-  ]
-}
-```
 
 ### Creating Payments with Fees
 
@@ -1020,7 +1020,7 @@ Responses include additional fields to track the fee and its refundable amount:
 }
 ```
 
-**Response:**
+**Create Response:**
 
 ```json
 {
@@ -1030,8 +1030,25 @@ Responses include additional fields to track the fee and its refundable amount:
     "id": "py_123xyz",
     "amount": 10000,
     "fees": [
-      { "id": "fee_abc", "type": "processing_fee", "amount": 350, "amount_currency": "usd", "remaining_amount": 350 },
-      { "id": "fee_xyz", "type": "platform_fee", "amount": 500, "amount_currency": "usd", "remaining_amount": 500 }
+      { "type": "processing_fee", "amount": 350 },
+      { "type": "platform_fee", "amount": 500 }
+    ]
+  }
+}
+```
+
+**Get Payment Response** (fetching the same payment later):
+
+```json
+{
+  "id": "py_123xyz",
+  "type": "payment",
+  "data": {
+    "id": "py_123xyz",
+    "amount": 10000,
+    "fees": [
+      { "id": "pyfee_abc", "type": "processing_fee", "amount": 350, "currency": "usd", "remaining_amount": 350 },
+      { "id": "pyfee_xyz", "type": "platform_fee", "amount": 500, "currency": "usd", "remaining_amount": 500 }
     ]
   }
 }
@@ -1084,12 +1101,13 @@ In this example:
     "amount": 5000,
     "fees": [
       {
-        "id": "rtf_xyz",
-        "fee_type": "processing_fee",
-        "returned_amount_cents": 175,
-        "original_amount_cents": 350,
-        "amount_currency": "usd",
-        "remaining_amount_cents": 175
+        "id": "rtfee_xyz",
+        "payment_fee_id": "pyfee_abc",
+        "type": "processing_fee",
+        "returned_amount": 175,
+        "original_amount": 350,
+        "currency": "usd",
+        "remaining_amount": 175
       }
     ]
   }
@@ -1107,8 +1125,8 @@ The system tracks cumulative fee refunds per transaction. After partial refunds,
 ```json
 {
   "fees": [
-    { "id": "fee_abc", "type": "processing_fee", "amount": 350, "amount_currency": "usd", "remaining_amount": 175 },
-    { "id": "fee_xyz", "type": "platform_fee", "amount": 500, "amount_currency": "usd", "remaining_amount": 500 }
+    { "id": "pyfee_abc", "type": "processing_fee", "amount": 350, "currency": "usd", "remaining_amount": 175 },
+    { "id": "pyfee_xyz", "type": "platform_fee", "amount": 500, "currency": "usd", "remaining_amount": 500 }
   ]
 }
 ```
@@ -1133,7 +1151,7 @@ The API validates fee refund requests and returns clear errors:
   "error": {
     "code": "fee_refund_exceeds_remaining",
     "message": "The requested refund amount for processing_fee (200) exceeds the remaining amount (175)",
-    "fee_type": "processing_fee",
+    "type": "processing_fee",
     "maximum_remaining_amount": 175
   }
 }
