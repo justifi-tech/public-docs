@@ -18,10 +18,23 @@ post:
               type: integer
               example: 4900
               description: Amount to be refunded. If missing, the total amount will be used.
+            fees:
+              type: array
+              description: fees to return as part of the refund (only supported for card/ach and card present payments)
+              items:
+                type: object
+                properties:
+                  type: string
+                  description: type of fee
         examples:
           "Partial_refund":
             value:
               amount: 1000
+              fees:
+                - type: processing_fee
+                  amount: 100
+                - type: platform_fee
+                  amount: 100
   responses:
     '200':
       description: Refund was created successfully

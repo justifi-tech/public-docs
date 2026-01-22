@@ -44,7 +44,7 @@ post:
               example: {}
             application_fees:
               type: object
-              description: (card/ach and card present only, not available for bnpl) sets a custom application fee amount that applies to this payment, instead of relying on application fee rates configured at the platform account level. Must be greater than zero.
+              description: "**DEPRECATED** Use `payment.fees` instead. (card/ach and card present only, not available for bnpl) sets a custom application fee amount that applies to this payment, instead of relying on application fee rates configured at the platform account level. Must be greater than zero."
               properties:
                 card:
                   type: object
@@ -76,6 +76,14 @@ post:
                 expedited:
                   type: boolean
                   description: settlement priority of the payment, only applies to ACH payments
+                fees:
+                  type: array
+                  description: fees to apply to the payment
+                  items:
+                    type: object
+                    properties:
+                      type: string
+                      description: type of fee
           required: [amount, description]
   responses:
     "201":

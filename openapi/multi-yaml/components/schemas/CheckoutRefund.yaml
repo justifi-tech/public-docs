@@ -21,6 +21,14 @@ properties:
     type: integer
     example: 4900
     description: the amount requested to refund (or full checkout amount)
+  returned_fees:
+    type: array
+    description: fees to return as part of the refund
+    items:
+      type: object
+      properties:
+        type: string
+        description: type of fee
   created_at:
     type: string
     format: date-time
