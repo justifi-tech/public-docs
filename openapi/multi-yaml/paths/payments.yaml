@@ -54,9 +54,9 @@ post:
 
                 ---
 
-                **Enhanced Fee Management (Beta)** - *Available for test accounts*
+                **Enhanced Fee Management** - *Available for test accounts*
 
-                Use the new `fees` array instead for more control over fee structure and refunds. See [Enhanced Fee Management](https://docs.justifi.tech/api-spec#section/Enhanced-Fee-Management-(Beta)) for full documentation.
+                Use the new `fees` array instead for more control over fee structure and refunds. See [Enhanced Fee Management](https://docs.justifi.tech/api-spec#section/Enhanced-Fee-Management) for full documentation.
 
                 - Separate fee types: `processing_fee` and `platform_fee`
                 - Selective refunds: Choose which fees to return

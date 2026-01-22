@@ -911,7 +911,7 @@ Both Visa and Mastercard send additional information about how to handle a decli
 | MASTERCARD | 02                     | Try again later. Similar to Visa code 2.                                                                                                                                       |
 | MASTERCARD | 03                     | Do not try again. Do not attempt again. Similar to Visa code 1.                                                                                                                |
 
-## Enhanced Fee Management (Beta)
+## Enhanced Fee Management
 
 We're introducing a new fee structure that gives platforms more control over how fees are charged and refunded. This feature is **available now for test accounts** and will be rolling out to production soon.
 
@@ -937,7 +937,7 @@ This separation enables:
 |----------|---------------|-------------|
 | [Create Payment](#tag/Payments/operation/CreatePayment) | `fees` | Specify fees when creating a payment |
 | [Refund a Payment](#tag/Payments/operation/CreateRefund) | `fees` | Choose which fees to return to the merchant |
-| [Create Checkout](#tag/Checkouts/operation/CreateCheckout) | `payment_fees` | Specify fees for the checkout |
+| [Create Checkout](#tag/Checkouts/operation/CreateCheckout) | `payment.fees` | Specify fees for the checkout |
 | [Refund a Checkout](#tag/Checkouts/operation/RefundCheckout) | `returned_fees` | Choose which fees to return |
 
 ### Creating Payments with Fees
@@ -1051,7 +1051,7 @@ After this refund, fetching the payment shows the updated `remaining_amount`:
 
 ### Creating Checkouts with Fees
 
-For checkouts, use the `payment_fees` field:
+For checkouts, use the `payment.fees` field:
 
 **Request:**
 
@@ -1060,10 +1060,12 @@ POST /v1/checkouts
 {
   "amount": 10000,
   "description": "Order #12345",
-  "payment_fees": [
-    { "type": "processing_fee", "amount": 295 },
-    { "type": "platform_fee", "amount": 150 }
-  ]
+  "payment": {
+    "fees": [
+      { "type": "processing_fee", "amount": 295 },
+      { "type": "platform_fee", "amount": 150 }
+    ]
+  }
 }
 ```
 
@@ -1077,10 +1079,12 @@ POST /v1/checkouts
     "id": "cho_xyz",
     "payment_amount": 10000,
     "status": "created",
-    "payment_fees": [
-      { "type": "processing_fee", "amount": 295 },
-      { "type": "platform_fee", "amount": 150 }
-    ]
+    "payment": {
+      "fees": [
+        { "type": "processing_fee", "amount": 295 },
+        { "type": "platform_fee", "amount": 150 }
+      ]
+    }
   }
 }
 ```
@@ -1095,7 +1099,7 @@ When the checkout is completed, the fees are passed to the payment and tracked w
 POST /v1/checkouts/{id}/refunds
 {
   "amount": 5000,
-  "returned_fees": [
+  "fees": [
     { "type": "processing_fee", "amount": 147 }
   ]
 }
