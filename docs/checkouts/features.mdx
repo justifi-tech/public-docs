@@ -51,24 +51,20 @@ _note: Disable the BNPL option by passing the correspondent prop to the web comp
 
 ### Fees
 
-Checkouts support flexible fee structures that allow you to specify different fee types for each payment method.
+Checkouts support flexible fee structures that allow you to specify different fee types.
 This enables transparent reporting for merchants and selective fee refunds.
 
 #### Using the Fees Array (Recommended)
 
-Use the `fees` parameter to specify separate fee types for card and bank account payments:
+Use the `payment.fees` parameter to specify fee types when creating a checkout:
 
 ```json
 {
   "amount": 10000,
   "description": "order_xyz",
-  "fees": {
-    "card": [
+  "payment": {
+    "fees": [
       { "type": "processing_fee", "amount": 295 },
-      { "type": "platform_fee", "amount": 150 }
-    ],
-    "bank_account": [
-      { "type": "processing_fee", "amount": 50 },
       { "type": "platform_fee", "amount": 150 }
     ]
   }
@@ -85,10 +81,10 @@ Use the `fees` parameter to specify separate fee types for card and bank account
 
 For full documentation, see [Enhanced Fee Management](https://docs.justifi.tech/api-spec#section/Enhanced-Fee-Management).
 
-#### Application Fees (Deprecated)
+#### Application Fees
 
-:::caution Deprecated
-The `application_fees` parameter is deprecated. Use the `fees` parameter instead for more granular control over fee types and selective refunds.
+:::info For Existing Integrations
+The `application_fees` parameter continues to work for existing integrations. **New integrations** should use `payment.fees` instead for selective refund support.
 :::
 
 - Application Fees are configured at the Platform level and can be customized for specific sub accounts.

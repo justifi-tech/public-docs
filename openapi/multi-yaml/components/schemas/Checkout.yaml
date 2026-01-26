@@ -87,25 +87,13 @@ properties:
   metadata:
     type: object
     example: {}
-  payment_fees:
-    type: array
-    description: |
-      Array of fee objects specifying the fees to be applied when the checkout is completed.
-      See [Enhanced Fee Management](https://docs.justifi.tech/api-spec#section/Enhanced-Fee-Management) for full documentation.
-    items:
-      $ref: ./Fee.yaml
-    example:
-      - type: processing_fee
-        amount: 295
-      - type: platform_fee
-        amount: 150
   application_fees:
     type: object
     deprecated: true
     description: |
       **Deprecated**: Use the `fees` object instead for granular control over fee types and selective refunds.
 
-      Custom application fee amount applied to this payment if it was passed during checkout creation, or null. Existing integrations will continue to work.
+      **New integrations** should use `payment.fees` instead for selective refund support. See [Enhanced Fee Management](#section/Enhanced-Fee-Management).
     properties:
       card:
         type: object
@@ -146,6 +134,18 @@ properties:
         type: boolean
         description: settlement priority of the payment, defaults to false
         example: true
+      fees:
+        type: array
+        description: |
+          Array of fee objects specifying the fees to be applied when the checkout is completed.
+          See [Enhanced Fee Management](#section/Enhanced-Fee-Management) for full documentation.
+        items:
+          $ref: ./Fee.yaml
+        example:
+          - type: processing_fee
+            amount: 295
+          - type: platform_fee
+            amount: 150
   created_at:
     type: string
     format: date-time

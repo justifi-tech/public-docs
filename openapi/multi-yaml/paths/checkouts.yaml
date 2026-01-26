@@ -44,7 +44,7 @@ post:
               example: {}
             application_fees:
               type: object
-              description: "**DEPRECATED** Use `payment.fees` instead. (card/ach and card present only, not available for bnpl) sets a custom application fee amount that applies to this payment, instead of relying on application fee rates configured at the platform account level. Must be greater than zero."
+              description: "Sets a custom application fee amount by payment method type. **New integrations** should use `payment.fees` instead for selective refund support. See [Enhanced Fee Management](#section/Enhanced-Fee-Management). (card/ach and card present only, not available for bnpl)"
               properties:
                 card:
                   type: object
@@ -78,12 +78,21 @@ post:
                   description: settlement priority of the payment, only applies to ACH payments
                 fees:
                   type: array
-                  description: fees to apply to the payment
+                  description: |
+                    *Recommended for new integrations.* Fees to apply to the payment. See [Enhanced Fee Management](#section/Enhanced-Fee-Management) for full documentation.
+
+                    Each fee object specifies:
+                    - `type`: `processing_fee` or `platform_fee` (required)
+                    - `amount`: Fee amount in cents (required)
+
+                    Cannot be used together with `application_fees`.
                   items:
-                    type: object
-                    properties:
-                      type: string
-                      description: type of fee
+                    $ref: ../../components/schemas/Fee.yaml
+                  example:
+                    - type: processing_fee
+                      amount: 350
+                    - type: platform_fee
+                      amount: 500
           required: [amount, description]
   responses:
     "201":

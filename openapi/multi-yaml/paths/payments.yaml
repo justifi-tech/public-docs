@@ -52,19 +52,32 @@ post:
               description: |
                 Sets a custom application fee amount that applies to this payment, instead of relying on application fee rates configured at the platform account level (*only Platforms may set application_fee_amount*). Must be greater than zero.
 
-                ---
+                **New integrations** should use the `fees` array instead for granular control over fee types and selective refunds. See [Enhanced Fee Management](#section/Enhanced-Fee-Management).
 
-                **Enhanced Fee Management** - *Available for test accounts*
+                Cannot be used together with `fees`.
+              example: 400
+            fees:
+              type: array
+              description: |
+                Array of fee objects to charge on this payment. See [Enhanced Fee Management](https://docs.justifi.tech/api-spec#section/Enhanced-Fee-Management) for full documentation.
 
-                Use the new `fees` array instead for more control over fee structure and refunds. See [Enhanced Fee Management](https://docs.justifi.tech/api-spec#section/Enhanced-Fee-Management) for full documentation.
+                Each fee object specifies:
+                - `type`: `processing_fee` or `platform_fee` (required)
+                - `amount`: Fee amount in cents (required)
 
-                - Separate fee types: `processing_fee` and `platform_fee`
+                **Benefits over `application_fee_amount`:**
+                - Separate fee types for clear reporting
                 - Selective refunds: Choose which fees to return
-                - Clear reporting: Each fee type as a separate balance transaction
+                - Each fee type appears as a separate balance transaction
 
                 Cannot be used together with `application_fee_amount`.
-
-              example: 400
+              items:
+                $ref: ../components/schemas/Fee.yaml
+              example:
+                - type: processing_fee
+                  amount: 350
+                - type: platform_fee
+                  amount: 500
             description:
               type: string
               description: your meaningful description of the payment (e.g. an order number or other value from your system)
@@ -143,6 +156,27 @@ post:
               capture_strategy: "automatic"
               email: example@test.com
               description: Charging $10 to the test card
+              payment_method:
+                card:
+                  name: Sylvia Fowles
+                  number: "4111111111111111"
+                  verification: "123"
+                  month: "3"
+                  year: "2040"
+                  address_postal_code: "55555"
+
+          "Charge_100_USD_with_Enhanced_Fees":
+            value:
+              amount: 10000
+              currency: "usd"
+              capture_strategy: "automatic"
+              email: example@test.com
+              description: Payment with enhanced fee management
+              fees:
+                - type: processing_fee
+                  amount: 350
+                - type: platform_fee
+                  amount: 500
               payment_method:
                 card:
                   name: Sylvia Fowles
