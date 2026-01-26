@@ -844,30 +844,6 @@ Many of our `4XX` errors will provide an error code in addition to their HTTP st
     <td><code>checkout_invalid_currency</code></td>
     <td>The currency parameter does not match the currency this account is configured to process.</td>
   </tr>
-  <tr>
-    <td><code>returned_fee_exceeds_remaining_amount</code></td>
-    <td>The requested fee refund amount exceeds the remaining refundable amount for that fee type.</td>
-  </tr>
-  <tr>
-    <td><code>fee_type_must_exist_on_payment_fees</code></td>
-    <td>The fee type specified in the refund was not present in the original payment.</td>
-  </tr>
-  <tr>
-    <td><code>fees_invalid</code></td>
-    <td>The fee type is not a valid value. Valid types are: processing_fee, platform_fee.</td>
-  </tr>
-  <tr>
-    <td><code>fee_amount_greater_than_payment_amount</code></td>
-    <td>The total fees exceed the payment amount.</td>
-  </tr>
-  <tr>
-    <td><code>multiple_of_same_fee_type</code></td>
-    <td>Multiple fees with the same type were provided. Only one fee of each type is allowed.</td>
-  </tr>
-  <tr>
-    <td><code>fee_and_application_fee_declared</code></td>
-    <td>Both fees array and application_fee_amount were provided. Use one or the other, not both.</td>
-  </tr>
 </table>
 
 ## Network Errors
@@ -937,77 +913,39 @@ Both Visa and Mastercard send additional information about how to handle a decli
 
 ## Enhanced Fee Management
 
-JustiFi provides an enhanced fee structure that gives platforms granular control over how fees are charged and refunded. The `fees` array replaces the deprecated `application_fee_amount` field, allowing you to separate different fee types within each transaction for transparent reporting and selective fee refunds.
+We're introducing a new fee structure that gives platforms more control over how fees are charged and refunded. This feature is **available now for test accounts** and will be rolling out to production soon.
 
-> **Note**: Existing integrations using `application_fee_amount` will continue to work, but new integrations should use the `fees` array.
+> **Testing Now Available**: Test accounts can use the new `fees` array immediately. Contact support to enable this feature for your production account when you're ready.
 
 ### Overview
 
-Instead of bundling all fees into a single amount, you can distinguish between different fee types in each transaction:
+Instead of bundling all fees into a single `application_fee_amount`, you can now distinguish between different fee types:
 
 | Fee Type | Description |
 |----------|-------------|
-| `processing_fee` | Fees related to payment processing costs (card network fees, interchange, acquirer margin) |
-| `platform_fee` | Fees for your platform's services (subscriptions, service fees, etc.) |
+| `processing_fee` | Fees related to payment processing costs |
+| `platform_fee` | Fees for your platform's services |
 
-This separation provides:
-- **Clear merchant reporting**: Merchants see exactly what they're paying for processing vs. platform services
-- **Flexible refund policies**: Choose which fees to return on refunds based on your business rules
-- **Accurate accounting**: Both platforms and merchants get detailed revenue breakdowns by fee type
+This separation enables:
+- **Selective refunds**: Return the processing fee while keeping your platform fee, or vice versa
+- **Clear reporting**: Each fee type appears as a separate line item in balance transactions
+- **Remaining amount tracking**: Track how much of each fee can still be refunded
 
-### Fee Array Structure
+### Supported Endpoints
 
-The `fees` array is available on:
-
-- [Create Payment](#tag/Payments/operation/CreatePayment) - Specify fees when creating a payment
-- [Refund a Payment](#tag/Payments/operation/CreateRefund) - Choose which fees to return
-- [Create Checkout](#tag/Checkouts/operation/CreateCheckout) - Specify fees per payment method type
-- [Refund a Checkout](#tag/Checkouts/operation/RefundCheckout) - Choose which fees to return
-
-#### Request Structure
-
-Each fee object in the array contains:
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `type` | string | The fee type: `processing_fee` or `platform_fee` |
-| `amount` | integer | Fee amount in cents |
-
-```json
-{
-  "fees": [
-    { "type": "processing_fee", "amount": 350 },
-    { "type": "platform_fee", "amount": 500 }
-  ]
-}
-```
-
-#### Response Structure
-
-Fee responses vary slightly depending on the endpoint:
-
-**Create Payment Response** - Returns basic fee confirmation:
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `type` | string | The fee type (`processing_fee` or `platform_fee`) |
-| `amount` | integer | Fee amount in cents |
-
-**Get Payment Response** - Returns full fee details with tracking information:
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `id` | string | Unique identifier for this fee |
-| `type` | string | The fee type (`processing_fee` or `platform_fee`) |
-| `amount` | integer | Fee amount in cents |
-| `currency` | string | Currency of the fee amount |
-| `remaining_amount` | integer | Amount still available for refund in cents |
+| Endpoint | Request Field | Description |
+|----------|---------------|-------------|
+| [Create Payment](#tag/Payments/operation/CreatePayment) | `fees` | Specify fees when creating a payment |
+| [Refund a Payment](#tag/Payments/operation/CreateRefund) | `fees` | Choose which fees to return to the merchant |
+| [Create Checkout](#tag/Checkouts/operation/CreateCheckout) | `payment.fees` | Specify fees for the checkout |
+| [Refund a Checkout](#tag/Checkouts/operation/RefundCheckout) | `returned_fees` | Choose which fees to return |
 
 ### Creating Payments with Fees
 
-**Example: Creating a payment with multiple fee types**
+**Request:**
 
 ```json
+POST /v1/payments
 {
   "amount": 10000,
   "currency": "usd",
@@ -1020,7 +958,7 @@ Fee responses vary slightly depending on the endpoint:
 }
 ```
 
-**Create Response:**
+**Response (Create):**
 
 ```json
 {
@@ -1029,6 +967,7 @@ Fee responses vary slightly depending on the endpoint:
   "data": {
     "id": "py_123xyz",
     "amount": 10000,
+    "fee_amount": 850,
     "fees": [
       { "type": "processing_fee", "amount": 350 },
       { "type": "platform_fee", "amount": 500 }
@@ -1037,45 +976,27 @@ Fee responses vary slightly depending on the endpoint:
 }
 ```
 
-**Get Payment Response** (fetching the same payment later):
+**Response (Get Payment):**
+
+When fetching a payment, you'll see additional tracking fields:
 
 ```json
 {
-  "id": "py_123xyz",
-  "type": "payment",
-  "data": {
-    "id": "py_123xyz",
-    "amount": 10000,
-    "fees": [
-      { "id": "pyfee_abc", "type": "processing_fee", "amount": 350, "currency": "usd", "remaining_amount": 350 },
-      { "id": "pyfee_xyz", "type": "platform_fee", "amount": 500, "currency": "usd", "remaining_amount": 500 }
-    ]
-  }
-}
-```
-
-### Creating Checkouts with Fees
-
-For checkouts, use the `payment_fees` array to specify fees:
-
-```json
-{
-  "amount": 10000,
-  "description": "order_xyz",
-  "payment_fees": [
-    { "type": "processing_fee", "amount": 295 },
-    { "type": "platform_fee", "amount": 150 }
+  "fees": [
+    { "id": "pyfee_abc", "type": "processing_fee", "amount": 350, "remaining_amount": 350, "currency": "usd" },
+    { "id": "pyfee_xyz", "type": "platform_fee", "amount": 500, "remaining_amount": 500, "currency": "usd" }
   ]
 }
 ```
 
-### Selective Fee Refunds
+### Refunding Payments with Selective Fee Return
 
-When processing refunds, you control exactly which fees are returned to the merchant. This enables flexible refund policies—for example, refunding the processing fee while retaining your platform fee for services already rendered.
+You control exactly which fees are returned to the merchant. This enables flexible refund policies.
 
-**Example: Refunding payment amount and processing fee only**
+**Request:**
 
 ```json
+POST /v1/payments/{id}/refunds
 {
   "amount": 5000,
   "reason": "customer_request",
@@ -1086,11 +1007,11 @@ When processing refunds, you control exactly which fees are returned to the merc
 ```
 
 In this example:
-- $50.00 of the payment amount is refunded to the customer
+- $50.00 is refunded to the customer
 - $1.75 processing fee is returned to the merchant
 - The platform fee is retained
 
-**Refund Response:**
+**Response:**
 
 ```json
 {
@@ -1099,6 +1020,7 @@ In this example:
   "data": {
     "id": "re_xyz",
     "amount": 5000,
+    "status": "succeeded",
     "returned_fees": [
       {
         "id": "rtfee_xyz",
@@ -1106,190 +1028,130 @@ In this example:
         "type": "processing_fee",
         "returned_amount": 175,
         "original_amount": 350,
-        "currency": "usd",
-        "remaining_amount": 175
+        "remaining_amount": 175,
+        "currency": "usd"
       }
     ]
   }
 }
 ```
 
-**Important**: If no `fees` array is provided in the refund request, no fees are returned to the merchant (current behavior is preserved).
-
-### Refund Tracking
-
-The system tracks cumulative fee refunds per transaction. After partial refunds, the payment's `remaining_amount` fields update to reflect what's still available:
-
-**After the partial refund above, the payment would show:**
+After this refund, fetching the payment shows the updated `remaining_amount`:
 
 ```json
 {
   "fees": [
-    { "id": "pyfee_abc", "type": "processing_fee", "amount": 350, "currency": "usd", "remaining_amount": 175 },
-    { "id": "pyfee_xyz", "type": "platform_fee", "amount": 500, "currency": "usd", "remaining_amount": 500 }
+    { "id": "pyfee_abc", "type": "processing_fee", "amount": 350, "remaining_amount": 175, "currency": "usd" },
+    { "id": "pyfee_xyz", "type": "platform_fee", "amount": 500, "remaining_amount": 500, "currency": "usd" }
   ]
 }
 ```
 
-### Error Handling
+> **Note**: If no `fees` array is provided in the refund request, no fees are returned to the merchant.
 
-The API validates fee refund requests and returns clear errors:
+### Creating Checkouts with Fees
 
-| Error Code | Description |
-|------------|-------------|
-| `returned_fee_exceeds_remaining_amount` | The requested fee refund amount exceeds the remaining refundable amount for that fee type |
-| `fee_type_must_exist_on_payment_fees` | The fee type specified in the refund was not present in the original payment |
-| `fees_invalid` | The fee type is not a valid value |
-| `fee_amount_greater_than_payment_amount` | The total fees exceed the payment amount |
-| `multiple_of_same_fee_type` | Multiple fees with the same type were provided |
-| `fee_and_application_fee_declared` | Both `fees` array and `application_fee_amount` were provided (use one or the other) |
+For checkouts, use the `payment.fees` field:
 
-**Example error response (over-refunding):**
+**Request:**
 
 ```json
+POST /v1/checkouts
 {
-  "error": {
-    "code": "returned_fee_exceeds_remaining_amount",
-    "message": "Returned fees amount cannot exceed the remaining amount for the corresponding payment fee"
+  "amount": 10000,
+  "description": "Order #12345",
+  "payment": {
+    "fees": [
+      { "type": "processing_fee", "amount": 295 },
+      { "type": "platform_fee", "amount": 150 }
+    ]
   }
 }
 ```
 
-**Example error response (non-existent fee type):**
+**Response:**
 
 ```json
 {
-  "error": {
-    "code": "fee_type_must_exist_on_payment_fees",
-    "message": "The payment does not have a fee type matching the refund fee types provided"
+  "id": "cho_xyz",
+  "type": "checkout",
+  "data": {
+    "id": "cho_xyz",
+    "payment_amount": 10000,
+    "status": "created",
+    "payment": {
+      "fees": [
+        { "type": "processing_fee", "amount": 295 },
+        { "type": "platform_fee", "amount": 150 }
+      ]
+    }
   }
 }
 ```
 
-### Reporting & Balance Transactions
+When the checkout is completed, the fees are passed to the payment and tracked with `remaining_amount`.
 
-Each fee type appears as a separate line item in balance transactions, providing clear visibility for both merchants and platforms. The balance transaction types vary based on the payment event.
+### Refunding Checkouts with Fee Return
 
-#### Payment Captured
+**Request:**
 
-When a payment is captured with fees, the following balance transactions are created:
-
-**Sub-Account (Merchant) Balance Transactions:**
-
-| Type | Amount | Description |
-|------|--------|-------------|
-| `seller_payment` | +$100.00 | Payment amount received |
-| `processing_fee` | -$3.50 | Processing fee deducted |
-| `platform_fee` | -$5.00 | Platform fee deducted |
-
-**Platform Balance Transactions:**
-
-| Type | Amount | Description |
-|------|--------|-------------|
-| `processing_fee_credit` | +$3.50 | Processing fee received from sub-account |
-| `platform_fee_credit` | +$5.00 | Platform fee received from sub-account |
-| `partner_platform_discount_fee` | -$0.30 | JustiFi discount fee (basis points) |
-| `partner_platform_transaction_fee` | -$0.08 | JustiFi per-transaction fee |
-
-#### Refund with Fee Returns
-
-When a refund is processed with fees returned to the merchant, the following balance transactions are created:
-
-**Sub-Account (Merchant) Balance Transactions:**
-
-| Type | Amount | Description |
-|------|--------|-------------|
-| `processing_fee_return` | +$1.75 | Processing fee returned |
-| `platform_fee_return` | +$2.50 | Platform fee returned |
-
-**Platform Balance Transactions:**
-
-| Type | Amount | Description |
-|------|--------|-------------|
-| `processing_fee_return` | -$1.75 | Processing fee returned to sub-account |
-| `platform_fee_return` | -$2.50 | Platform fee returned to sub-account |
-
-#### Void
-
-When a payment is voided, all fees are automatically returned:
-
-**Sub-Account (Merchant) Balance Transactions:**
-
-| Type | Amount | Description |
-|------|--------|-------------|
-| `processing_fee_return` | +$3.50 | Full processing fee returned |
-| `platform_fee_return` | +$5.00 | Full platform fee returned |
-
-**Platform Balance Transactions:**
-
-| Type | Amount | Description |
-|------|--------|-------------|
-| `processing_fee_return` | -$3.50 | Processing fee returned to sub-account |
-| `platform_fee_return` | -$5.00 | Platform fee returned to sub-account |
-| `partner_platform_discount_fee` | +$0.30 | JustiFi discount fee returned |
-| `partner_platform_transaction_fee` | +$0.08 | JustiFi per-transaction fee returned |
-
-#### ACH Return
-
-When an ACH payment is returned, the fee behavior is the same as a void—all fees are automatically returned. The ACH return fee is charged separately.
-
-#### Dispute Created
-
-When a dispute is created, fees remain held. No fee-related balance transactions are created at this time.
-
-#### Balance Transaction Type Reference
-
-| Type | Direction | Description |
-|------|-----------|-------------|
-| `seller_payment` | Sub-account (+) | Payment amount credited to merchant |
-| `processing_fee` | Sub-account (-) | Processing fee deducted from merchant |
-| `platform_fee` | Sub-account (-) | Platform fee deducted from merchant |
-| `processing_fee_credit` | Platform (+) | Processing fee credited to platform |
-| `platform_fee_credit` | Platform (+) | Platform fee credited to platform |
-| `processing_fee_return` | Sub-account (+) / Platform (-) | Processing fee returned on refund/void |
-| `platform_fee_return` | Sub-account (+) / Platform (-) | Platform fee returned on refund/void |
-| `partner_platform_discount_fee` | Platform (-) | JustiFi basis point fee deducted from platform |
-| `partner_platform_transaction_fee` | Platform (-) | JustiFi per-transaction fee deducted from platform |
-
-**Reports:**
-- **Merchant Payout Report**: Includes columns for each fee type in addition to total fees
-- **Platform Proceeds Report**: Shows aggregated revenue totals by fee type
-
-### Migration from application_fee_amount
-
-The `application_fee_amount` field is deprecated. Existing integrations will continue to work, but new integrations should use the `fees` array.
-
-**Important notes:**
-- You cannot use both `application_fee_amount` and `fees` in the same request
-- New integrations should use the `fees` array exclusively
-
-**Migration example:**
-
-Before (deprecated):
 ```json
+POST /v1/checkouts/{id}/refunds
 {
-  "amount": 10000,
-  "application_fee_amount": 850,
-  "payment_method": { "token": "pm_xyz" }
-}
-```
-
-After (recommended):
-```json
-{
-  "amount": 10000,
+  "amount": 5000,
   "fees": [
-    { "type": "processing_fee", "amount": 350 },
-    { "type": "platform_fee", "amount": 500 }
-  ],
-  "payment_method": { "token": "pm_xyz" }
+    { "type": "processing_fee", "amount": 147 }
+  ]
+}
+```
+
+**Response:**
+
+```json
+{
+  "id": "chr_xyz",
+  "type": "checkout_refund",
+  "data": {
+    "id": "chr_xyz",
+    "checkout_id": "cho_xyz",
+    "status": "succeeded",
+    "refund_amount": 5000,
+    "returned_fees": [
+      { "type": "processing_fee", "amount": 147 }
+    ]
+  }
 }
 ```
 
 ### Validation Rules
 
-- All amounts must be in cents (integers)
-- Only one fee of each type is allowed per request
-- The total of all fees cannot exceed the payment amount
-- Platforms calculate and submit fee amounts—JustiFi does not calculate fees on behalf of platforms
-- An empty fees array `[]` is valid and means no fees will be charged
+| Rule | Error Code | Description |
+|------|------------|-------------|
+| Fee type required | `fees_invalid` | Fee type must be `processing_fee` or `platform_fee` |
+| Amount required | `fee_amount_greater_than_zero` | Fee amount must be an integer greater than 0 |
+| No duplicate types | `multiple_of_same_fee_type` | Only one fee of each type allowed per request |
+| Fees within limit | `fee_amount_greater_than_payment_amount` | Total fees cannot exceed the payment amount |
+| No mixing fee types | `fee_and_application_fee_declared` | Cannot use both `fees` and `application_fee_amount` |
+| Fee type exists | `fee_type_must_exist_on_payment_fees` | Refund fee type must exist on the original payment |
+| Within remaining | `returned_fee_exceeds_remaining_amount` | Refund amount cannot exceed the fee's remaining amount |
+
+### Reporting
+
+Each fee type appears as a separate line item in:
+
+- Balance transactions for both merchants and platforms
+- Subaccount payout reports
+- Platform proceeds reports
+
+This gives merchants clear visibility into their true processing costs versus platform charges, and gives platforms detailed revenue breakdowns by fee type.
+
+### Migration
+
+The current `application_fee_amount` field will continue to work for existing integrations, but will be deprecated. When you're ready to migrate:
+
+1. Replace `application_fee_amount` with the `fees` array
+2. Decide how to split your fee between `processing_fee` and `platform_fee`
+3. Update your refund logic to specify which fees to return
+
+You cannot use both `application_fee_amount` and `fees` in the same request.
+

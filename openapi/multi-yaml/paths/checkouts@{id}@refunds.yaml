@@ -18,54 +18,23 @@ post:
               type: integer
               example: 4900
               description: Amount to be refunded. If missing, the total amount will be used.
-            returned_fees:
+            fees:
               type: array
-              description: |
-                Array of fee objects to return to the merchant. If omitted, no fees are returned.
-
-                Each fee object specifies:
-                - `type`: The fee type to refund (`processing_fee` or `platform_fee`)
-                - `amount`: Amount to return in cents
-
-                **Validation:**
-                - The requested amount cannot exceed the remaining amount for that fee type on the original payment
-                - The fee type must exist on the original payment
-
-                See [Enhanced Fee Management](#section/Enhanced-Fee-Management) for full documentation.
+              description: fees to return as part of the refund (only supported for card/ach and card present payments)
               items:
                 type: object
                 properties:
-                  type:
-                    type: string
-                    enum: [processing_fee, platform_fee]
-                    description: The type of fee to refund
-                    example: processing_fee
-                  amount:
-                    type: integer
-                    description: Amount to refund in cents
-                    example: 95
-                required: [type, amount]
-              example:
-                - type: processing_fee
-                  amount: 95
+                  type: string
+                  description: type of fee
         examples:
           "Partial_refund":
             value:
               amount: 1000
-          "Partial_refund_with_fee_return":
-            value:
-              amount: 5000
-              returned_fees:
+              fees:
                 - type: processing_fee
-                  amount: 147
-          "Partial_refund_with_multiple_fees_returned":
-            value:
-              amount: 5000
-              returned_fees:
-                - type: processing_fee
-                  amount: 25
+                  amount: 100
                 - type: platform_fee
-                  amount: 75
+                  amount: 100
   responses:
     '200':
       description: Refund was created successfully

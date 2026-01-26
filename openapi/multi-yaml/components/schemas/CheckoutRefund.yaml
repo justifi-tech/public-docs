@@ -21,26 +21,14 @@ properties:
     type: integer
     example: 4900
     description: the amount requested to refund (or full checkout amount)
-  refund_error_code:
-    type: string
-    description: error code when refund fails, null on success
-    example: null
-  refund_error_description:
-    type: string
-    description: error description when refund fails, null on success
-    example: null
   returned_fees:
     type: array
-    description: |
-      Array of fee objects showing the fees returned to the merchant with this checkout refund.
-      Present when fees were specified in the refund request using the `returned_fees` parameter.
-      Returns the same format as the request.
-      See [Enhanced Fee Management](https://docs.justifi.tech/api-spec#section/Enhanced-Fee-Management) for full documentation.
+    description: fees to return as part of the refund
     items:
-      $ref: ./Fee.yaml
-    example:
-      - type: processing_fee
-        amount: 95
+      type: object
+      properties:
+        type: string
+        description: type of fee
   created_at:
     type: string
     format: date-time

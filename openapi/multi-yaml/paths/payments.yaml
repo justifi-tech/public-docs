@@ -49,49 +49,22 @@ post:
                       example: pm_xyz
             application_fee_amount:
               type: integer
-              deprecated: true
               description: |
-                **Deprecated**: Use the `fees` array instead for granular control over fee types and selective refunds.
-
                 Sets a custom application fee amount that applies to this payment, instead of relying on application fee rates configured at the platform account level (*only Platforms may set application_fee_amount*). Must be greater than zero.
 
-                Existing integrations using this field will continue to work, but new integrations should use the `fees` array.
+                ---
 
-                **Note**: You cannot use both `application_fee_amount` and `fees` in the same request.
+                **Enhanced Fee Management** - *Available for test accounts*
+
+                Use the new `fees` array instead for more control over fee structure and refunds. See [Enhanced Fee Management](https://docs.justifi.tech/api-spec#section/Enhanced-Fee-Management) for full documentation.
+
+                - Separate fee types: `processing_fee` and `platform_fee`
+                - Selective refunds: Choose which fees to return
+                - Clear reporting: Each fee type as a separate balance transaction
+
+                Cannot be used together with `application_fee_amount`.
+
               example: 400
-            fees:
-              type: array
-              description: |
-                Array of fee objects to charge on this payment. Each fee has a type and amount. Use this instead of `application_fee_amount` for granular control over different fee types and selective refunds.
-
-                Supported fee types:
-                - `processing_fee`: Fees related to payment processing costs
-                - `platform_fee`: Fees for your platform's services
-
-                **Validation rules:**
-                - Only one fee of each type is allowed per request
-                - Total fees cannot exceed the payment amount
-                - Cannot be used together with `application_fee_amount`
-
-                See [Enhanced Fee Management](#section/Enhanced-Fee-Management) for full documentation.
-              items:
-                type: object
-                properties:
-                  type:
-                    type: string
-                    enum: [processing_fee, platform_fee]
-                    description: The type of fee
-                    example: processing_fee
-                  amount:
-                    type: integer
-                    description: Fee amount in cents
-                    example: 350
-                required: [type, amount]
-              example:
-                - type: processing_fee
-                  amount: 350
-                - type: platform_fee
-                  amount: 500
             description:
               type: string
               description: your meaningful description of the payment (e.g. an order number or other value from your system)
@@ -174,27 +147,6 @@ post:
                 card:
                   name: Sylvia Fowles
                   number: "4111111111111111"
-                  verification: "123"
-                  month: "3"
-                  year: "2040"
-                  address_postal_code: "55555"
-
-          "Charge_100_USD_with_fees_array":
-            value:
-              amount: 10000
-              currency: "usd"
-              capture_strategy: "automatic"
-              email: example@test.com
-              description: Charging $100 with separate processing and platform fees
-              fees:
-                - type: processing_fee
-                  amount: 350
-                - type: platform_fee
-                  amount: 500
-              payment_method:
-                card:
-                  name: Sylvia Fowles
-                  number: "4242424242424242"
                   verification: "123"
                   month: "3"
                   year: "2040"
@@ -324,69 +276,6 @@ post:
                   transaction_hold:
                     id: th_123xyz
                     financial_transaction_id: ft_123xyz
-                  refunds: []
-                  disputes: []
-                page_info: null
-            "Card_payment_with_fees_array":
-              value:
-                id: py_456xyz
-                type: payment
-                data:
-                  id: py_456xyz
-                  account_id: acc_123xyz
-                  amount_disputed: 0
-                  amount_refunded: 0
-                  amount_returned: 0
-                  amount: 10000
-                  amount_refundable: 10000
-                  balance: 9150
-                  capture_strategy: automatic
-                  captured: true
-                  created_at: "2021-01-01T12:00:00Z"
-                  currency: usd
-                  description: Payment with fees array
-                  disputed: false
-                  error_code: null
-                  error_description: null
-                  fee_amount: 850
-                  financial_transaction_id: "ft_456xyz"
-                  is_test: true
-                  metadata: {}
-                  payment_intent_id: pi_456xyz
-                  checkout_id: null
-                  refunded: false
-                  returned: false
-                  status: succeeded
-                  payment_mode: ecom
-                  terminal_id: null
-                  updated_at: "2021-01-01T12:00:00Z"
-                  fees:
-                    - type: processing_fee
-                      amount: 350
-                    - type: platform_fee
-                      amount: 500
-                  payment_method:
-                    card:
-                      id: pm_456xyz
-                      acct_last_four: "4242"
-                      brand: visa
-                      digital_wallet: null
-                      name: Sylvia Fowles
-                      token: pm_456xyz
-                      metadata: {}
-                      bin_details:
-                        {
-                          "type": "Debit",
-                          "card_brand": "Visa",
-                          "card_class": "Consumer",
-                          "country": "United States of America",
-                          "issuer": "WELLS FARGO BANK",
-                          "funding_source": "Debit",
-                        }
-                      created_at: "2021-01-01T12:00:00Z"
-                      updated_at: "2021-01-01T12:00:00Z"
-                    customer_id: "null"
-                    signature: 123abc
                   refunds: []
                   disputes: []
                 page_info: null
