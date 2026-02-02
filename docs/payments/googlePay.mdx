@@ -37,12 +37,12 @@ For more details on using hosted checkout, see our [Hosted Checkout documentatio
 
 As a supported payment service provider with the Google Pay™ API, our integration lets you as a merchant use Google Pay™ API's gateway integration type, where we handle all of the decryption on your behalf.
 
-When using hosted checkout with Google Pay™, the following values are automatically set in the `TokenizationSpecification` object:
+When using hosted checkout with Google Pay™, the following values are automatically set in the `TokenizationSpecification` object. **No merchant configuration or code is required** — the hosted checkout handles this entirely:
 
-- **gateway:** The value `justifi` is automatically set by our platform in the hosted checkout.
-- **gatewayMerchantID:** This value is automatically set to the sub account which the checkout was created under. For example, if you used your account with the id `acc_m9IjrorZoehPX9BA7kIrn`, we will pass `gateway:acc_m9IjrorZoehPX9BA7kIrn` as the merchant id.
+- **gateway:** Set to `justifi` automatically.
+- **gatewayMerchantId:** Set using the format `gateway:{sub_account_id}`, where `{sub_account_id}` is the sub account the checkout is configured to process payments for. The `gateway:` prefix is used when building the secure payload transmitted to Google and is included automatically.
 
-Here is an example of what our hosted checkout will pass when initializing the Google Pay™ button:
+Here is an example of what the hosted checkout passes when initializing the Google Pay™ button:
 
 ```json
 {
@@ -62,11 +62,16 @@ Google Pay™ provides two different authorization methods: `PAN_ONLY` and `CRYP
 
 - **PAN_ONLY:** Physical card details stored in Google Pay™.
   - Supported countries: United States
-  - 3D Secure (3DS) is not currently supported by JustiFi, so your merchants cannot enable 3DS for PAN_ONLY credentials
+  - These are cards manually added to a user's Google account
+  - Standard fraud detection and authorization checks apply to all PAN_ONLY transactions
 
 - **CRYPTOGRAM_3DS:** Tokenized virtual card stored on device.
-  - Authentication is performed by Google Pay™.
+  - Authentication is performed by Google Pay™
   - Supported countries: United States
+  - These are cards tokenized to Android devices with cryptographic verification
+  - Provides an additional layer of security through device-level authentication
+
+**Authentication note:** JustiFi does not currently support standalone 3D Secure (3DS) authentication for PAN_ONLY credentials. However, CRYPTOGRAM_3DS transactions include built-in authentication performed by Google Pay™ at the device level. For merchants who require enhanced authentication, we recommend encouraging customers to use device-tokenized cards (CRYPTOGRAM_3DS) when available, as these provide stronger security guarantees through Google Pay™'s native authentication.
 
 ### Supported Card Networks
 
@@ -83,12 +88,14 @@ A billing address is not required for our hosted checkout implementation of Goog
 
 ## Handling Google Pay™ Payment Data
 
-When a customer pays with Google Pay™ through hosted checkout, it generates encrypted data which contains the payment data. The encrypted data is automatically sent to the JustiFi backend, and tokenized to a JustiFi Payment method.
+When a customer pays with Google Pay™ through hosted checkout, the entire payment data lifecycle is handled automatically by JustiFi. The hosted checkout component:
 
-### Completing a Checkout with Google Pay™
+1. Receives the encrypted payment data from Google Pay™
+2. Extracts the token from the `paymentMethodData.tokenizationData.token` property
+3. Sends the token securely to the JustiFi backend
+4. Tokenizes the payment data into a JustiFi payment method
+5. Completes the checkout
 
-The hosted checkout automatically handles the secure Google Pay™ data and will complete a checkout upon a successful response from Google Pay™.
-
-The Google Pay™ token will be extracted from the `paymentMethodData.tokenizationData.token` property of the PaymentData response object returned by Google Pay™.
+**No merchant action is required** to process or handle the Google Pay™ payment data. The hosted checkout manages the complete flow from customer authorization through checkout completion.
 
 For more information on completing checkouts, see our [Checkout API documentation](https://docs.justifi.tech/api-spec#tag/Checkouts/operation/CompleteCheckout).
