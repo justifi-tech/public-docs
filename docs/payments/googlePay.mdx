@@ -40,7 +40,7 @@ As a supported payment service provider with the Google Pay™ API, our integrat
 When using hosted checkout with Google Pay™, the following values are automatically set in the `TokenizationSpecification` object. **No merchant configuration or code is required** — the hosted checkout handles this entirely:
 
 - **gateway:** Set to `justifi` automatically.
-- **gatewayMerchantId:** Set using the format `gateway:{sub_account_id}`, where `{sub_account_id}` is the sub account the checkout is configured to process payments for. The `gateway:` prefix is used when building the secure payload transmitted to Google and is included automatically.
+- **gatewayMerchantId:** Set using `{sub_account_id}` which is the sub account the checkout is configured to process payments for.
 
 Here is an example of what the hosted checkout passes when initializing the Google Pay™ button:
 
@@ -50,7 +50,7 @@ Here is an example of what the hosted checkout passes when initializing the Goog
     "type": "PAYMENT_GATEWAY",
     "parameters": {
       "gateway": "justifi",
-      "gatewayMerchantId": "gateway:acc_m9IjrorZoehPX9BA7kIrn"
+      "gatewayMerchantId": "acc_m9IjrorZoehPX9BA7kIrn"
     }
   }
 }
