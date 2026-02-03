@@ -52,7 +52,10 @@ const business = await createBusiness(token);
 ```
 
 ### 3. Generate a web component token
-To render the Hosted Onboarding form, you must generate a web component token. This is a short lived token which is meant to grant short term, fine grained access. The web component requires the role of `write:business:${businessId}` with the id of the business you created in the previous step.
+To render the Hosted Onboarding form, you must generate a web component token. This is a short-lived token intended to grant temporary, fine-grained access. The web component requires the role `write:business:${businessId}`, with the ID of the business created in the previous step.
+
+_Note:The web component token expires after 60 minutes. If the onboarding flow takes longer than that to complete, you’ll need to generate a new web component token and reinitialize the component with the refreshed token._
+
 ```
 async function getWebComponentToken(token, businessId) {
   const response = await fetch('https://api.justifi.ai/v1/web_component_tokens', {
