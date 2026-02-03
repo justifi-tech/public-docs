@@ -62,7 +62,7 @@ const config: Config = {
         specs: [
           {
             spec: "openapi/multi-yaml/index.yaml",
-            route: "/api-spec/",
+            route: "/api-spec",
           },
         ],
         theme: {
@@ -109,7 +109,7 @@ const config: Config = {
           label: "Documentation",
         },
         {
-          to: "/api-spec/",
+          to: "/api-spec",
           label: "API Specification",
           position: "left",
         },

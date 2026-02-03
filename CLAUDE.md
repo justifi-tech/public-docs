@@ -1,94 +1,65 @@
-# JustiFi Public Documentation Repository
+# CLAUDE.md
 
-This repository contains developer documentation for the JustiFi fintech platform.
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Overview
 
-JustiFi is a fintech infrastructure platform. This repo houses three main areas:
+JustiFi developer documentation repository. Three main content areas:
+1. **Long-form docs** (`/docs/`) - MDX integration guides and tutorials
+2. **OpenAPI spec** (`/openapi/multi-yaml/`) - Modular API reference rendered at `/api-spec/`
+3. **Web components** (`/.wc-current/`) - Embeddable payment UI component docs
 
-1. **OpenAPI Technical Specification** - Interactive API reference
-2. **Web Component Library Documentation** - Docs for embeddable payment UI components
-3. **Long-form Documentation** - Integration guides, tutorials, and conceptual docs
+## Commands
 
-## Primary Use Cases for AI Agents
+```bash
+pnpm run start      # Dev server on port 3000
+pnpm run build      # Production build (runs prebuild for .wc-current/)
+pnpm run serve      # Serve built site
+pnpm run typecheck  # TypeScript type checking
+```
 
-- **Documentation work**: Writing, editing, and maintaining docs (most common)
-- **Architecture brainstorming**: Helping with decisions about documentation structure, API design discussions
+No linting scripts are configured in package.json, but ESLint/Prettier configs exist.
 
 ## Tech Stack
 
-- **Framework**: Docusaurus 3.9.2 (React-based static site generator)
-- **API Docs**: Redocusaurus 2.0.0 (renders OpenAPI spec)
-- **Content Format**: MDX (Markdown + React JSX)
-- **Package Manager**: pnpm 10.6.2
-- **TypeScript**: 5.2.2
+- Docusaurus 3.9.2 with Redocusaurus 2.0.0 for OpenAPI rendering
+- MDX for documentation content
+- pnpm 10.6.2 package manager
+- Node >=18 required
 
-## Directory Structure
+## Architecture
 
-```
-public-docs/
-├── docs/                    # Long-form documentation (MDX)
-├── openapi/                 # OpenAPI specification
-│   ├── docs/               # API feature descriptions
-│   └── multi-yaml/         # Modular OpenAPI 3.0.0 spec
-│       ├── index.yaml      # Main entry point
-│       ├── paths/          # 70+ endpoint definitions
-│       ├── components/     # Schemas, headers, parameters
-│       └── code_samples/   # Code examples
-├── .wc-current/            # Web component library docs
-│   ├── entities/           # Entity components
-│   ├── merchant-tools/     # Merchant dashboard components
-│   ├── modular-checkout/   # Checkout implementation
-│   ├── payment-facilitation/
-│   ├── frameworks/         # Framework integration guides
-│   └── mocks/              # Mock data for examples
-├── src/                    # Custom React components & pages
-├── static/                 # Static assets (images)
-├── sidebars.ts            # Main docs navigation
-├── sidebars.web-components.js  # WC auto-generated sidebar
-└── docusaurus.config.ts   # Main config
-```
+### Content Routing
 
-## Key Documentation Sections
+| Content | Source | URL Path |
+|---------|--------|----------|
+| Long-form docs | `/docs/` | `/` (root) |
+| API spec | `/openapi/multi-yaml/index.yaml` | `/api-spec/` |
+| Web components | `/.wc-current/` | `/web-components/` |
 
-### Long-form Docs (`/docs/`)
-- Getting Started
-- Fintech Infrastructure (architecture, entities)
-- API Fundamentals (auth, idempotency, pagination)
-- Checkouts (lifecycle, hosted checkout)
-- Payments (tokenization, Apple Pay, Google Pay, disputes)
-- Payment Methods (ACH, card present/not present)
-- Terminals (ordering, configuration)
-- Testing (cards, ACH, payouts, disputes)
+### OpenAPI Spec Structure
 
-### OpenAPI Spec (`/openapi/`)
-- Base URL: `https://api.justifi.ai/v1`
-- Rendered at `/api-spec/` via Redocusaurus
-- Modular YAML structure in `multi-yaml/`
+The spec uses modular YAML with `$ref` references. When editing:
+- Entry point: `openapi/multi-yaml/index.yaml`
+- Endpoints: `openapi/multi-yaml/paths/` (70+ files, named with `@` for path separators)
+- Schemas/components: `openapi/multi-yaml/components/`
+- Long descriptions: `openapi/docs/` (referenced via `$ref: ../docs/filename.md`)
+- Code samples: `openapi/code_samples/`
 
-### Web Components (`/.wc-current/`)
-- Framework-agnostic embeddable components
-- Merchant tools (payment lists, checkout, terminals)
-- Modular checkout components with sub-components
-- Mock data for development/testing
+### Navigation
 
-## Common Commands
+- Main docs sidebar: `sidebars.ts`
+- Web components sidebar: `sidebars.web-components.js` (auto-generated)
+- Navbar/footer: `docusaurus.config.ts`
 
-```bash
-pnpm run start    # Local dev server (port 3000)
-pnpm run build    # Production build
-pnpm run serve    # Serve built site
-```
-
-## Important Files
+## Key Files
 
 | File | Purpose |
 |------|---------|
-| `docusaurus.config.ts` | Main config, plugins, navbar/footer |
-| `sidebars.ts` | Documentation navigation structure |
+| `docusaurus.config.ts` | Site config, plugins, theme |
+| `sidebars.ts` | Main docs navigation structure |
 | `theme.ts` | Redoc theme (JustiFi branding) |
-| `openapi/multi-yaml/index.yaml` | OpenAPI spec entry point |
 
-## Production URL
+## Production
 
 https://docs.justifi.tech
