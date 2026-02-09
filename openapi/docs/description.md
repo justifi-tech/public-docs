@@ -910,6 +910,9 @@ Both Visa and Mastercard send additional information about how to handle a decli
 | MASTERCARD | 01                     | Updated information needed. Similar to Visa code 3.                                                                                                                            |
 | MASTERCARD | 02                     | Try again later. Similar to Visa code 2.                                                                                                                                       |
 | MASTERCARD | 03                     | Do not try again. Do not attempt again. Similar to Visa code 1.                                                                                                                |
+| ALL        | R0                    | Stop this payment. Stops one specific recurring payment for one merchant and a specific card account.                                                                           |
+| ALL        | R1                    | Stop all future payments. Stops all eligible transactions for one merchant and a specific card account.                                                                         |
+| ALL        | R3                    | Stop all merchants. Stops all payments on a specific card account.                                                                                                              |
 
 ## Enhanced Fee Management
 
