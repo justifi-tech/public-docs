@@ -56,8 +56,8 @@ packages:
     resolution: {integrity: sha512-qSs4ifwzKJSV39ucNjsvc6WVHs6b7S03sOh2OcHF9UHfVPqWWALUsNUVzhSBiItjRZoLHx7nIarVjqKVusUZ1Q==}
     engines: {node: '>=6.9.0'}
 
-  '@babel/runtime-corejs3@7.28.6':
-    resolution: {integrity: sha512-kz2fAQ5UzjV7X7D3ySxmj3vRq89dTpqOZWv76Z6pNPztkwb/0Yj1Mtx1xFrYj6mbIHysxtBot8J4o0JLCblcFw==}
+  '@babel/runtime-corejs3@7.29.0':
+    resolution: {integrity: sha512-TgUkdp71C9pIbBcHudc+gXZnihEDOjUAmXO1VO4HHGES7QLZcShR0stfKIxLSNIYx2fqhmJChOjm/wkF8wv4gA==}
     engines: {node: '>=6.9.0'}
 
   '@eslint-community/eslint-utils@4.9.0':
@@ -365,8 +365,8 @@ packages:
     resolution: {integrity: sha512-MWufYdFw53ccGjCA+Ol7XJYpAlW6/prSMzuPOTRnJGcGzuhLn4Scrz7qf6o8bROZ514ltazcIFJZevcfbo0x7A==}
     engines: {'0': node >= 6.0}
 
-  core-js-pure@3.47.0:
-    resolution: {integrity: sha512-BcxeDbzUrRnXGYIVAGFtcGQVNpFcUhVjr6W7F8XktvQW2iJP9e66GP6xdKotCRFlrxBvNIBrhwKteRXqMV86Nw==}
+  core-js-pure@3.48.0:
+    resolution: {integrity: sha512-1slJgk89tWC51HQ1AEqG+s2VuwpTRr8ocu4n20QUcH1v9lAN0RXen0Q0AABa/DK1I7RrNWLucplOHMx8hfTGTw==}
 
   cross-spawn@7.0.6:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
@@ -700,8 +700,8 @@ packages:
   lodash.merge@4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
 
-  lodash@4.17.21:
-    resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
+  lodash@4.17.23:
+    resolution: {integrity: sha512-LgVTMpQtIopCi79SJeDiP0TfWi5CNEc/L/aRdTh3yIvmZXTnheWpKjSZhnvMl8iXbC1tFg9gdHHDMLoV7CnG+w==}
 
   longest-streak@3.1.0:
     resolution: {integrity: sha512-9Ri+o0JYgehTaVBBDoMqIl8GXtbWg711O3srftcHhZ0dqnETqLaoIK0x17fUw9rFSlK/0NlsKe0Ahhyl5pXE2g==}
@@ -1336,9 +1336,9 @@ snapshots:
 
   '@babel/helper-validator-identifier@7.28.5': {}
 
-  '@babel/runtime-corejs3@7.28.6':
+  '@babel/runtime-corejs3@7.29.0':
     dependencies:
-      core-js-pure: 3.47.0
+      core-js-pure: 3.48.0
 
   '@eslint-community/eslint-utils@4.9.0(eslint@9.39.1)':
     dependencies:
@@ -1417,7 +1417,7 @@ snapshots:
       dinero.js: 1.9.1
       iframe-resizer: 4.4.5
       imask: 7.6.1
-      lodash: 4.17.21
+      lodash: 4.17.23
       rxjs: 7.8.2
       ts-dedent: 2.2.0
       yup: 1.7.1
@@ -1658,7 +1658,7 @@ snapshots:
       readable-stream: 3.6.2
       typedarray: 0.0.6
 
-  core-js-pure@3.47.0: {}
+  core-js-pure@3.48.0: {}
 
   cross-spawn@7.0.6:
     dependencies:
@@ -1911,7 +1911,7 @@ snapshots:
 
   imask@7.6.1:
     dependencies:
-      '@babel/runtime-corejs3': 7.28.6
+      '@babel/runtime-corejs3': 7.29.0
 
   import-fresh@3.3.1:
     dependencies:
@@ -2007,7 +2007,7 @@ snapshots:
 
   lodash.merge@4.6.2: {}
 
-  lodash@4.17.21: {}
+  lodash@4.17.23: {}
 
   longest-streak@3.1.0: {}
 
@@ -2513,7 +2513,7 @@ snapshots:
     dependencies:
       '@miragejs/pretender-node-polyfill': 0.1.2
       inflected: 2.1.0
-      lodash: 4.17.21
+      lodash: 4.17.23
       pretender: 3.4.7
 
   mri@1.2.0: {}
