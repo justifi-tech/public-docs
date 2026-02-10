@@ -70,6 +70,10 @@ During checkout completion a payment is created, processed and linked to the che
 }
 ```
 
+:::note Currency
+The `payment_currency` field reflects the currency of the sub-account processing the checkout (e.g., `usd` or `cad`). Sub-accounts are scoped to a single currency. To process checkouts in CAD, you need a dedicated Canada platform account.
+:::
+
 :::note Fee Structure
 The `payment_fees` array contains fee objects specifying the fees to be applied when the checkout is completed. Each fee has a `type` (`processing_fee` or `platform_fee`) and an `amount` in cents. See [Fees documentation](/checkouts/features#fees) for more details.
 :::
