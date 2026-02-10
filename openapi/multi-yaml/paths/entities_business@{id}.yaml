@@ -13,6 +13,10 @@ patch:
       application/json:
         schema:
           properties:
+            archived:
+              type: boolean
+              example: true
+              description: set to true to archive this business; only test mode businesses can be archived, attempting to archive a live mode business will return an error
             legal_name:
               type: string
               example: "Business Name"
