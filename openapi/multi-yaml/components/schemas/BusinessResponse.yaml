@@ -14,7 +14,7 @@ properties:
     description: mode of the business (test or live)
   archived:
     type: boolean
-    example: true
+    example: false
     description: shows if the business is archived
   legal_name:
     type: string
