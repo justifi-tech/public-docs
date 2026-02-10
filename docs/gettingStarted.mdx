@@ -49,6 +49,18 @@ The following add ons are available in each of these E-commerce solutions:
 - **Card Present Solution**: Terminal integration via Verifone partnership - [see details](https://docs.justifi.tech/category/terminals) 
 - **Payment Method Tokenization**: Collect payment methods for later and recurring charges - [see details](https://docs.justifi.tech/api-spec#tag/Tokenize-via-Component) 
 
+### Currency & Regional Processing
+
+JustiFi supports payment processing in USD and CAD. Each platform and its sub-accounts are scoped to a single currency.
+
+- **Currency Scoping**: Sub-accounts are configured for one currency type (e.g., `usd` or `cad`). A sub-account that processes USD cannot process CAD, and vice versa.
+- **Canada (CAD) Processing**: To process payments in Canadian dollars, you must have a separate Canada platform provisioned by JustiFi.
+- **Payouts**: CAD payout timing differs from USD. USD payouts follow standard daily payout schedules, while CAD payout timing is currently being finalized and will differ from USD.
+
+:::info
+If your business operates in both the US and Canada, you will need separate platform accounts and sub-accounts for each currency. Your USD platform and its sub-accounts handle USD processing, and your CAD platform and its sub-accounts handle CAD processing.
+:::
+
 ### 3. Reporting & Analytics
 
 Access comprehensive reporting on all transaction for your platform as well as merchant specific data. 

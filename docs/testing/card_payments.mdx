@@ -8,6 +8,11 @@ keywords:
 ---
 
 To simulate different scenarios (success and failure) [create a payment via API](https://docs.justifi.tech/api-spec#tag/Payments/operation/CreatePayment) and pass the test scenario in the metadata property.
+
+:::note Currency
+The `currency` field in the examples below uses `usd`. For CAD testing, use `cad` instead. The currency must match the currency configured for the sub-account. Sub-accounts are scoped to a single currency type.
+:::
+
 Here's an example of how to create a test payment using cURL:
 
 ```
