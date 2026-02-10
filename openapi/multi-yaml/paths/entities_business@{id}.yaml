@@ -69,6 +69,10 @@ patch:
               type: string
               example: "2015-02-20"
               description: the specific day when this business was officially registered with a relevant government authority and was then permitted to carry out its activities
+            archived:
+              type: boolean
+              example: true
+              description: archive the business (only test mode business can be archived)
             metadata:
               type: object
               description: any useful information you'd like to store alongside this business

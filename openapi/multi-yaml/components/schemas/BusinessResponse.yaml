@@ -8,6 +8,14 @@ properties:
     type: string
     format: uuid
     example: acc_xyz
+  mode:
+    type: string
+    example: test
+    description: mode of the business (test or live)
+  archived:
+    type: boolean
+    example: true
+    description: shows if the business is archived
   legal_name:
     type: string
     example: "Business Name"

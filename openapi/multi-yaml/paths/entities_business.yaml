@@ -89,6 +89,10 @@ post:
               enum: [USA, CAN]
               example: "USA"
               description: country where the business was established. Defaults to "USA" if not provided (_cannot be changed after creation_)
+            archived:
+              type: boolean
+              example: true
+              description: archive the business (only test mode business can be archived)
             metadata:
               type: object
               description: any useful information you'd like to store alongside this business
