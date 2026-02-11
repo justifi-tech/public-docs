@@ -19,7 +19,7 @@ properties:
     example: '2021-01-01T12:00:00Z'
   currency:
     type: string
-    enum: [usd]
+    enum: [usd, cad]
     example: usd
   description:
     type: string

@@ -24,7 +24,7 @@ post:
               description: amount to charge in cents
             currency:
               type: string
-              enum: [usd]
+              enum: [usd, cad]
               example: usd
             partner_quote_id:
               type: string

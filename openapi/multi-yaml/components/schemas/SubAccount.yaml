@@ -29,7 +29,7 @@ properties:
     example: enabled
   currency:
     type: string
-    enum: [usd]
+    enum: [usd, cad]
     example: usd
   platform_account_id:
     description: id of associated platform account

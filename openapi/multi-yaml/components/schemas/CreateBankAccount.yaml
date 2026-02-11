@@ -31,7 +31,7 @@ properties:
     description: "currency of the bank account"
     type: string
     example: usd
-    enum: [usd]
+    enum: [usd, cad]
   bank_name:
     description: bank name
     type: string

@@ -25,7 +25,7 @@ post:
               description: amount to charge in cents
             currency:
               type: string
-              enum: [usd]
+              enum: [usd, cad]
               example: usd
             capture_strategy:
               type: string
