@@ -14,7 +14,7 @@ properties:
     example: 10000
   currency:
     type: string
-    enum: [usd]
+    enum: [usd, cad]
     example: usd
   partner_name:
     type: string

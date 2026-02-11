@@ -26,7 +26,7 @@ properties:
     example: 10000
   payment_currency:
     type: string
-    enum: [USD]
+    enum: [USD, CAD]
     example: USD
   payment_description:
     type: string

@@ -15,7 +15,7 @@ properties:
     example: 53550
   currency:
     type: string
-    enum: [usd]
+    enum: [usd, cad]
     example: usd
   financial_transaction_id:
     description: id of the financial transaction associated with the payment balance transaction

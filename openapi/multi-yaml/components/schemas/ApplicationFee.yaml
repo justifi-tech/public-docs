@@ -11,7 +11,7 @@ properties:
     example: 150
   currency:
     type: string
-    enum: [usd]
+    enum: [usd, cad]
     example: usd
   created_at:
     type: string

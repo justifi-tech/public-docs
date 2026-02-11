@@ -46,7 +46,7 @@ properties:
     enum: [automatic, manual]
   currency:
     type: string
-    enum: [usd]
+    enum: [usd, cad]
     example: usd
   description:
     type: string

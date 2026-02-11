@@ -22,7 +22,7 @@ properties:
   currency:
     type: string
     description: Currency of the fee amount. Present when fetching a payment.
-    enum: [usd]
+    enum: [usd, cad]
     example: usd
   remaining_amount:
     type: integer

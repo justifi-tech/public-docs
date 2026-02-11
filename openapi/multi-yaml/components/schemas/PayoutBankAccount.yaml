@@ -18,11 +18,11 @@ properties:
     type: string
   country:
     type: string
-    enum: [US]
+    enum: [US, CA]
     example: US
   currency:
     type: string
-    enum: [usd]
+    enum: [usd, cad]
     example: usd
   nickname:
     type: string
