@@ -66,7 +66,7 @@ Simulates a payment declined due to insufficient funds on the card.
 {
   "error": {
     "code": "card_declined",
-    "decline_code": "insufficient_funds", 
+    "decline_code": "insufficient_funds",
     "message": "Your card has insufficient funds.",
     "network_error_code": "116"
   }
@@ -84,7 +84,7 @@ Simulates a payment with an expired card.
   "error": {
     "code": "card_declined",
     "decline_code": "expired_card",
-    "message": "Your card has expired.", 
+    "message": "Your card has expired.",
     "network_error_code": "101"
   }
 }
@@ -151,7 +151,7 @@ Simulates a payment with a restricted card.
 {
   "error": {
     "code": "card_declined",
-    "decline_code": "restricted_card", 
+    "decline_code": "restricted_card",
     "message": "Your card has been restricted.",
     "network_error_code": "102"
   }
@@ -281,6 +281,18 @@ Simulates the error when trying to use a real card number in test mode.
 `generic_decline`
 
 Simulates a generic payment decline with no specific reason.
+
+`generic_error_change_info`
+
+Simulates a generic error with a network error category and a message indicating that the card information needs to be updated.
+
+`generic_error_do_not_retry`
+
+Simulates a generic error with a network error category and a message indicating that the payment should not be retried.
+
+`generic_error_please_retry`
+
+Simulates a generic error with a network error category and a message indicating that the payment should be retried.
 
 ## Webhook Events
 
