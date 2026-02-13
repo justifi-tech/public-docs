@@ -5,12 +5,14 @@ post:
     This is due to the nature of the payments API, to reduce rejections, and false positive fraud detection during bulk
     payment processing.
 
-    **Payment methods must be tokenized before creating a payment.** Tokenize payment methods using the
-    **[JustiFi Payment Method Web Component](https://docs.justifi.tech/web-components/)** — our embedded UI component that securely collects and tokenizes card or bank account details.
+    **Payment methods must be tokenized before creating a payment.** Tokenize payment methods use the embedded
+    **[JustiFi Tokenize Payment Method Web Component](https://docs.justifi.tech/web-components/payment-facilitation/tokenize-payment-method)** 
+    to securely collect and tokenize card or bank account details.
 
     Once you have a payment method token (e.g. `pm_justifi123`), pass it in the `payment_method.token` field to create a payment.
 
-    > **Note:** Passing raw card or bank account details directly to this endpoint requires prior approval. Contact JustiFi support if you have a use case that requires direct PAN submission. At minimum, a completed SAQ (Self-Assessment Questionnaire) is required to allow raw PAN submissions.
+    > **Note:** Passing raw card or bank account details directly to this endpoint requires prior approval. Contact [JustiFi Customer Success](mailto:customer_success@justifi.tech) 
+    if you have a use case that requires direct PAN submission. At minimum, a completed SAQ (Self-Assessment Questionnaire) is required to allow raw PAN submissions.
 
     *Note: If the sub account status is not `enabled`, `400` will be returned.*
   operationId: CreatePayment
@@ -48,7 +50,7 @@ post:
               properties:
                 token:
                   type: string
-                  description: A payment method token obtained from the JustiFi Payment Method Web Component.
+                  description: A payment method token obtained from the JustiFi Tokenize Payment Method Web Component.
                   example: pm_xyz
               required: [token]
             application_fee_amount:

@@ -87,7 +87,7 @@ post:
 
                     Cannot be used together with `application_fees`.
                   items:
-                    $ref: ../../components/schemas/Fee.yaml
+                    $ref: ../components/schemas/Fee.yaml
                   example:
                     - type: processing_fee
                       amount: 350
