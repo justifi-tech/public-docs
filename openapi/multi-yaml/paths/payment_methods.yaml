@@ -2,12 +2,14 @@ post:
   summary: Create a Payment Method
   description: |
     **This endpoint requires prior approval.** New integrations should use the
-    **[JustiFi Payment Method Web Component](https://docs.justifi.tech/web-components/)** to securely collect and tokenize payment method details.
+    **[JustiFi Tokenize Payment Method Web Component](https://docs.justifi.tech/web-components/payment-facilitation/tokenize-payment-method)** 
+    to securely collect and tokenize payment method details.
 
     The web component handles PCI-scoped data collection and returns a payment method token that you can pass to the
     [Create Payment](https://docs.justifi.tech/api-spec#tag/Payments/operation/CreatePayment) endpoint.
 
-    If you have a use case that requires creating payment methods directly via the API, contact JustiFi support for approval. At minimum, a completed SAQ (Self-Assessment Questionnaire) is required to allow raw PAN submissions.
+    If you have a use case that requires creating payment methods directly via the API, contact [JustiFi Customer Success](mailto:customer_success@justifi.tech) for approval. 
+    At minimum, a completed SAQ (Self-Assessment Questionnaire) is required to allow raw PAN submissions.
 
     *Note: If the sub account status is not `enabled`, `400` will be returned.*
   operationId: CreatePaymentMethod
@@ -46,7 +48,7 @@ post:
         examples:
           "Create_a_payment_method_for_card_payments":
             summary: "Card payment method (requires SAQ approval)"
-            description: "Requires prior approval and a completed SAQ (Self-Assessment Questionnaire). New integrations should use the Payment Method Web Component instead."
+            description: "Requires prior approval and a completed SAQ (Self-Assessment Questionnaire). If possible use the Tokenize Payment Method Web Component instead."
             value:
               payment_method:
                 payment_method_group_id: "pmg_123xyz"
@@ -61,7 +63,7 @@ post:
                     new: info
           "Create_a_payment_method_for_ACH_payments":
             summary: "ACH payment method (requires SAQ approval)"
-            description: "Requires prior approval and a completed SAQ (Self-Assessment Questionnaire). New integrations should use the Payment Method Web Component instead."
+            description: "Requires prior approval and a completed SAQ (Self-Assessment Questionnaire). If possible use the Tokenize Payment Method Web Component instead."
             value:
               payment_method:
                 payment_method_group_id: "pmg_123xyz"
@@ -77,7 +79,7 @@ post:
                     new: info
           "Create_a_reusable_payment_method_for_card_payments":
             summary: "Reusable card payment method (requires SAQ approval)"
-            description: "Requires prior approval and a completed SAQ (Self-Assessment Questionnaire). New integrations should use the Payment Method Web Component instead."
+            description: "Requires prior approval and a completed SAQ (Self-Assessment Questionnaire). If possible use the Payment Method Web Component instead."
             value:
               email: example@test.com
               payment_method:
@@ -92,7 +94,7 @@ post:
                     new: info
           "Create_an_expired_payment_method_for_card_payments":
             summary: "Force tokenize expired card (requires SAQ approval)"
-            description: "Requires prior approval and a completed SAQ (Self-Assessment Questionnaire). New integrations should use the Payment Method Web Component instead."
+            description: "Requires prior approval and a completed SAQ (Self-Assessment Questionnaire). If possible use the Payment Method Web Component instead."
             value:
               force_tokenize: true
               payment_method:
@@ -107,7 +109,7 @@ post:
                     new: info
           "Create_payment_method_associated_with_a_payment_method_group":
             summary: "Payment method group association (requires SAQ approval)"
-            description: "Requires prior approval and a completed SAQ (Self-Assessment Questionnaire). New integrations should use the Payment Method Web Component instead."
+            description: "Requires prior approval and a completed SAQ (Self-Assessment Questionnaire). If possible use the Payment Method Web Component instead."
             value:
               force_tokenize: true
               payment_method:

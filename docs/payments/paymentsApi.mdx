@@ -32,8 +32,8 @@ and ease of integration.
 ## Creating Payments
 
 Payment methods must be tokenized before creating a payment. Use the
-**[JustiFi Payment Method Web Component](/web-components/)** to securely collect and tokenize
-card or bank account details. The web component returns a payment method token that you pass
+**[JustiFi Tokenize Payment Method Web Component](https://docs.justifi.tech/web-components/payment-facilitation/tokenize-payment-method)** to securely collect and tokenize
+card or bank account details. The web component returns a payment method token that you can pass
 to the Create Payment endpoint.
 
 ```
@@ -49,7 +49,7 @@ POST /v1/payments
 ```
 
 > **Note:** Passing raw card or bank account details directly to the Payments API requires prior
-> approval. Contact JustiFi support if you have a use case that requires direct PAN submission.
+> approval. Contact [JustiFi Customer Success](mailto:customer_success@justifi.tech) if you have a use case that requires direct PAN submission.
 > At minimum, a completed SAQ (Self-Assessment Questionnaire) is required to allow raw PAN submissions.
 
 ## Integrating the Payments API
@@ -71,7 +71,8 @@ POST /v1/payments
 
 ### Compliance Adherence
 
-- **Reduced PCI Scope:** By using JustiFi's Payment Method Web Component to tokenize payment
+- **Reduced PCI Scope:** By using [JustiFi's Tokenize Payment Method Web Component](https://docs.justifi.tech/web-components/payment-facilitation/tokenize-payment-method) 
+  to tokenize payment method
   details, your application avoids directly handling PCI-scoped data like card numbers and bank
   account numbers. This significantly reduces your PCI compliance burden.
 
