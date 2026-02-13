@@ -1,0 +1,51 @@
+---
+title: Use JustiFi Dashboard
+description: Learn how to provision a business and process a payment on the JustiFi dashboard
+sidebar_label: Process on Dashboard
+keywords:
+  - fintech
+  - products
+  - dashboard
+  - guide
+  - quick start
+---
+
+# Process on JustiFi Dashboard
+
+The JustiFi dashboard offers a convenient way to provision a business and process your first JustiFi payment. This workflow showcases the steps needed to get a merchant ready for payment processing and doesn't require an API integration. 
+
+## Prerequisites
+
+### JustiFi Dashboard Access
+- Login credentials provided by your Customer Success representative
+- Access the dashboard at [https://app.justifi.ai](https://app.justifi.ai/)
+
+### Enable test mode
+Navigate to **"Developers"** and toggle **"Test Mode"** ON for sandbox environment testing.
+
+## Provision a business and process a payment
+
+### Step 1: Create a Business
+Each of your merchants will need to be provisioned for payments on the JustiFi platform.  
+Go to **"Entities"** -> **"Businesses"** and click the **"Create Business"** button. The newly created business will appear in the Businesses list.
+
+### Step 2: Complete Merchant Onboarding via JustiFi Hosted Onboarding
+1. Click on the newly created business to get to the business detail page.
+2. Click the **"Provision Payments"** button to open the JustiFi Hosted Onboarding form. 
+3. Fill in the form with test data and submit the form. JustiFi will create a sub account for this business which is required for payment processing.
+4. JustiFi handles all compliance and underwriting requirements and enables the sub account for payment processing. In the case of a test business the sub account will be immediately enabled.
+5. Go to **"Payments"** -> **"Sub Accounts"** to view the newly created and enabled sub account. The name of the sub account matches the DBA (Doing Business As) value of the business.
+
+### Step 3: Create a Checkout
+1. Go to **"Payments"** -> **"Checkouts"** and click **"Create Checkout"**.
+2. Select the sub account that was just created, enter an amount and an optional description and submit.
+3. Go to the checkout detail page
+
+### Step 4: Process Your First Payment
+On the checkout detail page click the **"Hosted Checkout URL"**
+You will be redirected to the JustiFi Hosted Checkout form where you can complete the payment via credit card or ACH. Choose from the test card and bank account numbers listed in our developer docs [Test payment methods](https://docs.justifi.tech/api-spec#section/Testing)\
+Depending on your choice of test payment method the checkout will either be completed as successful or attempted if there was a failure. Unless the failure was triggered during payment method tokenization (before it was processed) a payment is created for the checkout.
+
+
+### Step 5: View the payment
+Go back to the checkout detail page and refresh the page. The associated payment will be linked on the bottom of the page. The payment detail provides detailed payment and fee data as well as information about the payment method used for payment processing.

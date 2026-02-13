@@ -1,0 +1,63 @@
+---
+title: Use JustiFi Hosted Approach
+description: Learn how to provision a business and process a payment using JustiFi hosted options
+sidebar_label: JustiFi Hosted Approach
+keywords:
+  - fintech
+  - products
+  - hosted
+  - guide
+  - quick start
+---
+
+# Use JustiFi Hosted Onboarding and Checkout
+
+
+## Prerequisites
+
+Before you begin integration, ensure you have:
+
+### 1. JustiFi Dashboard Access
+- Login credentials provided by your Customer Success representative
+- Access the dashboard at [https://app.justifi.ai](https://app.justifi.ai/)
+
+### 2. API Credentials
+To generate your API credentials:
+1. Log into the JustiFi dashboard
+2. Navigate to **Developers**
+3. Toggle **Test Mode** ON for sandbox environment testing
+4. Go to **API Keys** and create a test API key
+5. Store your API key securely - it determines your environment (test/production)
+
+### 3. Environment Setup
+- **Test Environment**: Use test API keys for development and testing
+- **Production Environment**: Use production API keys for live transactions
+- The API key environment automatically routes your requests to the correct environment
+## Quick Start Integration
+
+### Step 1: Setup JustiFi Hosted Onboarding
+
+The following integration guide explains the few steps needed to host the JustiFi Hosted Onboarding form on your platform:
+[Hosted Onboarding integration guide](https://docs.justifi.tech/api-spec#tag/Onboarding-via-Component)
+
+
+
+
+### Step 4: Process Your First Payment
+
+Once your merchant is approved (typically 1-2 business days), you can start processing payments:
+
+#### Using Hosted Checkout:
+```bash
+curl -X POST https://api.justifi.ai/v1/checkouts \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "sub_account_id": "sa_123",
+    "amount": 1000,
+    "currency": "usd",
+    "description": "Test payment"
+  }'
+```
+
+Redirect customers to the returned `checkout_url`.
