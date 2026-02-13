@@ -26,11 +26,6 @@ tags:
       tokenized or tokenize a new one when you create the payment.
       If a payment fails, the status will reflect it and an error code will be returned.
       You can retrieve information about your payments and refund them if needed.
-  - name: Payment Intents (use checkouts)
-    description: |
-      **We no longer allow new platforms to use this API. Use the [Checkout API](https://docs.justifi.tech/api-spec#tag/Checkouts) instead. This API will be retired in the future as existing integrators migrate.**
-
-      *Note: Payment Intents do NOT support dynamic fees. A platform may set a custom application fee amount that applies to a payment using [Create a Payment](https://docs.justifi.tech/api-spec#tag/Payments/operation/CreatePayment) directly.*
   - name: Payment Methods
     description: |
       Payment methods refer to the specific form of payment each customer uses
@@ -444,7 +439,6 @@ x-tagGroups:
   - name: Payment Resources
     tags:
       - Payments
-      - Payment Intents (use checkouts)
       - Payment Methods
       - Tokenize via Component
       - Payment Method Groups
@@ -500,14 +494,6 @@ paths:
     $ref: paths/proceeds@{id}.yaml
   /reports/proceeds/{id}:
     $ref: paths/report_proceeds@{id}.yaml
-  /payment_intents:
-    $ref: paths/payment_intents.yaml
-  /payment_intents/{id}:
-    $ref: paths/payment_intents@{id}.yaml
-  /payment_intents/{id}/capture:
-    $ref: paths/payment_intents@{id}@capture.yaml
-  /payment_intents/{id}/payments:
-    $ref: paths/payment_intents@{id}@payments.yaml
   /payments:
     $ref: paths/payments.yaml
   /payments/{id}:
@@ -620,8 +606,6 @@ paths:
 x-webhooks:
   payments:
     $ref: events/payments.yaml
-  payment_intents:
-    $ref: events/payment_intents.yaml
   payment_methods:
     $ref: events/payment_methods.yaml
   refunds:
