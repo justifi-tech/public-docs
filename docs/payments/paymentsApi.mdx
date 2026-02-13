@@ -29,6 +29,29 @@ and ease of integration.
 - **Refunds and Cancellations:** Manage transaction reversals efficiently.
 - **Transaction History:** Retrieve historical transaction data for record-keeping and analysis.
 
+## Creating Payments
+
+Payment methods must be tokenized before creating a payment. Use the
+**[JustiFi Payment Method Web Component](/web-components/)** to securely collect and tokenize
+card or bank account details. The web component returns a payment method token that you pass
+to the Create Payment endpoint.
+
+```
+POST /v1/payments
+{
+  "amount": 1000,
+  "currency": "usd",
+  "capture_strategy": "automatic",
+  "payment_method": {
+    "token": "pm_justifi123"
+  }
+}
+```
+
+> **Note:** Passing raw card or bank account details directly to the Payments API requires prior
+> approval. Contact JustiFi support if you have a use case that requires direct PAN submission.
+> At minimum, a completed SAQ (Self-Assessment Questionnaire) is required to allow raw PAN submissions.
+
 ## Integrating the Payments API
 
 ### Getting Started
@@ -44,34 +67,17 @@ and ease of integration.
 - **Response Handling:** Understanding the API's response structure and how to interpret different
   response codes.
 
-## Example API Calls
-
-- **Payment Submission:** Sample API call for submitting a payment.
-- **Transaction Inquiry:** Example of how to query a past transaction.
-
 ## Best Practices
-{/* commented out until we have content
-
-### Security Measures
-
-- [Content on security measures]
-
-### Error Handling
-
-- [Content on error handling strategies]
-*/}
 
 ### Compliance Adherence
 
-- **Understanding PCI Scope:** Be aware that directly transmitting PCI data (such as credit card
-  information) to the JustiFi API may place your application within the scope of PCI compliance.
-  This means you will need to ensure that your system adheres to PCI standards, which could involve
-  additional security measures and validations.
+- **Reduced PCI Scope:** By using JustiFi's Payment Method Web Component to tokenize payment
+  details, your application avoids directly handling PCI-scoped data like card numbers and bank
+  account numbers. This significantly reduces your PCI compliance burden.
 
-  > **Important:** While JustiFi ensures the highest level of security and compliance in its
-  > infrastructure, the way you handle and transmit payment data can affect your own PCI compliance
-  > requirements. We recommend consulting with a PCI compliance expert to understand the implications
-  > for your specific application.
+  > **Important:** If you have prior approval to pass raw payment method details directly to the API,
+  > be aware that this places your application within the scope of PCI compliance. At minimum, a
+  > completed SAQ (Self-Assessment Questionnaire) is required.
 
 By following these best practices, you can effectively use the JustiFi Payments API, ensuring
 secure, efficient, and compliant financial transactions.

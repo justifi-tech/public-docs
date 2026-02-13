@@ -5,6 +5,13 @@ post:
     This is due to the nature of the payments API, to reduce rejections, and false positive fraud detection during bulk
     payment processing.
 
+    **Payment methods must be tokenized before creating a payment.** Tokenize payment methods using the
+    **[JustiFi Payment Method Web Component](https://docs.justifi.tech/web-components/)** — our embedded UI component that securely collects and tokenizes card or bank account details.
+
+    Once you have a payment method token (e.g. `pm_justifi123`), pass it in the `payment_method.token` field to create a payment.
+
+    > **Note:** Passing raw card or bank account details directly to this endpoint requires prior approval. Contact JustiFi support if you have a use case that requires direct PAN submission. At minimum, a completed SAQ (Self-Assessment Questionnaire) is required to allow raw PAN submissions.
+
     *Note: If the sub account status is not `enabled`, `400` will be returned.*
   operationId: CreatePayment
   tags:
@@ -37,16 +44,13 @@ post:
               type: string
               format: email
             payment_method:
-              oneOf:
-                - type: object
-                  properties:
-                    card:
-                      $ref: ../components/schemas/CreateCard.yaml
-                    bank_account:
-                      $ref: ../components/schemas/CreateBankAccount.yaml
-                    token:
-                      type: string
-                      example: pm_xyz
+              type: object
+              properties:
+                token:
+                  type: string
+                  description: A payment method token obtained from the JustiFi Payment Method Web Component.
+                  example: pm_xyz
+              required: [token]
             application_fee_amount:
               type: integer
               description: |
@@ -104,66 +108,26 @@ post:
               example: null
           required: [amount, currency, capture_strategy, payment_method]
         examples:
-          "Charge_10_USD_to_a_Card":
-            value:
-              amount: 1000
-              currency: "usd"
-              capture_strategy: "automatic"
-              email: example@test.com
-              description: Charging $10 to the test card
-              payment_method:
-                card:
-                  name: Sylvia Fowles
-                  number: "4111111111111111"
-                  verification: "123"
-                  month: "3"
-                  year: "2040"
-                  address_postal_code: "55555"
-
-          "Charge_10_USD_to_a_Bank_Account":
-            value:
-              amount: 1000
-              currency: "usd"
-              capture_strategy: "automatic"
-              email: example@test.com
-              description: Charging $10 a bank account
-              expedited: true
-              payment_method:
-                bank_account:
-                  account_owner_name: Lindsay Whalen
-                  routing_number: "110000000"
-                  account_number: "000123456789"
-                  account_type: checking
-                  account_owner_type: individual
-                  country: "US"
-                  currency: "usd"
-
           "Charge_10_USD_to_a_Tokenized_Payment_Method":
             value:
               amount: 1000
               currency: "usd"
               capture_strategy: "automatic"
               email: example@test.com
-              description: Charging $10 a tokenized payment method
+              description: Charging $10 to a tokenized payment method
               payment_method:
                 token: "pm_justifi123"
 
-          "Charge_10_USD_to_a_Card_With_1.50_USD_Custom_application_fee_amount":
+          "Charge_10_USD_with_Custom_Application_Fee":
             value:
               amount: 1000
               application_fee_amount: 150
               currency: "usd"
               capture_strategy: "automatic"
               email: example@test.com
-              description: Charging $10 to the test card
+              description: Charging $10 with a $1.50 application fee
               payment_method:
-                card:
-                  name: Sylvia Fowles
-                  number: "4111111111111111"
-                  verification: "123"
-                  month: "3"
-                  year: "2040"
-                  address_postal_code: "55555"
+                token: "pm_justifi123"
 
           "Charge_100_USD_with_Enhanced_Fees":
             value:
@@ -178,13 +142,7 @@ post:
                 - type: platform_fee
                   amount: 500
               payment_method:
-                card:
-                  name: Sylvia Fowles
-                  number: "4111111111111111"
-                  verification: "123"
-                  month: "3"
-                  year: "2040"
-                  address_postal_code: "55555"
+                token: "pm_justifi123"
 
           "Create_Test_Dispute_Won":
             value:
@@ -200,13 +158,7 @@ post:
                   due_date: "2024-02-15"
                   event_publish_delay_in_seconds: 60
               payment_method:
-                card:
-                  name: John Doe
-                  number: "4242424242424242"
-                  verification: "123"
-                  month: "12"
-                  year: "2030"
-                  address_postal_code: "12345"
+                token: "pm_justifi123"
 
           "Create_Test_Dispute_Lost":
             value:
@@ -221,13 +173,7 @@ post:
                   reason: "product_not_received"
                   due_date: "2024-02-20"
               payment_method:
-                card:
-                  name: Jane Smith
-                  number: "4242424242424242"
-                  verification: "456"
-                  month: "6"
-                  year: "2029"
-                  address_postal_code: "67890"
+                token: "pm_justifi123"
   responses:
     "201":
       description: Payment was created successfully
