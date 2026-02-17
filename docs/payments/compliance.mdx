@@ -66,6 +66,27 @@ creating Card Payment Methods, the card data will be traversing your system. In 
 will require you to provide an annual PCI-DSS Attestation of Compliance to ensure adherence to
 security standards.
 
+## `full_pan_not_allowed` Error
+
+If you attempt to pass a full card number (PAN) directly to the Create Payment or Create Payment Method
+endpoints without prior PCI approval, the API will return a `400` error:
+
+```json
+{
+  "error": {
+    "code": "full_pan_not_allowed",
+    "message": "Full card numbers are not accepted on this endpoint. Please use the tokenization iframe to create a payment method token first."
+  }
+}
+```
+
+This restriction exists to protect platforms that have not completed PCI compliance from inadvertently
+handling raw card data.
+
+**To resolve this error**, use the [JustiFi Tokenize Payment Method Web Component](https://docs.justifi.tech/web-components/payment-facilitation/tokenize-payment-method) to collect card details securely and obtain a payment method token (`pm_...`), then pass that token to the API.
+
+If you are PCI compliant and need to submit full card numbers directly, contact [JustiFi Customer Success](mailto:customer_success@justifi.tech) to provide proof of PCI compliance and have this restriction removed for your account.
+
 ## Customer’s Compliance Journey
 
 To embark on your PCI compliance journey:
