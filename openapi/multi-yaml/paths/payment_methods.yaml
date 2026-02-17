@@ -133,6 +133,19 @@ post:
               - $ref: ../components/schemas/CardResponse.yaml
               - $ref: ../components/schemas/BankAccountResponse.yaml
               - $ref: ../components/schemas/CardPresentResponse.yaml
+    '400':
+      description: Full card number submitted without PCI approval
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/PaymentError.yaml
+          examples:
+            "Full_PAN_not_allowed":
+              value:
+                error:
+                  code: full_pan_not_allowed
+                  message: "Full card numbers are not accepted on this endpoint. Please use the tokenization iframe to create a payment method token first."
 
 get:
   summary: List Payment Methods
