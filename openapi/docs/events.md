@@ -18,6 +18,7 @@ We will publish the following events:
 - payment_method.created
 - payment_method.updated
 - payment_method.bin_mapped
+- payment_method.card_present_payment_method_imported
 - payment_intent.attached
 - payment_intent.created
 - payment_intent.requires_capture
