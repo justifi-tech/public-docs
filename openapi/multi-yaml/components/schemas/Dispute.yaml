@@ -20,7 +20,7 @@ properties:
     example: 100
   currency:
     type: string
-    enum: [usd]
+    enum: [usd, cad]
     example: usd
   reason:
     type: string

@@ -21,6 +21,10 @@ and Terminal (Card Reader) Payments.
 
 _note: New features will be documented here as they become available._
 
+:::note Currency Support
+Checkouts support both USD and CAD currencies. The currency is determined by the sub-account processing the checkout — each sub-account is scoped to a single currency. To process checkouts in CAD, a dedicated Canada platform account is required.
+:::
+
 ### Card and ACH Payment
 
 - To process a card or ACH payment through this API, refer to [Checkout via API](https://docs.justifi.tech/api-spec#tag/Checkout-via-API)
@@ -30,18 +34,18 @@ _note: New features will be documented here as they become available._
 
 - To include an insurance quote in a Checkout, first contact [customer_success@justifi.tech](mailto:customer_success@justifi.tech)
   to enable insurance payments for your platform. Ensure the required insurance type is available through our provider.
-- After creating a Checkout, use the [Unified Fintech Checkout™ Component with insurance](https://storybook.justifi.ai/?path=/story/payment-facilitation-unified-fintech-checkout%E2%84%A2--checkout-insurance)
+- After creating a Checkout, use the [Unified Fintech Checkout™ Component with insurance](/web-components/payment-facilitation/unified-fintech-checkout%E2%84%A2)
   to collect the insurance payment.
 
 ### BNPL Payments
 
 - To enable BNPL payments, contact [customer_success@justifi.tech](mailto:customer_success@justifi.tech)
   to activate BNPL for your platform and sub account.
-- After creating a Checkout, use the [Unified Fintech Checkout™ Component](https://storybook.justifi.ai/?path=/story/payment-facilitation-unified-fintech-checkout%E2%84%A2--example)
+- After creating a Checkout, use the [Unified Fintech Checkout™ Component](/web-components/payment-facilitation/unified-fintech-checkout%E2%84%A2)
   with the BNPL option (default).
 
 _note: Disable the BNPL option by passing the correspondent prop to the web component:
-[disable-bnpl](https://storybook.justifi.ai/?path=/docs/payment-facilitation-unified-fintech-checkout%E2%84%A2--docs)_
+[disable-bnpl](/web-components/payment-facilitation/unified-fintech-checkout%E2%84%A2)_
 
 ### Terminal (Card Reader) Payments
 
@@ -49,27 +53,63 @@ _note: Disable the BNPL option by passing the correspondent prop to the web comp
   to enable the card-present feature. JustiFi will then provision and configure terminals for your sub accounts.
 - Find detailed steps in the [Terminals API](https://docs.justifi.tech/api-spec#tag/Terminals)
 
-### Application Fees
+### Fees
+
+Checkouts support flexible fee structures that allow you to specify different fee types.
+This enables transparent reporting for merchants and selective fee refunds.
+
+#### Using the Fees Array (Recommended)
+
+Use the `payment.fees` parameter to specify fee types when creating a checkout:
+
+```json
+{
+  "amount": 10000,
+  "description": "order_xyz",
+  "payment": {
+    "fees": [
+      { "type": "processing_fee", "amount": 295 },
+      { "type": "platform_fee", "amount": 150 }
+    ]
+  }
+}
+```
+
+**Supported fee types:**
+- `processing_fee` - Fees related to payment processing costs
+- `platform_fee` - Fees for your platform's services
+
+**Benefits of using the fees array:**
+- **Transparent reporting**: Each fee type appears as a separate line item in merchant balance transactions
+- **Selective refunds**: When processing refunds, you can choose which fees to return to the merchant
+
+For full documentation, see [Enhanced Fee Management](https://docs.justifi.tech/api-spec#section/Enhanced-Fee-Management).
+
+#### Application Fees
+
+:::info For Existing Integrations
+The `application_fees` parameter continues to work for existing integrations. **New integrations** should use `payment.fees` instead for selective refund support.
+:::
 
 - Application Fees are configured at the Platform level and can be customized for specific sub accounts.
   Checkouts add an additional layer of flexibility by allowing the use of the `application_fees` parameter
   when creating a checkout.
 
 - **Create a Checkout:** Use the [Create Checkout API](https://docs.justifi.tech/api-spec#tag/Checkouts)
-   with custom application fees (in cents) for card and bank payments, as in the following example:
+  with custom application fees (in cents) for card and bank payments, as in the following example:
 
 ```json
 {
-   "amount": 1000,
-   "description": "test checkout application fees",
-   "application_fees": {
-      "card": {
-         "amount": "200"
-      },
-      "bank_account": {
-         "amount": "100"
-      }
-   }
+  "amount": 1000,
+  "description": "test checkout application fees",
+  "application_fees": {
+    "card": {
+      "amount": "200"
+    },
+    "bank_account": {
+      "amount": "100"
+    }
+  }
 }
 ```
 
@@ -77,13 +117,14 @@ _note: Disable the BNPL option by passing the correspondent prop to the web comp
   It overwrites the `application_fee_rate` set for the sub account.
   _note: available for Card, ACH and Terminal (Card Present) only!_
 
+**Important**: You cannot use both `application_fees` and `fees` in the same request.
+
 ### Payment Method Group
 
 - **Create a Payment Method Group:** Use the [Payment Method Group API](https://docs.justifi.tech/api-spec#tag/Payment-Method-Groups)
   to create a group for easy payment method access.
 - **Create a Checkout:** Use the [Create Checkout API](https://docs.justifi.tech/api-spec#tag/Checkouts/operation/CreateCheckout)
   and pass the `payment_method_group_id`.
-- **Checkout Web Component:** Use the [Unified Fintech Checkout™ Component](https://storybook.justifi.ai/?path=/docs/payment-facilitation-unified-fintech-checkout%E2%84%A2--docs)
+- **Checkout Web Component:** Use the [Unified Fintech Checkout™ Component](/web-components/payment-facilitation/unified-fintech-checkout%E2%84%A2)
   and pass the checkout id. This allows the component to display a list of tokenized payment methods
   in the group, and an option to **Save new payment method** is also available.
-

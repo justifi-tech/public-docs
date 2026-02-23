@@ -18,10 +18,38 @@ post:
               type: integer
               example: 4900
               description: Amount to be refunded. If missing, the total amount will be used.
+            fees:
+              type: array
+              description: |
+                Fees to return to the merchant as part of this refund. See [Enhanced Fee Management](#section/Enhanced-Fee-Management) for full documentation.
+
+                Each fee object specifies:
+                - `type`: The fee type to return (`processing_fee` or `platform_fee`)
+                - `amount`: Amount to return in cents
+
+                If omitted, no fees are returned. Only supported for card/ach and card present payments completed with the `fees` array.
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    enum: [processing_fee, platform_fee]
+                    description: The type of fee to return
+                    example: processing_fee
+                  amount:
+                    type: integer
+                    description: Amount to return in cents
+                    example: 175
+                required: [type, amount]
         examples:
           "Partial_refund":
             value:
               amount: 1000
+              fees:
+                - type: processing_fee
+                  amount: 100
+                - type: platform_fee
+                  amount: 100
   responses:
     '200':
       description: Refund was created successfully

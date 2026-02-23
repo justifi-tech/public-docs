@@ -21,6 +21,23 @@ properties:
     type: integer
     example: 4900
     description: the amount requested to refund (or full checkout amount)
+  returned_fees:
+    type: array
+    description: |
+      Fees returned to the merchant as part of this refund.
+      See [Enhanced Fee Management](https://docs.justifi.tech/api-spec#section/Enhanced-Fee-Management) for full documentation.
+    items:
+      type: object
+      properties:
+        type:
+          type: string
+          enum: [processing_fee, platform_fee]
+          description: The type of fee that was returned
+          example: processing_fee
+        amount:
+          type: integer
+          description: Amount returned in cents
+          example: 175
   created_at:
     type: string
     format: date-time

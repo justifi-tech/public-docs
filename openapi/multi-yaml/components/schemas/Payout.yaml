@@ -16,7 +16,7 @@ properties:
     $ref: ./PayoutBankAccount.yaml
   currency:
     type: string
-    enum: [usd]
+    enum: [usd, cad]
     example: usd
   delivery_method:
     description: how the payout is delivered

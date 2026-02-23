@@ -29,11 +29,11 @@ properties:
   country:
     description: country for the bank account
     type: string
-    enum: [US]
+    enum: [US, CA]
   currency:
     description: currency for the bank account
     type: string
-    enum: [usd]
+    enum: [usd, cad]
   nickname:
     description: nickname for the bank account
     type: string

@@ -11,7 +11,7 @@ properties:
     example: 50
   currency:
     type: string
-    enum: [usd]
+    enum: [usd, cad]
     example: usd
   basis_point_rate:
     description: variable percentage of the payment amount that, combined with transaction fee, will be charged as the application fee. Expressed as the number of basis points

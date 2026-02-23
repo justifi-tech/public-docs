@@ -1,8 +1,15 @@
 post:
   summary: Create a Payment Method
   description: |
-    You can create payment methods ahead of time, then pass their existing tokens to payments.
-    Alternatively, you can create and tokenize payment methods inline when processing payments.
+    **This endpoint requires prior approval.** New integrations should use the
+    **[JustiFi Tokenize Payment Method Web Component](https://docs.justifi.tech/web-components/payment-facilitation/tokenize-payment-method)** 
+    to securely collect and tokenize payment method details.
+
+    The web component handles PCI-scoped data collection and returns a payment method token that you can pass to the
+    [Create Payment](https://docs.justifi.tech/api-spec#tag/Payments/operation/CreatePayment) endpoint.
+
+    If you have a use case that requires creating payment methods directly via the API, contact [JustiFi Customer Success](mailto:customer_success@justifi.tech) for approval. 
+    At minimum, a completed SAQ (Self-Assessment Questionnaire) is required to allow raw PAN submissions.
 
     *Note: If the sub account status is not `enabled`, `400` will be returned.*
   operationId: CreatePaymentMethod
@@ -40,6 +47,8 @@ post:
         example:
         examples:
           "Create_a_payment_method_for_card_payments":
+            summary: "Card payment method (requires SAQ approval)"
+            description: "Requires prior approval and a completed SAQ (Self-Assessment Questionnaire). If possible use the Tokenize Payment Method Web Component instead."
             value:
               payment_method:
                 payment_method_group_id: "pmg_123xyz"
@@ -53,6 +62,8 @@ post:
                   metadata:
                     new: info
           "Create_a_payment_method_for_ACH_payments":
+            summary: "ACH payment method (requires SAQ approval)"
+            description: "Requires prior approval and a completed SAQ (Self-Assessment Questionnaire). If possible use the Tokenize Payment Method Web Component instead."
             value:
               payment_method:
                 payment_method_group_id: "pmg_123xyz"
@@ -67,6 +78,8 @@ post:
                   metadata:
                     new: info
           "Create_a_reusable_payment_method_for_card_payments":
+            summary: "Reusable card payment method (requires SAQ approval)"
+            description: "Requires prior approval and a completed SAQ (Self-Assessment Questionnaire). If possible use the Payment Method Web Component instead."
             value:
               email: example@test.com
               payment_method:
@@ -80,6 +93,8 @@ post:
                   metadata:
                     new: info
           "Create_an_expired_payment_method_for_card_payments":
+            summary: "Force tokenize expired card (requires SAQ approval)"
+            description: "Requires prior approval and a completed SAQ (Self-Assessment Questionnaire). If possible use the Payment Method Web Component instead."
             value:
               force_tokenize: true
               payment_method:
@@ -93,6 +108,8 @@ post:
                   metadata:
                     new: info
           "Create_payment_method_associated_with_a_payment_method_group":
+            summary: "Payment method group association (requires SAQ approval)"
+            description: "Requires prior approval and a completed SAQ (Self-Assessment Questionnaire). If possible use the Payment Method Web Component instead."
             value:
               force_tokenize: true
               payment_method:
@@ -116,6 +133,19 @@ post:
               - $ref: ../components/schemas/CardResponse.yaml
               - $ref: ../components/schemas/BankAccountResponse.yaml
               - $ref: ../components/schemas/CardPresentResponse.yaml
+    '400':
+      description: Full card number submitted without PCI approval
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/PaymentError.yaml
+          examples:
+            "Full_PAN_not_allowed":
+              value:
+                error:
+                  code: full_pan_not_allowed
+                  message: "Full card numbers are not accepted on this endpoint. Please use the tokenization iframe to create a payment method token first."
 
 get:
   summary: List Payment Methods

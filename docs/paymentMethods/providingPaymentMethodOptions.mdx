@@ -10,12 +10,25 @@ keywords:
 
 # Providing Payment Method Options
 
-- **Hosted and Embedded Checkout Options:** Offer a variety of payment method options to your users via embedded web
-components and JustiFi Hosted Checkout
-- **Seamless API Integration:** Each payment method type is supported via the same APIs as detailed in our
-[API documentation](https://docs.justifi.tech/api-spec#tag/Payment-Methods).
-- **Compliance and Security:** Adherence to PCI DSS and other relevant standards is crucial, especially for card-based
-transactions.
+Payment methods must be tokenized using one of **[JustiFi's web components for payment facilitation](https://docs.justifi.tech/web-components/)**
+before they can be used for payments. These web components securely collect card or bank account details
+and return a payment method token.
 
-By offering these diverse payment methods, JustiFi ensures that your business can cater to various customer preferences
-and transaction scenarios, all while maintaining security and efficiency.
+- **[Tokenize Payment Method Web Component](https://docs.justifi.tech/web-components/payment-facilitation/tokenize-payment-method):** 
+  Use this embedded web component to securely collect and tokenize
+  card and bank account details for later charge. 
+  **[Modular Checkout](https://docs.justifi.tech/web-components/modular-checkout) and [Unified Fintech Checkout](https://docs.justifi.tech/web-components/payment-facilitation/unified-fintech-checkout%E2%84%A2) Web Component: 
+  Use either of these embedded web components to securely tokenize
+  a payment method and charge it. It offers customization and a variety of payment method options. 
+- **[Hosted Checkout](https://docs.justifi.tech/checkouts/hosted-checkout):** Offer a variety of payment method options to your users for processing a payment via JustiFi Hosted Checkout.
+  It automatically handles tokenization.
+- **Reduced PCI Scope:** Because the web components handle sensitive payment data, your application
+  never directly touches card numbers or bank account details, significantly reducing your PCI compliance burden.
+
+> **Note:** Creating payment methods directly via the API requires prior approval. Contact [JustiFi Customer Success](mailto:customer_success@justifi.tech)
+> if you have a use case that requires requires direct PAN (Primary Account Number) submission. At minimum, a completed SAQ (Self-Assessment Questionnaire)
+> is required to allow raw PAN submissions. See our [API documentation](https://docs.justifi.tech/api-spec#tag/Payment-Methods)
+> for details.
+
+By using JustiFi's web components, your business can cater to various customer preferences
+and transaction scenarios while maintaining security and efficiency.
