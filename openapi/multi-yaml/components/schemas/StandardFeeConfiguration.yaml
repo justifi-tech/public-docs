@@ -1,0 +1,78 @@
+type: object
+properties:
+  id:
+    description: unique identifier for the fee configuration
+    type: string
+    example: sfc_abc123
+  account_id:
+    description: the sub account this configuration applies to
+    type: string
+    format: uuid
+    example: acc_xyz
+  platform_account_id:
+    description: the platform account that created this configuration
+    type: string
+    format: uuid
+    nullable: true
+    example: acc_yyy
+  fee_type:
+    description: |
+      the type of fee this configuration applies to:
+      - `processing_ecomm` — card-not-present (online) payments
+      - `processing_card_present` — card-present (terminal) payments
+      - `processing_ach` — ACH payments
+      - `processing_ach_expedited` — expedited ACH payments
+      - `visa_brand_ecomm` — Visa online payments
+      - `visa_brand_card_present` — Visa terminal payments
+      - `mastercard_brand_ecomm` — Mastercard online payments
+      - `mastercard_brand_card_present` — Mastercard terminal payments
+      - `amex_brand_ecomm` — Amex online payments
+      - `amex_brand_card_present` — Amex terminal payments
+      - `discover_brand_ecomm` — Discover online payments
+      - `discover_brand_card_present` — Discover terminal payments
+      - `platform` — platform service fee applied to all payments
+    type: string
+    enum:
+      - processing_ecomm
+      - processing_card_present
+      - processing_ach
+      - processing_ach_expedited
+      - visa_brand_ecomm
+      - visa_brand_card_present
+      - mastercard_brand_ecomm
+      - mastercard_brand_card_present
+      - amex_brand_ecomm
+      - amex_brand_card_present
+      - discover_brand_ecomm
+      - discover_brand_card_present
+      - platform
+    example: processing_ecomm
+  variable_rate:
+    description: "percentage rate applied to the payment amount. `2.75` = 2.75%"
+    type: number
+    example: 2.75
+  transaction_fee_cents:
+    description: flat fee in cents added to each transaction
+    type: integer
+    example: 25
+  transaction_fee_currency:
+    description: currency of the transaction fee
+    type: string
+    enum: [usd]
+    example: usd
+  fee_cap_cents:
+    description: maximum fee amount in cents; if the calculated fee exceeds this, the cap is used instead
+    type: integer
+    nullable: true
+    example: 1000
+  effective_start:
+    description: when this configuration takes effect (UTC)
+    type: string
+    format: date-time
+    example: "2026-02-25T00:00:00Z"
+  effective_end:
+    description: when this configuration expires (UTC); `null` means it stays active indefinitely
+    type: string
+    format: date-time
+    nullable: true
+    example: null

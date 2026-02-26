@@ -1,0 +1,50 @@
+get:
+  summary: Get Fee Configuration History
+  description: |
+    List all Standard Fee Configurations for a specific fee type on a sub account, including active, retired, and scheduled configurations. Results are ordered by `effective_start` descending.
+
+    This endpoint supports [pagination](https://docs.justifi.tech/api-spec#section/Pagination).
+  operationId: GetFeeConfigurationHistory
+  tags:
+    - Fee Configurations
+  parameters:
+    - $ref: ../components/parameters/id-path.yaml
+    - $ref: ../components/parameters/authorization-header.yaml
+    - name: fee_type
+      in: path
+      required: true
+      description: the fee type to retrieve history for
+      schema:
+        type: string
+        enum:
+          - processing_ecomm
+          - processing_card_present
+          - processing_ach
+          - processing_ach_expedited
+          - visa_brand_ecomm
+          - visa_brand_card_present
+          - mastercard_brand_ecomm
+          - mastercard_brand_card_present
+          - amex_brand_ecomm
+          - amex_brand_card_present
+          - discover_brand_ecomm
+          - discover_brand_card_present
+          - platform
+        example: processing_ecomm
+    - $ref: ../components/parameters/pagination-limit.yaml
+    - $ref: ../components/parameters/pagination-after.yaml
+    - $ref: ../components/parameters/pagination-before.yaml
+  responses:
+    "200":
+      description: Successfully listed fee configuration history
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope-list.yaml
+              - properties:
+                  type:
+                    example: array
+                  data:
+                    items:
+                      $ref: ../components/schemas/StandardFeeConfiguration.yaml

@@ -1,0 +1,126 @@
+post:
+  summary: Create a Fee Configuration
+  description: |
+    Create a Standard Fee Configuration for a specific fee type on a sub account.
+
+    If an active configuration already exists for the same fee type, it is automatically retired — its `effective_end` is set to the new configuration's `effective_start`.
+
+    There is no update or delete operation. To change a fee rate, create a new configuration for the same fee type.
+  operationId: CreateFeeConfiguration
+  tags:
+    - Fee Configurations
+  parameters:
+    - $ref: ../components/parameters/id-path.yaml
+    - $ref: ../components/parameters/authorization-header.yaml
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - name: fee_type
+      in: path
+      required: true
+      description: the fee type to configure
+      schema:
+        type: string
+        enum:
+          - processing_ecomm
+          - processing_card_present
+          - processing_ach
+          - processing_ach_expedited
+          - visa_brand_ecomm
+          - visa_brand_card_present
+          - mastercard_brand_ecomm
+          - mastercard_brand_card_present
+          - amex_brand_ecomm
+          - amex_brand_card_present
+          - discover_brand_ecomm
+          - discover_brand_card_present
+          - platform
+        example: processing_ecomm
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          properties:
+            variable_rate:
+              description: "percentage rate applied to the payment amount. `2.75` = 2.75%"
+              type: number
+              example: 2.75
+            transaction_fee_cents:
+              description: flat fee in cents added to each transaction (defaults to `0`)
+              type: integer
+              example: 25
+            fee_cap_cents:
+              description: maximum fee amount in cents; if the calculated fee exceeds this, the cap is used instead
+              type: integer
+              nullable: true
+              example: 1000
+            effective_start:
+              description: when the configuration takes effect (UTC); defaults to immediately
+              type: string
+              format: date-time
+              example: "2026-04-01T00:00:00Z"
+            effective_end:
+              description: when the configuration expires (UTC); `null` means it stays active indefinitely
+              type: string
+              format: date-time
+              nullable: true
+              example: null
+          required:
+            - variable_rate
+  responses:
+    "201":
+      description: Fee configuration was created successfully
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope.yaml
+              - properties:
+                  type:
+                    example: standard_fee_configuration
+                  data:
+                    $ref: ../components/schemas/StandardFeeConfiguration.yaml
+
+get:
+  summary: Get a Fee Configuration
+  description: |
+    Get the active Standard Fee Configuration for a specific fee type on a sub account. Returns 404 if no active configuration exists for that fee type.
+  operationId: GetFeeConfiguration
+  tags:
+    - Fee Configurations
+  parameters:
+    - $ref: ../components/parameters/id-path.yaml
+    - $ref: ../components/parameters/authorization-header.yaml
+    - name: fee_type
+      in: path
+      required: true
+      description: the fee type to retrieve
+      schema:
+        type: string
+        enum:
+          - processing_ecomm
+          - processing_card_present
+          - processing_ach
+          - processing_ach_expedited
+          - visa_brand_ecomm
+          - visa_brand_card_present
+          - mastercard_brand_ecomm
+          - mastercard_brand_card_present
+          - amex_brand_ecomm
+          - amex_brand_card_present
+          - discover_brand_ecomm
+          - discover_brand_card_present
+          - platform
+        example: processing_ecomm
+  responses:
+    "200":
+      description: Successfully retrieved fee configuration
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope.yaml
+              - properties:
+                  type:
+                    example: standard_fee_configuration
+                  data:
+                    $ref: ../components/schemas/StandardFeeConfiguration.yaml

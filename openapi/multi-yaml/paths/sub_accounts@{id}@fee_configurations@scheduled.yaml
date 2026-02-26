@@ -1,0 +1,29 @@
+get:
+  summary: List Scheduled Fee Configurations
+  description: |
+    List Standard Fee Configurations with a future `effective_start` that haven't taken effect yet.
+
+    This endpoint supports [pagination](https://docs.justifi.tech/api-spec#section/Pagination).
+  operationId: ListScheduledFeeConfigurations
+  tags:
+    - Fee Configurations
+  parameters:
+    - $ref: ../components/parameters/id-path.yaml
+    - $ref: ../components/parameters/authorization-header.yaml
+    - $ref: ../components/parameters/pagination-limit.yaml
+    - $ref: ../components/parameters/pagination-after.yaml
+    - $ref: ../components/parameters/pagination-before.yaml
+  responses:
+    "200":
+      description: Successfully listed scheduled fee configurations
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope-list.yaml
+              - properties:
+                  type:
+                    example: array
+                  data:
+                    items:
+                      $ref: ../components/schemas/StandardFeeConfiguration.yaml
