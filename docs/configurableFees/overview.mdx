@@ -1,0 +1,186 @@
+---
+title: Configurable Fees Overview
+sidebar_label: Overview
+description: Configure per-sub-account fee rates that auto-calculate at payment time
+keywords:
+  - fees
+  - fee configuration
+  - standard fee configuration
+  - processing fees
+  - platform fees
+  - sub-accounts
+---
+
+# Configurable Fees
+
+## Overview
+
+Configurable Fees allow platforms to set fee rates per sub-account through the API. When a payment is processed, the system automatically calculates the applicable fees based on the payment's characteristics — card brand, payment method type (ecomm, terminal, ACH), and the configured rates. Fee amounts do not need to be passed with every payment request.
+
+Each fee rate is stored as a **Standard Fee Configuration** resource. These configurations give platforms centralized control over their fee structure while keeping payment integration simple — configure once, and every payment for that sub-account is handled automatically.
+
+:::info v1 vs v2 Fee Structure
+Configurable Fees are part of the **v2 fee structure**, which replaces the legacy Application Fee Rate model (v1). If your platform currently uses `application_fee_amount` or `application_fee_rate`, see [Migrating from Application Fees](#migrating-from-application-fees) for guidance on transitioning to v2.
+:::
+
+## How It Works
+
+1. **Configure** fee rates for a sub-account via the [Fee Configurations API](./managingConfigurations.mdx)
+2. **Process payments** as usual — no fee parameters needed in the payment request
+3. **Fees are auto-calculated** based on the payment's characteristics and your configuration
+4. **Optionally override** any auto-calculated fee by passing explicit fees in the payment request
+
+## Fee Configuration Types
+
+There are three categories of Standard Fee Configurations. Together, they provide precise control over what is charged per payment.
+
+### Base Processing Fees
+
+These are **required** and define the default fee for each payment method type. Every payment must match at least one base processing configuration.
+
+| Fee Type | When Applied |
+| --- | --- |
+| `processing_ecomm` | Card-not-present (online) payments |
+| `processing_card_present` | Card-present (terminal) payments |
+| `processing_ach` | ACH payments |
+| `processing_ach_expedited` | Expedited ACH payments |
+
+### Brand-Specific Fees
+
+These are **optional** and allow different rates for specific card brands. When a brand-specific configuration exists, it **replaces** the base processing fee for that brand — it does not stack on top of it.
+
+| Fee Type | When Applied |
+| --- | --- |
+| `visa_brand_ecomm` | Visa online payments |
+| `visa_brand_card_present` | Visa terminal payments |
+| `mastercard_brand_ecomm` | Mastercard online payments |
+| `mastercard_brand_card_present` | Mastercard terminal payments |
+| `amex_brand_ecomm` | Amex online payments |
+| `amex_brand_card_present` | Amex terminal payments |
+| `discover_brand_ecomm` | Discover online payments |
+| `discover_brand_card_present` | Discover terminal payments |
+
+### Platform Fee
+
+This is **optional** and applies to all payments for the sub-account, regardless of payment method or card brand. Use this to charge a separate platform service fee alongside the processing fee.
+
+| Fee Type | When Applied |
+| --- | --- |
+| `platform` | All payments (if configured) |
+
+## Hierarchical Fee Selection
+
+When a payment is processed, the system selects which configuration to use based on a simple hierarchy:
+
+1. **Check for a brand-specific config** that matches the card brand and payment type
+2. **If none exists, fall back** to the base processing config for that payment type
+3. **Add platform fee** if a `platform` configuration exists
+
+:::warning Important: Brand Configs Replace, Not Add
+A brand-specific configuration is the **complete** processing rate for that brand and payment type. If you configure `visa_brand_ecomm` at 2.50% + $0.20, that is the full processing fee for Visa online payments — the `processing_ecomm` rate is **not** applied on top of it.
+:::
+
+### Example: How Selection Works
+
+Suppose a sub-account is configured with:
+- `processing_ecomm`: 2.75% + $0.25
+- `amex_brand_ecomm`: 3.25% + $0.25
+- `platform`: 1.00%
+
+| Incoming Payment | Config Used | Why |
+| --- | --- | --- |
+| $100 Visa online | `processing_ecomm` | No Visa-specific config, falls back to base |
+| $100 Amex online | `amex_brand_ecomm` | Amex-specific config exists, replaces base |
+| $100 Mastercard online | `processing_ecomm` | No Mastercard-specific config, falls back to base |
+
+In all three cases, the `platform` fee is also applied because it is configured.
+
+See [Fee Calculation & Examples](./examples.mdx) for detailed breakdowns with calculated amounts.
+
+## Resulting Payment Fees
+
+Regardless of which configuration type is used, the resulting fees on a payment are always one or both of:
+
+- **`processing_fee`** — calculated from either a brand-specific or base processing configuration
+- **`platform_fee`** — calculated from the platform configuration (if it exists)
+
+The configuration type determines _how_ the fee is calculated. The payment fee type is always `processing_fee` or `platform_fee`.
+
+## Testing and Activation
+
+:::info Getting Started
+Configurable Fees are available in test mode for all platforms. To enable configurable fees for live payments, contact [customer_success@justifi.tech](mailto:customer_success@justifi.tech).
+:::
+
+- **Test mode**: Create Standard Fee Configurations and process test payments with auto-calculated fees. Use this to validate your setup before going live.
+- **Live mode**: Requires enabling the v2 fee structure on your platform settings. Once enabled, fee configurations take effect for all payments on configured sub-accounts.
+
+## Fees in Payment Responses
+
+:::warning Fees May Not Be in the Create Payment Response
+When creating a payment, the fee breakdown may not be included in the synchronous response. Fee calculation happens downstream after the payment is created. **Use payment events** (webhooks) to get the finalized fee breakdown, including which configuration was used and the calculated amounts.
+:::
+
+All payment events (`payment.created`, `payment.updated`, etc.) include the `fees` array with each fee's `id`, `type`, `amount`, `remaining_amount`, and `currency`.
+
+## Refunds and Fee Returns
+
+When refunding a payment, platforms can choose exactly which fees to return and how much of each. Fee refunds are **explicit, not automatic** — the fee type and amount to return are specified in the refund request.
+
+```json
+{
+  "amount": 5000,
+  "fees": [
+    { "type": "processing_fee", "amount": 175 },
+    { "type": "platform_fee", "amount": 50 }
+  ]
+}
+```
+
+Each fee on a payment tracks a `remaining_amount` that decreases as fees are returned through refunds. The returned amount cannot exceed the remaining amount on a fee.
+
+This provides full control over fee refund policy — return all fees, return only the platform fee, or return nothing.
+
+## Migrating from Application Fees
+
+Configurable Fees (v2 fee structure) replace the legacy Application Fee Rate model (v1). The table below summarizes the key differences:
+
+| | v1 (Application Fees) | v2 (Configurable Fees) |
+| --- | --- | --- |
+| **How fees are set** | `application_fee_rate` on the sub-account, or `application_fee_amount` per payment | Standard Fee Configurations per sub-account, or explicit `fees` array per payment |
+| **Fee granularity** | Single rate for all payment types | Separate rates by payment type, card brand, and platform fee |
+| **Fee in response** | `application_fee` field | `fees` array with `processing_fee` and `platform_fee` |
+| **Refund control** | Proportional | Selective — choose which fees to return and how much |
+
+### Migration Steps
+
+1. **Set up fee configurations in test mode.** Create Standard Fee Configurations for each sub-account that mirror your current Application Fee Rates. See [Managing Fee Configurations](./managingConfigurations.mdx) for API details.
+2. **Update your payment integration.** Remove any `application_fee_amount` parameters from your payment requests. If you use the `application_fee` field in payment responses, switch to reading from the `fees` array instead.
+3. **Update refund handling.** If you currently rely on automatic proportional fee refunds, update your refund requests to use the explicit `fees` array. See [Refunds and Fee Returns](#refunds-and-fee-returns) above.
+4. **Test end-to-end.** Process test payments and refunds to confirm fees are calculated correctly and your integration reads from the right response fields.
+5. **Enable v2 for live payments.** Contact [customer_success@justifi.tech](mailto:customer_success@justifi.tech) to enable the v2 fee structure on your platform. Once enabled, fee configurations take effect for all payments on configured sub-accounts.
+
+:::warning Breaking Changes on v2
+Once a sub-account is on the v2 fee structure:
+- The `application_fee_amount` parameter (payments) and `application_fees` parameter (checkouts) are **no longer accepted** — requests that include them will be rejected
+- The `application_fee` field in payment responses will no longer be populated
+- Use the `fees` array for both payments and checkouts instead
+:::
+
+## Authentication
+
+Fee configuration endpoints require a **platform API key** with admin access. Platforms manage fee configurations for their sub-accounts using their platform credentials. See [Authentication](/apiFundamentals/authentication) for details on obtaining and using API keys.
+
+## Limitations
+
+- **USD only.** Configurable Fees are not available for Canadian (CAD) processing. This feature is available for US platform accounts only.
+- **One active config per fee type per sub-account.** Creating a new configuration for the same fee type automatically retires the previous one.
+- **Required fee types must always have coverage.** Once configured, `processing_ecomm`, `processing_card_present`, `processing_ach`, and `processing_ach_expedited` cannot be ended without a replacement. See [Chaining Configurations](./managingConfigurations.mdx#chaining-configurations) for details.
+- **Brand-specific and platform configs can be retired** at any time by POSTing with an `effective_end`. Payments for that brand will fall back to the base processing config.
+- **Fee configurations apply per sub-account**, not per platform. Each sub-account is configured individually.
+- **Cannot mix with legacy Application Fees.** Once on v2 fees, the `application_fee_amount` parameter is no longer accepted.
+
+## Next Steps
+
+- [Managing Fee Configurations](./managingConfigurations.mdx) — API endpoints for creating, viewing, scheduling, and retiring configurations
+- [Fee Calculation & Examples](./examples.mdx) — The fee formula, interactive calculator, and detailed scenario walkthroughs
