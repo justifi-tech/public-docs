@@ -23,6 +23,15 @@ Each fee rate is stored as a **Standard Fee Configuration** resource. These conf
 Configurable Fees are part of the **v2 fee structure**, which replaces the legacy Application Fee Rate model (v1). If your platform currently uses `application_fee_amount` or `application_fee_rate`, see [Migrating from Application Fees](#migrating-from-application-fees) for guidance on transitioning to v2.
 :::
 
+## Limitations
+
+- **USD only.** Configurable Fees are not available for Canadian (CAD) processing. This feature is available for US platform accounts only.
+- **One active config per fee type per sub-account.** Creating a new configuration for the same fee type automatically retires the previous one.
+- **Required fee types must always have coverage.** Once configured, `processing_ecomm`, `processing_card_present`, `processing_ach`, and `processing_ach_expedited` cannot be ended without a replacement. See [Chaining Configurations](./managingConfigurations.mdx#chaining-configurations) for details.
+- **Brand-specific and platform configs can be retired** at any time by POSTing with an `effective_end`. Payments for that brand will fall back to the base processing config.
+- **Fee configurations apply per sub-account**, not per platform. Each sub-account is configured individually.
+- **Cannot mix with legacy Application Fees.** Once on v2 fees, the `application_fee_amount` parameter is no longer accepted.
+
 ## How It Works
 
 1. **Configure** fee rates for a sub-account via the [Fee Configurations API](./managingConfigurations.mdx)
@@ -170,15 +179,6 @@ Once a sub-account is on the v2 fee structure:
 ## Authentication
 
 Fee configuration endpoints require a **platform API key** with admin access. Platforms manage fee configurations for their sub-accounts using their platform credentials. See [Authentication](/apiFundamentals/authentication) for details on obtaining and using API keys.
-
-## Limitations
-
-- **USD only.** Configurable Fees are not available for Canadian (CAD) processing. This feature is available for US platform accounts only.
-- **One active config per fee type per sub-account.** Creating a new configuration for the same fee type automatically retires the previous one.
-- **Required fee types must always have coverage.** Once configured, `processing_ecomm`, `processing_card_present`, `processing_ach`, and `processing_ach_expedited` cannot be ended without a replacement. See [Chaining Configurations](./managingConfigurations.mdx#chaining-configurations) for details.
-- **Brand-specific and platform configs can be retired** at any time by POSTing with an `effective_end`. Payments for that brand will fall back to the base processing config.
-- **Fee configurations apply per sub-account**, not per platform. Each sub-account is configured individually.
-- **Cannot mix with legacy Application Fees.** Once on v2 fees, the `application_fee_amount` parameter is no longer accepted.
 
 ## Next Steps
 
