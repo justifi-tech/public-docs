@@ -87,6 +87,24 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: "category",
+      label: "Configurable Fees",
+      link: {
+        type: "generated-index",
+        title: "Configurable Fees",
+        description:
+          "Learn how to configure per-sub-account fee rates that auto-calculate at payment time",
+        keywords: ["fees", "fee configuration", "processing fees", "platform fees"],
+      },
+      items: [
+        "configurableFees/overview",
+        "configurableFees/managingConfigurations",
+        "configurableFees/examples",
+      ],
+      collapsible: true,
+      collapsed: true,
+    },
+    {
+      type: "category",
       label: "Payments",
       link: {
         type: "generated-index",
