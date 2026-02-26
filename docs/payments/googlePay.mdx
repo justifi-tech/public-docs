@@ -1,13 +1,22 @@
-# Google Pay™ Web Component
+# Google Pay™
 
-Google Pay™ lets users pay with their cards stored in their Google account, providing a fast and secure checkout experience. If you provide Google Pay™ as a payment method to your customers, you must use the official Google Pay™ logo and button assets in compliance with [Google Pay Web Brand Guidelines](https://developers.google.com/pay/api/web/guides/brand-guidelines), without modifications to the Google Pay™ asset colors, proportions, or appearance.
+Google Pay™ lets users pay with their cards stored in their Google account, providing a fast and secure checkout experience. When offering Google Pay™ as a payment method, you must use the official Google Pay™ logo and button assets in compliance with [Google Pay Web Brand Guidelines](https://developers.google.com/pay/api/web/guides/brand-guidelines), without modifications to the Google Pay™ asset colors, proportions, or appearance.
 
-**Note:** Google Pay™ is currently only supported in the [Hosted Checkout](/checkouts/hosted-checkout) product. Once Google Pay™ is enabled in your JustiFi merchant account dashboard, the Google Pay™ button will automatically appear as a payment option in your hosted checkout flow.
+Google Pay™ is available via the following JustiFi checkout options:
+
+- [Hosted Checkout](https://docs.justifi.tech/checkouts/hosted-checkout)
+- [Unified Fintech Checkout web component](/web-components/payment-facilitation/unified-fintech-checkout%E2%84%A2)
+- [Modular Checkout web component](/web-components/modular-checkout/introduction)
+
+Google Pay™ is not available in the [Tokenize Payment Method web component](/web-components/payment-facilitation/tokenize-payment-method) or via API.
 
 ## Prerequisites
 
-- Any device **compatible**, take a look [here](https://developers.google.com/pay/issuers/overview/supported-devices) for a comprehensive list.
+- Any device **compatible** with Google Pay™, take a look [here](https://developers.google.com/pay/issuers/overview/supported-devices) for a comprehensive list.
 - Your application must be served over **HTTPS**.
+- Use one of the JustiFi Checkout options ([Hosted Checkout](https://docs.justifi.tech/checkouts/hosted-checkout),
+  [Unified Fintech Checkout](/web-components/payment-facilitation/unified-fintech-checkout%E2%84%A2)
+  or [Modular Checkout](/web-components/modular-checkout/introduction) web component)
 
 ## Implementation Resources
 
@@ -17,19 +26,38 @@ For detailed implementation guidance, refer to the following Google Pay document
 - [Google Pay Web Integration Checklist](https://developers.google.com/pay/api/web/guides/test-and-deploy/integration-checklist)
 - [Google Pay Web Brand Guidelines](https://developers.google.com/pay/api/web/guides/brand-guidelines)
 
-## Processing Google Pay™ Payments with Hosted Checkout
+## Processing Google Pay™ Payments
 
-Our hosted checkout integration with Google Pay™ simplifies your ability to provide Google Pay™ as a payment option to your customers. Once you enable Google Pay™ in your JustiFi merchant account dashboard, the Google Pay™ button will automatically appear as a payment option in your hosted checkout. For more information on setting up and using hosted checkout, see our [Hosted Checkout documentation](/checkouts/hosted-checkout).
+You must complete the following essential steps to enable Google Pay™ functionality:
 
-You must additionally complete the following essential steps to enable Google Pay™ functionality:
-
-**Adhere to Google policies:** When using our hosted checkout with Google Pay™, merchants must adhere to the [Google Pay and Wallet API's Acceptable Use Policy](https://payments.developers.google.com/terms/aup) and accept the terms defined in the [Google Pay API Terms of Service](https://payments.developers.google.com/terms/sellertos).
+**Adhere to Google policies:** When using Google Pay™ with JustiFi checkout components, merchants must adhere to the [Google Pay and Wallet API's Acceptable Use Policy](https://payments.developers.google.com/terms/aup) and accept the terms defined in the [Google Pay API Terms of Service](https://payments.developers.google.com/terms/sellertos).
 
 **Content Security Policy (CSP) settings:** If your application uses Content Security Policy, you may need to update your CSP settings to allow the Google Pay™ SDK to function properly. Ensure your CSP allows connections to Google Pay™ domains and scripts.
 
-**Enable Google Pay™ in your account:** Ensure that Google Pay™ is enabled in your JustiFi merchant account dashboard. Once enabled, the Google Pay™ button will automatically appear as a payment option in your hosted checkout. Contact your account representative if you need assistance enabling this feature.
+**Enable Google Pay™ in your account:** Ensure that Google Pay™ is enabled in your JustiFi merchant account dashboard. Contact your account representative if you need assistance enabling this feature.
 
-For more details on using hosted checkout, see our [Hosted Checkout documentation](/checkouts/hosted-checkout).
+### Hosted Checkout and Unified Fintech Checkout
+
+Once Google Pay™ is enabled in your JustiFi merchant account dashboard, the Google Pay™ button will automatically appear as a payment option in your Hosted Checkout and Unified Fintech Checkout forms. No additional code is required.
+
+For more information on setting up hosted checkout, see our [Hosted Checkout documentation](/checkouts/hosted-checkout).
+
+### Modular Checkout
+
+To add Google Pay™ to the Modular Checkout web component, include the **Google Pay** sub component in the Modular Checkout
+as the example below shows.
+For more details refer to the [Modular Checkout docs](/web-components/modular-checkout/introduction).
+
+```html
+<justifi-modular-checkout
+  auth-token="your-auth-token"
+  checkout-id="your-checkout-id"
+>
+  <justifi-google-pay />
+</justifi-modular-checkout>
+```
+
+JustiFi will create a payment method record (ID starting with `pm_`) for each transaction processed via Google Pay™.
 
 ## Implementation Details
 
@@ -37,12 +65,12 @@ For more details on using hosted checkout, see our [Hosted Checkout documentatio
 
 As a supported payment service provider with the Google Pay™ API, our integration lets you as a merchant use Google Pay™ API's gateway integration type, where we handle all of the decryption on your behalf.
 
-When using hosted checkout with Google Pay™, the following values are automatically set in the `TokenizationSpecification` object. **No merchant configuration or code is required** — the hosted checkout handles this entirely:
+When using JustiFi checkout components with Google Pay™, the following values are automatically set in the `TokenizationSpecification` object. **No merchant configuration or code is required** — the checkout component handles this entirely:
 
 - **gateway:** Set to `justifi` automatically.
 - **gatewayMerchantId:** Set using `{sub_account_id}` which is the sub account the checkout is configured to process payments for.
 
-Here is an example of what the hosted checkout passes when initializing the Google Pay™ button:
+Here is an example of what the checkout component passes when initializing the Google Pay™ button:
 
 ```json
 {
@@ -58,7 +86,7 @@ Here is an example of what the hosted checkout passes when initializing the Goog
 
 ### Authorization Methods
 
-Google Pay™ provides two different authorization methods: `PAN_ONLY` and `CRYPTOGRAM_3DS`. Our hosted checkout integration with Google Pay™ supports both types of card credentials:
+Google Pay™ provides two different authorization methods: `PAN_ONLY` and `CRYPTOGRAM_3DS`. Our Google Pay™ integration supports both types of card credentials:
 
 - **PAN_ONLY:** Physical card details stored in Google Pay™.
   - Supported countries: United States
@@ -75,7 +103,7 @@ Google Pay™ provides two different authorization methods: `PAN_ONLY` and `CRYP
 
 ### Supported Card Networks
 
-We support the following card networks with the Google Pay™ API in hosted checkout. These values are all passed to the `allowedCardNetworks` property automatically and find the appropriate values in [Google Pay's web developer documentation](https://developers.google.com/pay/api/web/guides/test-and-deploy/integration-checklist):
+We support the following card networks with the Google Pay™ API. These values are all passed to the `allowedCardNetworks` property automatically and find the appropriate values in [Google Pay's web developer documentation](https://developers.google.com/pay/api/web/guides/test-and-deploy/integration-checklist):
 
 - VISA
 - Mastercard
@@ -84,11 +112,11 @@ We support the following card networks with the Google Pay™ API in hosted chec
 
 ### Billing Address Requirements
 
-A billing address is not required for our hosted checkout implementation of Google Pay™.
+A billing address is not required for Google Pay™ payments processed through JustiFi checkout components.
 
 ## Handling Google Pay™ Payment Data
 
-When a customer pays with Google Pay™ through hosted checkout, the entire payment data lifecycle is handled automatically by JustiFi. The hosted checkout component:
+When a customer pays with Google Pay™ through a JustiFi checkout component, the entire payment data lifecycle is handled automatically. The checkout component:
 
 1. Receives the encrypted payment data from Google Pay™
 2. Extracts the token from the `paymentMethodData.tokenizationData.token` property
@@ -96,6 +124,10 @@ When a customer pays with Google Pay™ through hosted checkout, the entire paym
 4. Tokenizes the payment data into a JustiFi payment method
 5. Completes the checkout
 
-**No merchant action is required** to process or handle the Google Pay™ payment data. The hosted checkout manages the complete flow from customer authorization through checkout completion.
+**No merchant action is required** to process or handle the Google Pay™ payment data. The checkout component manages the complete flow from customer authorization through checkout completion.
 
 For more information on completing checkouts, see our [Checkout API documentation](https://docs.justifi.tech/api-spec#tag/Checkouts/operation/CompleteCheckout).
+
+## See Also
+
+- [Apple Pay](/payments/applePay) - Learn about Apple Pay integration with JustiFi
