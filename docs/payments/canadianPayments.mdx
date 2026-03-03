@@ -1,0 +1,115 @@
+---
+title: Canadian Payments
+description: Learn about processing payments in Canadian dollars (CAD) with JustiFi
+sidebar_label: Canadian Payments
+keywords:
+  - canada
+  - canadian
+  - cad
+  - payments
+  - fees
+  - payouts
+---
+
+# Canadian Payments
+
+## Overview
+
+JustiFi supports payment processing in Canadian dollars (CAD) through a dedicated Canada platform. CAD processing differs from USD in fee handling, balance transactions, payout timing, and supported payment methods.
+
+## Platform Setup
+
+To process CAD payments, a **separate Canada platform** must be provisioned by JustiFi. This is distinct from your US platform.
+
+- Each platform and its sub-accounts are scoped to a **single currency**
+- A CAD sub-account cannot process USD payments, and vice versa
+- If your business operates in both the US and Canada, you will have separate platform accounts for each
+
+Contact [customer_success@justifi.tech](mailto:customer_success@justifi.tech) to provision a Canada platform.
+
+## Supported Payment Methods
+
+| Payment Method | CAD Support |
+|----------------|-------------|
+| Card payments (e-commerce) | Supported |
+| Card present (terminals) | Not yet available |
+| ACH / bank account payments | Not supported |
+| Apple Pay | Not yet available |
+| Google Pay | Not yet available |
+
+:::note
+ACH and bank account payments are available for USD processing only. Card present (terminal), Apple Pay, and Google Pay support for CAD is planned but not yet available.
+:::
+
+## Fees
+
+For CAD payments, fees are determined during merchant onboarding and are not configurable by the platform via the API.
+
+The following parameters will return validation errors on CAD payments:
+
+- `application_fee_amount` on payment or checkout creation
+- `fees` array on payment or checkout creation
+- `application_fees` on checkout creation
+
+Fee data is available via the `application_fee` object on the payment response. The `fees` array will be empty on CAD payments.
+
+Standard fee configurations (`application_fee_rates`) that platforms use for USD processing are not available for CAD. Fee rates for CAD merchants are established during onboarding and cannot be modified through the API.
+
+## Balance Transactions
+
+Balance transactions for CAD payments are not created at payment capture time. They are created when settlements are imported asynchronously. There will be a delay between when a payment is captured and when its associated balance transactions appear in the [Balance Transactions API](https://docs.justifi.tech/api-spec#tag/Balance-Transactions).
+
+## Refunds
+
+Create refunds the same way as USD:
+
+```
+POST /v1/payments/{id}/refunds
+{
+  "amount": 5000,
+  "reason": "customer_request"
+}
+```
+
+:::note
+The `fees` parameter on refund requests is not available for CAD payments. Fee returns on CAD refunds are not currently configurable. 
+:::
+
+## Payouts
+
+CAD payouts follow a different schedule than USD payouts. Payout timing and frequency differ from the standard USD daily payout schedule. The `fees_total` field on payouts reflects the fees for that payout period.
+
+Payouts and their details are available through the [Payouts API](https://docs.justifi.tech/api-spec#tag/Payouts) and on the JustiFi dashboard.
+
+## Testing
+
+To test CAD payments in the sandbox:
+
+1. Use a **CAD-configured sub-account** (provisioned on your Canada platform)
+2. Set `currency` to `cad` in payment requests
+3. Use the same [test card scenarios](https://docs.justifi.tech/testing/card_payments) as USD, substituting the currency
+
+```json
+{
+  "amount": 1000,
+  "currency": "cad",
+  "capture_strategy": "automatic",
+  "payment_method": {
+    "token": "pm_justifi123"
+  }
+}
+```
+
+## Summary of Differences from USD
+
+| Feature | USD | CAD |
+|---------|-----|-----|
+| Platform | US platform | Separate Canada platform |
+| Payment methods | Cards + ACH | Cards only |
+| Dynamic fees (`fees` array) | Supported | Not supported (empty) |
+| `application_fee_amount` | Supported | Not supported |
+| Fee data on payment | `application_fee` or `fees` array | `application_fee` only |
+| Fee configuration by platform | Supported | Not supported (set during onboarding) |
+| Balance transactions | Created at payment capture | Created at settlement import |
+| Fee returns on refunds | Platform-controlled | Not configurable |
+| Payout timing | Standard daily schedule | Different schedule |
