@@ -58,6 +58,10 @@ _note: Disable the BNPL option by passing the correspondent prop to the web comp
 Checkouts support flexible fee structures that allow you to specify different fee types.
 This enables transparent reporting for merchants and selective fee refunds.
 
+:::caution CAD Payments
+The `payment.fees` and `application_fee_amount` parameters are **not supported for CAD checkouts**. For CAD payments, fees are determined during merchant onboarding and are not configurable via the API. See the [Canadian Payments guide](https://docs.justifi.tech/payments/canadianPayments) for details.
+:::
+
 #### Using the Fees Array (Recommended)
 
 Use the `payment.fees` parameter to specify fee types when creating a checkout:

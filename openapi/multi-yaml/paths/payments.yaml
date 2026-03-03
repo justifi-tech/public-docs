@@ -61,6 +61,8 @@ post:
                 **New integrations** should use the `fees` array instead for granular control over fee types and selective refunds. See [Enhanced Fee Management](#section/Enhanced-Fee-Management).
 
                 Cannot be used together with `fees`.
+
+                > **CAD Payments:** This parameter is not available for CAD payments. Fees for Canadian dollar payments are determined during merchant onboarding and are not configurable via the API. See [Canadian Payments](https://docs.justifi.tech/payments/canadianPayments) for details.
               example: 400
             fees:
               type: array
@@ -77,6 +79,8 @@ post:
                 - Each fee type appears as a separate balance transaction
 
                 Cannot be used together with `application_fee_amount`.
+
+                > **CAD Payments:** This parameter is not available for CAD payments. Fees for Canadian dollar payments are determined during merchant onboarding and are not configurable via the API. See [Canadian Payments](https://docs.justifi.tech/payments/canadianPayments) for details.
               items:
                 $ref: ../components/schemas/Fee.yaml
               example:

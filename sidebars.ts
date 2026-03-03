@@ -162,6 +162,11 @@ const sidebars: SidebarsConfig = {
       collapsed: true,
     },
     {
+      type: "doc",
+      label: "Canadian Payments",
+      id: "payments/canadianPayments",
+    },
+    {
       type: "category",
       label: "Terminals",
       link: {
