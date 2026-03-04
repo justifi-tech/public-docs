@@ -1195,10 +1195,10 @@ The enhanced fee management features described above — including the `fees` ar
 
 For Canadian dollar payments, fees are determined during merchant onboarding and are not configurable via the API:
 
-- Do not pass `fees`, `application_fee_amount`, or `application_fees` on CAD payment or checkout requests — the `fees` array will be empty on CAD payments
-- Fee data is available via the `application_fee` object on the payment response
+- The `fees`, `application_fee_amount`, and `application_fees` parameters are not supported on CAD payment or checkout requests
+- Fee data is available via the `fees` array on the payment response as a `processing_fee`. The `application_fee` object will be `null`
 - **Balance transactions** are created when settlements are imported — not at payment capture time
-- Do not pass the `fees` parameter on CAD refund requests
+- The `fees` parameter on refund requests is not supported for CAD payments
 
 For complete details, see the [Canadian Payments guide](https://docs.justifi.tech/payments/canadianPayments).
 

@@ -51,7 +51,7 @@ The following parameters will return validation errors on CAD payments:
 - `fees` array on payment or checkout creation
 - `application_fees` on checkout creation
 
-Fee data is available via the `application_fee` object on the payment response. The `fees` array will be empty on CAD payments.
+Fee data is available via the `fees` array on the payment response as a `processing_fee`. The `application_fee` object will be `null` on CAD payments.
 
 Standard fee configurations (`application_fee_rates`) that platforms use for USD processing are not available for CAD. Fee rates for CAD merchants are established during onboarding and cannot be modified through the API.
 
@@ -106,9 +106,9 @@ To test CAD payments in the sandbox:
 |---------|-----|-----|
 | Platform | US platform | Separate Canada platform |
 | Payment methods | Cards + ACH | Cards only |
-| Dynamic fees (`fees` array) | Supported | Not supported (empty) |
+| Dynamic fees (`fees` param) | Supported | Not supported |
 | `application_fee_amount` | Supported | Not supported |
-| Fee data on payment | `application_fee` or `fees` array | `application_fee` only |
+| Fee data on payment | `application_fee` or `fees` array | `fees` array (`processing_fee`) |
 | Fee configuration by platform | Supported | Not supported (set during onboarding) |
 | Balance transactions | Created at payment capture | Created at settlement import |
 | Fee returns on refunds | Platform-controlled | Not configurable |
