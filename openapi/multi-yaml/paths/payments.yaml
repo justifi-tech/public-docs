@@ -77,6 +77,8 @@ post:
                 - Each fee type appears as a separate balance transaction
 
                 Cannot be used together with `application_fee_amount`.
+
+                > **Note:** The `fees` array will be empty in the create response. Fees are processed asynchronously — subscribe to payment webhook events (recommended) to receive the full fee details, or poll with a subsequent [Get Payment](#tag/Payments/operation/GetPayment) request.
               items:
                 $ref: ../components/schemas/Fee.yaml
               example:
