@@ -86,6 +86,8 @@ post:
                     - `amount`: Fee amount in cents (required)
 
                     Cannot be used together with `application_fees`.
+
+                    > **Note:** The `fees` array will be empty in the create response. Fees are processed asynchronously — subscribe to payment webhook events (recommended) to receive the full fee details, or poll with a subsequent Get Payment request.
                   items:
                     $ref: ../components/schemas/Fee.yaml
                   example:
