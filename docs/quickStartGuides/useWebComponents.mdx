@@ -1,0 +1,72 @@
+---
+title: Customization via JustiFi Web Components
+description: Learn how to utilize web components to provision a business and process a payment
+sidebar_label: Embedded Web Components
+keywords:
+  - fintech
+  - products
+  - web component
+  - guide
+  - quick start
+---
+
+# Customizable Payments Solution
+
+JustiFi offers a variety of web components for payment processing and reporting.
+Web components are white labeled customizable HTML elements with encapsulated functionality that can easily be embedded in your platform and expedite integration.
+
+## Prerequisites
+
+Before you begin integration, ensure you have:
+
+### 1. JustiFi Dashboard Access
+- Login credentials provided by your Customer Success representative
+- Access the dashboard at [https://app.justifi.ai](https://app.justifi.ai/)
+
+### 2. API Credentials
+To generate your API credentials:
+1. Log into the JustiFi dashboard
+2. Navigate to **Developers**
+3. Toggle **Test Mode** ON for sandbox environment testing
+4. Go to **API Keys** and create a test API key
+5. Store your API key securely - it determines your environment (test/production)
+
+### 3. Environment Setup
+- **Test Environment**: Use test API keys for development and testing
+- **Production Environment**: Use production API keys for live transactions
+- The API key environment automatically routes your requests to the correct environment
+
+## Quick Start Integration
+
+### Step 1: Setup JustiFi Hosted Onboarding
+
+The following integration guide explains the few steps needed to host the JustiFi Hosted Onboarding form on your platform:
+[Hosted Onboarding integration guide](https://docs.justifi.tech/api-spec#tag/Hosted-Onboarding)
+**Note:** While JustiFi offers an onboarding web component we recommend using Hosted Onboarding to ensure your merchant always 
+interact with the latest onboarding form without the need of version upgrades. 
+Hosted Onboarding utilizes the onboarding web component
+which allows you to prefill business information and saves added and updated data as it is filled in. 
+
+### Step 2: Submit onboarding information
+Render the Hosted Onboarding form and fill in all required business data (for testing use dummy data). 
+Once the form has beeen successfully submitted JustiFi creates a sub account and associates it with the business passed to Hosted Onboarding. 
+This sub account is the representation of your business for payment processing.
+Once your merchant is approved the sub account status changes to enabled and the merchant can start processing payments. 
+Production accounts get typically enabled in 1-2 business days, test accounts get enabled right away. 
+
+### Step 4: Process Your First Payment
+JustiFi offers two checkout web components.
+- The [**Unified Fintech Checkout Web Component**](https://docs.justifi.tech/web-components/payment-facilitation/unified-fintech-checkout%E2%84%A2) provides a pre-designed form that can be customized via css styles and props passed to the component.
+- The [**Modular Checkout Web Component**](https://docs.justifi.tech/web-components/modular-checkout) allows full customization via a wide range of optional sub components and custom html.
+For and integration guide see the [developer docs](https://docs.justifi.tech/api-spec#tag/Checkout-via-Component) for details.
+
+### Step 5: Merchant Tools
+The [Merchant Tools section](https://docs.justifi.tech/web-components/merchant-tools) in the Web Components docs lists a variety of 
+web components for a convenient and easy reporting options on payment activity. Add any of these web components
+to your platform to provide merchants visibility into their checkouts, processed payments, payouts, etc.
+
+### Step 5: Manage Refunds and Disputes
+Embed the [**Refund Payment**](https://docs.justifi.tech/web-components/payment-facilitation/refund-payment) web component on your platform
+so merchants can issue refunds to their customers.
+The [**Dispute Management**](https://docs.justifi.tech/web-components/payment-facilitation/dispute-management) web component 
+allows merchants to submit evidence directly to JustiFi.

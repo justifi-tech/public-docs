@@ -1,5 +1,5 @@
 ---
-title: Use JustiFi Hosted Approach
+title: JustiFi Hosted Approach
 description: Learn how to provision a business and process a payment using JustiFi hosted options
 sidebar_label: JustiFi Hosted Approach
 keywords:
@@ -10,8 +10,8 @@ keywords:
   - quick start
 ---
 
-# Use JustiFi Hosted Onboarding and Checkout
-
+# Embed JustiFi Hosted Onboarding and Hosted Checkout
+This approach allows quick integration with minimal 
 
 ## Prerequisites
 
@@ -33,31 +33,21 @@ To generate your API credentials:
 - **Test Environment**: Use test API keys for development and testing
 - **Production Environment**: Use production API keys for live transactions
 - The API key environment automatically routes your requests to the correct environment
+
 ## Quick Start Integration
 
 ### Step 1: Setup JustiFi Hosted Onboarding
 
 The following integration guide explains the few steps needed to host the JustiFi Hosted Onboarding form on your platform:
-[Hosted Onboarding integration guide](https://docs.justifi.tech/api-spec#tag/Onboarding-via-Component)
+[Hosted Onboarding integration guide](https://docs.justifi.tech/api-spec#tag/Hosted-Onboarding)
 
-
-
+### Step 2: Submit onboarding information
+Render the Hosted Onboarding form and fill in all required business data (for testing use dummy data). 
+Once the form was submitted successfully JustiFi creates a sub account and associates it with the business passed to Hosted Onboarding. 
+This sub account is the representation of your business for payment processing.
+Once your merchant is approved the sub account status changes to enabled and the merchant can start processing payments. 
+Production accounts get typically enabled 1-2 business days, test accounts get enabled right away. 
 
 ### Step 4: Process Your First Payment
-
-Once your merchant is approved (typically 1-2 business days), you can start processing payments:
-
-#### Using Hosted Checkout:
-```bash
-curl -X POST https://api.justifi.ai/v1/checkouts \
-  -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "sub_account_id": "sa_123",
-    "amount": 1000,
-    "currency": "usd",
-    "description": "Test payment"
-  }'
-```
-
-Redirect customers to the returned `checkout_url`.
+JustiFi offers a Hosted Checkout solution via payment link.
+See the [developer docs](https://docs.justifi.tech/checkouts/hosted-checkout) for details.
