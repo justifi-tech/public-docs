@@ -1,7 +1,7 @@
 type: object
 description: |
-  A fee object in API responses. When creating a payment, returns basic fee confirmation.
-  When fetching a payment, includes additional tracking fields like `id` and `remaining_amount`.
+  A fee object in API responses. The `fees` array is empty in the Create Payment response —
+  subscribe to payment webhook events (recommended) to receive the full fee objects, or poll with a subsequent Get Payment request.
 properties:
   id:
     type: string
