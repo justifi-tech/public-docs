@@ -1,0 +1,95 @@
+name: Update WC Docs
+
+on:
+  repository_dispatch:
+    types: [webcomponents-docs-published]
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.JUSTIFI_MACHINA_GITHUB_TOKEN }}
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 10.6.2
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Bump @justifi/webcomponents-docs in package.json
+        env:
+          DOCS_VERSION: ${{ github.event.client_payload.docs_version }}
+        run: |
+          node -e "
+            const fs = require('fs');
+            const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+            pkg.dependencies['@justifi/webcomponents-docs'] = process.env.DOCS_VERSION;
+            fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2) + '\n');
+          "
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Derive major.minor and check if new
+        id: ver
+        env:
+          WC_VERSION: ${{ github.event.client_payload.webcomponents_version }}
+        run: |
+          MAJOR_MINOR=$(echo "$WC_VERSION" | cut -d. -f1,2)
+          echo "major_minor=$MAJOR_MINOR" >> $GITHUB_OUTPUT
+          IS_NEW=$(node -e "
+            const fs = require('fs');
+            const versions = JSON.parse(fs.readFileSync('versions-web-components.json', 'utf8'));
+            console.log(versions.includes('$MAJOR_MINOR') ? 'false' : 'true');
+          ")
+          echo "is_new_minor=$IS_NEW" >> $GITHUB_OUTPUT
+
+      - name: Sync docs to .wc-current
+        run: node scripts/sync-wc-docs.mjs
+
+      - name: Snapshot current docs (new major.minor only)
+        if: steps.ver.outputs.is_new_minor == 'true'
+        run: |
+          MAJOR_MINOR="${{ steps.ver.outputs.major_minor }}"
+          pnpm docusaurus docs:version:web-components "$MAJOR_MINOR"
+
+      - name: Update current label in docusaurus.config.ts
+        if: steps.ver.outputs.is_new_minor == 'true'
+        env:
+          MAJOR_MINOR: ${{ steps.ver.outputs.major_minor }}
+        run: |
+          node -e "
+            const fs = require('fs');
+            let config = fs.readFileSync('docusaurus.config.ts', 'utf8');
+            config = config.replace(
+              /versions: \{ current: \{ label: '[^']*' \} \}/,
+              \`versions: { current: { label: '\${process.env.MAJOR_MINOR}' } }\`
+            );
+            fs.writeFileSync('docusaurus.config.ts', config);
+          "
+
+      - name: Commit and open PR
+        env:
+          GH_TOKEN: ${{ secrets.JUSTIFI_MACHINA_GITHUB_TOKEN }}
+          DOCS_VERSION: ${{ github.event.client_payload.docs_version }}
+          WC_VERSION: ${{ github.event.client_payload.webcomponents_version }}
+        run: |
+          BRANCH="update-wc-docs-${DOCS_VERSION}"
+          git config user.name "justifi-machina"
+          git config user.email "machina@justifi.ai"
+          git checkout -b "$BRANCH"
+          git add .
+          git commit -m "chore: update @justifi/webcomponents-docs to ${DOCS_VERSION}"
+          git push origin "$BRANCH"
+          gh pr create \
+            --title "chore: update @justifi/webcomponents-docs to ${DOCS_VERSION}" \
+            --body "Triggered by @justifi/webcomponents v${WC_VERSION} release." \
+            --base main
