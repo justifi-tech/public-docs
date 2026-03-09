@@ -98,6 +98,11 @@ properties:
     description: |
       Array of fee objects showing the fees charged on this payment with their remaining refundable amounts.
       Present when fees were specified using the `fees` array in the payment request.
+
+      **Note:** This array is empty in the Create Payment response. Fees are processed asynchronously —
+      subscribe to payment webhook events (recommended) to receive the full fee objects
+      (with `id`, `remaining_amount`, and `currency`), or poll with a subsequent Get Payment request.
+
       See [Enhanced Fee Management](https://docs.justifi.tech/api-spec#section/Enhanced-Fee-Management) for full documentation.
     items:
       $ref: ./FeeResponse.yaml

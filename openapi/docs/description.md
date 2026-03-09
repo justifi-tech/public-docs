@@ -966,6 +966,8 @@ POST /v1/payments
 
 **Response (Create):**
 
+> **Important:** The `fees` array will be **empty** in the Create Payment response. Fees are processed asynchronously — subscribe to payment webhook events (recommended) to receive the full fee objects once they are available. Alternatively, you can poll with a [Get Payment](#tag/Payments/operation/GetPayment) request.
+
 ```json
 {
   "id": "py_123xyz",
@@ -974,17 +976,14 @@ POST /v1/payments
     "id": "py_123xyz",
     "amount": 10000,
     "fee_amount": 850,
-    "fees": [
-      { "type": "processing_fee", "amount": 350 },
-      { "type": "platform_fee", "amount": 500 }
-    ]
+    "fees": []
   }
 }
 ```
 
-**Response (Get Payment):**
+**Response (Webhook Events / Get Payment):**
 
-When fetching a payment, you'll see additional tracking fields:
+When receiving a payment webhook event or fetching a payment, the `fees` array is populated with the full fee objects:
 
 ```json
 {
