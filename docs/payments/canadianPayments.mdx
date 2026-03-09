@@ -51,7 +51,7 @@ The following parameters will return validation errors on CAD payments:
 - `fees` array on payment or checkout creation
 - `application_fees` on checkout creation
 
-Fee data is available via the `fees` array on the payment response as a `processing_fee`. The `application_fee` object will be `null` on CAD payments.
+The data for fees applied to a payment is available via the `fees` array on the payment record (available via [Get Payment API](https://docs.justifi.tech/api-spec#tag/Payments/operation/GetPayment) or payment events) as a `processing_fee`. The `application_fee` object will be `null` on CAD payments.
 
 Standard fee configurations (`application_fee_rates`) that platforms use for USD processing are not available for CAD. Fee rates for CAD merchants are established during onboarding and cannot be modified through the API.
 
@@ -81,35 +81,21 @@ CAD payouts follow a different schedule than USD payouts. Payout timing and freq
 
 Payouts and their details are available through the [Payouts API](https://docs.justifi.tech/api-spec#tag/Payouts) and on the JustiFi dashboard.
 
-## Testing
+## Technical Integration
 
-To test CAD payments in the sandbox:
+For information on testing Canadian payments, refer to the [Canadian Payments testing guide](https://docs.justifi.tech/testing/canadian_payments).
 
-1. Use a **CAD-configured sub-account** (provisioned on your Canada platform)
-2. Set `currency` to `cad` in payment requests
-3. Use the same [test card scenarios](https://docs.justifi.tech/testing/card_payments) as USD, substituting the currency
-
-```json
-{
-  "amount": 1000,
-  "currency": "cad",
-  "capture_strategy": "automatic",
-  "payment_method": {
-    "token": "pm_justifi123"
-  }
-}
-```
-
-## Summary of Differences from USD
+## Summary
 
 | Feature | USD | CAD |
 |---------|-----|-----|
 | Platform | US platform | Separate Canada platform |
 | Payment methods | Cards + ACH | Cards only |
+| Digital wallets (Apple Pay, Google Pay) | Supported | Not yet available |
 | Dynamic fees (`fees` param) | Supported | Not supported |
-| `application_fee_amount` | Supported | Not supported |
+| `application_fee_amount` param | Supported | Not supported |
 | Fee data on payment | `application_fee` or `fees` array | `fees` array (`processing_fee`) |
-| Fee configuration by platform | Supported | Not supported (set during onboarding) |
+| Fee configuration via API | Supported | Not supported (set during onboarding) |
 | Balance transactions | Created at payment capture | Created at settlement import |
-| Fee returns on refunds | Platform-controlled | Not configurable |
+| Fee returns on refunds | Fully customizable | Not configurable |
 | Payout timing | Standard daily schedule | Different schedule |

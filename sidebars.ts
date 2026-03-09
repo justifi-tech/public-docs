@@ -194,6 +194,7 @@ const sidebars: SidebarsConfig = {
         "testing/overview",
         "testing/card_payments",
         "testing/ach_payments",
+        "testing/canadian_payments",
         "testing/payouts",
         "testing/disputes"
       ]
