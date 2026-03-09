@@ -41,7 +41,7 @@ post:
         schema:
           properties:
             variable_rate:
-              description: "percentage rate applied to the payment amount. `2.75` = 2.75%"
+              description: percentage rate applied to the payment amount. `2.75` = 2.75%
               type: number
               example: 2.75
             transaction_fee_cents:
@@ -113,7 +113,7 @@ get:
         example: processing_ecomm
   responses:
     "200":
-      description: Successfully retrieved fee configuration
+      description: Successfully retrieve a fee configuration
       content:
         application/json:
           schema:

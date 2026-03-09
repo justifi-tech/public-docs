@@ -36,7 +36,7 @@ get:
     - $ref: ../components/parameters/pagination-before.yaml
   responses:
     "200":
-      description: Successfully listed fee configuration history
+      description: Successfully list fee configuration history
       content:
         application/json:
           schema:

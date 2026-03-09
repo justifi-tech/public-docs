@@ -37,11 +37,11 @@ The API is **fee-type-centric**: a configuration is created for a specific fee t
 | `transaction_fee_cents` | integer | No | Flat fee in cents added to each transaction. Defaults to `0` |
 | `fee_cap_cents` | integer | No | Maximum fee amount in cents. If the calculated fee exceeds this amount, the cap is used instead |
 | `effective_start` | datetime | No | When the configuration takes effect. Defaults to immediately |
-| `effective_end` | datetime | No | When the configuration expires. Defaults to `null` (stays active indefinitely). Only accepted on optional fee types (brand-specific and platform) |
+| `effective_end` | datetime | No | When the configuration expires. Defaults to `null` — which means it stays active indefinitely. Only accepted on optional fee types (brand-specific and platform) |
 
 ## Creating a Configuration
 
-To set up fees for a sub account, POST to the [fee type endpoint](#api-endpoints) for the configuration you want to create.
+To set up fees for a sub account, use the [create a fee configuration API](#api-endpoints) for each fee type you want to configure.
 
 ### Set a base processing fee
 
@@ -111,7 +111,7 @@ Every payment now also includes a 1.00% platform fee, in addition to the process
 
 ## Replacing a Configuration
 
-There is no update endpoint. To change a fee rate, [create a new configuration](#creating-a-configuration) for the same fee type. The previous configuration is **automatically retired** — its `effective_end` is set to the new configuration's `effective_start`.
+There is no update fee configuration API endpoint. To change a fee rate, use the [create fee configuration API](#creating-a-configuration) to create a new configuration for the same fee type. The previous configuration is **automatically retired** — its `effective_end` is set to the new configuration's `effective_start`.
 
 ```
 POST /v1/sub_accounts/acc_xxx/fee_configurations/processing_ecomm

@@ -15,7 +15,7 @@ keywords:
 
 ## Overview
 
-Configurable Fees allow platforms to set fee rates for each sub account via the [Fee Configurations API](./managingConfigurations.mdx). When a payment is processed, the system automatically calculates the applicable fees based on the payment's characteristics — card brand, payment method type (ecomm, terminal, ACH), and the configured rates. Fee amounts do not need to be passed with every payment request.
+Configurable Fees allow platforms to set fee rates for each sub account (merchant) via the [Fee Configurations API](./managingConfigurations.mdx). When a payment is processed, the system automatically calculates the applicable fees based on the payment's characteristics — card brand, payment method type (ecomm, terminal, ACH), and the configured rates. Fee amounts do not need to be passed with every payment request.
 
 Each fee rate is stored as a **Standard Fee Configuration** resource. These configurations give platforms centralized control over their fee structure while keeping payment integration simple — configure once, and the fees for every payment for that sub account are handled automatically.
 
@@ -28,7 +28,7 @@ Configurable Fees are part of the **v2 fee structure**, which replaces the legac
 - **USD only.** Configurable Fees are not available for Canadian (CAD) processing. This feature is available for US platform accounts only.
 - **One active config per fee type per sub account.** Creating a new configuration for the same fee type automatically retires the previous one.
 - **Base processing configs cannot be retired.** Once a `processing_ecomm`, `processing_card_present`, `processing_ach`, or `processing_ach_expedited` config is created, it cannot have an `effective_end` — it must stay active indefinitely. The only way to change rates is to create a new config, which automatically retires the previous one. See [Chaining Configurations](./managingConfigurations.mdx#chaining-configurations) for details.
-- **Brand-specific and platform configs can be retired** at any time by POSTing with an `effective_end`. Payments for that brand will fall back to the base processing config. See [Retiring a Brand-Specific Configuration](./managingConfigurations.mdx#retiring-a-brand-specific-configuration) for details.
+- **Brand-specific and platform configs can be retired** at any time by passing an `effective_end` parameter when [creating a new configuration](./managingConfigurations.mdx#retiring-a-brand-specific-configuration). Payments for that brand will fall back to the base processing config.
 - **Fee configurations apply to a sub account**, not to the platform. Each sub account is configured individually.
 - **Cannot be mixed with legacy Application Fees.** Once on v2 fees, the `application_fee_amount` parameter is no longer accepted.
 
@@ -98,9 +98,9 @@ Suppose a sub account is configured with:
 
 | Incoming Payment | Config Used | Why |
 | --- | --- | --- |
-| $100 Visa online | `processing_ecomm` | No Visa-specific config exists, falls back to base |
-| $100 Amex online | `amex_brand_ecomm` | Amex-specific config exists, replaces base processing fee |
-| $100 Mastercard online | `processing_ecomm` | No Mastercard-specific config exists, falls back to base |
+| $100 Visa online | `processing_ecomm` | No Visa-specific config exists, base config is applied |
+| $100 Amex online | `amex_brand_ecomm` | Amex-specific config exists, replaces base config |
+| $100 Mastercard online | `processing_ecomm` | No Mastercard-specific config exists, base config is applied |
 
 In all three cases, the `platform` fee is additionally applied because it is configured.
 
@@ -121,13 +121,13 @@ The configuration type determines _how_ the fee is calculated. The payment fee t
 Configurable Fees are available in test mode for all platforms. To enable configurable fees for live payments, contact [customer_success@justifi.tech](mailto:customer_success@justifi.tech).
 :::
 
-- **Test mode**: Create Standard Fee Configurations via the [Fee Configurations API](./managingConfigurations.mdx) and process test payments with auto-calculated fees. Use this to validate your setup before going live.
+- **Test mode**: Create standard fee configurations via the [create fee configuration API](./managingConfigurations.mdx#creating-a-configuration) for a test sub account and process test payments with auto-calculated fees. Use this to validate your setup before going live.
 - **Live mode**: Requires enabling the v2 fee structure on your platform settings. Once enabled, fee configurations take effect for all payments on configured sub accounts.
 
 ## Fees in Payment Responses
 
 :::warning Fees May Not Be in the Create Payment or Complete Checkout Response
-When creating a payment, the fee breakdown may not be included in the synchronous response. Fee calculation happens downstream after the payment is created. **Use [payment events](/payments/paymentsApi#payment-events)** (webhooks) to get the finalized fee breakdown, including which configuration was used and the calculated amounts.
+When creating a payment, the fee breakdown may not be included in the synchronous response. Fee calculation happens downstream after the payment is created. **Use [payment events](https://docs.justifi.tech/api-spec#tag/Events/operation/paymentEvent)** (webhooks) to get the finalized fee breakdown, including which configuration was used and the calculated amounts.
 :::
 
 All payment events (`payment.created`, `payment.updated`, etc.) include the `fees` array with each fee's `id`, `type`, `amount`, `remaining_amount`, and `currency`.
@@ -164,7 +164,7 @@ Configurable Fees (v2 fee structure) replace the legacy application fee rate mod
 ### Migration Steps
 
 1. **Set up fee configurations in test mode.** Create Standard Fee Configurations for each sub account that mirror your current application fee rates. See [Managing Fee Configurations](./managingConfigurations.mdx) for API details.
-2. **Update your payment integration.** Remove any `application_fee_amount` parameters from your payment requests. If you use the `application_fee` field on payment records, switch to reading from the `fees` array instead.
+2. **Update your payment integration.** Remove any `application_fee_amount` parameters from your payment requests. If you use the `application_fee` field in payment responses and payment events, switch to reading from the `fees` array instead.
 3. **Update refund handling.** If you currently rely on automatic proportional fee refunds, update your refund requests to use the explicit `fees` array. See [Refunds and Fee Returns](#refunds-and-fee-returns) above.
 4. **Test end-to-end.** Process test payments and refunds to confirm fees are calculated correctly and your integration reads from the right response fields.
 5. **Enable v2 for live payments.** Contact [customer_success@justifi.tech](mailto:customer_success@justifi.tech) to enable the v2 fee structure on your platform. Once enabled, fee configurations take effect for all payments on configured sub accounts.

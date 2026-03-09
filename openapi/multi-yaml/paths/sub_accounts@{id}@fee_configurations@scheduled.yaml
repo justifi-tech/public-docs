@@ -15,7 +15,7 @@ get:
     - $ref: ../components/parameters/pagination-before.yaml
   responses:
     "200":
-      description: Successfully listed scheduled fee configurations
+      description: Successfully list scheduled fee configurations
       content:
         application/json:
           schema:

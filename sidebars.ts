@@ -92,7 +92,7 @@ const sidebars: SidebarsConfig = {
         type: "generated-index",
         title: "Configurable Fees",
         description:
-          "Learn how to configure per-sub-account fee rates that auto-calculate at payment time",
+          "Learn how to configure per-sub-account fee rates that auto-calculate fees at payment time",
         keywords: ["fees", "fee configuration", "processing fees", "platform fees"],
       },
       items: [

@@ -63,7 +63,7 @@ Use this calculator to configure fee rates and see exactly which configuration a
 4. Set a `fee_cap_cents` on a base processing config and increase the payment amount to see the cap in effect
 :::
 
-## Walkthrough: Setting Up a Sub-Account
+## Walkthrough: Set Fee Configurations on a Sub Account
 
 This walkthrough covers a common setup from start to finish.
 
@@ -128,7 +128,7 @@ Every payment now also includes a 1.00% platform fee.
 
 ### Step 4: Process a payment
 
-Create a payment with no fee parameters:
+Create a payment without passing any fee parameters in the request and using an Amex payment method (for testing you can use the test card number `378282246310005` - see the [testing section](https://docs.justifi.tech/api-spec#section/Testing) for more test payment method options):
 
 ```
 POST /v1/payments
@@ -151,7 +151,7 @@ The system detects the card brand and applies the right configuration automatica
 - **Total fees**: $4.50
 
 :::warning Fees Are Not Guaranteed in the Create Payment Response
-The fee breakdown may not be included in the create payment response. Fee calculation happens downstream. Subscribe to payment events (webhooks) to receive the finalized fee details.
+The fee breakdown may not be included in the create payment response. Fee calculation happens downstream. Subscribe to [payment events (webhooks)](https://docs.justifi.tech/api-spec#tag/Events/operation/paymentEvent) or use the [get payment API](https://docs.justifi.tech/api-spec#tag/Payments/operation/GetPayment) to receive the finalized fee details.
 :::
 
 All payment events (`payment.created`, `payment.updated`, etc.) include the fee breakdown:
@@ -184,7 +184,7 @@ All payment events (`payment.created`, `payment.updated`, etc.) include the fee 
 }
 ```
 
-For the same $100 amount with a Visa card:
+For the same $100 amount with a Visa card (for testing you can use the test card number `4242424242424242` - see the [testing section](https://docs.justifi.tech/api-spec#section/Testing) for more test payment method options):
 
 - **Processing fee**: `processing_ecomm` at 2.75% + $0.25 = $3.00 (no Visa-specific config, falls back to base)
 - **Platform fee**: `platform` at 1.00% = $1.00
@@ -192,7 +192,7 @@ For the same $100 amount with a Visa card:
 
 ## Overriding Auto-Calculated Fees
 
-Any auto-calculated fee can be overridden by passing explicit fees in the payment request. This is useful for one-off adjustments — for example, waiving the platform fee on a specific payment.
+Any auto-calculated fee can be overridden by passing explicit fees in the payment request. This is useful for one-off adjustments — for example, waiving the platform fee on a specific payment. Only the fee types you include in the `fees` array are overridden — everything else is calculated based on the fee configurations set on the sub account.
 
 Pass the `fees` array with the fee type and amount to override:
 
@@ -213,7 +213,7 @@ POST /v1/payments
 }
 ```
 
-In this example, the processing fee is still auto-calculated from the configuration, but the platform fee is explicitly set to $0. Only the fee types you include in the `fees` array are overridden — everything else is calculated normally.
+In this example, the processing fee is still auto-calculated from the configuration, but the platform fee is explicitly set to $0.
 
 The payment event reflects the override:
 
@@ -277,12 +277,12 @@ The payment event reflects the override:
 
 ### ACH payments
 
+ACH payments do not have brand-specific configurations. The base processing config is always used.
+
 | Payment Type | Config Used |
 | --- | --- |
 | Standard ACH | `processing_ach` |
 | Expedited ACH | `processing_ach_expedited` |
-
-ACH payments do not have brand-specific configurations. The base processing config is always used.
 
 ### Platform fee
 
