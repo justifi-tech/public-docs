@@ -27,7 +27,7 @@ Configurable Fees are part of the **v2 fee structure**, which replaces the legac
 
 - **USD only.** Configurable Fees are not available for Canadian (CAD) processing. This feature is available for US platform accounts only.
 - **One active config per fee type per sub account.** Creating a new configuration for the same fee type automatically retires the previous one.
-- **Required fee types do not accept `effective_end`.** The `processing_ecomm`, `processing_card_present`, `processing_ach`, and `processing_ach_expedited` types cannot have an end date — they must stay active indefinitely. The only way to change rates is to create a new config, which automatically retires the previous one. See [Chaining Configurations](./managingConfigurations.mdx#chaining-configurations) for details.
+- **Base processing configs cannot be retired.** Once a `processing_ecomm`, `processing_card_present`, `processing_ach`, or `processing_ach_expedited` config is created, it cannot have an `effective_end` — it must stay active indefinitely. The only way to change rates is to create a new config, which automatically retires the previous one. See [Chaining Configurations](./managingConfigurations.mdx#chaining-configurations) for details.
 - **Brand-specific and platform configs can be retired** at any time by POSTing with an `effective_end`. Payments for that brand will fall back to the base processing config. See [Retiring a Brand-Specific Configuration](./managingConfigurations.mdx#retiring-a-brand-specific-configuration) for details.
 - **Fee configurations apply to a sub account**, not to the platform. Each sub account is configured individually.
 - **Cannot be mixed with legacy Application Fees.** Once on v2 fees, the `application_fee_amount` parameter is no longer accepted.
@@ -45,14 +45,14 @@ There are three categories of Standard Fee Configurations. Together, they provid
 
 ### Base Processing Fees
 
-These are **required** and define the default fee for each payment method type. Every payment must match at least one base processing configuration.
+These define the default fee for each payment method type. You only need to configure the ones relevant to your sub account — for example, if a sub account only processes online card payments, you only need `processing_ecomm`. Once configured, these types cannot be retired (see [Limitations](#limitations)).
 
 | Fee Type | When Applied |
 | --- | --- |
-| `processing_ecomm` | Card-not-present (online) payments |
-| `processing_card_present` | Card-present (terminal) payments |
-| `processing_ach` | ACH payments |
-| `processing_ach_expedited` | Expedited ACH payments |
+| `processing_ecomm` | Card-not-present (online) card payments |
+| `processing_card_present` | Card-present (terminal) card payments |
+| `processing_ach` | ACH (bank account) payments |
+| `processing_ach_expedited` | Expedited ACH (bank account) payments |
 
 ### Brand-Specific Fees
 

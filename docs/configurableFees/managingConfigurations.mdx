@@ -152,7 +152,7 @@ GET /v1/sub_accounts/acc_xxx/fee_configurations/scheduled
 
 ## Chaining Configurations
 
-For required fee types, there must always be an active configuration — you cannot leave a gap in coverage, and the chain must always end with a configuration that has no `effective_end` (i.e., it stays active indefinitely). You can schedule temporary configs in between, but the final config in the chain must cover everything going forward.
+For base processing fee types, there must always be an active configuration — you cannot leave a gap in coverage, and the chain must always end with a configuration that has no `effective_end` (i.e., it stays active indefinitely). You can schedule temporary configs in between, but the final config in the chain must cover everything going forward.
 
 When you POST a new config without `effective_end`, the system automatically retires any existing active config by setting its `effective_end` to the new config's `effective_start`.
 
@@ -223,15 +223,15 @@ processing_ecomm: 2.75% + $0.25 (Mar 8  → forever)  ← back to normal
 
 The chain is seamless — every moment has exactly one active configuration, and the last one extends indefinitely. There is no need to set `effective_end` explicitly; the system handles it when the next config in the chain is created.
 
-:::warning Required Fee Types Cannot Have an Effective End Date
-The following fee types are **required** once configured and do **not** accept an `effective_end` parameter:
+:::warning Base Processing Configs Cannot Have an Effective End Date
+The following base processing fee types do **not** accept an `effective_end` parameter:
 
 - `processing_ecomm`
 - `processing_card_present`
 - `processing_ach`
 - `processing_ach_expedited`
 
-If you include `effective_end` when creating one of these fee types, the API will reject the request with an `effective_end_must_be_nil_for_fee_type` error. These configurations must stay active indefinitely — the only way to transition to a new rate is to create a replacement config, which automatically retires the previous one by setting its `effective_end` to the new config's `effective_start`.
+You only need to configure the types relevant to your sub account (e.g., only `processing_ecomm` if you only process online card payments). However, once created, these configurations must stay active indefinitely — they cannot be retired. If you include `effective_end` when creating one of these fee types, the API will reject the request with an `effective_end_must_be_nil_for_fee_type` error. The only way to transition to a new rate is to create a replacement config, which automatically retires the previous one by setting its `effective_end` to the new config's `effective_start`.
 :::
 
 ## Retiring a Brand-Specific Configuration
