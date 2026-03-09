@@ -72,6 +72,16 @@ const config: Config = {
     ],
   ],
   plugins: [
+    function() {
+      return {
+        name: 'node-builtins-fallback',
+        configureWebpack() {
+          return {
+            resolve: { fallback: { fs: false, path: false, url: false } },
+          };
+        },
+      };
+    },
     [
       '@docusaurus/plugin-content-docs',
       {
@@ -80,6 +90,7 @@ const config: Config = {
         routeBasePath: 'web-components',
         sidebarPath: require.resolve('./sidebars.web-components.js'),
         includeCurrentVersion: true,
+      versions: { current: { label: '6.12' } },
         // Exclude templates and internal helper files from being parsed as docs
         exclude: [
           '**/templates/**',
