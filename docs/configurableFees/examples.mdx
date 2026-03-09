@@ -93,7 +93,7 @@ POST /v1/sub_accounts/acc_xxx/fee_configurations/processing_card_present
 }
 ```
 
-Now the sub-account can process card-not-present payments at 2.75% + $0.25 and terminal payments at 2.50% + $0.10.
+Now the sub account can process card-not-present payments at 2.75% + $0.25 and terminal payments at 2.50% + $0.10.
 
 ### Step 2: Add brand-specific pricing for Amex
 
@@ -296,7 +296,7 @@ Brand-specific configurations **replace** the base processing config for that br
 
 ### Setting brand configs without a base config
 
-Brand-specific configs only apply to their specific brand. Every other card brand still needs a base processing config. Always set up your base configs (`processing_ecomm`, `processing_card_present`) first.
+Brand-specific configs only apply to their specific brand. Every other card brand still needs a base processing config. The API enforces this — if you try to create a brand-specific config (e.g., `amex_brand_ecomm`) without an active base processing config for that payment type (e.g., `processing_ecomm`), the request will fail with a `fee_type_must_be_inside_hierarchy` error. Always set up your base configs (`processing_ecomm`, `processing_card_present`) first.
 
 ### Forgetting that fee caps apply per-config
 
