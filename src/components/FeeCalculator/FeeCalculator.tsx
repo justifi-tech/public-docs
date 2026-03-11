@@ -343,6 +343,47 @@ const styles = {
   } as React.CSSProperties,
 };
 
+function NumericInput({
+  value,
+  onCommit,
+  disabled,
+  defaultOnBlur,
+  style: inputStyle,
+  ...rest
+}: {
+  value: number | null;
+  onCommit: (value: number | null) => void;
+  disabled?: boolean;
+  defaultOnBlur?: number | null;
+  style?: React.CSSProperties;
+} & Omit<React.InputHTMLAttributes<HTMLInputElement>, "value" | "onChange" | "onBlur" | "style" | "type">) {
+  const [raw, setRaw] = useState<string | null>(null);
+  const isEditing = raw !== null;
+  const displayValue = isEditing ? raw : (value === null ? "" : String(value));
+
+  return (
+    <input
+      type="number"
+      value={displayValue}
+      onChange={(e) => setRaw(e.target.value)}
+      onFocus={() => setRaw(value === null ? "" : String(value))}
+      onBlur={() => {
+        const trimmed = raw?.trim() ?? "";
+        if (trimmed === "") {
+          onCommit(defaultOnBlur ?? null);
+        } else {
+          const num = Number(trimmed);
+          onCommit(isNaN(num) ? (defaultOnBlur ?? null) : num);
+        }
+        setRaw(null);
+      }}
+      disabled={disabled}
+      style={inputStyle}
+      {...rest}
+    />
+  );
+}
+
 function ConfigInput({
   label,
   configKey,
@@ -384,15 +425,12 @@ function ConfigInput({
       </span>
       <span style={styles.inputGroup}>
         <label>Rate:</label>
-        <input
-          type="number"
+        <NumericInput
           value={config.variableRate}
-          onChange={(e) =>
-            onChange(configKey, {
-              ...config,
-              variableRate: Number(e.target.value),
-            })
+          onCommit={(v) =>
+            onChange(configKey, { ...config, variableRate: v ?? 0 })
           }
+          defaultOnBlur={0}
           disabled={disabled}
           style={{ ...styles.input, ...(disabled ? styles.inputDisabled : {}) }}
           min={0}
@@ -402,15 +440,12 @@ function ConfigInput({
       </span>
       <span style={styles.inputGroup}>
         <label>+ Flat:</label>
-        <input
-          type="number"
+        <NumericInput
           value={config.transactionFeeCents}
-          onChange={(e) =>
-            onChange(configKey, {
-              ...config,
-              transactionFeeCents: Number(e.target.value),
-            })
+          onCommit={(v) =>
+            onChange(configKey, { ...config, transactionFeeCents: v ?? 0 })
           }
+          defaultOnBlur={0}
           disabled={disabled}
           style={{ ...styles.input, ...(disabled ? styles.inputDisabled : {}) }}
           min={0}
@@ -419,19 +454,16 @@ function ConfigInput({
       </span>
       <span style={styles.inputGroup}>
         <label>Cap:</label>
-        <input
-          type="number"
-          value={config.feeCapCents ?? ""}
-          placeholder="none"
-          onChange={(e) =>
-            onChange(configKey, {
-              ...config,
-              feeCapCents: e.target.value ? Number(e.target.value) : null,
-            })
+        <NumericInput
+          value={config.feeCapCents}
+          onCommit={(v) =>
+            onChange(configKey, { ...config, feeCapCents: v })
           }
+          defaultOnBlur={null}
           disabled={disabled}
           style={{ ...styles.input, ...(disabled ? styles.inputDisabled : {}) }}
           min={0}
+          placeholder="none"
         />
         <span style={disabled ? { opacity: 0.4 } : {}}>cents</span>
       </span>
@@ -531,10 +563,10 @@ export default function FeeCalculator() {
       <div style={styles.paymentInput}>
         <label>Payment amount:</label>
         <span>$</span>
-        <input
-          type="number"
+        <NumericInput
           value={paymentAmountDollars}
-          onChange={(e) => setPaymentAmountDollars(Number(e.target.value))}
+          onCommit={(v) => setPaymentAmountDollars(v ?? 0)}
+          defaultOnBlur={0}
           style={styles.paymentAmountInput}
           min={0.01}
           step={0.01}
