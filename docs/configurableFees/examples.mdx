@@ -150,8 +150,8 @@ The system detects the card brand and applies the right configuration automatica
 - **Platform fee**: `platform` at 1.00% = $1.00
 - **Total fees**: $4.50
 
-:::warning Fees Are Not Guaranteed in the Create Payment Response
-The fee breakdown may not be included in the create payment response. Fee calculation happens downstream. Subscribe to [payment events (webhooks)](https://docs.justifi.tech/api-spec#tag/Events/operation/paymentEvent) or use the [get payment API](https://docs.justifi.tech/api-spec#tag/Payments/operation/GetPayment) to receive the finalized fee details.
+:::warning Fees Are Not in the Create Payment or Checkout Event Responses
+The fee breakdown is not included in the create payment response or in checkout events (`checkout.created`, `checkout.completed`, `checkout.completion.succeeded`). SFC fees are calculated after the payment is created. Subscribe to **[payment events (webhooks)](https://docs.justifi.tech/api-spec#tag/Events/operation/paymentEvent)** (`payment.created`, `payment.succeeded`, etc.) or use the [get payment API](https://docs.justifi.tech/api-spec#tag/Payments/operation/GetPayment) to receive the finalized fee details.
 :::
 
 All payment events (`payment.created`, `payment.updated`, etc.) include the fee breakdown:
@@ -168,7 +168,7 @@ All payment events (`payment.created`, `payment.updated`, etc.) include the fee 
       "amount": 350,
       "remaining_amount": 350,
       "currency": "usd",
-      "source_configuration": "sfc_abc123",
+      "source_configuration_id": "sfc_abc123",
       "source_fee_type": "amex_brand_ecomm"
     },
     {
@@ -177,7 +177,7 @@ All payment events (`payment.created`, `payment.updated`, etc.) include the fee 
       "amount": 100,
       "remaining_amount": 100,
       "currency": "usd",
-      "source_configuration": "sfc_def456",
+      "source_configuration_id": "sfc_def456",
       "source_fee_type": "platform"
     }
   ]
@@ -229,7 +229,7 @@ The payment event reflects the override:
       "amount": 350,
       "remaining_amount": 350,
       "currency": "usd",
-      "source_configuration": "sfc_abc123",
+      "source_configuration_id": "sfc_abc123",
       "source_fee_type": "amex_brand_ecomm"
     },
     {
@@ -238,14 +238,14 @@ The payment event reflects the override:
       "amount": 0,
       "remaining_amount": 0,
       "currency": "usd",
-      "source_configuration": null,
+      "source_configuration_id": null,
       "source_fee_type": null
     }
   ]
 }
 ```
 
-`source_configuration` and `source_fee_type` are `null` when the fee was explicitly passed in the payload.
+`source_configuration_id` and `source_fee_type` are `null` when the fee was explicitly passed in the payload.
 
 ## Scenario Reference
 

@@ -126,11 +126,17 @@ Configurable Fees are available in test mode for all platforms. To enable config
 
 ## Fees in Payment Responses
 
-:::warning Fees May Not Be in the Create Payment or Complete Checkout Response
-When creating a payment, the fee breakdown may not be included in the synchronous response. Fee calculation happens downstream after the payment is created. **Use [payment events](https://docs.justifi.tech/api-spec#tag/Events/operation/paymentEvent)** (webhooks) to get the finalized fee breakdown, including which configuration was used and the calculated amounts.
+:::warning Where to Find Fee Data
+When using Standard Fee Configurations (SFC), fees are calculated and applied by the payment system after the payment is created. This means:
+
+- **Create Payment and Complete Checkout synchronous responses** may return an empty `fees` array.
+- **Checkout events** (`checkout.created`, `checkout.completed`, `checkout.completion.succeeded`) do **not** include SFC-calculated fees. Checkout events only contain fees that were explicitly passed in the checkout creation request.
+- **Payment events** (`payment.created`, `payment.succeeded`, etc.) are the authoritative source for the finalized fee breakdown, including which configuration was used and the calculated amounts.
+
+**Subscribe to [payment events](https://docs.justifi.tech/api-spec#tag/Events/operation/paymentEvent)** (webhooks) or use the [Get Payment API](https://docs.justifi.tech/api-spec#tag/Payments/operation/GetPayment) to retrieve the complete fee details.
 :::
 
-All payment events (`payment.created`, `payment.updated`, etc.) include the `fees` array with each fee's `id`, `type`, `amount`, `remaining_amount`, and `currency`.
+All payment events (`payment.created`, `payment.succeeded`, etc.) include the `fees` array with each fee's `id`, `type`, `amount`, `remaining_amount`, `currency`, `source_configuration_id`, and `source_fee_type`.
 
 ## Refunds and Fee Returns
 
