@@ -13,6 +13,10 @@ keywords:
 
 # Configurable Fees
 
+:::caution Coming Soon
+Configurable Fees are not yet available for general use. This documentation is published in advance so platforms can prepare for the rollout.
+:::
+
 ## Overview
 
 Configurable Fees allow platforms to set fee rates for each sub account (merchant) via the [Fee Configurations API](./managingConfigurations.mdx). When a payment is processed, the system automatically calculates the applicable fees based on the payment's characteristics — card brand, payment method type (ecomm, terminal, ACH), and the configured rates. Fee amounts do not need to be passed with every payment request.
@@ -34,7 +38,7 @@ Configurable Fees are part of the **v2 fee structure**, which replaces the legac
 
 ## How It Works
 
-1. **Configure** fee rates for a sub account via the [Create Fee Configuration](./managingConfigurations.mdx#creating-a-configuration) endpoint
+1. **Configure** fee rates for a sub account via the [Create Fee Configuration](./managingConfigurations.mdx#creating-a-configuration) endpoint or through the JustiFi dashboard
 2. **Process payments** as usual — no fee parameters needed in the payment or checkout request
 3. **Fees are auto-calculated** based on the payment's characteristics and your configuration
 4. **Optionally override** any auto-calculated fee by passing explicit fees in the payment or checkout request
