@@ -28,4 +28,16 @@ properties:
     type: integer
     description: Amount still available for refund in cents. Updates after each partial refund. Present when fetching a payment.
     example: 350
+  source_configuration_id:
+    type: string
+    nullable: true
+    description: The public ID of the Standard Fee Configuration used to calculate this fee. Null when the fee was explicitly provided in the payment request rather than auto-calculated.
+    example: sfc_abc123
+  source_fee_type:
+    type: string
+    nullable: true
+    description: |
+      The fee type from the Standard Fee Configuration that generated this fee (e.g., `processing_ecomm`, `amex_brand_ecomm`, `platform`).
+      Null when the fee was explicitly provided in the payment request.
+    example: amex_brand_ecomm
 required: [type, amount]

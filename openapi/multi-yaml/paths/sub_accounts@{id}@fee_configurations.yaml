@@ -1,0 +1,29 @@
+get:
+  summary: List Fee Configurations
+  description: |
+    List all active Standard Fee Configurations for a sub account. Returns configurations where the current time is between `effective_start` and `effective_end` (or `effective_end` is null).
+
+    This endpoint supports [pagination](https://docs.justifi.tech/api-spec#section/Pagination).
+  operationId: ListFeeConfigurations
+  tags:
+    - Fee Configurations
+  parameters:
+    - $ref: ../components/parameters/id-path.yaml
+    - $ref: ../components/parameters/authorization-header.yaml
+    - $ref: ../components/parameters/pagination-limit.yaml
+    - $ref: ../components/parameters/pagination-after.yaml
+    - $ref: ../components/parameters/pagination-before.yaml
+  responses:
+    "200":
+      description: Successfully list fee configurations
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope-list.yaml
+              - properties:
+                  type:
+                    example: array
+                  data:
+                    items:
+                      $ref: ../components/schemas/StandardFeeConfiguration.yaml

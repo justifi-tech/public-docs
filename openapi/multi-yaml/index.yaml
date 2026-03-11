@@ -329,6 +329,12 @@ tags:
     description:
       $ref: ../docs/payment_method_migration.md
 
+  - name: Fee Configurations
+    description: |
+      Standard Fee Configurations allow platforms to set per-sub-account fee rates that are automatically applied at payment time. Configurations are managed per fee type — creating a new configuration for the same fee type automatically retires the previous one.
+
+      For a detailed guide on configurable fees, including the fee hierarchy, calculation formula, and examples, see the [Configurable Fees documentation](https://docs.justifi.tech/configurableFees/overview).
+
   - name: Terminals
     description:
       $ref: ../docs/terminals.md
@@ -434,6 +440,7 @@ x-tagGroups:
       - Onboarding via Component
       - Hosted Onboarding
       - Onboarding via API
+      - Fee Configurations
       - Proceeds
       - Reports
   - name: Payment Resources
@@ -488,6 +495,14 @@ paths:
     $ref: paths/sub_accounts@{id}@payout_account.yaml
   /sub_accounts/{id}/settings:
     $ref: paths/sub_accounts@{id}@settings.yaml
+  /sub_accounts/{id}/fee_configurations:
+    $ref: paths/sub_accounts@{id}@fee_configurations.yaml
+  /sub_accounts/{id}/fee_configurations/scheduled:
+    $ref: paths/sub_accounts@{id}@fee_configurations@scheduled.yaml
+  /sub_accounts/{id}/fee_configurations/{fee_type}:
+    $ref: paths/sub_accounts@{id}@fee_configurations@{fee_type}.yaml
+  /sub_accounts/{id}/fee_configurations/{fee_type}/history:
+    $ref: paths/sub_accounts@{id}@fee_configurations@{fee_type}@history.yaml
   /proceeds:
     $ref: paths/proceeds.yaml
   /proceeds/{id}:
