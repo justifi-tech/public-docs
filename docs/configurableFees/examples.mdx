@@ -1,0 +1,312 @@
+---
+title: Fee Calculation & Examples
+sidebar_label: Calculation & Examples
+description: Understand how fees are calculated and see real examples of fee configurations in action
+keywords:
+  - fees
+  - fee calculation
+  - examples
+  - processing fee
+  - platform fee
+---
+
+import FeeCalculator from '@site/src/components/FeeCalculator/FeeCalculator';
+
+# Fee Calculation & Examples
+
+:::caution Coming Soon
+Configurable Fees are not yet available for general use. This documentation is published in advance so platforms can prepare for the rollout.
+:::
+
+## The Fee Formula
+
+Every Standard Fee Configuration uses the same calculation:
+
+```
+fee = (payment_amount_cents x rate_as_decimal) + transaction_fee_cents
+```
+
+Where `rate_as_decimal` = `variable_rate / 100`. A `variable_rate` of `2.75` means 2.75%, so `rate_as_decimal` = `0.0275`.
+
+If `fee_cap_cents` is set:
+
+```
+fee = min(calculated_fee, fee_cap_cents)
+```
+
+### Breaking it down
+
+| Parameter | What It Does | Example |
+| --- | --- | --- |
+| `variable_rate` | Percentage rate. `2.75` = 2.75% | 10000 x 0.0275 = 275 cents |
+| `transaction_fee_cents` | Flat fee added per transaction | + 25 cents |
+| `fee_cap_cents` | Maximum fee (if set) | min(300, 1000) = 300 cents |
+
+**Example:** A $100.00 payment with a config of `variable_rate: 2.75`, `transaction_fee_cents: 25`:
+
+```
+fee = (10000 x 0.0275) + 25
+fee = 275 + 25
+fee = 300 cents = $3.00
+```
+
+If `fee_cap_cents: 250` were set, the fee would be capped at $2.50 instead.
+
+When the variable rate calculation produces a fractional cent, the result is rounded to the nearest cent using standard rounding (half-up). For example, a $33.33 payment at 2.75% produces 91.6575 cents, which rounds to **92 cents**.
+
+## Interactive Fee Calculator
+
+Use this calculator to configure fee rates and see exactly which configuration applies for each payment type. Toggle brand-specific configurations on and off to see the hierarchical selection in action.
+
+<FeeCalculator />
+
+:::info What to Try
+1. Enable `amex_brand_ecomm` and notice how Amex online payments switch from the base `processing_ecomm` to the brand-specific config
+2. Disable it and watch Amex fall back to `processing_ecomm`
+3. Toggle the `platform` fee on and off to see it applied across all payment types
+4. Set a `fee_cap_cents` on a base processing config and increase the payment amount to see the cap in effect
+:::
+
+## Walkthrough: Set Fee Configurations on a Sub Account
+
+This walkthrough covers a common setup from start to finish.
+
+### Step 1: Configure base processing fees
+
+First, set up the rates that will apply to most payments:
+
+```
+POST /v1/sub_accounts/acc_xxx/fee_configurations/processing_ecomm
+```
+
+```json
+{
+  "variable_rate": 2.75,
+  "transaction_fee_cents": 25
+}
+```
+
+```
+POST /v1/sub_accounts/acc_xxx/fee_configurations/processing_card_present
+```
+
+```json
+{
+  "variable_rate": 2.50,
+  "transaction_fee_cents": 10
+}
+```
+
+Now the sub account can process card-not-present payments at 2.75% + $0.25 and terminal payments at 2.50% + $0.10.
+
+### Step 2: Add brand-specific pricing for Amex
+
+Amex interchange is typically higher, so platforms often pass that along:
+
+```
+POST /v1/sub_accounts/acc_xxx/fee_configurations/amex_brand_ecomm
+```
+
+```json
+{
+  "variable_rate": 3.25,
+  "transaction_fee_cents": 25
+}
+```
+
+Amex online payments are now charged 3.25% + $0.25. All other brands still use the base 2.75% + $0.25.
+
+### Step 3: Add a platform fee
+
+```
+POST /v1/sub_accounts/acc_xxx/fee_configurations/platform
+```
+
+```json
+{
+  "variable_rate": 1.00
+}
+```
+
+Every payment now also includes a 1.00% platform fee.
+
+### Step 4: Process a payment
+
+Create a payment without passing any fee parameters in the request and using an Amex payment method (for testing you can use the test card number `378282246310005` - see the [testing section](https://docs.justifi.tech/api-spec#section/Testing) for more test payment method options):
+
+```
+POST /v1/payments
+```
+
+```json
+{
+  "amount": 10000,
+  "currency": "usd",
+  "payment_method": {
+    "token": "pm_xxx"
+  }
+}
+```
+
+The system detects the card brand and applies the right configuration automatically. For a $100 Amex payment:
+
+- **Processing fee**: `amex_brand_ecomm` at 3.25% + $0.25 = $3.50
+- **Platform fee**: `platform` at 1.00% = $1.00
+- **Total fees**: $4.50
+
+:::warning Fees Are Not in the Create Payment or Checkout Event Responses
+The fee breakdown is not included in the create payment response or in checkout events (`checkout.created`, `checkout.completed`, `checkout.completion.succeeded`). SFC fees are calculated after the payment is created. Subscribe to **[payment events (webhooks)](https://docs.justifi.tech/api-spec#tag/Events/operation/paymentEvent)** (`payment.created`, `payment.succeeded`, etc.) or use the [get payment API](https://docs.justifi.tech/api-spec#tag/Payments/operation/GetPayment) to receive the finalized fee details.
+:::
+
+All payment events (`payment.created`, `payment.updated`, etc.) include the fee breakdown:
+
+```json
+{
+  "id": "py_xxx",
+  "amount": 10000,
+  "fee_amount": 450,
+  "fees": [
+    {
+      "id": "pyfee_1",
+      "type": "processing_fee",
+      "amount": 350,
+      "remaining_amount": 350,
+      "currency": "usd",
+      "source_configuration_id": "sfc_abc123",
+      "source_fee_type": "amex_brand_ecomm"
+    },
+    {
+      "id": "pyfee_2",
+      "type": "platform_fee",
+      "amount": 100,
+      "remaining_amount": 100,
+      "currency": "usd",
+      "source_configuration_id": "sfc_def456",
+      "source_fee_type": "platform"
+    }
+  ]
+}
+```
+
+For the same $100 amount with a Visa card (for testing you can use the test card number `4242424242424242` - see the [testing section](https://docs.justifi.tech/api-spec#section/Testing) for more test payment method options):
+
+- **Processing fee**: `processing_ecomm` at 2.75% + $0.25 = $3.00 (no Visa-specific config, falls back to base)
+- **Platform fee**: `platform` at 1.00% = $1.00
+- **Total fees**: $4.00
+
+## Overriding Auto-Calculated Fees
+
+Any auto-calculated fee can be overridden by passing explicit fees in the payment request. This is useful for one-off adjustments — for example, waiving the platform fee on a specific payment. Only the fee types you include in the `fees` array are overridden — everything else is calculated based on the fee configurations set on the sub account.
+
+Pass the `fees` array with the fee type and amount to override:
+
+```
+POST /v1/payments
+```
+
+```json
+{
+  "amount": 10000,
+  "currency": "usd",
+  "payment_method": {
+    "token": "pm_xxx"
+  },
+  "fees": [
+    { "type": "platform_fee", "amount": 0 }
+  ]
+}
+```
+
+In this example, the processing fee is still auto-calculated from the configuration, but the platform fee is explicitly set to $0.
+
+The payment event reflects the override:
+
+```json
+{
+  "id": "py_xxx",
+  "amount": 10000,
+  "fee_amount": 350,
+  "fees": [
+    {
+      "id": "pyfee_1",
+      "type": "processing_fee",
+      "amount": 350,
+      "remaining_amount": 350,
+      "currency": "usd",
+      "source_configuration_id": "sfc_abc123",
+      "source_fee_type": "amex_brand_ecomm"
+    },
+    {
+      "id": "pyfee_2",
+      "type": "platform_fee",
+      "amount": 0,
+      "remaining_amount": 0,
+      "currency": "usd",
+      "source_configuration_id": null,
+      "source_fee_type": null
+    }
+  ]
+}
+```
+
+`source_configuration_id` and `source_fee_type` are `null` when the fee was explicitly passed in the payload.
+
+## Scenario Reference
+
+### Card-not-present (ecomm) payments
+
+| Card Brand | Brand Config Exists? | Config Used | Result |
+| --- | --- | --- | --- |
+| Visa | No `visa_brand_ecomm` | `processing_ecomm` | Base rate applied |
+| Visa | Yes `visa_brand_ecomm` | `visa_brand_ecomm` | Brand rate applied |
+| Mastercard | No `mastercard_brand_ecomm` | `processing_ecomm` | Base rate applied |
+| Mastercard | Yes `mastercard_brand_ecomm` | `mastercard_brand_ecomm` | Brand rate applied |
+| Amex | No `amex_brand_ecomm` | `processing_ecomm` | Base rate applied |
+| Amex | Yes `amex_brand_ecomm` | `amex_brand_ecomm` | Brand rate applied |
+| Discover | No `discover_brand_ecomm` | `processing_ecomm` | Base rate applied |
+| Discover | Yes `discover_brand_ecomm` | `discover_brand_ecomm` | Brand rate applied |
+
+### Card-present (terminal) payments
+
+| Card Brand | Brand Config Exists? | Config Used | Result |
+| --- | --- | --- | --- |
+| Visa | No `visa_brand_card_present` | `processing_card_present` | Base rate applied |
+| Visa | Yes `visa_brand_card_present` | `visa_brand_card_present` | Brand rate applied |
+| Mastercard | No `mastercard_brand_card_present` | `processing_card_present` | Base rate applied |
+| Mastercard | Yes `mastercard_brand_card_present` | `mastercard_brand_card_present` | Brand rate applied |
+| Amex | No `amex_brand_card_present` | `processing_card_present` | Base rate applied |
+| Amex | Yes `amex_brand_card_present` | `amex_brand_card_present` | Brand rate applied |
+| Discover | No `discover_brand_card_present` | `processing_card_present` | Base rate applied |
+| Discover | Yes `discover_brand_card_present` | `discover_brand_card_present` | Brand rate applied |
+
+### ACH payments
+
+ACH payments do not have brand-specific configurations. The base processing config is always used.
+
+| Payment Type | Config Used |
+| --- | --- |
+| Standard ACH | `processing_ach` |
+| Expedited ACH | `processing_ach_expedited` |
+
+### Platform fee
+
+The `platform` configuration applies to **all** payment types when configured. It is added alongside the processing fee, not in place of it.
+
+## Common Mistakes
+
+### Thinking brand configs stack on top of base configs
+
+Brand-specific configurations **replace** the base processing config for that brand — they do not add to it. If `processing_ecomm` is 2.75% and `visa_brand_ecomm` is 0.50%, Visa payments are charged 0.50%, not 3.25%.
+
+### Setting brand configs without a base config
+
+Brand-specific configs only apply to their specific brand. Every other card brand still needs a base processing config. The API enforces this — if you try to create a brand-specific config (e.g., `amex_brand_ecomm`) without an active base processing config for that payment type (e.g., `processing_ecomm`), the request will fail with a `fee_type_must_be_inside_hierarchy` error. Always set up your base configs (`processing_ecomm`, `processing_card_present`) first.
+
+### Forgetting that fee caps apply per-config
+
+If `processing_ecomm` has `fee_cap_cents: 500` and `amex_brand_ecomm` has no cap, the $5.00 cap only applies to non-Amex payments. Each configuration's cap is independent.
+
+## Next Steps
+
+- [Managing Fee Configurations](./managingConfigurations.mdx) — API endpoints for creating and retiring configurations
+- [Overview](./overview.mdx) — Review the fee hierarchy and activation requirements

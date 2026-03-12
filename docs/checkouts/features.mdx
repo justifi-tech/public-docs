@@ -14,7 +14,7 @@ keywords:
 
 Checkouts offer consolidated payment collection,
 payment method tokenization into groups,
-and customizable application fees in a single workflow.
+and customizable fee structures in a single workflow.
 Supported payment types include Card Payments, ACH Payments,
 Insurance Quote Payments, BNPL (Buy Now Pay Later) Payments (API support pending),
 and Terminal (Card Reader) Payments.
@@ -89,10 +89,18 @@ Use the `payment.fees` parameter to specify fee types when creating a checkout:
 
 For full documentation, see [Enhanced Fee Management](https://docs.justifi.tech/api-spec#section/Enhanced-Fee-Management).
 
-#### Application Fees
+:::info Configurable Fees (v2 Fee Structure)
+Platforms on the v2 fee structure can use [Configurable Fees](/configurableFees/overview) to auto-calculate fees from standard fee configurations on each sub account. The `fees` array does not need to be passed unless when overriding the calculated amount. See [Fee Calculation & Examples](/configurableFees/examples) for details.
+:::
 
-:::info For Existing Integrations
-The `application_fees` parameter continues to work for existing integrations. **New integrations** should use `payment.fees` instead for selective refund support.
+#### Application Fees (v1 Fee Structure)
+
+:::warning Migrating to Configurable Fees
+Application Fees are part of the **v1 fee structure**. Platforms on the v2 fee structure use [Configurable Fees](/configurableFees/overview) instead, which provide per-payment-type rates, brand-specific pricing, and selective fee refunds. See [Migrating from Application Fees](/configurableFees/overview#migrating-from-application-fees) for guidance on transitioning.
+:::
+
+:::info For Existing v1 Integrations
+The `application_fees` parameter continues to work for platforms on the v1 fee structure. **New integrations** should use `payment.fees` or [Configurable Fees](/configurableFees/overview) instead.
 :::
 
 - Application Fees are configured at the Platform level and can be customized for specific sub accounts.

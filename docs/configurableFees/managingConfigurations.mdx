@@ -1,0 +1,374 @@
+---
+title: Managing Fee Configurations
+sidebar_label: Managing Configurations
+description: Create, view, schedule, and retire Standard Fee Configurations for your sub accounts
+keywords:
+  - fees
+  - fee configuration
+  - standard fee configuration
+  - API
+  - sub accounts
+  - scheduling
+---
+
+# Managing Fee Configurations
+
+:::caution Coming Soon
+Configurable Fees are not yet available for general use. This documentation is published in advance so platforms can prepare for the rollout.
+:::
+
+## Overview
+
+Standard Fee Configurations are managed through the [Fee Configurations API](#api-endpoints). All configuration management is done at the sub account level — each sub account's configurations are created and managed individually.
+
+The API is **fee-type-centric**: a configuration is created for a specific fee type (e.g., `processing_ecomm`), and if one already exists, the new one automatically retires the old one. There are no update or delete operations — a new configuration is always created to replace the previous one.
+
+## API Endpoints
+
+| Method | Endpoint | Description |
+| --- | --- | --- |
+| `POST` | `/v1/sub_accounts/:id/fee_configurations/:fee_type` | Create a configuration (auto-retires existing config of the same fee type) |
+| `GET` | `/v1/sub_accounts/:id/fee_configurations` | List all active configurations |
+| `GET` | `/v1/sub_accounts/:id/fee_configurations/:fee_type` | Get active configuration for a specific fee type |
+| `GET` | `/v1/sub_accounts/:id/fee_configurations/:fee_type/history` | Get configuration history for a fee type |
+| `GET` | `/v1/sub_accounts/:id/fee_configurations/scheduled` | List upcoming/scheduled configurations |
+
+## Configuration Parameters
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `variable_rate` | number | Yes | Percentage rate. `2.75` = 2.75% |
+| `transaction_fee_cents` | integer | No | Flat fee in cents added to each transaction. Defaults to `0` |
+| `fee_cap_cents` | integer | No | Maximum fee amount in cents. If the calculated fee exceeds this amount, the cap is used instead |
+| `effective_start` | datetime | No | When the configuration takes effect. Defaults to immediately |
+| `effective_end` | datetime | No | When the configuration expires. Defaults to `null` — which means it stays active indefinitely. Only accepted on optional fee types (brand-specific and platform) |
+
+## Creating a Configuration
+
+To set up fees for a sub account, use the [create a fee configuration API](#api-endpoints) for each fee type you want to configure.
+
+### Set a base processing fee
+
+```
+POST /v1/sub_accounts/acc_xxx/fee_configurations/processing_ecomm
+```
+
+```json
+{
+  "variable_rate": 2.75,
+  "transaction_fee_cents": 25,
+  "fee_cap_cents": 1000
+}
+```
+
+**Response:**
+
+```json
+{
+  "id": "sfc_abc123",
+  "type": "standard_fee_configuration",
+  "data": {
+    "id": "sfc_abc123",
+    "account_id": "acc_xxx",
+    "platform_account_id": "acc_yyy",
+    "fee_type": "processing_ecomm",
+    "variable_rate": 2.75,
+    "transaction_fee_cents": 25,
+    "transaction_fee_currency": "usd",
+    "fee_cap_cents": 1000,
+    "effective_start": "2026-02-25T00:00:00Z",
+    "effective_end": null
+  }
+}
+```
+
+This sub account will now be charged 2.75% + $0.25 (capped at $10.00) on every card-not-present payment, unless a brand-specific configuration overrides it.
+
+### Add a brand-specific fee
+
+```
+POST /v1/sub_accounts/acc_xxx/fee_configurations/amex_brand_ecomm
+```
+
+```json
+{
+  "variable_rate": 3.25,
+  "transaction_fee_cents": 25
+}
+```
+
+Amex online payments are now charged 3.25% + $0.25 instead of the base 2.75% + $0.25. All other card brands still use `processing_ecomm`.
+
+### Add a platform fee
+
+```
+POST /v1/sub_accounts/acc_xxx/fee_configurations/platform
+```
+
+```json
+{
+  "variable_rate": 1.00
+}
+```
+
+Every payment now also includes a 1.00% platform fee, in addition to the processing fee.
+
+## Replacing a Configuration
+
+There is no update fee configuration API endpoint. To change a fee rate, use the [create fee configuration API](#creating-a-configuration) to create a new configuration for the same fee type. The previous configuration is **automatically retired** — its `effective_end` is set to the new configuration's `effective_start`.
+
+```
+POST /v1/sub_accounts/acc_xxx/fee_configurations/processing_ecomm
+```
+
+```json
+{
+  "variable_rate": 2.50,
+  "transaction_fee_cents": 30
+}
+```
+
+The old `processing_ecomm` configuration (2.75% + $0.25) is retired, and the new one (2.50% + $0.30) takes effect immediately.
+
+## Scheduling a Future Configuration
+
+To schedule a rate change in advance, set `effective_start` to a future date (in UTC):
+
+```
+POST /v1/sub_accounts/acc_xxx/fee_configurations/processing_ecomm
+```
+
+```json
+{
+  "variable_rate": 2.50,
+  "transaction_fee_cents": 30,
+  "effective_start": "2026-04-01T00:00:00Z"
+}
+```
+
+The current configuration stays active until April 1st, when the new one takes over automatically. The old config's `effective_end` is set to `2026-04-01T00:00:00Z`, and the new config picks up from there with no gap in coverage.
+
+Use the scheduled endpoint to view upcoming configurations:
+
+```
+GET /v1/sub_accounts/acc_xxx/fee_configurations/scheduled
+```
+
+## Chaining Configurations
+
+For base processing fee types, there must always be an active configuration — you cannot leave a gap in coverage, and the chain must always end with a configuration that has no `effective_end` (i.e., it stays active indefinitely). You can schedule temporary configs in between, but the final config in the chain must cover everything going forward.
+
+When you POST a new config without `effective_end`, the system automatically retires any existing active config by setting its `effective_end` to the new config's `effective_start`.
+
+**Example: Simple rate change on April 1st**
+
+Current state:
+```
+processing_ecomm: 2.75% + $0.25 (effective_start: Feb 1, effective_end: null)
+```
+
+POST a new config:
+```json
+{
+  "variable_rate": 2.50,
+  "transaction_fee_cents": 30,
+  "effective_start": "2026-04-01T00:00:00Z"
+}
+```
+
+Result:
+```
+processing_ecomm: 2.75% + $0.25 (effective_start: Feb 1,  effective_end: Apr 1)  ← auto-retired
+processing_ecomm: 2.50% + $0.30 (effective_start: Apr 1,  effective_end: null)   ← takes over
+```
+
+**Example: Temporary promotional rate**
+
+To run a promotion from March 1st through March 8th with reduced fees, then return to normal rates, build the chain by creating configs in sequence — each new config auto-retires the previous one:
+
+**1. Schedule the promotional rate starting March 1st:**
+
+```
+POST /v1/sub_accounts/acc_xxx/fee_configurations/processing_ecomm
+```
+
+```json
+{
+  "variable_rate": 2.00,
+  "transaction_fee_cents": 15,
+  "effective_start": "2026-03-01T00:00:00Z"
+}
+```
+
+This auto-retires the current config (2.75% + $0.25) by setting its `effective_end` to March 1st. The promotional rate takes over from March 1st with no `effective_end`.
+
+**2. Schedule the return to normal rates on March 8th:**
+
+```
+POST /v1/sub_accounts/acc_xxx/fee_configurations/processing_ecomm
+```
+
+```json
+{
+  "variable_rate": 2.75,
+  "transaction_fee_cents": 25,
+  "effective_start": "2026-03-08T00:00:00Z"
+}
+```
+
+This auto-retires the promotional config by setting its `effective_end` to March 8th. The normal rate takes over from March 8th indefinitely.
+
+**Result:**
+```
+processing_ecomm: 2.75% + $0.25 (Feb 1  → Mar 1)   ← original, auto-retired by step 1
+processing_ecomm: 2.00% + $0.15 (Mar 1  → Mar 8)   ← promotional, auto-retired by step 2
+processing_ecomm: 2.75% + $0.25 (Mar 8  → forever)  ← back to normal
+```
+
+The chain is seamless — every moment has exactly one active configuration, and the last one extends indefinitely. There is no need to set `effective_end` explicitly; the system handles it when the next config in the chain is created.
+
+:::warning Base Processing Configs Cannot Have an Effective End Date
+The following base processing fee types do **not** accept an `effective_end` parameter:
+
+- `processing_ecomm`
+- `processing_card_present`
+- `processing_ach`
+- `processing_ach_expedited`
+
+You only need to configure the types relevant to your sub account (e.g., only `processing_ecomm` if you only process online card payments). However, once created, these configurations must stay active indefinitely — they cannot be retired. If you include `effective_end` when creating one of these fee types, the API will reject the request with an `effective_end_must_be_nil_for_fee_type` error. The only way to transition to a new rate is to create a replacement config, which automatically retires the previous one by setting its `effective_end` to the new config's `effective_start`.
+:::
+
+## Retiring a Brand-Specific Configuration
+
+Brand-specific and platform configurations are **optional** — they can be retired without a replacement. To stop charging a brand-specific rate and fall back to the base processing fee, POST the brand-specific fee type with an `effective_end`:
+
+```
+POST /v1/sub_accounts/acc_xxx/fee_configurations/amex_brand_ecomm
+```
+
+```json
+{
+  "variable_rate": 3.25,
+  "transaction_fee_cents": 25,
+  "effective_end": "2026-04-01T00:00:00Z"
+}
+```
+
+After April 1st, Amex online payments fall back to the `processing_ecomm` rate. A brand configuration can also be retired immediately by setting `effective_end` to the current time.
+
+## Retiring a Platform Fee
+
+The `platform` configuration can be retired the same way — POST with an `effective_end`:
+
+```
+POST /v1/sub_accounts/acc_xxx/fee_configurations/platform
+```
+
+```json
+{
+  "variable_rate": 1.00,
+  "effective_end": "2026-04-01T00:00:00Z"
+}
+```
+
+After April 1st, payments will only have a processing fee — no platform fee.
+
+## Viewing Configurations
+
+### List all active configurations
+
+```
+GET /v1/sub_accounts/acc_xxx/fee_configurations
+```
+
+**Response:**
+
+```json
+{
+  "type": "array",
+  "page_info": {
+    "has_previous": false,
+    "has_next": false,
+    "start_cursor": "...",
+    "end_cursor": "..."
+  },
+  "data": [
+    {
+      "id": "sfc_abc123",
+      "account_id": "acc_xxx",
+      "platform_account_id": "acc_yyy",
+      "fee_type": "processing_ecomm",
+      "variable_rate": 2.75,
+      "transaction_fee_cents": 25,
+      "transaction_fee_currency": "usd",
+      "fee_cap_cents": null,
+      "effective_start": "2026-02-01T00:00:00Z",
+      "effective_end": null
+    },
+    {
+      "id": "sfc_def456",
+      "account_id": "acc_xxx",
+      "platform_account_id": "acc_yyy",
+      "fee_type": "amex_brand_ecomm",
+      "variable_rate": 3.25,
+      "transaction_fee_cents": 25,
+      "transaction_fee_currency": "usd",
+      "fee_cap_cents": null,
+      "effective_start": "2026-02-01T00:00:00Z",
+      "effective_end": null
+    }
+  ]
+}
+```
+
+Results are paginated. Use `limit`, `after_cursor`, and `before_cursor` query parameters to page through results.
+
+### Get a specific fee type
+
+```
+GET /v1/sub_accounts/acc_xxx/fee_configurations/processing_ecomm
+```
+
+**Response:**
+
+```json
+{
+  "id": "sfc_abc123",
+  "type": "standard_fee_configuration",
+  "data": {
+    "id": "sfc_abc123",
+    "account_id": "acc_xxx",
+    "platform_account_id": "acc_yyy",
+    "fee_type": "processing_ecomm",
+    "variable_rate": 2.75,
+    "transaction_fee_cents": 25,
+    "transaction_fee_currency": "usd",
+    "fee_cap_cents": null,
+    "effective_start": "2026-02-01T00:00:00Z",
+    "effective_end": null
+  }
+}
+```
+
+Returns the active configuration for that fee type, or 404 if none exists.
+
+### View configuration history
+
+```
+GET /v1/sub_accounts/acc_xxx/fee_configurations/processing_ecomm/history
+```
+
+Returns all configurations for that fee type (active, retired, and scheduled), ordered by `effective_start` descending. Useful for auditing rate changes over time.
+
+### List scheduled configurations
+
+```
+GET /v1/sub_accounts/acc_xxx/fee_configurations/scheduled
+```
+
+Returns configurations with a future `effective_start` that haven't taken effect yet.
+
+## Next Steps
+
+- [Fee Calculation & Examples](./examples.mdx) — See how configurations translate to actual fee amounts on payments
+- [Overview](./overview.mdx) — Review the fee hierarchy and selection logic

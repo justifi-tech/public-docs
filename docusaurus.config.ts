@@ -98,6 +98,7 @@ const config: Config = {
           '**/*.ts',
           '**/*.tsx',
           '**/node_modules/**',
+          '**/CHANGELOG.md',
         ],
       },
     ],
