@@ -28,6 +28,8 @@ post:
                 - `amount`: Amount to return in cents
 
                 If omitted, no fees are returned. Only supported for card/ach and card present payments completed with the `fees` array.
+
+                > **CAD Payments:** This parameter is not available for CAD payments. See [Canadian Payments](https://docs.justifi.tech/payments/canadianPayments) for details.
               items:
                 type: object
                 properties:

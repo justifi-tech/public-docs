@@ -180,6 +180,11 @@ const sidebars: SidebarsConfig = {
       collapsed: true,
     },
     {
+      type: "doc",
+      label: "Canadian Payments",
+      id: "payments/canadianPayments",
+    },
+    {
       type: "category",
       label: "Terminals",
       link: {
@@ -207,6 +212,7 @@ const sidebars: SidebarsConfig = {
         "testing/overview",
         "testing/card_payments",
         "testing/ach_payments",
+        "testing/canadian_payments",
         "testing/payouts",
         "testing/disputes"
       ]

@@ -1188,6 +1188,19 @@ Each fee type appears as a separate line item in:
 
 This gives merchants clear visibility into their true processing costs versus platform charges, and gives platforms detailed revenue breakdowns by fee type.
 
+### CAD (Canadian Dollar) Payments
+
+The enhanced fee management features described above — including the `fees` array, `application_fee_amount`, and selective fee returns on refunds — are **not available for CAD payments**.
+
+For Canadian dollar payments, fees are determined during merchant onboarding and are not configurable via the API:
+
+- The `fees`, `application_fee_amount`, and `application_fees` parameters are not supported on CAD payment or checkout requests
+- Fee data is available via the `fees` array on the payment record (available via Get Payment API or payment events) as a `processing_fee`. The `application_fee` object will be `null`
+- **Balance transactions** are created when settlements are imported — not at payment capture time
+- The `fees` parameter on refund requests is not supported for CAD payments
+
+For more details, see the [Canadian Payments guide](https://docs.justifi.tech/payments/canadianPayments).
+
 ### For Existing Integrations
 
 The `application_fee_amount` field continues to work unchanged for existing integrations. When you're ready to adopt the enhanced fee structure:

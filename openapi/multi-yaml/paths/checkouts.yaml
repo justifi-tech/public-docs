@@ -44,7 +44,7 @@ post:
               example: {}
             application_fees:
               type: object
-              description: "Sets a custom application fee amount by payment method type. **New integrations** should use `payment.fees` instead for selective refund support. See [Enhanced Fee Management](#section/Enhanced-Fee-Management). (card/ach and card present only, not available for bnpl)"
+              description: "Sets a custom application fee amount by payment method type. **New integrations** should use `payment.fees` instead for selective refund support. See [Enhanced Fee Management](#section/Enhanced-Fee-Management). (card/ach and card present only, not available for bnpl). **Not available for CAD payments** — fees are determined during merchant onboarding. See [Canadian Payments](https://docs.justifi.tech/payments/canadianPayments)."
               properties:
                 card:
                   type: object
@@ -88,6 +88,8 @@ post:
                     Cannot be used together with `application_fees`.
 
                     > **Note:** The `fees` array will be empty in the create response. Fees are processed asynchronously — subscribe to payment webhook events (recommended) to receive the full fee details, or poll with a subsequent Get Payment request.
+
+                    > **CAD Payments:** This parameter is not available for CAD payments. Fees for Canadian dollar payments are determined during merchant onboarding and are not configurable via the API. See [Canadian Payments](https://docs.justifi.tech/payments/canadianPayments) for details.
                   items:
                     $ref: ../components/schemas/Fee.yaml
                   example:

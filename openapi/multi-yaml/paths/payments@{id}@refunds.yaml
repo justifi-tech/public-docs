@@ -48,6 +48,8 @@ post:
                 - The requested amount cannot exceed the `remaining_amount` for that fee type on the original payment
                 - The fee type must exist on the original payment
 
+                > **CAD Payments:** This parameter is not available for CAD payments. See [Canadian Payments](https://docs.justifi.tech/payments/canadianPayments) for details.
+
                 See [Enhanced Fee Management](#section/Enhanced-Fee-Management) for full documentation.
               items:
                 type: object
