@@ -9,6 +9,23 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: "category",
+      label: "Quick Start Guides",
+      link: {
+        type: "generated-index",
+        title: "Quick Start Guides",
+        description: "Learn how to setup payment processing for your merchants",
+        keywords: ["quickStart"],
+      },
+      collapsible: true,
+      collapsed: false,
+      items: [
+        "quickStartGuides/processOnDashboard",
+        "quickStartGuides/justifiHostedApproach",
+        "quickStartGuides/useWebComponents"
+      ],
+    },
+    {
+      type: "category",
       label: "Fintech Infrastructure",
       link: {
         type: "generated-index",
