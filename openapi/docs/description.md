@@ -1211,5 +1211,3 @@ The `application_fee_amount` field continues to work unchanged for existing inte
 
 You cannot use both `application_fee_amount` and `fees` in the same request.
 
-> **Coming Soon**: We'll be providing migration tooling and support to help existing integrations transition to the enhanced fee structure.
-

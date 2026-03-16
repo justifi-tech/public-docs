@@ -90,7 +90,9 @@ Use the `payment.fees` parameter to specify fee types when creating a checkout:
 For full documentation, see [Enhanced Fee Management](https://docs.justifi.tech/api-spec#section/Enhanced-Fee-Management).
 
 :::info Configurable Fees (v2 Fee Structure)
-Platforms on the v2 fee structure can use [Configurable Fees](/configurableFees/overview) to auto-calculate fees from standard fee configurations on each sub account. The `fees` array does not need to be passed unless when overriding the calculated amount. See [Fee Calculation & Examples](/configurableFees/examples) for details.
+Platforms on the v2 fee structure can use [Configurable Fees](/configurableFees/overview) to auto-calculate fees from standard fee configurations on each sub account. The `fees` array does not need to be passed unless overriding the calculated amount. See [Fee Calculation & Examples](/configurableFees/examples) for details.
+
+**Important:** When using Configurable Fees, the checkout response and checkout events (`checkout.created`, `checkout.completed`, `checkout.completion.succeeded`) will **not** include SFC-calculated fees. Fees are calculated after the payment is created. Subscribe to **[payment events](https://docs.justifi.tech/api-spec#tag/Events/operation/paymentEvent)** or use the [Get Payment API](https://docs.justifi.tech/api-spec#tag/Payments/operation/GetPayment) to retrieve the finalized fee breakdown.
 :::
 
 #### Application Fees (v1 Fee Structure)
