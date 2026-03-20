@@ -17,7 +17,6 @@ function clearDir(dir) {
     return;
   }
   for (const entry of fs.readdirSync(dir)) {
-    if (entry === 'node_modules') continue;
     fs.rmSync(path.join(dir, entry), { recursive: true, force: true });
   }
 }
