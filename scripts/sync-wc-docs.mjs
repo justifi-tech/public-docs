@@ -11,14 +11,27 @@ const docsJsonPath = require.resolve('@justifi/webcomponents-docs/docs.json');
 const pkgDir = path.dirname(docsJsonPath);
 const targetDir = path.resolve(rootDir, '.wc-current');
 
+function forceRemove(p) {
+  let stat;
+  try {
+    stat = fs.lstatSync(p);
+  } catch {
+    return;
+  }
+  if (stat.isSymbolicLink()) {
+    fs.unlinkSync(p);
+  } else {
+    fs.rmSync(p, { recursive: true, force: true });
+  }
+}
+
 function clearDir(dir) {
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir, { recursive: true });
     return;
   }
   for (const entry of fs.readdirSync(dir)) {
-    if (entry === 'node_modules') continue;
-    fs.rmSync(path.join(dir, entry), { recursive: true, force: true });
+    forceRemove(path.join(dir, entry));
   }
 }
 
@@ -45,7 +58,7 @@ const srcNodeModules = path.join(pkgDir, 'node_modules');
 // pnpm virtual store: scoped pkg deps are siblings in grandparent node_modules
 const parentNodeModules = path.resolve(pkgDir, '..', '..');
 const destNodeModules = path.join(targetDir, 'node_modules');
-fs.rmSync(destNodeModules, { recursive: true, force: true });
+forceRemove(destNodeModules);
 if (fs.existsSync(srcNodeModules)) {
   // Local link case: package has its own node_modules
   fs.symlinkSync(srcNodeModules, destNodeModules);
