@@ -20,11 +20,24 @@ properties:
   document_type:
     type: string
     enum:
+      - articles_of_incorporation
       - balance_sheet
       - bank_statement
+      - birth_certificate
+      - business_registration
+      - citizenship_card
+      - driver_license
+      - foreign_passport
       - government_id
+      - nexus_card
+      - passport
       - profit_and_loss_statement
+      - resident_card
+      - sin_card
+      - ssn_card
+      - status_card
       - tax_return
+      - voided_check
       - other
     example: "balance_sheet"
   business_id:
