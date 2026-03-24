@@ -10,7 +10,6 @@ info:
   description:
     $ref: ../docs/description.md
     # https://github.com/OAI/OpenAPI-Specification/issues/2697
-  version: "v1"
   title: JustiFi API Documentation
   termsOfService: "https://justifi.ai/terms-and-conditions"
   x-logo:
