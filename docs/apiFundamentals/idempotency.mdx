@@ -42,7 +42,7 @@ Failing to provide an `Idempotency-Key` will exclude your requests from the prot
 
 ### Choosing an Idempotency-Key
 
-- **String Identifier:** You can use any string as your `Idempotency-Key`. We recommend using
+- **String Identifier:** You can use any string up to 100 characters long as your `Idempotency-Key`. We recommend using
   a UUID for uniqueness, but any distinctive string (100 character max) that identifies the transaction will work.
 
 ### Idempotency Key Constraints
@@ -51,6 +51,9 @@ Failing to provide an `Idempotency-Key` will exclude your requests from the prot
   key with different parameters will result in an error.
 - **Single Transaction Use:** The key is intended to safeguard a single transaction. Altering
   the request parameters makes it a distinct request, requiring a new idempotency key.
+- **Character Limit:** If the length of the key exceeds 100 characters a 422 error 
+  `Validation failed: Idempotency key is too long (maximum is 100 characters)` is returned.
+
 
 ## Best Practices
 

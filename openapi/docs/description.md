@@ -86,7 +86,7 @@ If these requests fail with a network timeout or a `5XX` error, they should be r
 
 If you try the same `Idempotency-Key` with different parameters, your request will error and won't be possible to process. The `Idempotency-Key` header is only meant for a single transaction; it's there to protect against processing the same exact thing more than once. Once the parameters change, a request is considered distinct from the original request.
 
-You may use any string to identify your `Idempotency-Key`; we generally recommend using a generated uuid, but you may use any unique string.
+You may use any string up to 100 characters long to identify your `Idempotency-Key`; we generally recommend using a generated uuid, but you may use any unique string.
 
 ## Pagination
 
