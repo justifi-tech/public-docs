@@ -38,31 +38,23 @@ jobs:
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
 
-      - name: Derive major.minor and check if new
+      - name: Compare incoming WC version to current label (docusaurus.config.ts)
         id: ver
         env:
           WC_VERSION: ${{ github.event.client_payload.webcomponents_version }}
-        run: |
-          MAJOR_MINOR=$(echo "$WC_VERSION" | cut -d. -f1,2)
-          echo "major_minor=$MAJOR_MINOR" >> $GITHUB_OUTPUT
-          IS_NEW=$(node -e "
-            const fs = require('fs');
-            const versions = JSON.parse(fs.readFileSync('versions-web-components.json', 'utf8'));
-            console.log(versions.includes('$MAJOR_MINOR') ? 'false' : 'true');
-          ")
-          echo "is_new_minor=$IS_NEW" >> $GITHUB_OUTPUT
+        run: node scripts/wc-version-gate.mjs
 
       - name: Sync docs to .wc-current
         run: node scripts/sync-wc-docs.mjs
 
       - name: Snapshot current docs (new major.minor only)
-        if: steps.ver.outputs.is_new_minor == 'true'
+        if: steps.ver.outputs.should_snapshot == 'true'
         run: |
           MAJOR_MINOR="${{ steps.ver.outputs.major_minor }}"
           pnpm docusaurus docs:version:web-components "$MAJOR_MINOR"
 
       - name: Update current label in docusaurus.config.ts
-        if: steps.ver.outputs.is_new_minor == 'true'
+        if: steps.ver.outputs.should_snapshot == 'true'
         env:
           MAJOR_MINOR: ${{ steps.ver.outputs.major_minor }}
         run: |

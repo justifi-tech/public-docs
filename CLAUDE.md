@@ -52,11 +52,19 @@ The spec uses modular YAML with `$ref` references. When editing:
 - Web components sidebar: `sidebars.web-components.js` (auto-generated)
 - Navbar/footer: `docusaurus.config.ts`
 
+### Web components versioning
+
+- **Source of truth** for which `@justifi/webcomponents` major.minor line “current” docs represent: `versions.current.label` on the `web-components` docs plugin in `docusaurus.config.ts` (e.g. `'6.12'`).
+- **Automation**: `.github/workflows/update-wc-docs.yml` runs on `repository_dispatch` (`webcomponents-docs-published`). It bumps `@justifi/webcomponents-docs`, runs `scripts/sync-wc-docs.mjs`, and uses `scripts/wc-version-gate.mjs` to compare `client_payload.webcomponents_version` to that label. Same major.minor (patch release) → update deps and synced `.wc-current` only. New major.minor → also run `docusaurus docs:version:web-components` and set `current.label` to the new line.
+- **Historical snapshots**: Docusaurus keeps `web-components_versions.json` and versioned doc folders at the site root when `docs:version` runs; that list is separate from the current label.
+- **Optional**: the publishing repo can add `webcomponents_version_previous` to the dispatch payload for explicit semver bump detection; the workflow today relies on the config label comparison only.
+
 ## Key Files
 
 | File | Purpose |
 |------|---------|
-| `docusaurus.config.ts` | Site config, plugins, theme |
+| `docusaurus.config.ts` | Site config, plugins, theme; WC **current** docs line = `versions.current.label` on web-components plugin |
+| `scripts/wc-version-gate.mjs` | Workflow helper: patch vs new major.minor from config label |
 | `sidebars.ts` | Main docs navigation structure |
 | `theme.ts` | Redoc theme (JustiFi branding) |
 
