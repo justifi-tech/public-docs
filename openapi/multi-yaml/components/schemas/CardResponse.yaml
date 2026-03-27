@@ -79,13 +79,27 @@ properties:
             description: any useful information you'd like to store alongside this bank account
             example: { new: info }
           address_line1_check:
-            description: address line verification check
+            description: >-
+              Result of the address line 1 verification check. `pass` — matches the cardholder's address on file;
+              `fail` — does not match; `unavailable` — verification could not be performed;
+              `unchecked` — no address was provided for verification.
+            type: string
             example: pass
+            enum: [fail, pass, unavailable, unchecked]
           address_postal_code_check:
-            description: postal code verification check
+            description: >-
+              Result of the postal code verification check. `pass` — matches the cardholder's postal code on file;
+              `fail` — does not match; `unavailable` — verification could not be performed;
+              `unchecked` — no postal code was provided for verification.
+            type: string
             example: pass
+            enum: [fail, pass, unavailable, unchecked]
           bin_details:
-            $ref: ./BinDetails.yaml
+            description: >-
+              BIN details for this card. Not guaranteed to be present — availability depends on the card network and issuer.
+            nullable: true
+            allOf:
+              - $ref: ./BinDetails.yaml
   page_info:
     description: information for cursor style pagination, is null for single records
     type: string

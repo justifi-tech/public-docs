@@ -1,4 +1,9 @@
+description: >-
+  BIN (Bank Identification Number) details for a card. bin_details are not guaranteed to be present on
+  every card payment method — availability depends on the card network and issuer. When unavailable,
+  this field will be null.
 type: object
+nullable: true
 properties:
   type:
     description: Type of card issued, values include Credit, Debit, Prepaid, Unknown

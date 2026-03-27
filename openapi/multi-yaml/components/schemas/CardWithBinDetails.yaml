@@ -46,12 +46,24 @@ properties:
     format: date-time
     example: '2021-01-01T12:00:00Z'
   address_line1_check:
+    description: >-
+      Result of the address line 1 verification check. `pass` — matches the cardholder's address on file;
+      `fail` — does not match; `unavailable` — verification could not be performed;
+      `unchecked` — no address was provided for verification.
     type: string
     example: 'unchecked'
     enum: [fail, pass, unavailable, unchecked]
   address_postal_code_check:
+    description: >-
+      Result of the postal code verification check. `pass` — matches the cardholder's postal code on file;
+      `fail` — does not match; `unavailable` — verification could not be performed;
+      `unchecked` — no postal code was provided for verification.
     type: string
     example: 'unchecked'
     enum: [fail, pass, unavailable, unchecked]
   bin_details:
-      $ref: ./BinDetails.yaml
+    description: >-
+      BIN details for this card. Not guaranteed to be present — availability depends on the card network and issuer.
+    nullable: true
+    allOf:
+      - $ref: ./BinDetails.yaml
