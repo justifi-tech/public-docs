@@ -3,7 +3,9 @@ get:
   description: |
     Get information about a payment method.
 
-    *Note: This is the primary endpoint recommended for retrieving bin_details related to a card payment method*
+    *Note: This is the primary endpoint recommended for retrieving bin_details related to a card payment method.
+    bin_details are not guaranteed to be present on every card — availability depends on the card network and issuer.
+    When unavailable, the bin_details field will be null.*
   operationId: GetPaymentMethod
   tags:
     - Payment Methods
