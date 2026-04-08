@@ -18,7 +18,7 @@ properties:
     example: boarding_only
   order_status:
     type: string
-    enum: [created, submitted, completed]
+    enum: [created, submitted, in_progress, completed, on_hold, canceled]
     description: status of the order
   company_name:
     type: string
