@@ -52,8 +52,10 @@ build/Release
 
 # Dependency directories
 node_modules/
+node_modules
 jspm_packages/
 .wc-current/
+web-components_versioned_docs/*/node_modules
 
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/

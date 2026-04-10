@@ -2,6 +2,7 @@ import { createRequire } from 'module';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import fs from 'fs';
+import { execSync } from 'child_process';
 
 const require = createRequire(import.meta.url);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -68,3 +69,44 @@ if (fs.existsSync(srcNodeModules)) {
 }
 
 console.log(`Synced @justifi/webcomponents-docs → ${targetDir}`);
+
+// Install dependencies for each versioned docs directory so each version
+// resolves its own pinned @justifi/webcomponents and helper packages.
+const versionedDocsRoot = path.resolve(rootDir, 'web-components_versioned_docs');
+if (fs.existsSync(versionedDocsRoot)) {
+  for (const entry of fs.readdirSync(versionedDocsRoot, { withFileTypes: true })) {
+    if (!entry.isDirectory() || !entry.name.startsWith('version-')) continue;
+    const versionDir = path.join(versionedDocsRoot, entry.name);
+    const pkgJson = path.join(versionDir, 'package.json');
+    if (!fs.existsSync(pkgJson)) continue;
+
+    const nmPath = path.join(versionDir, 'node_modules');
+    let needsInstall = false;
+
+    try {
+      const stat = fs.lstatSync(nmPath);
+      if (stat.isSymbolicLink()) {
+        // Remove symlinks left over from old CI runs
+        fs.unlinkSync(nmPath);
+        needsInstall = true;
+      } else {
+        // Real directory — reinstall if package.json is newer
+        const pkgMtime = fs.statSync(pkgJson).mtimeMs;
+        const nmMtime = stat.mtimeMs;
+        if (pkgMtime > nmMtime) needsInstall = true;
+      }
+    } catch {
+      needsInstall = true; // node_modules doesn't exist
+    }
+
+    if (needsInstall) {
+      console.log(`Installing deps for ${entry.name}...`);
+      execSync('npm install --include=dev', {
+        cwd: versionDir,
+        stdio: 'inherit',
+      });
+    } else {
+      console.log(`Deps up-to-date for ${entry.name}, skipping install.`);
+    }
+  }
+}
