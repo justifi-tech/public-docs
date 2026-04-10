@@ -22,7 +22,7 @@ if (!wcVersionRaw) {
 
 const config = fs.readFileSync(configPath, 'utf8');
 const labelMatch = config.match(
-  /versions:\s*\{\s*current:\s*\{\s*label:\s*'([^']*)'\s*\}\s*\}/,
+  /id:\s*['"]web-components['"][\s\S]*?versions:\s*\{[\s\S]*?current:\s*\{[^}]*\blabel:\s*'([^']*)'/,
 );
 
 if (!labelMatch) {
