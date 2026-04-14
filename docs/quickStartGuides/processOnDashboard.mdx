@@ -31,6 +31,8 @@ Each of your merchants will need to be provisioned for payments on the JustiFi p
 Go to **"Entities"** -> **"Businesses"** and click the **"Create Business"** button. The newly created business will appear in the Businesses list.
 
 ### Step 2: Complete Merchant Onboarding via JustiFi Hosted Onboarding
+**Note:** The JustiFi dashboard is only accessible to the platform. Your merchants won't be able to access this onboarding form in the dashboard.
+To provide the onboarding form to your merchants we recommend hosting the [Hosted Onbaording form](https://docs.justifi.tech/api-spec#tag/Hosted-Onboarding) on your platform.  
 1. Click on the newly created business to get to the business detail page.
 2. Click the **"Provision Payments"** button to open the JustiFi Hosted Onboarding form. 
 3. Fill in the form with test data and submit the form. JustiFi will create a sub account for this business which is required for payment processing.
@@ -39,8 +41,10 @@ Go to **"Entities"** -> **"Businesses"** and click the **"Create Business"** but
 
 ### Step 3: Create a Checkout
 1. Go to **"Payments"** -> **"Checkouts"** and click **"Create Checkout"**.
-2. Select the sub account that was just created, enter an amount and an optional description and submit.
-3. Go to the checkout detail page
+2. Select the sub account that was just created, enter an amount and an optional description.
+3. If you want to charge custom fees you can add them by clicking **"Add Fees"**. Otherwise the standard fees will be applied to the payment (See [Configurable Fees](https://docs.justifi.tech/configurableFees/overview) for details)
+4. Submit the checkout
+5. Go to the checkout detail page
 
 ### Step 4: Process Your First Payment
 On the checkout detail page click the **"Hosted Checkout URL"**
