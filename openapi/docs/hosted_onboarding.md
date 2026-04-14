@@ -116,4 +116,17 @@ curl -X GET https://api.justifi.ai/v1/sub_accounts/ACCOUNT_ID \
     -H 'Accept: application/json'
 ```
 
+### Canada Onboarding
 
+When using a Canadian platform, the hosted onboarding form automatically adapts to collect Canada-specific information. The flow follows the same steps described above, but certain fields and requirements change based on the business's country of establishment.
+
+| Area | United States | Canada |
+|------|--------------|--------|
+| Tax ID / Business Number | Required | Optional |
+| SSN / SIN | Required (SSN) | Optional (SIN) |
+| Postal code format | 5-digit ZIP | A1A 1A1 |
+| State / Province | US states | Canadian provinces |
+| Bank identification | Routing number (9 digits) | Transit number (5 digits) + Institution number (3 digits) |
+| Financial documents | Voided check or bank statement | Voided check or bank letter |
+| Business documents | Not required | Required (articles of incorporation or business registration) |
+| Identity documents | Not required | Required — two per owner (one Group 1 + one Group 2) |
