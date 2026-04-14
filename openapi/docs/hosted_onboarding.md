@@ -130,3 +130,35 @@ When using a Canadian platform, the hosted onboarding form automatically adapts 
 | Financial documents | Voided check or bank statement | Voided check or bank letter |
 | Business documents | Not required | Required (articles of incorporation or business registration) |
 | Identity documents | Not required | Required — two per owner (one Group 1 + one Group 2) |
+
+#### Document requirements for Canada
+
+Canadian onboarding requires three categories of documents:
+
+**Financial document** — one of the following:
+- Voided check
+- Bank letter
+
+**Business document** — one of the following:
+- Articles of incorporation
+- Business registration
+
+**Identity documents** — each business owner must provide two identity documents, one from each group:
+
+*Group 1 (government-issued photo ID) — one per owner:*
+- Canadian passport
+- Canadian driver's license
+- Canadian government-issued ID card
+- Permanent resident card
+- Certificate of Indian Status
+- US state-issued driver's license
+
+*Group 2 (supporting identity document) — one per owner:*
+- Nexus Card (photo ID)
+- Canadian citizenship/naturalization card or certificate
+- Foreign passport
+- Canadian birth certificate
+- Social Insurance Number (SIN) card
+- Social Security Number (SSN) card
+
+For example, if a business has two owners, the onboarding form will require two Group 1 documents and two Group 2 documents (one of each per owner).
