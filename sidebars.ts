@@ -116,6 +116,7 @@ const sidebars: SidebarsConfig = {
         "payments/compliance",
         "payments/tokenization",
         "payments/paymentsApi",
+        "payments/level-2-3-data",
         {
           type: "doc",
           label: "Apple Pay",

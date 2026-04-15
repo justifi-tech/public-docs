@@ -97,6 +97,14 @@ post:
                       amount: 350
                     - type: platform_fee
                       amount: 500
+                level_2_3:
+                  allOf:
+                    - $ref: ../components/schemas/Level23.yaml
+                  description: |
+                    Level 2 and Level 3 payment data for commercial/purchasing card transactions.
+                    See [Level 2/3 Data](https://docs.justifi.tech/payments/level-2-3-data) for full documentation.
+
+                    Card payments only — not available for bank account (ACH) payments.
           required: [amount, description]
   responses:
     "201":
