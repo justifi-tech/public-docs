@@ -3,6 +3,9 @@ import { themes as prismThemes } from "prism-react-renderer";
 import type { Config } from "@docusaurus/types";
 import type * as Preset from "@docusaurus/preset-classic";
 
+const wcPackageJson = require('./.wc-current/package.json');
+const wcVersion = wcPackageJson.dependencies?.['@justifi/webcomponents'] || 'Latest';
+
 const config: Config = {
   title: "JustiFi Documentation",
   tagline: "JustiFi - Fintech Infrastructure for Platforms",
@@ -90,7 +93,8 @@ const config: Config = {
         routeBasePath: 'web-components',
         sidebarPath: require.resolve('./sidebars.web-components.js'),
         includeCurrentVersion: true,
-        versions: { current: { label: '6.13', banner: 'none' } },
+        lastVersion: 'current',
+        versions: { current: { label: '6.13', path: '6.13', banner: 'none' } },
         // Exclude templates and internal helper files from being parsed as docs
         exclude: [
           '**/templates/**',
