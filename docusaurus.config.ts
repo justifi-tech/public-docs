@@ -90,6 +90,7 @@ const config: Config = {
         routeBasePath: 'web-components',
         sidebarPath: require.resolve('./sidebars.web-components.js'),
         includeCurrentVersion: true,
+        lastVersion: 'current',
         versions: { current: { label: '6.13', banner: 'none' } },
         // Exclude templates and internal helper files from being parsed as docs
         exclude: [
