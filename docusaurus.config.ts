@@ -3,9 +3,6 @@ import { themes as prismThemes } from "prism-react-renderer";
 import type { Config } from "@docusaurus/types";
 import type * as Preset from "@docusaurus/preset-classic";
 
-const wcPackageJson = require('./.wc-current/package.json');
-const wcVersion = wcPackageJson.dependencies?.['@justifi/webcomponents'] || 'Latest';
-
 const config: Config = {
   title: "JustiFi Documentation",
   tagline: "JustiFi - Fintech Infrastructure for Platforms",
