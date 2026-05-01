@@ -40,7 +40,7 @@ post:
               type: string
               example: automatic
               enum: [automatic, manual]
-              description: automatic will authorize and capture the payment in the same request, manual will only authorize the payment (which will need to be captured in a subsequent request).  Not supported by bank account (ACH) payment methods.
+              description: automatic will authorize and capture the payment in the same request; manual will only authorize the payment. An authorized payment will need to be captured in a subsequent capture payment request. If not captured within 7 days the payment will be canceled.  Not supported by bank account (ACH) payment methods.
             email:
               description: "email address to associate with payment method"
               type: string
