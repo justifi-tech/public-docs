@@ -2,6 +2,7 @@ post:
   summary: Capture a Payment
   description: |
     To charge a payment method and capture a previously authorized payment.  Returns a `payment_already_captured` error if the payment is in a captured state.
+    If not captured an authorized payment will be canceled after 7 days.
 
     *Note: If the sub account status is not `enabled`, `400` will be returned.*
   operationId: CapturePayment
