@@ -34,6 +34,14 @@ properties:
         type: string
         example: nil
         nullable: true
+      created_at:
+        type: string
+        format: date-time
+        example: '2024-01-01T12:00:00Z'
+      updated_at:
+        type: string
+        format: date-time
+        example: '2024-01-01T12:00:00Z' 
       bank_account:
         description: the bank account associated with the payment_method
         type: object
