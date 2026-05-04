@@ -17,6 +17,7 @@ Google Pay™ is not available in the [Tokenize Payment Method web component](/w
 - Use one of the JustiFi Checkout options ([Hosted Checkout](https://docs.justifi.tech/checkouts/hosted-checkout),
   [Unified Fintech Checkout](/web-components/payment-facilitation/unified-fintech-checkout%E2%84%A2)
   or [Modular Checkout](/web-components/modular-checkout/introduction) web component)
+- If embedding your checkout in a native Android app via `WebView`, see [Android WebView Integration](#android-webview-integration) for additional host-app requirements.
 
 ## Implementation Resources
 
@@ -58,6 +59,73 @@ For more details refer to the [Modular Checkout docs](/web-components/modular-ch
 ```
 
 JustiFi will create a payment method record (ID starting with `pm_`) for each transaction processed via Google Pay™.
+
+## Android WebView Integration
+
+If you are embedding your checkout page inside a native Android application via `WebView`, additional host-app configuration is required. The Payment Request API — which Google Pay™ uses on Android — is disabled by default in `WebView` and must be enabled by the host app. This is **not** required for users accessing your checkout via Android Chrome or other mobile browsers.
+
+### End-user device requirements
+
+For Google Pay™ to work in an Android `WebView`, the user's device must have:
+
+- **Android System WebView** 137 or newer
+- **Google Play Services** 25.18.30 or newer
+
+### Manifest configuration
+
+Add the following `<queries>` entries to your `AndroidManifest.xml` so the `WebView` can resolve the Google Pay payment intents:
+
+```xml
+<queries>
+  <intent>
+    <action android:name="org.chromium.intent.action.PAY" />
+  </intent>
+  <intent>
+    <action android:name="org.chromium.intent.action.IS_READY_TO_PAY" />
+  </intent>
+  <intent>
+    <action android:name="org.chromium.intent.action.UPDATE_PAYMENT_DETAILS" />
+  </intent>
+</queries>
+```
+
+### Enable Payment Request on the WebView
+
+Using the [`androidx.webkit`](https://developer.android.com/jetpack/androidx/releases/webkit) compatibility library, opt the `WebView` in to the Payment Request API:
+
+```kotlin
+import androidx.webkit.WebSettingsCompat
+import androidx.webkit.WebViewFeature
+
+webView.settings.javaScriptEnabled = true
+if (WebViewFeature.isFeatureSupported(WebViewFeature.PAYMENT_REQUEST)) {
+    WebSettingsCompat.setPaymentRequestEnabled(webView.settings, true)
+}
+```
+
+### Debugging
+
+To inspect console errors from inside the JustiFi iframe in your `WebView`, enable remote debugging in your host app:
+
+```kotlin
+WebView.setWebContentsDebuggingEnabled(true)
+```
+
+You can then connect from desktop Chrome via `chrome://inspect` and read the actual error messages emitted from inside the Google Pay iframe.
+
+### Verification order
+
+If Google Pay™ is not appearing in your Android `WebView`, verify the integration in this order:
+
+1. **Test in desktop Chrome** at the merchant page URL. If Google Pay™ does not appear or fails here, the issue is in your web integration, not `WebView` configuration.
+2. **Test in mobile Chrome** (not the `WebView`). If it works in mobile Chrome but fails in your app, the host-app configuration above is the cause.
+3. Use `chrome://inspect` to read the console error from inside the `WebView`.
+
+### References
+
+- [Google Pay WebView guide](https://developers.google.com/pay/api/android/guides/recipes/using-android-webview)
+- [Chrome team's Payment Request in WebViews](https://developer.chrome.com/docs/android/payments-in-webviews)
+- [Permissions Policy `payment` directive](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Permissions-Policy/payment)
 
 ## Implementation Details
 
