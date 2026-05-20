@@ -10,10 +10,6 @@ keywords:
   - payments
 ---
 
-:::caution Coming Soon
-CAD processing is not yet available for general use.
-:::
-
 ## Testing CAD Payments
 
 To test CAD payments in the sandbox:
@@ -33,6 +29,8 @@ To test CAD payments in the sandbox:
 }
 ```
 
-:::note CAD Payouts
-CAD payout testing is not yet available in the sandbox. See [Payout Testing](https://docs.justifi.tech/testing/payouts) for more information.
-:::
+## Testing CAD Payouts
+
+CAD test payouts are created **daily** for sub-accounts that have eligible activity. Each payout aggregates any test CAD payments and refunds that haven't yet been included in a payout, and is always created with `status: paid`.
+
+The resulting payouts behave the same as live CAD payouts — same fields, same balance transaction breakdown, same `fees_total` composition. See [Canadian Payments → Payouts](https://docs.justifi.tech/payments/canadianPayments#payouts) for the full field reference and an example payout.
