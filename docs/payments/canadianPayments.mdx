@@ -13,10 +13,6 @@ keywords:
 
 # Canadian Payments
 
-:::caution Coming Soon
-CAD processing is not yet available for general use.
-:::
-
 ## Overview
 
 JustiFi supports payment processing in Canadian dollars (CAD) through a dedicated Canada platform. CAD processing differs from USD in fee handling, balance transactions, payout timing, and supported payment methods.
@@ -85,9 +81,105 @@ The `fees` parameter on refund requests is not available for CAD payments. Fee r
 
 ## Payouts
 
-CAD payouts follow a different schedule than USD payouts. Payout timing and frequency differ from the standard USD daily payout schedule. The `fees_total` field on payouts reflects the fees for that payout period.
+CAD sub-account payouts behave differently from USD payouts in several ways. Both are surfaced through the same [Payouts API](https://docs.justifi.tech/api-spec#tag/Payouts) and JustiFi dashboard, but the creation model, schedule, and a few field values differ.
 
-Payouts and their details are available through the [Payouts API](https://docs.justifi.tech/api-spec#tag/Payouts) and on the JustiFi dashboard.
+### What to expect
+
+CAD payouts are **net of processing fees** — `Payout.amount` reflects the deposit that lands in the connected bank account, not the gross sum of payments captured. The fee breakdown for the payout period is available on `fees_total` and on the underlying balance transactions.
+
+CAD payouts appear in the API once the corresponding deposit has settled to the bank. As a result, a CAD payout's `status` is `paid` and `deposits_at` reflects the date the funds landed.
+
+### Schedule
+
+CAD payouts are created on **weekdays at approximately 1:00 PM Central Time**, once the day's settlement has been processed. No CAD payouts are created on weekends.
+
+### Field values fixed for CAD payouts
+
+The [Payout schema](https://docs.justifi.tech/api-spec#tag/Payouts/operation/GetPayout) covers both USD and CAD payouts, but several fields take a narrower set of values for CAD:
+
+| Field | CAD value | Notes |
+|-------|-----------|-------|
+| `currency` | `cad` | |
+| `payout_type` | `cc` | `ach` does not occur because ACH isn't a supported CAD payment method |
+| `status` | `paid` | CAD payouts skip the `scheduled` → `in_transit` lifecycle because the deposit has already settled by the time the payout is created. `failed`, `forwarded`, and `canceled` are not used for CAD. |
+| `delivery_method` | `standard` | |
+| `deposits_at` | date the funds landed in the bank | Already in the past at creation time |
+
+### What's in `fees_total`
+
+For CAD payouts, `fees_total` is the sum of these balance transaction types on the payout:
+
+- `processing_fee` — fee on a payment
+- `refund_processing_fee` — fee returned on a refund
+- `fee_rounding_adjustment` — small reconciliation entry (typically a few cents) for fee calculation rounding
+
+**Netted refund pairs**: when a payment is refunded before either the payment or the refund has settled, the two are recorded together with no fees on either side. The `seller_payment` and `seller_payment_refund` balance transactions appear in the payout but no `processing_fee` or `refund_processing_fee` is charged. Refunds of payments that already settled in a prior payout receive a `refund_processing_fee` as normal.
+
+### Example CAD payout
+
+A sub-account on a Canada platform receives a payout covering:
+
+- 5 settled card payments totaling **87,500 cents** ($875.00 CAD)
+- 1 payment + refund netted pair for **20,000 cents** ($200.00 CAD) — neither side settled, so no fees on the pair
+- 1 standalone refund of **5,000 cents** ($50.00 CAD) for a payment that settled in a prior payout
+
+The resulting payout from `GET /v1/payouts/{id}`:
+
+```json
+{
+  "id": "po_4Ovwaq8yt7AbCdEf",
+  "account_id": "acc_Q4pOABjVAxyz123",
+  "amount": 80098,
+  "currency": "cad",
+  "payout_type": "cc",
+  "status": "paid",
+  "delivery_method": "standard",
+  "deposits_at": "2026-04-20T00:00:00Z",
+  "payments_total": 107500,
+  "payments_count": 6,
+  "refunds_total": -25000,
+  "refunds_count": 2,
+  "fees_total": 2402,
+  "other_total": 0,
+  "description": "Payout",
+  "bank_account": {
+    "id": "ba_abc123",
+    "country": "CA",
+    "currency": "cad",
+    "account_type": "checking",
+    "account_number_last4": "1234",
+    "bank_name": "Royal Bank of Canada"
+  },
+  "metadata": {},
+  "created_at": "2026-04-20T18:44:23Z",
+  "updated_at": "2026-04-20T18:44:23Z"
+}
+```
+
+The balance transactions that compose this payout (visible through the [Balance Transactions API](https://docs.justifi.tech/api-spec#tag/Balance-Transactions)):
+
+| `txn_type` | `amount` (cents) | Notes |
+|------------|------------------|-------|
+| `seller_payment` | +10,000 | py_aaa |
+| `seller_payment` | +20,000 | py_bbb |
+| `seller_payment` | +15,000 | py_ccc |
+| `seller_payment` | +17,500 | py_ddd |
+| `seller_payment` | +25,000 | py_eee |
+| `seller_payment` | +20,000 | py_fff (netted pair) |
+| `seller_payment_refund` | −20,000 | refund of py_fff (netted pair — no fee) |
+| `seller_payment_refund` | −5,000 | standalone refund of py_ggg (settled in a prior payout) |
+| `processing_fee` | −270 | py_aaa |
+| `processing_fee` | −510 | py_bbb |
+| `processing_fee` | −390 | py_ccc |
+| `processing_fee` | −450 | py_ddd |
+| `processing_fee` | −630 | py_eee |
+| `refund_processing_fee` | −150 | fee return on the standalone refund only |
+| `fee_rounding_adjustment` | −2 | reconciliation entry |
+| `payout` | −80,098 | the payout itself |
+
+`refunds_total` is returned as a negative number (refunds reduce the payout). The relationship between the totals is:
+
+`amount` = `payments_total` + `refunds_total` − `fees_total` = 107,500 + (−25,000) − 2,402 = **80,098 cents** ($800.98 CAD).
 
 ## Technical Integration
 
@@ -106,4 +198,7 @@ For information on testing Canadian payments, refer to the [Canadian Payments te
 | Fee configuration via API | Supported | Not supported (set during onboarding) |
 | Balance transactions | Created at payment capture | Created at settlement import |
 | Fee returns on refunds | Fully customizable | Not configurable |
-| Payout timing | Standard daily schedule | Different schedule |
+| Payout creation | Created before bank deposit | Created after the deposit settles; `amount` is net of processing fees |
+| Payout schedule | Weekdays | Weekdays, ~1 PM Central |
+| Payout status lifecycle | `scheduled` → `in_transit` → `paid` (or `failed` / `canceled`) | Always `paid` at creation |
+| `payout_type` values | `ach`, `cc` | `cc` only |
