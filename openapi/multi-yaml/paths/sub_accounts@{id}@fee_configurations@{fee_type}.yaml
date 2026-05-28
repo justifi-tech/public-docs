@@ -59,7 +59,7 @@ post:
               format: date-time
               example: "2026-04-01T00:00:00Z"
             effective_end:
-              description: when the configuration expires (UTC); `null` means it stays active indefinitely
+              description: when the configuration expires (UTC); must be later than `effective_start`, so the current time or earlier is rejected; `null` means it stays active indefinitely. Only accepted on optional fee types (brand-specific and `platform`).
               type: string
               format: date-time
               nullable: true

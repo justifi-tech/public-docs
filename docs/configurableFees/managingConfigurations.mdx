@@ -17,7 +17,9 @@ keywords:
 
 Standard Fee Configurations are managed through the [Fee Configurations API](#api-endpoints). All configuration management is done at the sub account level — each sub account's configurations are created and managed individually.
 
-The API is **fee-type-centric**: a configuration is created for a specific fee type (e.g., `processing_ecomm`), and if one already exists, the new one automatically retires the old one. There are no update or delete operations — a new configuration is always created to replace the previous one.
+The API is **fee-type-centric**: a configuration is created for a specific fee type (e.g., `processing_ecomm`), and if one already exists, the new one automatically retires the old one. There are no update or delete operations — to change a rate, you create a replacement configuration.
+
+Optional fee types (brand-specific and `platform`) can additionally be **retired** to stop charging them entirely, without a replacement. Base processing fees are required and cannot be retired. See [Retiring an Optional Configuration](#retiring-an-optional-configuration).
 
 ## API Endpoints
 
@@ -37,7 +39,7 @@ The API is **fee-type-centric**: a configuration is created for a specific fee t
 | `transaction_fee_cents` | integer | No | Flat fee in cents added to each transaction. Defaults to `0` |
 | `fee_cap_cents` | integer | No | Maximum fee amount in cents. If the calculated fee exceeds this amount, the cap is used instead |
 | `effective_start` | datetime | No | When the configuration takes effect. Defaults to immediately |
-| `effective_end` | datetime | No | When the configuration expires. Defaults to `null` — which means it stays active indefinitely. Only accepted on optional fee types (brand-specific and platform) |
+| `effective_end` | datetime | No | When the configuration expires. Must be later than `effective_start` — the current time or earlier is rejected. Defaults to `null` — which means it stays active indefinitely. Only accepted on optional fee types (brand-specific and platform) |
 
 ## Creating a Configuration
 
@@ -234,9 +236,18 @@ The following base processing fee types do **not** accept an `effective_end` par
 You only need to configure the types relevant to your sub account (e.g., only `processing_ecomm` if you only process online card payments). However, once created, these configurations must stay active indefinitely — they cannot be retired. If you include `effective_end` when creating one of these fee types, the API will reject the request with an `effective_end_must_be_nil_for_fee_type` error. The only way to transition to a new rate is to create a replacement config, which automatically retires the previous one by setting its `effective_end` to the new config's `effective_start`.
 :::
 
-## Retiring a Brand-Specific Configuration
+## Retiring an Optional Configuration
 
-Brand-specific and platform configurations are **optional** — they can be retired without a replacement. To stop charging a brand-specific rate and fall back to the base processing fee, POST the brand-specific fee type with an `effective_end`:
+Only **optional** fee types can be retired — turned off entirely, without a replacement:
+
+- **Brand-specific** fees (e.g., `amex_brand_ecomm`), which override the base processing rate for a single card brand.
+- **Platform** fees (`platform`), which add a fee on top of the processing fee.
+
+Base processing fees (`processing_ecomm`, `processing_card_present`, `processing_ach`, `processing_ach_expedited`) are **required** and cannot be retired — the API rejects `effective_end` on those types (see the warning above). To change one of those, create a replacement configuration instead.
+
+To retire an optional configuration, POST the same fee type with an `effective_end`. The configuration stops applying once that time passes.
+
+### Retire a brand-specific fee
 
 ```
 POST /v1/sub_accounts/acc_xxx/fee_configurations/amex_brand_ecomm
@@ -250,11 +261,9 @@ POST /v1/sub_accounts/acc_xxx/fee_configurations/amex_brand_ecomm
 }
 ```
 
-After April 1st, Amex online payments fall back to the `processing_ecomm` rate. A brand configuration can also be retired immediately by setting `effective_end` to the current time.
+After April 1st, Amex online payments fall back to the `processing_ecomm` rate.
 
-## Retiring a Platform Fee
-
-The `platform` configuration can be retired the same way — POST with an `effective_end`:
+### Retire a platform fee
 
 ```
 POST /v1/sub_accounts/acc_xxx/fee_configurations/platform
@@ -267,7 +276,28 @@ POST /v1/sub_accounts/acc_xxx/fee_configurations/platform
 }
 ```
 
-After April 1st, payments will only have a processing fee — no platform fee.
+After April 1st, payments no longer include a platform fee.
+
+### Retire a fee as soon as possible
+
+To turn an optional fee off right away, set `effective_end` to a timestamp just after the current time:
+
+```
+POST /v1/sub_accounts/acc_xxx/fee_configurations/platform
+```
+
+```json
+{
+  "variable_rate": 1.00,
+  "effective_end": "2026-02-25T00:01:00Z"
+}
+```
+
+Once that time passes — typically within a minute — the configuration no longer applies. `variable_rate` is still required, but the rate you pass only applies during the brief window before `effective_end`.
+
+:::note
+`effective_end` must be later than `effective_start`, which defaults to the time the request is processed. The current time or earlier is rejected, so use a near-future timestamp to retire a configuration as soon as possible.
+:::
 
 ## Viewing Configurations
 
