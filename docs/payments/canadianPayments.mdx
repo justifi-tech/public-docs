@@ -79,6 +79,9 @@ POST /v1/payments/{id}/refunds
 The `fees` parameter on refund requests is not available for CAD payments. Fee returns on CAD refunds are not currently configurable. 
 :::
 
+## Dispute Management
+To counter a dispute on a CAD payment a merchant (sub account) needs to submit evidence directly to Fiserv Canada via online portal. The [Dispute Management web component](https://docs.justifi.tech/web-components/payment-facilitation/dispute-management) is not available for CAD payments. 
+
 ## Payouts
 
 CAD sub-account payouts behave differently from USD payouts in several ways. Both are surfaced through the same [Payouts API](https://docs.justifi.tech/api-spec#tag/Payouts) and JustiFi dashboard, but the creation model, schedule, and a few field values differ.
