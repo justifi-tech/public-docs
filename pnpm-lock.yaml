@@ -18,8 +18,8 @@ importers:
         specifier: ^3.9.2
         version: 3.9.2(@algolia/client-search@5.46.0)(@mdx-js/react@3.1.0(@types/react@19.0.10)(react@18.3.1))(@types/react@19.0.10)(acorn@8.14.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(search-insights@2.17.3)(typescript@5.2.2)
       '@justifi/webcomponents-docs':
-        specifier: 2.0.0
-        version: 2.0.0(@justifi/webcomponents@6.13.0)(@types/react@19.0.10)(react@18.3.1)
+        specifier: 3.0.0
+        version: 3.0.0(@justifi/webcomponents@6.13.0)(@types/react@19.0.10)(react@18.3.1)
       '@mdx-js/react':
         specifier: ^3.0.0
         version: 3.1.0(@types/react@19.0.10)(react@18.3.1)
@@ -1325,10 +1325,10 @@ packages:
     peerDependencies:
       tslib: '2'
 
-  '@justifi/webcomponents-docs@2.0.0':
-    resolution: {integrity: sha512-zdRxpJFSJLAC6Le0nx7VhoZ2wDDOtrEy2gi7abidpU4gwRYACdH6RWC1Yk4aQvusC7SHmi+BZ2Bl1xCM0uKMUw==}
+  '@justifi/webcomponents-docs@3.0.0':
+    resolution: {integrity: sha512-rNmQzZozJuxbxmFM67yu3aH/tKQ3n4i55jtEbwmJiGglSQQ0GG3xMVvTwX6KytMIRThLozBoav0Z0IfYb4fR9A==}
     peerDependencies:
-      '@justifi/webcomponents': '>=6.13.0'
+      '@justifi/webcomponents': '>=6.14.0'
       react: ^17.0.0 || ^18.0.0
 
   '@justifi/webcomponents@6.13.0':
@@ -7617,7 +7617,7 @@ snapshots:
       cheerio: 1.0.0-rc.12
       feed: 4.2.2
       fs-extra: 11.3.0
-      lodash: 4.17.21
+      lodash: 4.18.1
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
       schema-dts: 1.1.5
@@ -7660,7 +7660,7 @@ snapshots:
       combine-promises: 1.2.0
       fs-extra: 11.3.0
       js-yaml: 4.1.0
-      lodash: 4.17.21
+      lodash: 4.18.1
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
       schema-dts: 1.1.5
@@ -7983,7 +7983,7 @@ snapshots:
       '@mdx-js/react': 3.1.0(@types/react@19.0.10)(react@18.3.1)
       clsx: 2.1.1
       infima: 0.2.0-alpha.45
-      lodash: 4.17.21
+      lodash: 4.18.1
       nprogress: 0.2.0
       postcss: 8.5.6
       prism-react-renderer: 2.4.1(react@18.3.1)
@@ -8131,7 +8131,7 @@ snapshots:
       fs-extra: 11.3.0
       joi: 17.13.3
       js-yaml: 4.1.0
-      lodash: 4.17.21
+      lodash: 4.18.1
       tslib: 2.8.1
     transitivePeerDependencies:
       - '@swc/core'
@@ -8157,7 +8157,7 @@ snapshots:
       gray-matter: 4.0.3
       jiti: 1.21.7
       js-yaml: 4.1.0
-      lodash: 4.17.21
+      lodash: 4.18.1
       micromatch: 4.0.8
       p-queue: 6.6.2
       prompts: 2.4.2
@@ -8306,7 +8306,7 @@ snapshots:
       '@jsonjoy.com/codegen': 1.0.0(tslib@2.8.1)
       tslib: 2.8.1
 
-  '@justifi/webcomponents-docs@2.0.0(@justifi/webcomponents@6.13.0)(@types/react@19.0.10)(react@18.3.1)':
+  '@justifi/webcomponents-docs@3.0.0(@justifi/webcomponents@6.13.0)(@types/react@19.0.10)(react@18.3.1)':
     dependencies:
       '@justifi/webcomponents': 6.13.0
       markdown-table: 3.0.4
@@ -10748,7 +10748,7 @@ snapshots:
     dependencies:
       '@types/html-minifier-terser': 6.1.0
       html-minifier-terser: 6.1.0
-      lodash: 4.17.21
+      lodash: 4.18.1
       pretty-error: 4.0.0
       tapable: 2.2.1
     optionalDependencies:
@@ -11841,7 +11841,7 @@ snapshots:
     dependencies:
       '@miragejs/pretender-node-polyfill': 0.1.2
       inflected: 2.1.0
-      lodash: 4.17.21
+      lodash: 4.18.1
       pretender: 3.4.7
 
   mkdirp@1.0.4: {}
@@ -12682,7 +12682,7 @@ snapshots:
 
   pretty-error@4.0.0:
     dependencies:
-      lodash: 4.17.21
+      lodash: 4.18.1
       renderkid: 3.0.0
 
   pretty-time@1.1.0: {}
@@ -13127,7 +13127,7 @@ snapshots:
       css-select: 4.3.0
       dom-converter: 0.2.0
       htmlparser2: 6.1.0
-      lodash: 4.17.21
+      lodash: 4.18.1
       strip-ansi: 6.0.1
 
   repeat-string@1.6.1: {}
