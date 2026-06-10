@@ -158,6 +158,8 @@ get:
     - $ref: ../components/parameters/sub-account.yaml
     - $ref: ../components/parameters/customer-id.yaml
     - $ref: ../components/parameters/payment-method-group-id.yaml
+    - $ref: ../components/parameters/created-before.yaml
+    - $ref: ../components/parameters/created-after.yaml
   responses:
     '200':
       description: Successfully list payment methods
