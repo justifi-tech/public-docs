@@ -48,6 +48,12 @@ patch:
             is_owner:
               type: boolean
               description: if an identity owns 25% or more of the business, they are considered an owner
+            ownership_percentage:
+              type: integer
+              minimum: 0
+              maximum: 100
+              example: 25
+              description: percentage of the business owned by this identity (0–100); applies when is_owner is true
             metadata:
               type: object
               description: any useful information you'd like to store alongside this identity

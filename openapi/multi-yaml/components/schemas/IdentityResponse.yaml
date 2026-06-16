@@ -49,6 +49,12 @@ properties:
     type: boolean
     example: true
     description: if an identity owns 25% or more of the business, they are considered an owner
+  ownership_percentage:
+    type: integer
+    minimum: 0
+    maximum: 100
+    example: 25
+    description: percentage of the business owned by this identity (0–100); only returned when is_owner is true
   metadata:
     type: object
     format: json
