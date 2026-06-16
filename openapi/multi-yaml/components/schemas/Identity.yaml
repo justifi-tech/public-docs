@@ -40,7 +40,7 @@ properties:
     minimum: 0
     maximum: 100
     example: 25
-    description: percentage of the business owned by this identity (0–100); applies when is_owner is true
+    description: percentage of the business owned by this identity (0–100); only returned when the identity owns a business (proprietor_id set), not based on the is_owner column. Only owners with at least 25% ownership should be included.
   metadata:
     type: object
     format: json
