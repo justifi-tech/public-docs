@@ -18,8 +18,8 @@ importers:
         specifier: ^3.9.2
         version: 3.9.2(@algolia/client-search@5.46.0)(@mdx-js/react@3.1.0(@types/react@19.0.10)(react@18.3.1))(@types/react@19.0.10)(acorn@8.14.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(search-insights@2.17.3)(typescript@5.2.2)
       '@justifi/webcomponents-docs':
-        specifier: 2.0.0
-        version: 2.0.0(@justifi/webcomponents@6.13.0)(@types/react@19.0.10)(react@18.3.1)
+        specifier: 3.0.1
+        version: 3.0.1(@justifi/webcomponents@6.13.0)(@types/react@19.0.10)(react@18.3.1)
       '@mdx-js/react':
         specifier: ^3.0.0
         version: 3.1.0(@types/react@19.0.10)(react@18.3.1)
@@ -1325,10 +1325,10 @@ packages:
     peerDependencies:
       tslib: '2'
 
-  '@justifi/webcomponents-docs@2.0.0':
-    resolution: {integrity: sha512-zdRxpJFSJLAC6Le0nx7VhoZ2wDDOtrEy2gi7abidpU4gwRYACdH6RWC1Yk4aQvusC7SHmi+BZ2Bl1xCM0uKMUw==}
+  '@justifi/webcomponents-docs@3.0.1':
+    resolution: {integrity: sha512-3bQ5A83SybUFam4PIN8FhJW+2dMh3n36CPl6MrxOQ370zDzQCMCjsGyOou8nIijw1ZlEDG1So22eIstk9xbI8Q==}
     peerDependencies:
-      '@justifi/webcomponents': '>=6.13.0'
+      '@justifi/webcomponents': '>=6.14.1'
       react: ^17.0.0 || ^18.0.0
 
   '@justifi/webcomponents@6.13.0':
@@ -8306,7 +8306,7 @@ snapshots:
       '@jsonjoy.com/codegen': 1.0.0(tslib@2.8.1)
       tslib: 2.8.1
 
-  '@justifi/webcomponents-docs@2.0.0(@justifi/webcomponents@6.13.0)(@types/react@19.0.10)(react@18.3.1)':
+  '@justifi/webcomponents-docs@3.0.1(@justifi/webcomponents@6.13.0)(@types/react@19.0.10)(react@18.3.1)':
     dependencies:
       '@justifi/webcomponents': 6.13.0
       markdown-table: 3.0.4
@@ -11841,7 +11841,7 @@ snapshots:
     dependencies:
       '@miragejs/pretender-node-polyfill': 0.1.2
       inflected: 2.1.0
-      lodash: 4.17.21
+      lodash: 4.18.1
       pretender: 3.4.7
 
   mkdirp@1.0.4: {}
@@ -12682,7 +12682,7 @@ snapshots:
 
   pretty-error@4.0.0:
     dependencies:
-      lodash: 4.17.21
+      lodash: 4.18.1
       renderkid: 3.0.0
 
   pretty-time@1.1.0: {}
@@ -13127,7 +13127,7 @@ snapshots:
       css-select: 4.3.0
       dom-converter: 0.2.0
       htmlparser2: 6.1.0
-      lodash: 4.17.21
+      lodash: 4.18.1
       strip-ansi: 6.0.1
 
   repeat-string@1.6.1: {}
