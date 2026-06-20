@@ -1,0 +1,44 @@
+type: object
+description: A single Level 3 line item within a purchase card transaction.
+required:
+  - commodity_code
+  - description
+  - unit_amount
+  - quantity
+  - tax_amount
+  - tax_rate
+  - line_total
+  - unit_of_measure
+properties:
+  commodity_code:
+    type: string
+    description: product commodity code or SKU
+    example: "33712"
+  description:
+    type: string
+    description: text description of the line item
+    example: "Office Chair"
+  unit_amount:
+    type: integer
+    description: price per unit in cents
+    example: 20000
+  quantity:
+    type: integer
+    description: number of units
+    example: 2
+  tax_amount:
+    type: integer
+    description: tax amount for this line item in cents
+    example: 1600
+  tax_rate:
+    type: number
+    description: tax rate as a percentage (must be >= 0)
+    example: 4.0
+  line_total:
+    type: integer
+    description: total for this line item in cents
+    example: 40000
+  unit_of_measure:
+    type: string
+    description: unit of measure (e.g. EA, LB, KG)
+    example: "EA"
