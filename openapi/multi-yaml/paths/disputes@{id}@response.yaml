@@ -1,6 +1,11 @@
 patch:
   summary: Update dispute response
-  description: Updates the dispute response
+  description: |
+    Updates the dispute response
+
+    > ⚠️ **Not available for Canada accounts**
+    >
+    > The dispute response and evidence endpoints are not available for Canada accounts.
   operationId: UpdateDisputeResponse
   parameters:
     - $ref: ../components/parameters/id-path.yaml
@@ -83,7 +88,12 @@ patch:
 
 post:
   summary: Submit dispute response
-  description: Submits the dispute response
+  description: |
+    Submits the dispute response
+
+    > ⚠️ **Not available for Canada accounts**
+    >
+    > The dispute response and evidence endpoints are not available for Canada accounts.
   operationId: SubmitDisputeResponse
   parameters:
     - $ref: ../components/parameters/id-path.yaml
