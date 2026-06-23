@@ -1,6 +1,11 @@
 put:
   summary: Create dispute evidence
-  description: Creates dispute evidence and generate presigned url
+  description: |
+    Creates dispute evidence and generate presigned url
+
+    > ⚠️ **Not available for Canada accounts**
+    >
+    > The dispute response and evidence endpoints are not available for Canada accounts.
   operationId: CreateDisputeEvidence
   parameters:
     - $ref: ../components/parameters/id-path.yaml
