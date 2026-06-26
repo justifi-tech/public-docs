@@ -61,11 +61,15 @@ Standard fee configurations (`application_fee_rates`) that platforms use for USD
 
 ## Balance Transactions
 
-Balance transactions for CAD payments are not created at payment capture time. They are created when settlements are imported asynchronously. There will be a delay between when a payment is captured and when its associated balance transactions appear in the [Balance Transactions API](https://docs.justifi.tech/api-spec#tag/Balance-Transactions).
+Balance transactions for CAD payments are not created at payment capture time. They are created when settlements are imported asynchronously. 
+There will be a delay between when a payment is captured and when its associated balance transactions appear in the [Balance Transactions API](https://docs.justifi.tech/api-spec#tag/Balance-Transactions).
 
 ## Refunds
+CAD payments can be refunded within 365 days after payment creation the same way as USD payments with the following differences:
+- Refund transactions are subject to a refund processing fee. To avoid this processing fee try voiding the payment instead (see Voids).
+- The `fees` parameter on refund requests is not available for CAD payments. Fee returns on CAD refunds are not currently configurable. 
 
-Create refunds the same way as USD:
+Create refunds the same way as USD - on the JustiFi dashboard, via the [Refund Payment web component](https://docs.justifi.tech/web-components/payment-facilitation/refund-payment) or via the [refund payment API](https://docs.justifi.tech/api-spec#tag/Refunds/operation/CreateRefund):
 
 ```
 POST /v1/payments/{id}/refunds
@@ -75,9 +79,9 @@ POST /v1/payments/{id}/refunds
 }
 ```
 
-:::note
-The `fees` parameter on refund requests is not available for CAD payments. Fee returns on CAD refunds are not currently configurable. 
-:::
+## Voids
+Void a payment transaction to cancel it before it reaches settlement. Unlike a refunded payment, a voided payment does not incur payment and refund processing fees.
+CAD payments can be voided within 25 minutes of the original transaction via the [void payment API](https://docs.justifi.tech/api-spec#tag/Payments/operation/VoidPayment) or by clicking the `Refund` button on the JustiFi dashboard within 25 min of payment transaction.
 
 ## Dispute Management
 To counter a dispute on a CAD payment a merchant (sub account) needs to submit evidence directly to Fiserv Canada via online portal. The [Dispute Management web component](https://docs.justifi.tech/web-components/payment-facilitation/dispute-management) is not available for CAD payments. 
@@ -176,7 +180,7 @@ The balance transactions that compose this payout (visible through the [Balance 
 | `processing_fee` | −390 | py_ccc |
 | `processing_fee` | −450 | py_ddd |
 | `processing_fee` | −630 | py_eee |
-| `refund_processing_fee` | −150 | fee return on the standalone refund only |
+| `refund_processing_fee` | −25 | fee return on the standalone refund only |
 | `fee_rounding_adjustment` | −2 | reconciliation entry |
 | `payout` | −80,098 | the payout itself |
 
