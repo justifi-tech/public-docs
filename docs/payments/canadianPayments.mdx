@@ -65,7 +65,7 @@ Balance transactions for CAD payments are not created at payment capture time. T
 There will be a delay between when a payment is captured and when its associated balance transactions appear in the [Balance Transactions API](https://docs.justifi.tech/api-spec#tag/Balance-Transactions).
 
 ## Refunds
-CAD payments can be refunded the same way as USD payments with the following differences:
+CAD payments can be refunded within 365 days after payment creation the same way as USD payments with the following differences:
 - Refund transactions are subject to a refund processing fee of 0.25 CAD. To avoid this processing fee try voiding the payment instead (see Voids).
 - The `fees` parameter on refund requests is not available for CAD payments. Fee returns on CAD refunds are not currently configurable. 
 
