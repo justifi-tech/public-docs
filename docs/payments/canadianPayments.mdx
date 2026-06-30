@@ -59,6 +59,16 @@ The data for fees applied to a payment is available via the `fees` array on the 
 
 Standard fee configurations (`application_fee_rates`) that platforms use for USD processing are not available for CAD. Fee rates for CAD merchants are established during onboarding and cannot be modified through the API.
 
+### Account fees
+
+Separate from the per-payment `processing_fee`, the processor withdraws certain merchant-level fees directly from the sub-account's bank account. These include:
+
+- Network pass-through assessments (for example, interchange assessments, authorization and connectivity fees, address verification fees)
+- Periodic membership or service charges (for example, a monthly membership fee)
+- Per-item chargeback fees
+
+These fees are set by the card networks and the processor, not by JustiFi, and they are charged at the account level rather than against an individual payment. Each one appears as an `account_fee` balance transaction on the payout for the period in which it was charged, so your balance reflects the full deduction. The specific fee name appears in the balance transaction's `description` (for example, `CAD account fee: Monthly membership fee` or `CAD account fee: MC Auth Connectivity Fee`). Account fees are not included in `fees_total`; you'll find them in `other_total`. See [What's in `other_total`](#whats-in-other_total).
+
 ## Balance Transactions
 
 Balance transactions for CAD payments are not created at payment capture time. They are created when settlements are imported asynchronously. There will be a delay between when a payment is captured and when its associated balance transactions appear in the [Balance Transactions API](https://docs.justifi.tech/api-spec#tag/Balance-Transactions).
@@ -88,9 +98,13 @@ CAD sub-account payouts behave differently from USD payouts in several ways. Bot
 
 ### What to expect
 
-CAD payouts are **net of processing fees** — `Payout.amount` reflects the deposit that lands in the connected bank account, not the gross sum of payments captured. The fee breakdown for the payout period is available on `fees_total` and on the underlying balance transactions.
+CAD payouts are **net of fees and other deductions** — `Payout.amount` reflects the funds that move to or from the connected bank account, not the gross sum of payments captured. Processing fees appear in `fees_total`; account fees and chargebacks appear in `other_total`. The full breakdown is available on these totals and on the underlying balance transactions.
 
-CAD payouts appear in the API once the corresponding deposit has settled to the bank. As a result, a CAD payout's `status` is `paid` and `deposits_at` reflects the date the funds landed.
+CAD payouts appear in the API once the corresponding settlement has been processed. As a result, a CAD payout's `status` is `paid` and `deposits_at` reflects the date the funds landed.
+
+:::note
+A CAD payout `amount` can be negative. When a period's deductions exceed its deposits — for example a period whose only activity is an account fee, or one with a chargeback larger than the day's card volume — the payout represents a net amount drawn from the connected bank account rather than deposited to it.
+:::
 
 ### Schedule
 
@@ -112,11 +126,21 @@ The [Payout schema](https://docs.justifi.tech/api-spec#tag/Payouts/operation/Get
 
 For CAD payouts, `fees_total` is the sum of these balance transaction types on the payout:
 
-- `processing_fee` — fee on a payment
-- `refund_processing_fee` — fee returned on a refund
+- `processing_fee` — processing fee on a payment
+- `refund_processing_fee` — processing fee charged when a refund is issued
 - `fee_rounding_adjustment` — small reconciliation entry (typically a few cents) for fee calculation rounding
 
 **Netted refund pairs**: when a payment is refunded before either the payment or the refund has settled, the two are recorded together with no fees on either side. The `seller_payment` and `seller_payment_refund` balance transactions appear in the payout but no `processing_fee` or `refund_processing_fee` is charged. Refunds of payments that already settled in a prior payout receive a `refund_processing_fee` as normal.
+
+### What's in `other_total`
+
+A CAD payout can include balance transactions that fall outside `payments_total`, `refunds_total`, and `fees_total`, so they roll up into `other_total`:
+
+- `account_fee` — a merchant-level fee the processor withdrew from the bank account: network pass-through assessments, periodic membership or service charges, and per-item chargeback fees. See [Account fees](#account-fees).
+- `dispute` — the amount of a chargeback debited in this payout period. See [Dispute Management](#dispute-management).
+- `seller_payment_void` — the reversal of a voided payment. When a CAD payment is voided it is recorded as a `seller_payment` (positive) paired with a `seller_payment_void` (negative) of the same amount. The positive side is counted in `payments_total` and the negative side lands in `other_total`, so the pair nets to zero and does not change the payout amount.
+
+`account_fee` and `dispute` are deductions, so they reduce the net payout and make `other_total` negative. `other_total` is `0` only when a payout has none of these entries.
 
 ### Example CAD payout
 
@@ -176,13 +200,42 @@ The balance transactions that compose this payout (visible through the [Balance 
 | `processing_fee` | −390 | py_ccc |
 | `processing_fee` | −450 | py_ddd |
 | `processing_fee` | −630 | py_eee |
-| `refund_processing_fee` | −150 | fee return on the standalone refund only |
+| `refund_processing_fee` | −150 | refund processing fee, charged on the standalone refund only |
 | `fee_rounding_adjustment` | −2 | reconciliation entry |
 | `payout` | −80,098 | the payout itself |
 
-`refunds_total` is returned as a negative number (refunds reduce the payout). The relationship between the totals is:
+`refunds_total` is returned as a negative number (refunds reduce the payout). The full relationship between the totals is:
 
-`amount` = `payments_total` + `refunds_total` − `fees_total` = 107,500 + (−25,000) − 2,402 = **80,098 cents** ($800.98 CAD).
+`amount` = `payments_total` + `refunds_total` − `fees_total` + `other_total`
+
+This example has no account fees or chargebacks, so `other_total` is `0`:
+
+`amount` = 107,500 + (−25,000) − 2,402 + 0 = **80,098 cents** ($800.98 CAD).
+
+### Example CAD payout with account fees and a chargeback
+
+When account fees are charged or a chargeback is debited during the period, those amounts appear as `account_fee` and `dispute` balance transactions and reduce your payout through `other_total`.
+
+Take the payout above and add, in the same period:
+
+- A monthly membership fee of **900 cents** ($9.00 CAD)
+- Two card network fees: a connectivity fee of **6 cents** and an address verification fee of **2 cents**
+- A chargeback of **6,000 cents** ($60.00 CAD)
+
+These show up as additional balance transactions on the payout, each named in its `description`:
+
+| `txn_type` | `amount` (cents) | `description` |
+|------------|------------------|---------------|
+| `account_fee` | −900 | `CAD account fee: Monthly membership fee` |
+| `account_fee` | −6 | `CAD account fee: MC Auth Connectivity Fee` |
+| `account_fee` | −2 | `CAD account fee: VI-ADDRESS VER SVC FEE` |
+| `dispute` | −6,000 | Chargeback debited this period |
+
+They do not change `payments_total`, `refunds_total`, or `fees_total`. They sum into `other_total`:
+
+`other_total` = (−900) + (−6) + (−2) + (−6,000) = **−6,908 cents**
+
+`amount` = `payments_total` + `refunds_total` − `fees_total` + `other_total` = 107,500 + (−25,000) − 2,402 + (−6,908) = **73,190 cents** ($731.90 CAD).
 
 ## Technical Integration
 
@@ -201,7 +254,8 @@ For information on testing Canadian payments, refer to the [Canadian Payments te
 | Fee configuration via API | Supported | Not supported (set during onboarding) |
 | Balance transactions | Created at payment capture | Created at settlement import |
 | Fee returns on refunds | Fully customizable | Not configurable |
-| Payout creation | Created before bank deposit | Created after the deposit settles; `amount` is net of processing fees |
+| Account & network pass-through fees | `account_fee` balance transactions | `account_fee` balance transactions in `other_total` (processor pass-throughs) |
+| Payout creation | Created before bank deposit | Created after the deposit settles; `amount` is net of fees and other deductions, and can be negative |
 | Payout schedule | Weekdays | Weekdays, ~1 PM Central |
 | Payout status lifecycle | `scheduled` → `in_transit` → `paid` (or `failed` / `canceled`) | Always `paid` at creation |
 | `payout_type` values | `ach`, `cc` | `cc` only |
