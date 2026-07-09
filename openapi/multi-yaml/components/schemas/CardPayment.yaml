@@ -97,7 +97,7 @@ properties:
     type: array
     description: |
       Array of fee objects showing the fees charged on this payment with their remaining refundable amounts.
-      Present when fees were specified using the `fees` array in the payment request.
+      Populated whether the fees were provided via the `fees` array in the payment request or calculated automatically (for example, from a Standard Fee Configuration, or the `processing_fee` on a CAD payment).
 
       **Note:** This array is empty in the Create Payment response. Fees are processed asynchronously —
       subscribe to payment webhook events (recommended) to receive the full fee objects
@@ -112,11 +112,17 @@ properties:
         amount: 350
         currency: usd
         remaining_amount: 350
+        source_configuration_id: sfc_abc123
+        source_fee_type: processing_ecomm
+        refund_id: null
       - id: pyfee_xyz
         type: platform_fee
         amount: 500
         currency: usd
         remaining_amount: 500
+        source_configuration_id: sfc_abc123
+        source_fee_type: platform
+        refund_id: null
   refunded:
     type: boolean
     description: whether or not this payment has any refunds

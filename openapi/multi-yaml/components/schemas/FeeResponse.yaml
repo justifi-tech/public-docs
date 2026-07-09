@@ -9,11 +9,12 @@ properties:
     example: pyfee_xyz
   type:
     type: string
-    enum: [processing_fee, platform_fee]
+    enum: [processing_fee, platform_fee, refund_processing_fee]
     description: |
       The type of fee:
       - `processing_fee`: Fees related to payment processing costs
       - `platform_fee`: Fees for your platform's services
+      - `refund_processing_fee`: A processing fee charged when a refund is processed. Currently applies to CAD payments only.
     example: processing_fee
   amount:
     type: integer
@@ -40,4 +41,9 @@ properties:
       The fee type from the Standard Fee Configuration that generated this fee (e.g., `processing_ecomm`, `amex_brand_ecomm`, `platform`).
       Null when the fee was explicitly provided in the payment request.
     example: amex_brand_ecomm
+  refund_id:
+    type: string
+    nullable: true
+    description: The public ID of the refund this fee is associated with. Populated for `refund_processing_fee` fees (currently CAD payments only); null for all other fees. Present when fetching a payment.
+    example: re_xyz
 required: [type, amount]
