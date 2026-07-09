@@ -68,6 +68,15 @@ get:
                       updated_at: "2021-01-01T12:00:00Z"
                     customer_id: null
                     signature: 123abc
+                  fees:
+                    - id: pyfee_abc
+                      type: processing_fee
+                      amount: 150
+                      currency: usd
+                      remaining_amount: 150
+                      source_configuration_id: null
+                      source_fee_type: null
+                      refund_id: null
                   application_fee:
                     id: fee_123xyz
                     amount: 150
@@ -125,6 +134,15 @@ get:
                       updated_at: "2021-01-01T12:00:00Z"
                     customer_id: cust_123xyz
                     signature: 123abc
+                  fees:
+                    - id: pyfee_abc
+                      type: processing_fee
+                      amount: 150
+                      currency: usd
+                      remaining_amount: 150
+                      source_configuration_id: null
+                      source_fee_type: null
+                      refund_id: null
                   application_fee:
                     id: fee_123xyz
                     amount: 150
@@ -135,6 +153,84 @@ get:
                     id: th_123xyz
                     financial_transaction_id: ft_123xyz
                   refunds: []
+                  disputes: []
+                page_info: null
+            "Get_a_CAD_card_payment_with_refund_fee":
+              value:
+                id: py_cad123
+                type: payment
+                data:
+                  id: py_cad123
+                  account_id: acc_123xyz
+                  amount_disputed: 0
+                  amount_refunded: 5000
+                  amount_returned: 0
+                  amount: 10000
+                  amount_refundable: 5000
+                  application_fee_rate_id: null
+                  balance: 4650
+                  capture_strategy: automatic
+                  captured: true
+                  created_at: "2021-01-01T12:00:00Z"
+                  currency: cad
+                  description: my order xyz
+                  disputed: false
+                  error_code: null
+                  error_description: null
+                  fee_amount: 350
+                  financial_transaction_id: "ft_123xyz"
+                  is_test: true
+                  metadata: {}
+                  payment_intent_id: pi_xyz
+                  checkout_id: cho_123
+                  refunded: true
+                  returned: false
+                  status: partially_refunded
+                  payment_mode: ecom
+                  terminal_id: null
+                  updated_at: "2021-01-01T12:00:00Z"
+                  payment_method:
+                    card:
+                      id: pm_123xyz
+                      acct_last_four: "4242"
+                      brand: visa
+                      name: Sylvia Fowles
+                      token: pm_123xyz
+                      metadata: {}
+                      created_at: "2021-01-01T12:00:00Z"
+                      updated_at: "2021-01-01T12:00:00Z"
+                    customer_id: null
+                    signature: 123abc
+                  fees:
+                    - id: pyfee_cad1
+                      type: processing_fee
+                      amount: 300
+                      currency: cad
+                      remaining_amount: 300
+                      source_configuration_id: null
+                      source_fee_type: null
+                      refund_id: null
+                    - id: pyfee_cad2
+                      type: refund_processing_fee
+                      amount: 50
+                      currency: cad
+                      remaining_amount: 50
+                      source_configuration_id: null
+                      source_fee_type: null
+                      refund_id: re_cad123
+                  application_fee: null
+                  transaction_hold: null
+                  refunds:
+                    - id: re_cad123
+                      payment_id: py_cad123
+                      amount: 5000
+                      description: customer canceled part of their order
+                      reason: customer_request
+                      status: succeeded
+                      metadata: {}
+                      returned_fees: []
+                      created_at: "2021-01-01T12:00:00Z"
+                      updated_at: "2021-01-01T12:00:00Z"
                   disputes: []
                 page_info: null
 

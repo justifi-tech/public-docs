@@ -1198,6 +1198,7 @@ For Canadian dollar payments, fees are determined during merchant onboarding and
 - Fee data is available via the `fees` array on the payment record (available via Get Payment API or payment events) as a `processing_fee`. The `application_fee` object will be `null`
 - **Balance transactions** are created when settlements are imported — not at payment capture time
 - The `fees` parameter on refund requests is not supported for CAD payments
+- When a refund incurs a processing fee, it appears in the payment's `fees` array as a `refund_processing_fee` whose `refund_id` links it to the associated refund
 
 For more details, see the [Canadian Payments guide](https://docs.justifi.tech/payments/canadianPayments).
 
