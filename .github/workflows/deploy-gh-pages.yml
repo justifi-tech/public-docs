@@ -2,14 +2,13 @@ name: Deploy to GitHub Pages
 
 # Deploys the Docusaurus site to GitHub Pages.
 #
-# Step 1 (current): served at https://justifi-tech.github.io/public-docs/
-#   SITE_BASE_URL must be '/public-docs/' so assets resolve under the
-#   project-page path.
+# Serves at the custom domain https://docs.justifi.tech/ (Step 2 cutover).
+# The domain is pinned by static/CNAME; SITE_BASE_URL is '/' because the site
+# is served at the domain root (no project-page path prefix).
 #
-# Step 2 (custom domain, later): to serve at https://docs.justifi.tech/,
-#   set SITE_URL to https://docs.justifi.tech and SITE_BASE_URL to '/',
-#   add the domain under Settings > Pages, and commit a static/CNAME file
-#   containing "docs.justifi.tech".
+# NOTE: merging this triggers the cutover. The old staging URL
+# https://justifi-tech.github.io/public-docs/ will break once baseUrl is '/'.
+# Do not merge until DNS for docs.justifi.tech is ready to point at Pages.
 
 on:
   # Manual trigger so we control when the trial site publishes.
@@ -35,8 +34,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      SITE_URL: https://justifi-tech.github.io
-      SITE_BASE_URL: /public-docs/
+      SITE_URL: https://docs.justifi.tech
+      SITE_BASE_URL: /
     steps:
       - uses: actions/checkout@v4
 
