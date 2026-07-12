@@ -8,11 +8,14 @@ const config: Config = {
   tagline: "JustiFi - Fintech Infrastructure for Platforms",
   favicon: "img/favicon.png",
 
-  // Set the production url of your site here
-  url: "https://docs.justifi.tech",
-  // Set the /<baseUrl>/ pathname under which your site is served
-  // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: "/",
+  // Set the production url of your site here.
+  // Defaults target the primary (Vercel) deploy at docs.justifi.tech.
+  // The GitHub Pages workflow overrides SITE_URL/SITE_BASE_URL so the site
+  // builds correctly under https://justifi-tech.github.io/public-docs/.
+  url: process.env.SITE_URL ?? "https://docs.justifi.tech",
+  // Set the /<baseUrl>/ pathname under which your site is served.
+  // For GitHub project pages this is '/<projectName>/' (e.g. '/public-docs/').
+  baseUrl: process.env.SITE_BASE_URL ?? "/",
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
