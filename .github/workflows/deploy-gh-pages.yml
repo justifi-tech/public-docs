@@ -1,0 +1,72 @@
+name: Deploy to GitHub Pages
+
+# Deploys the Docusaurus site to GitHub Pages.
+#
+# Step 1 (current): served at https://justifi-tech.github.io/public-docs/
+#   SITE_BASE_URL must be '/public-docs/' so assets resolve under the
+#   project-page path.
+#
+# Step 2 (custom domain, later): to serve at https://docs.justifi.tech/,
+#   set SITE_URL to https://docs.justifi.tech and SITE_BASE_URL to '/',
+#   add the domain under Settings > Pages, and commit a static/CNAME file
+#   containing "docs.justifi.tech".
+
+on:
+  # Manual trigger so we control when the trial site publishes.
+  workflow_dispatch:
+  # Auto-publish on merges to main. Remove this block if you prefer
+  # manual-only deploys while Vercel remains the production site.
+  push:
+    branches:
+      - main
+
+# Allow the workflow to publish to Pages via OIDC.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deploy at a time; let an in-progress run finish (don't cancel).
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      SITE_URL: https://justifi-tech.github.io
+      SITE_BASE_URL: /public-docs/
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.6.2
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm build
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: build
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
