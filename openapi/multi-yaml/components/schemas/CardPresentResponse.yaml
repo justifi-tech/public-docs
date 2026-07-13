@@ -17,10 +17,12 @@ properties:
         description: unique signature associated with the payment_method
         type: string
         example: "3aGWnUznQ"
+        nullable: true
       customer_id:
         description: customer_id is a deprecated field. Please use our payment method groups instead.
         type: string
         example: "cust_123abc"
+        nullable: true
       account_id:
         description: account id associated with payment method
         type: string
@@ -35,6 +37,14 @@ properties:
         type: string
         example: "INVALID_ACCOUNT_NUMBER"
         nullable: true
+      created_at:
+        type: string
+        format: date-time
+        example: '2024-01-01T12:00:00Z'
+      updated_at:
+        type: string
+        format: date-time
+        example: '2024-01-01T12:00:00Z'
       card_present:
         description: the card present payment method
         type: object
