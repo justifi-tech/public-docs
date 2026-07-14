@@ -915,6 +915,31 @@ Both Visa and Mastercard send additional information about how to handle a decli
 | ALL        | R1                    | Stop all future payments. Stops all eligible transactions for one merchant and a specific card account.                                                                         |
 | ALL        | R3                    | Stop all merchants. Stops all payments on a specific card account.                                                                                                              |
 
+
+## ACH Errors
+
+ACH (Automated Clearing House) transactions are transfers from the payer's bank account to the seller's bank account. If the funds can't be transferred we receive an error from the banking partners. Most of these errors are returned within 2 business days after the payment was submitted but can occur later. In the case of an error JustiFi will update the payment status to `failed` and populate the `error_description` property on the payment. To get real time notification about a failure [subscibe to the `payment.failed` event](https://docs.justifi.tech/api-spec#tag/Events). The most common ACH errors are described below. 
+
+| Description                                    | Customer Impact & Suggested Actions |
+|------------------------------------|-------------------------------------------------------------------------------------------------------- |
+| ACCOUNT_CLOSED                                 | The cutsomer's bank account is closed and cannot be used. The customer needs to retry the payment with a different, valid payment method.  |
+| ACCOUNT_FROZEN_OR_RETURNED_<br>OFAC_INSTRUCTION    | The customer's bank rejected the transaction because the debit was not approved by the customer. Reach out to the customer.     | 
+| ACCOUNT_NOT_FOUND                              | The receiving bank rejected the transaction because the account number entered does not match an active or existing bank account. The customer needs to verify the account details and try again with the correct information.    | 
+| BENEFICIARY_OR_ACCOUNT_<br>HOLDER_DECEASED         | The transaction was rejected because the  account holder has passed away.   |
+| CHECK_TRUNCATION_EARLY_RETURN                  | The electronically deposited check was not deposited successfully. The customer needs to attempt payment again.      | 
+| CORPORATE_CUSTOMER_ADVISES_<br>NOT_AUTHORIZED      | The corporate account holder has notified their bank that the attempted ACH debit was not authorized. Reach out to the customer.    | 
+| CUSTOMER_ADVISE_INVALID_<br>TRANSACTION            | The customer's bank rejected the debit because the account holder disputed the payment. The customer either claimed the charge was unauthorized, outside the terms of authorization, or improperly processed.    | 
+| CUSTOMER_REVOKED_AUTHORIZATION                 | The account holder explicitly instructed their bank to cancel the permission they previously gave to draft funds from their bank account. Reach out to the customer. | 
+| DUPLICATE_ENTRY                                | The receiving bank has identified the transaction as a repeat of a previously processed payment and has rejected or reversed it.    | 
+| INSUFFICIENT_FUNDS                             | The bank account has insufficient funds to cover this payment. The customer should add funds to the account or use a different payment method.  
+| INVALID_ACCOUNT_NUMBER                         | The provided bank account number is invalid. The customer needs to verify the account details and try again with the correct information.       | 
+| INVALID_ACH_ROUTING_NUMBER                     | The provided bank routing number is invalid. The customer needs to verify the account details and try again with the correct information.       | 
+| NON_TRANSACTION_ACCOUNT                        | The customer's bank account is restricted from processing electronic payments; it might be a savings account, money market account, loan account, etc. The customer needs to try again with a different payment method.   | 
+| PAYMENT_STOPPED                                | The bank account holder formally requested to cancel a specific pending or recurring transaction. Reach out to the customer.    | 
+| UNAUTHORIZED_DEBIT                             | The customer's bank flagged the transaction because it lacked the proper preauthorization, the amount pulled was incorrect, or funds were taken at a time the customer did not agree to. Reach out to the customer.     | 
+| UNCOLLECTED_FUNDS                              | The customer's account has enough total funds, but a portion of it is still processing and can't be released for the withdrawal of the payment. The payment should be retried when the account holds sufficient available funds.     | 
+| VALIDATION_ERROR                               | The provided transaction data fails technical or formatting requirements and the payment request was blocked by the gateway, processor, or bank before it entered the ACH network. The customer needs to verify the account details and try again with the correct information.       |          | 
+
 ## Enhanced Fee Management
 
 JustiFi's enhanced fee management gives platforms granular control over how fees are charged and—importantly—how they are returned when processing refunds.
