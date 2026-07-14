@@ -126,6 +126,8 @@ const sidebars: SidebarsConfig = {
           label: "Google Pay™",
           id: "payments/googlePay"
         },
+        "payments/buyNowPayLater",
+        "payments/insurance",
         {
           type: "category",
           label: "Web Components",
