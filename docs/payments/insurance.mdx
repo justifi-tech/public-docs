@@ -1,7 +1,7 @@
 ---
 title: Insurance Quote Payments
 description: Learn about providing a relevant insurance option at checkout via JustiFi
-sidebar_label: Insurance
+sidebar_label: Insurance Quote Payments
 keywords:
   - Vertical Insure
   - insurance quotes
@@ -22,8 +22,14 @@ with transparent pricing tied to the specific purchase.
 For your merchants, this reduces return and refund disputes, builds customer trust, and adds incremental revenue, 
 all within the existing checkout flow.
 
+## Prerequisites and Integration
 
+- Insurance quote payments are only available on the Hosted Checkout and in our embedded checkout web components 
+([Unified Checkout](https://docs.justifi.tech/web-components/payment-facilitation/unified-fintech-checkout%E2%84%A2) 
+and [Modular Checkout](https://docs.justifi.tech/web-components/modular-checkout)). 
+- All these checkout options require the creation of a checkout via API - [see the integration guide](https://docs.justifi.tech/api-spec#tag/Checkouts/operation/RefundCheckout)
 - To include an insurance quote in a checkout, first contact [customer_success@justifi.tech](mailto:customer_success@justifi.tech)
   to enable insurance payments for your platform. Ensure the required insurance type is available through our provider.
-- After creating a Checkout, use the [Unified Fintech Checkout™ Component with insurance](/web-components/payment-facilitation/unified-fintech-checkout%E2%84%A2)
-  to collect the insurance payment.
+- If you use the Unified Checkout web component insurance quote payments will appear as a payment options as soon as the feature is enabled on the sub account.
+- If you use the Modular Checkout include the specific insurance sub component listed in the [Sub Components section of the docs](http://localhost:3000/web-components/modular-checkout/sub-components).
+
