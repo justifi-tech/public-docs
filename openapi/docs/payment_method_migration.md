@@ -16,7 +16,7 @@ Once you understand the basics, you will want to [import a public key](http://ww
 |**Key Size**|4096|
 
 
-You can also download the key directly from a fixed URL: [`https://docs.justifi.tech/security/pgp-public-key.asc`](/security/pgp-public-key.asc)
+**PGP Public Key File**: [https://docs.justifi.tech/security/pgp-public-key.asc](/security/pgp-public-key.asc)
 
 ##### Public Key
 ```bash
