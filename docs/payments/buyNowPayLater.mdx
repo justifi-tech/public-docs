@@ -38,3 +38,9 @@ and [Modular Checkout](https://docs.justifi.tech/web-components/modular-checkout
 - If you use the Unified Checkout web component BNPL will appear as a payment options as soon as BNPL is enabled on the sub account.
 - If you use the Modular Checkout include the [sezzle Payment Method sub component](https://docs.justifi.tech/web-components/modular-checkout/sub-components/sezzle-payment-method).
 
+## How it works?
+
+The BNPL payment method appears as a choice. When a customer selects BNPL as their payment method they will be redirected to Sezzle and asked to create an account. 
+With their account in place they can choose a payment plan for the current payment amount.
+Once the payment is processed via sezzle the merchant will receive the full payment amount, the customer will be able to pay partial amounts
+following the chosen payment plan. Any payment reminders for customers will be handled by sezzle. 
