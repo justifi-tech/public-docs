@@ -43,7 +43,9 @@ A few other notes:
 - Terminal payments will time out after 90 seconds
 - You can click the **"X"** on the device to cancel a terminal payment
 - The credit card information collected for a terminal payment is stored in a payment method record with the `payment_method_type` `card_present`.
-This type of payment method is considered "single use" and can currently not be used for other payments. 
+This type of payment method is considered "single use" and can currently not be used for other payments.
+Attempting to create a payment with a `card_present` payment method token returns a `400 Bad Request` with the error code
+`card_present_payment_method_token_not_supported`. To charge the customer again, collect a new payment method. 
 - Once a payment is successfully collected for a checkout, the payment ID will be added to the checkout record as `successful_payment_id`. 
 
 To retrieve the checkout or payment use the [Get Checkout API](https://docs.justifi.tech/api-spec#tag/Checkouts/operation/GetCheckout) 
