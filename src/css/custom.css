@@ -4,51 +4,71 @@
  * work well for content-centric websites.
  */
 
-/* You can override the default Infima variables here. */
+/*
+ * Brand colors sourced from JustiFi's 2026 brand system (Notion: "Brand
+ * Guidelines" + "Website Rebuild — Brand Direction & Assets"):
+ *   Navy #0D1A27, Amber #FFA000, White #FFFFFF (primary palette)
+ *   Dark-mode secondary palette: Surface #253545, Darker Surface #1A2A3A,
+ *     Body Text #94A3B8, Muted Text #8899AA, Border #2A3F55
+ *   Light-mode extension: Surface #F0F4F7, Text #0D1A27,
+ *     Secondary Text #4A6070, Border #DCE4EA
+ * The primary-dark/darker/darkest/light/lighter/lightest ramp isn't in the
+ * brand doc (no tonal scale defined there yet) — these are computed from
+ * Amber using Infima's own shade/tint formula (mix toward black/white by
+ * 10/15/30% and 15/30/50% respectively; see infima/dist/css/default/default.css).
+ */
 :root {
   --ifm-color-primary: #ffa000;
-  --ifm-color-primary-dark: #e69200;
-  --ifm-color-primary-darker: #d98a00;
-  --ifm-color-primary-darkest: #b37200;
-  --ifm-color-primary-light: #ffab1a;
-  --ifm-color-primary-lighter: #ffb733;
-  --ifm-color-primary-lightest: #ffcc66;
+  --ifm-color-primary-dark: #e69000;
+  --ifm-color-primary-darker: #d98800;
+  --ifm-color-primary-darkest: #b37000;
+  --ifm-color-primary-light: #ffae26;
+  --ifm-color-primary-lighter: #ffbd4d;
+  --ifm-color-primary-lightest: #ffd080;
   --ifm-background-color: #ffffff;
+  --ifm-background-surface-color: #f0f4f7;
+  /* Infima defaults the navbar to --ifm-background-surface-color, which
+   * would leave it visibly two-toned against the white page background. */
+  --ifm-navbar-background-color: #ffffff;
   --ifm-heading-color: #0d1a27;
+  --ifm-color-content: #0d1a27;
+  --ifm-color-content-secondary: #4a6070;
+  --ifm-toc-border-color: #dce4ea;
   --ifm-code-font-size: 80%;
-  /* --ifm-code-background: var(--ifm-card-background-color); */
-  /* */
-  --ifm-link-color: #d98a00;
-  /* */
+  /* Flat amber (#FFA000) on white is ~2:1 contrast — fails WCAG AA for text
+   * (min 4.5:1). Using the derived "darker" shade above for links/text;
+   * flat amber stays reserved for buttons/borders where 3:1 applies. */
+  --ifm-link-color: var(--ifm-color-primary-darker);
+  --ifm-menu-color-active: var(--ifm-color-primary-darker);
+  --ifm-navbar-link-active-color: var(--ifm-color-primary-darker);
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
-  /* */
-  --ifm-card-background-color: #ffffff;
-  /* */
   --ifm-font-family-base: "Lato", Helvetica, Arial, sans-serif;
   --ifm-heading-font-family: "Mulish", Helvetica, Arial, sans-serif;
   --ifm-heading-font-weight: 700;
-  /* --ifm-font-family-monospace: ui-monospace, "Cascadia Mono", "Segoe UI Mono", */
-  /*   "Liberation Mono", Menlo, Monaco, Consolas, monospace; */
   --ifm-font-family-monospace: Consolas, Monaco, Andale Mono, Ubuntu Mono,
     monospace;
 }
 
-/* For readability concerns, you should choose a lighter palette in dark mode. */
 [data-theme="dark"] {
   --ifm-color-primary: #ffa000;
-  --ifm-color-primary-dark: #e69200;
-  --ifm-color-primary-darker: #d98a00;
-  --ifm-color-primary-darkest: #b37200;
-  --ifm-color-primary-light: #ffab1a;
-  --ifm-color-primary-lighter: #ffb733;
-  --ifm-color-primary-lightest: #ffcc66;
+  --ifm-color-primary-dark: #e69000;
+  --ifm-color-primary-darker: #d98800;
+  --ifm-color-primary-darkest: #b37000;
+  --ifm-color-primary-light: #ffae26;
+  --ifm-color-primary-lighter: #ffbd4d;
+  --ifm-color-primary-lightest: #ffd080;
   --ifm-background-color: #0d1a27;
+  --ifm-background-surface-color: #253545;
   --ifm-heading-color: #ffffff;
+  --ifm-color-content: #94a3b8;
+  --ifm-color-content-secondary: #8899aa;
+  --ifm-toc-border-color: #2a3f55;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 
-  --ifm-link-color: var(--ifm-color-primary-lighter);
-  --ifm-card-background-color: #16283a;
-  --ifm-footer-background-color: #0a141d;
+  /* Amber-on-navy measures ~5.2:1 (brand doc's own accessibility table) —
+   * passes AA, so unlike light mode this can stay the flat brand color. */
+  --ifm-link-color: var(--ifm-color-primary);
+  --ifm-footer-background-color: #1a2a3a;
   --ifm-navbar-background-color: #0d1a27;
 }
 

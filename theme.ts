@@ -15,11 +15,12 @@ export const theme = {
   colors: {
     tonalOffset: 0.15,
     primary: {
+      // Brand amber, from JustiFi's 2026 brand guidelines (Notion).
       main: "#FFA000",
-      // light: ({ colors }) => lighten(colors.tonalOffset, colors.primary.main),
-      light: "#FFB733",
-      // dark: ({ colors }) => darken(colors.tonalOffset, colors.primary.main),
-      dark: "#D98A00",
+      // No tonal ramp is defined in the brand doc, so light/dark are
+      // derived from the brand color via tonalOffset rather than guessed.
+      light: ({ colors }) => lighten(colors.tonalOffset, colors.primary.main),
+      dark: ({ colors }) => darken(colors.tonalOffset, colors.primary.main),
       contrastText: ({ colors }) => readableColor(colors.primary.main),
     },
     // success: {
@@ -47,8 +48,9 @@ export const theme = {
     //   contrastText: ({ colors }) => readableColor(colors.info.main),
     // },
     text: {
+      // Light-mode "Text" (primary text) from the brand doc.
       primary: "#0D1A27",
-      // secondary: '#4e566d',
+      secondary: "#4A6070",
     },
     border: {
       dark: "rgba(0,0,0, 0.15)",
@@ -95,7 +97,8 @@ export const theme = {
   },
 
   sidebar: {
-    backgroundColor: "#fafafa",
+    // Light-mode "Surface" from the brand doc (cards/panels).
+    backgroundColor: "#F0F4F7",
     width: "260px",
   },
   // tocPanel: {
@@ -157,20 +160,23 @@ export const theme = {
       wrap: false,
     },
     links: {
-      color: ({ colors }) => colors.primary.main,
-      // visited: ({ typography }) => typography.links.color,
-      visited: ({ colors }) => colors.primary.main,
-      // hover: ({ typography }) => lighten(0.2, typography.links.color),
-      hover: ({ colors }) => colors.primary.dark,
+      // The main panel is on a light background, and flat brand amber on
+      // white is ~2:1 contrast (fails WCAG AA text minimum of 4.5:1) — using
+      // the darkened shade instead, same reasoning as src/css/custom.css.
+      color: ({ colors }) => colors.primary.dark,
+      visited: ({ colors }) => colors.primary.dark,
+      hover: ({ colors }) => darken(colors.tonalOffset, colors.primary.dark),
     },
   },
   rightPanel: {
+    // Navy, from the brand doc's dark-mode/primary-brand-surface color.
     backgroundColor: "#0D1A27",
     width: "40%",
     // textColor: '#ffffff',
   },
   schema: {
-    nestedBackground: "#fafafa",
+    // Light-mode "Surface" from the brand doc.
+    nestedBackground: "#F0F4F7",
     // linesColor: theme => lighten( theme.colors.tonalOffset, desaturate(theme.colors.tonalOffset, theme.colors.primary.main) ),
     // defaultDetailsWidth: '75%',
     // typeNameColor: theme => theme.colors.text.secondary,
