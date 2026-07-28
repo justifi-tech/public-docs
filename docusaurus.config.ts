@@ -8,6 +8,13 @@ const config: Config = {
   tagline: "JustiFi - Fintech Infrastructure for Platforms",
   favicon: "img/favicon.png",
 
+  stylesheets: [
+    {
+      href: "https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Mulish:wght@400;600;700;900&display=swap",
+      rel: "stylesheet",
+    },
+  ],
+
   // Set the production url of your site here.
   // Defaults target the primary (Vercel) deploy at docs.justifi.tech.
   // The GitHub Pages workflow overrides SITE_URL/SITE_BASE_URL so the site
@@ -69,7 +76,7 @@ const config: Config = {
           },
         ],
         theme: {
-          primaryColor: "#fccc32",
+          primaryColor: "#FFA000",
         },
       },
     ],
@@ -109,13 +116,13 @@ const config: Config = {
   ],
   themeConfig: {
     // Replace with your project's social card
-    image: "img/justifi-logo-light.png",
+    image: "img/justifi-logo-navy.png",
     navbar: {
       // title: "JustiFi Documentation",
       logo: {
-        alt: "My Site Logo",
-        src: "img/justifi-logo-light.png",
-        srcDark: "img/justifi-dark-bg.svg",
+        alt: "JustiFi",
+        src: "img/justifi-logo-navy.svg",
+        srcDark: "img/justifi-logo-white.svg",
       },
       items: [
         {

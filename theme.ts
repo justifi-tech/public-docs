@@ -15,11 +15,11 @@ export const theme = {
   colors: {
     tonalOffset: 0.15,
     primary: {
-      main: "#FCCC32",
+      main: "#FFA000",
       // light: ({ colors }) => lighten(colors.tonalOffset, colors.primary.main),
-      light: "#FCB616",
+      light: "#FFB733",
       // dark: ({ colors }) => darken(colors.tonalOffset, colors.primary.main),
-      dark: "#FB930F",
+      dark: "#D98A00",
       contrastText: ({ colors }) => readableColor(colors.primary.main),
     },
     // success: {
@@ -47,7 +47,7 @@ export const theme = {
     //   contrastText: ({ colors }) => readableColor(colors.info.main),
     // },
     text: {
-      primary: "#424242",
+      primary: "#0D1A27",
       // secondary: '#4e566d',
     },
     border: {
@@ -111,9 +111,9 @@ export const theme = {
     fontFamily: "Lato, Helvetica, Arial",
     // "system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif",
     headings: {
-      fontFamily: "Lato, Helvetica, Arial",
+      fontFamily: "Mulish, Helvetica, Arial",
       // "system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif",
-      fontWeight: "600",
+      fontWeight: "700",
     },
     heading1: {
       //   fontSize: '1.85714em',
@@ -157,15 +157,15 @@ export const theme = {
       wrap: false,
     },
     links: {
-      color: ({ colors }) => "#FCB616",
+      color: ({ colors }) => colors.primary.main,
       // visited: ({ typography }) => typography.links.color,
-      visited: ({ colors }) => "#FCB616",
+      visited: ({ colors }) => colors.primary.main,
       // hover: ({ typography }) => lighten(0.2, typography.links.color),
-      hover: ({ colors }) => colors.primary.main,
+      hover: ({ colors }) => colors.primary.dark,
     },
   },
   rightPanel: {
-    backgroundColor: "#263238",
+    backgroundColor: "#0D1A27",
     width: "40%",
     // textColor: '#ffffff',
   },
