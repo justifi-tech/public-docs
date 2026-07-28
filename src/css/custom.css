@@ -49,6 +49,13 @@
     monospace;
 }
 
+/*
+ * Dark mode is intentionally restrained to five tones from the brand doc's
+ * secondary palette — Navy, one Surface, White, one muted gray, Amber —
+ * rather than using every dark-mode tone the doc lists (it also has a
+ * "Darker Surface" and a second "Muted Text" gray, both close enough to
+ * their neighbors that using all of them read as noisy rather than layered).
+ */
 [data-theme="dark"] {
   --ifm-color-primary: #ffa000;
   --ifm-color-primary-dark: #e69000;
@@ -57,19 +64,25 @@
   --ifm-color-primary-light: #ffae26;
   --ifm-color-primary-lighter: #ffbd4d;
   --ifm-color-primary-lightest: #ffd080;
+  /* Navy everywhere at the "page" level — background, navbar, and footer —
+   * instead of three slightly different navy shades. */
   --ifm-background-color: #0d1a27;
+  --ifm-navbar-background-color: #0d1a27;
+  --ifm-footer-background-color: #0d1a27;
+  /* One elevated tone for cards/admonitions/code blocks. */
   --ifm-background-surface-color: #253545;
   --ifm-heading-color: #ffffff;
+  /* One muted gray for all body/secondary text (brand doc explicitly says
+   * body copy on dark should not be pure white) instead of two similar
+   * grays for content vs. secondary content. */
   --ifm-color-content: #94a3b8;
-  --ifm-color-content-secondary: #8899aa;
+  --ifm-color-content-secondary: #94a3b8;
   --ifm-toc-border-color: #2a3f55;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 
   /* Amber-on-navy measures ~5.2:1 (brand doc's own accessibility table) —
    * passes AA, so unlike light mode this can stay the flat brand color. */
   --ifm-link-color: var(--ifm-color-primary);
-  --ifm-footer-background-color: #1a2a3a;
-  --ifm-navbar-background-color: #0d1a27;
 }
 
 .pagination-nav__link {
