@@ -155,6 +155,18 @@ html.plugin-redoc[data-theme="dark"] table th {
   border-color: rgba(255, 255, 255, 0.12) !important;
 }
 
+/* The response/schema viewer nests three different hardcoded near-black/slate
+   tones by depth (rgb(0,0,0), rgb(24,25,26), rgb(45,62,78)) with no semantic
+   class to hook into like .menu-content — only Redoc's auto-generated sc-*
+   component classes, which are less stable across Redoc versions than the
+   named classes used elsewhere in this file. Normalizing everything to one
+   tone removes the jarring jumps between nesting levels. */
+html.plugin-redoc[data-theme="dark"] table,
+html.plugin-redoc[data-theme="dark"] .sc-hORkcV,
+html.plugin-redoc[data-theme="dark"] .sc-kdWPFt {
+  background-color: #2d3e4e !important;
+}
+
 .pagination-nav__link {
   background-color: var(--ifm-card-background-color);
   border-radius: var(--ifm-card-border-radius);
