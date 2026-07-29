@@ -21,10 +21,18 @@
   --ifm-color-content-secondary: #4a6070;
   --ifm-toc-border-color: #dce4ea;
   --ifm-code-font-size: 80%;
-  /* accent-600/700/800 all fail WCAG AA text contrast on white; accent-900 is the first that passes. */
-  --ifm-link-color: var(--ifm-color-primary-darkest);
-  --ifm-menu-color-active: var(--ifm-color-primary-darkest);
-  --ifm-navbar-link-active-color: var(--ifm-color-primary-darkest);
+  /* accent-600/700/800 all fail WCAG AA text contrast on white (~2.0/2.6/3.3:1);
+     accent-900 (~4.9:1) is the first that passes. Everything Infima colors with
+     the accent *as text* routes through --jf-accent-text, which dark mode resets
+     to flat accent-600 (~6:1 on the navy surfaces). */
+  --jf-accent-text: var(--ifm-color-primary-darkest);
+  --ifm-link-color: var(--jf-accent-text);
+  --ifm-menu-color-active: var(--jf-accent-text);
+  /* Infima declares --ifm-navbar-link-active-color but never reads it —
+     .navbar__link--active resolves --ifm-navbar-link-hover-color instead. */
+  --ifm-navbar-link-hover-color: var(--jf-accent-text);
+  --ifm-breadcrumb-color-active: var(--jf-accent-text);
+  --ifm-tabs-color-active: var(--jf-accent-text);
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
   --ifm-font-family-base: "Lato", Helvetica, Arial, sans-serif;
   --ifm-heading-font-family: "Mulish", Helvetica, Arial, sans-serif;
@@ -33,16 +41,21 @@
     monospace;
 }
 
+/* Infima hardcodes var(--ifm-color-primary) for the active/hovered table-of-
+   contents entry instead of routing it through a variable. */
+.table-of-contents__link:hover,
+.table-of-contents__link:hover code,
+.table-of-contents__link--active,
+.table-of-contents__link--active code {
+  color: var(--jf-accent-text);
+}
+
 /* Dark mode mirrors justifi-portal's AppShell: darker canvas (surface-base),
-   lighter chrome for navbar/sidebar/footer (surface-default). */
+   lighter chrome for navbar/sidebar/footer (surface-default).
+   The accent ramp is deliberately not repeated here — it's mode-independent and
+   nothing in Infima or theme-classic re-declares --ifm-color-primary* on dark. */
 html[data-theme="dark"] {
-  --ifm-color-primary: #ffa000;
-  --ifm-color-primary-light: #ffb300;
-  --ifm-color-primary-lighter: #ffc107;
-  --ifm-color-primary-lightest: #ffd700;
-  --ifm-color-primary-dark: #e68900;
-  --ifm-color-primary-darker: #cc7a00;
-  --ifm-color-primary-darkest: #996600;
+  --jf-accent-text: var(--ifm-color-primary);
 
   --ifm-background-color: #1a2a3a; /* surface-base */
   --ifm-navbar-background-color: #253545; /* surface-default */
@@ -53,7 +66,6 @@ html[data-theme="dark"] {
   --ifm-color-content-secondary: #a0a0a0; /* text-muted */
   --ifm-toc-border-color: rgba(255, 255, 255, 0.12); /* border-default */
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
-  --ifm-link-color: var(--ifm-color-primary);
 }
 
 /* Infima's .footer--dark class sets --ifm-footer-background-color directly
@@ -92,8 +104,21 @@ html.plugin-redoc[data-theme="dark"] .menu-content label.active {
   color: #ffa000 !important;
 }
 
-/* Redoc's inline <code> chips default to a `danger`-red color. */
-html.plugin-redoc code {
+/* The "API docs by Redocly" bar sits inside .menu-content with its own copy of
+   Redoc's near-black, leaving a black strip under the navy sidebar. No stable
+   class of its own, but it's the only non-rail div in the scroll wrapper. */
+html.plugin-redoc[data-theme="dark"]
+  .menu-content
+  .scrollbar-container
+  > div:not([class*="ps__"]) {
+  background-color: transparent !important;
+}
+
+/* Redoc's inline <code> chips default to a `danger`-red color. Scoped to
+   :not(pre) > code because Redoc uses the same element inside code samples,
+   which sit on a near-black panel in BOTH modes — the chip treatment there put
+   near-black text on near-black background in light mode. */
+html.plugin-redoc :not(pre) > code {
   border-radius: 4px;
   padding: 0.1em 0.3em;
   color: #0d1a27 !important;
@@ -101,7 +126,7 @@ html.plugin-redoc code {
   border: 1px solid #dce4ea;
 }
 
-html.plugin-redoc[data-theme="dark"] code {
+html.plugin-redoc[data-theme="dark"] :not(pre) > code {
   color: #e5e5e5 !important;
   background-color: rgba(255, 255, 255, 0.1) !important;
   border-color: rgba(255, 255, 255, 0.12);
@@ -119,6 +144,15 @@ html.plugin-redoc[data-theme="dark"] thead tr {
 html.plugin-redoc table td,
 html.plugin-redoc table th {
   border-bottom: 1px solid rgb(221, 221, 221) !important;
+}
+
+/* ...but #ddd is Redoc's light-mode border colour (used for the outer frame and
+   column dividers too); on the navy canvas it reads as a harsh white grid, so
+   dark mode swaps every table border to the design system's border-default. */
+html.plugin-redoc[data-theme="dark"] table,
+html.plugin-redoc[data-theme="dark"] table td,
+html.plugin-redoc[data-theme="dark"] table th {
+  border-color: rgba(255, 255, 255, 0.12) !important;
 }
 
 .pagination-nav__link {
