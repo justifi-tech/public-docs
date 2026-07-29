@@ -155,16 +155,17 @@ html.plugin-redoc[data-theme="dark"] table th {
   border-color: rgba(255, 255, 255, 0.12) !important;
 }
 
-/* The response/schema viewer nests three different hardcoded near-black/slate
-   tones by depth (rgb(0,0,0), rgb(24,25,26), rgb(45,62,78)) with no semantic
-   class to hook into like .menu-content — only Redoc's auto-generated sc-*
-   component classes, which are less stable across Redoc versions than the
-   named classes used elsewhere in this file. Normalizing everything to one
-   tone removes the jarring jumps between nesting levels. */
-html.plugin-redoc[data-theme="dark"] table,
-html.plugin-redoc[data-theme="dark"] .sc-hORkcV,
+/* The nested array/object wrapper is fixed via docusaurus.config.ts's
+   `theme.schema.nestedBackground` (Redoc's real theme property for this —
+   no CSS needed). This is the one remaining piece with no theme
+   equivalent: Redoc's own hardcoded black outer wrapper, reachable only
+   via its auto-generated sc-* class (fragile across Redoc versions —
+   div:has(table) alternatives were tried and rejected as too broad).
+   transparent is the low-risk fallback value: if the class ever stops
+   matching, it just reverts to Redoc's default black. */
 html.plugin-redoc[data-theme="dark"] .sc-kdWPFt {
-  background-color: #2d3e4e !important;
+  background-color: transparent !important;
+  border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .pagination-nav__link {

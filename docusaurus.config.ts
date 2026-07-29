@@ -86,6 +86,23 @@ const config: Config = {
         ],
         theme: {
           primaryColor: "#FFA000",
+          theme: {
+            schema: {
+              nestedBackground: "var(--ifm-background-surface-color)",
+            },
+            // Redoc derives codeBlock/rightPanel hover shades via darken()
+            // on these values, which crashes on a CSS var() string — so
+            // both must stay literal. Right panel matches the dark-mode
+            // sidebar in both themes rather than reactively going white
+            // in light mode (which would break with white text).
+            rightPanel: {
+              backgroundColor: "#253545",
+              textColor: "#ffffff",
+            },
+            codeBlock: {
+              backgroundColor: "#1a2a3a",
+            },
+          },
         },
       },
     ],
