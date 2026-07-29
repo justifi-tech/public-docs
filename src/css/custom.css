@@ -4,26 +4,8 @@
  * work well for content-centric websites.
  */
 
-/*
- * Brand colors are sourced from two places, in priority order:
- *
- * 1. `@justifi/ui` (packages/ui/src/styles.css in justifi-portal) — the
- *    actual shipped, dark-mode-native design system used by the JustiFi
- *    product. This is the source of truth for anything it defines: the
- *    full accent/primary/neutral tonal ramps, the layered surface system
- *    (surface-base/default/secondary/raised), and semantic text/border
- *    tokens.
- * 2. Notion's "Brand Guidelines" + "Website Rebuild — Brand Direction &
- *    Assets" docs, used only where the design system doesn't define an
- *    equivalent (this docs site has a light mode; the product doesn't).
- *
- * Where the two disagreed (e.g. dark-mode body text — Notion says a muted
- * blue-gray, the shipped app uses a near-white secondary), the shipped
- * design system won, since it's tested in production rather than a
- * planning doc.
- */
+/* Colors sourced from @justifi/ui (justifi-portal/packages/ui/src/styles.css). */
 :root {
-  /* Accent ramp = @justifi/ui --color-accent-*. */
   --ifm-color-primary: #ffa000; /* accent-600 */
   --ifm-color-primary-light: #ffb300; /* accent-500 */
   --ifm-color-primary-lighter: #ffc107; /* accent-400 */
@@ -32,18 +14,14 @@
   --ifm-color-primary-darker: #cc7a00; /* accent-800 */
   --ifm-color-primary-darkest: #996600; /* accent-900 */
   --ifm-background-color: #ffffff;
-  --ifm-background-surface-color: #f4f6f8; /* @justifi/ui neutral-100 */
-  /* Infima defaults the navbar to --ifm-background-surface-color, which
-   * would leave it visibly two-toned against the white page background. */
+  --ifm-background-surface-color: #f4f6f8; /* neutral-100 */
   --ifm-navbar-background-color: #ffffff;
   --ifm-heading-color: #0d1a27;
   --ifm-color-content: #0d1a27;
   --ifm-color-content-secondary: #4a6070;
   --ifm-toc-border-color: #dce4ea;
   --ifm-code-font-size: 80%;
-  /* Flat accent-600 on white is ~2:1 contrast, and even accent-700/800
-   * fall short of WCAG AA's 4.5:1 text-contrast minimum — accent-900 is
-   * the first step in the real ramp that actually clears it (~4.9:1). */
+  /* accent-600/700/800 all fail WCAG AA text contrast on white; accent-900 is the first that passes. */
   --ifm-link-color: var(--ifm-color-primary-darkest);
   --ifm-menu-color-active: var(--ifm-color-primary-darkest);
   --ifm-navbar-link-active-color: var(--ifm-color-primary-darkest);
@@ -55,21 +33,8 @@
     monospace;
 }
 
-/*
- * Dark mode mirrors the real app shell layering (apps/customer-portal/src/
- * components/AppShell.tsx in justifi-portal): a darker "canvas" for page
- * content (--color-primary-800 / --color-surface-base, #1A2A3A) framed by
- * a lighter "chrome" tone for the nav/sidebar/footer (--color-surface-
- * default, #253545) with a subtle translucent-white border between them —
- * not one flat navy everywhere, which read as undifferentiated.
- *
- * Selector note: Infima's own dark theme (default-dark.css) re-declares
- * --ifm-background-color, --ifm-background-surface-color, --ifm-color-content,
- * --ifm-color-content-secondary, and --ifm-toc-border-color on the selector
- * `html[data-theme='dark']`, which is MORE specific than a bare
- * `[data-theme="dark"]` attribute selector — matching it here is required
- * or these silently fall back to Infima's stock palette instead of ours.
- */
+/* Dark mode mirrors justifi-portal's AppShell: darker canvas (surface-base),
+   lighter chrome for navbar/sidebar/footer (surface-default). */
 html[data-theme="dark"] {
   --ifm-color-primary: #ffa000;
   --ifm-color-primary-light: #ffb300;
@@ -79,45 +44,24 @@ html[data-theme="dark"] {
   --ifm-color-primary-darker: #cc7a00;
   --ifm-color-primary-darkest: #996600;
 
-  /* Canvas: page body. */
-  --ifm-background-color: #1a2a3a; /* --color-primary-800 / --color-surface-base */
-  /* Chrome: navbar + footer, framing the canvas. */
-  --ifm-navbar-background-color: #253545; /* --color-surface-default */
+  --ifm-background-color: #1a2a3a; /* surface-base */
+  --ifm-navbar-background-color: #253545; /* surface-default */
   --ifm-footer-background-color: #253545;
-  /* One level up from chrome, for cards/admonitions/code blocks. */
-  --ifm-background-surface-color: #2d3e4e; /* --color-surface-raised */
-  --ifm-heading-color: #ffffff; /* --color-text-primary */
-  /* Shipped design system uses near-white for body copy and a genuinely
-   * muted gray only for secondary/caption text — not one shade for both. */
-  --ifm-color-content: #e5e5e5; /* --color-text-secondary */
-  --ifm-color-content-secondary: #a0a0a0; /* --color-text-muted */
-  --ifm-toc-border-color: rgba(255, 255, 255, 0.12); /* --color-border-default */
+  --ifm-background-surface-color: #2d3e4e; /* surface-raised */
+  --ifm-heading-color: #ffffff;
+  --ifm-color-content: #e5e5e5; /* text-secondary */
+  --ifm-color-content-secondary: #a0a0a0; /* text-muted */
+  --ifm-toc-border-color: rgba(255, 255, 255, 0.12); /* border-default */
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
-
-  /* Amber-on-navy measures ~6-7:1 against these surfaces — passes AA, so
-   * unlike light mode this can stay the flat brand color. */
   --ifm-link-color: var(--ifm-color-primary);
 }
 
-/*
- * Infima's `.footer--dark` class (applied because themeConfig.footer.style
- * = "dark" in docusaurus.config.ts) redeclares --ifm-footer-background-color
- * directly ON the footer element itself. A rule matching an element
- * directly always wins over an inherited value from an ancestor like html,
- * regardless of specificity, so the html[data-theme="dark"] override above
- * never reached the footer without this.
- */
+/* Infima's .footer--dark class sets --ifm-footer-background-color directly
+   on the footer element, which wins over the inherited value above. */
 html[data-theme="dark"] .footer--dark {
   --ifm-footer-background-color: #253545;
 }
 
-/*
- * The doc sidebar has no background of its own by default (it inherits
- * the page's --ifm-background-color), so without this it's the same flat
- * canvas tone as the content next to it. Giving it the chrome tone plus a
- * border — same as the product's real <aside> sidebar — visually
- * separates navigation from content instead of one undifferentiated panel.
- */
 html[data-theme="dark"] .theme-doc-sidebar-container {
   background-color: #253545;
   border-right: 1px solid rgba(255, 255, 255, 0.12);
@@ -128,66 +72,27 @@ html[data-theme="dark"] .navbar {
 }
 
 /*
- * Redoc (rendered at /api-spec via the `redocusaurus` plugin) DOES support
- * dark mode on its own — it watches Docusaurus's color mode and swaps to a
- * real, separate dark theme object (see getRedocThemes /
- * DARK_THEME_OPTIONS in docusaurus-theme-redoc's redocData.js). An earlier
- * version of this file assumed it had none and forcibly reset the ambient
- * Infima background variables back to light values on this route — which
- * actively broke Redoc's dark theme, because Redoc's dark text color
- * (near-white, ~#F5F6F7) relies on the surrounding page background
- * actually turning dark to have any contrast against. That reset is gone;
- * the remaining rules below are narrow, verified overrides for the two
- * specific spots where Redoc's *own* dark palette doesn't match the site
- * (a generic near-black sidebar instead of the brand navy chrome, and a
- * `danger`-red inline-code color that reads as an error rather than a
- * plain enum value in both themes).
- *
- * `theme.ts` at the project root is NOT any of this — it's dead code from
- * the initial commit, never imported or passed to the redocusaurus plugin
- * anywhere in this repo. Its color choices (including that same danger
- * red) have zero effect on the rendered site.
+ * Redoc (/api-spec) has its own dark theme and switches to it automatically
+ * (docusaurus-theme-redoc watches color mode). The overrides below only
+ * patch the couple of spots where its default dark palette doesn't match
+ * the brand — do not reset its background/text vars back to light values,
+ * that fights its real dark theme instead of fixing it.
  */
 
-/*
- * `.menu-content` is Redoc's own stable (non-hashed) class for its sidebar
- * wrapper — the styled-components-generated background-color rule is
- * overridden here rather than through docusaurus.config.ts's `theme`
- * option because that option is applied identically to both light and
- * dark (see getDefaultTheme/getRedocThemes), so it can't set "navy in dark
- * mode, white in light mode" on its own. `!important` is needed because
- * Redoc's own stylesheet is injected client-side, after this one.
- *
- * The wrapper alone isn't enough: every individual row (a `<label>`, not
- * the hashed class next to it — Redoc keeps `-depth0`/`-depth1`/`-depth2`/
- * `active` as stable, human-readable classes for exactly this) has its own
- * opaque near-black background (`rgb(24, 25, 26)`), fully covering the
- * wrapper underneath. Only the thin gaps between rows showed the
- * wrapper's navy, which read as a stray "separator line" between
- * sections rather than an intentional design. Overriding every row to
- * the same navy makes the whole sidebar read as one seamless surface.
- */
+/* .menu-content is Redoc's stable sidebar class; individual rows are
+   <label class="-depth1/active"> with their own opaque background,
+   so both need overriding, not just the wrapper. !important needed
+   because Redoc's stylesheet loads after this one. */
 html.plugin-redoc[data-theme="dark"] .menu-content,
 html.plugin-redoc[data-theme="dark"] .menu-content label {
-  background-color: #253545 !important; /* --color-surface-default, matches the rest of the site's dark chrome */
+  background-color: #253545 !important;
 }
 
-/*
- * With every row now the same background, the active item needs its own
- * signal — matching the rest of the site's convention (amber text, no
- * background fill) rather than Redoc's own default of a slightly darker
- * fill, which no longer reads as distinct once all rows share one color.
- */
 html.plugin-redoc[data-theme="dark"] .menu-content label.active {
   color: #ffa000 !important;
 }
 
-/*
- * Redoc's inline `<code>` chips (used for enum values like `test`/`live`)
- * default to a `danger`-style red with a near-invisible background tint —
- * distracting, and reads as an error rather than a plain value. Same
- * !important/specificity reasoning as above.
- */
+/* Redoc's inline <code> chips default to a `danger`-red color. */
 html.plugin-redoc code {
   border-radius: 4px;
   padding: 0.1em 0.3em;
@@ -197,22 +102,23 @@ html.plugin-redoc code {
 }
 
 html.plugin-redoc[data-theme="dark"] code {
-  color: #e5e5e5 !important; /* --color-text-secondary */
+  color: #e5e5e5 !important;
   background-color: rgba(255, 255, 255, 0.1) !important;
   border-color: rgba(255, 255, 255, 0.12);
 }
 
-/*
- * Markdown table header rows (e.g. the "Fee Type / Description" tables in
- * openapi/docs) carry an explicit opaque white background from Redoc's own
- * table styling — unrelated to dark mode, always there. In light mode
- * that's invisible against the page anyway, but in dark mode it left
- * light-colored header text sitting on solid white, unreadable. Header
- * cells don't need their own background at all; letting them go
- * transparent shows the same ambient surface as the rest of the table.
- */
+/* Table header rows have an explicit opaque white background from Redoc,
+   unreadable with dark-mode text. */
 html.plugin-redoc[data-theme="dark"] thead tr {
   background-color: transparent !important;
+}
+
+/* First-column cells never set border-bottom (they rely on the next row's
+   border-top under border-collapse), so the last row's first cell has no
+   bottom border. Forcing it on every cell closes the gap unconditionally. */
+html.plugin-redoc table td,
+html.plugin-redoc table th {
+  border-bottom: 1px solid rgb(221, 221, 221) !important;
 }
 
 .pagination-nav__link {
@@ -223,9 +129,4 @@ html.plugin-redoc[data-theme="dark"] thead tr {
 
 a {
   font-weight: 700;
-  /* text-decoration: underline; */
 }
-
-/* pre code { */
-/*   background-color: var(--ifm-card-background-color); */
-/* } */
