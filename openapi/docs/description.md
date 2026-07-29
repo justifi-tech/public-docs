@@ -541,6 +541,10 @@ Many of our `4XX` errors will provide an error code in addition to their HTTP st
     <td>Missing required parameter: card_number</td>
   </tr>
   <tr>
+    <td><code>card_present_payment_method_token_not_supported</code></td>
+    <td>card_present payment method tokens cannot be used to create a payment. Payment methods with the <code>payment_method_type</code> <code>card_present</code> are recorded from terminal transactions and are single use. To charge the customer again, collect a new payment method.</td>
+  </tr>
+  <tr>
     <td><code>charge_expired_for_capture</code></td>
     <td>The charge cannot be captured as the authorization has expired. Auth and capture charges must be captured within 7 days.</td>
   </tr>
