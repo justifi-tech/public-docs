@@ -1,5 +1,20 @@
-import { lighten, darken, readableColor } from "polished";
+import { darken, readableColor } from "polished";
 
+/*
+ * DEAD CODE: this file is not imported anywhere in the repo and has no
+ * effect on the rendered site (verified by grepping the whole project for
+ * "theme.ts" / `from "./theme"` — zero references, in this commit or any
+ * prior one back to the initial commit). The `/api-spec` page's actual
+ * Redoc theming lives in the `redocusaurus` plugin config in
+ * docusaurus.config.ts (`primaryColor`) plus targeted CSS overrides in
+ * src/css/custom.css (search "plugin-redoc") for the couple of spots
+ * where Redoc's own default theme doesn't match the brand.
+ *
+ * Kept in sync with the same brand values as the rest of the site so it
+ * isn't actively wrong if someone does wire it up later, but until then,
+ * editing this file changes nothing — either delete it or actually pass
+ * it to the redocusaurus plugin's `theme` option.
+ */
 export const theme = {
   spacing: {
     unit: 5,
@@ -15,12 +30,11 @@ export const theme = {
   colors: {
     tonalOffset: 0.15,
     primary: {
-      // Brand amber, from JustiFi's 2026 brand guidelines (Notion).
-      main: "#FFA000",
-      // No tonal ramp is defined in the brand doc, so light/dark are
-      // derived from the brand color via tonalOffset rather than guessed.
-      light: ({ colors }) => lighten(colors.tonalOffset, colors.primary.main),
-      dark: ({ colors }) => darken(colors.tonalOffset, colors.primary.main),
+      // Brand amber and its real tonal ramp, from the `@justifi/ui` design
+      // system (accent-500/600/700), not a guessed/computed shade.
+      main: "#FFA000", // accent-600
+      light: "#FFB300", // accent-500
+      dark: "#E68900", // accent-700 — for hover states/borders, not body text (see links below)
       contrastText: ({ colors }) => readableColor(colors.primary.main),
     },
     // success: {
@@ -155,17 +169,28 @@ export const theme = {
       fontSize: "13px",
       fontFamily: '"Source Code Pro", sans-serif',
       // fontWeight: ({ typography }) => typography.fontWeightRegular,
-      color: "#e53935",
-      backgroundColor: "rgba(38, 50, 56, 0.04)",
+      // Was #e53935 — the design system's `danger` token, repurposed here
+      // for plain enum/identifier text (e.g. `test`/`live`), which reads as
+      // an error rather than a value. The design system's own JsonBlock
+      // component never uses danger for code — using body text color on a
+      // visible surface tint instead (the previous background was a
+      // near-invisible 4%-opacity overlay, easy to lose against any
+      // ambient theme change).
+      color: "#0D1A27",
+      backgroundColor: "#F0F4F7",
       wrap: false,
     },
     links: {
-      // The main panel is on a light background, and flat brand amber on
-      // white is ~2:1 contrast (fails WCAG AA text minimum of 4.5:1) — using
-      // the darkened shade instead, same reasoning as src/css/custom.css.
-      color: ({ colors }) => colors.primary.dark,
-      visited: ({ colors }) => colors.primary.dark,
-      hover: ({ colors }) => darken(colors.tonalOffset, colors.primary.dark),
+      // Neither flat brand amber (~2:1) nor the accent-700 hover shade
+      // (~2.6:1) clears WCAG AA's 4.5:1 text-contrast minimum on white.
+      // accent-900 from the design system's real ramp is the first step
+      // that actually passes (~4.9:1), so it's used here specifically for
+      // link text; primary.dark (accent-700) stays available for
+      // Redoc-internal hover/border uses where full text-contrast doesn't
+      // apply.
+      color: "#996600",
+      visited: "#996600",
+      hover: darken(0.08, "#996600"),
     },
   },
   rightPanel: {

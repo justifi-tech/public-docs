@@ -3,6 +3,18 @@ import { themes as prismThemes } from "prism-react-renderer";
 import type { Config } from "@docusaurus/types";
 import type * as Preset from "@docusaurus/preset-classic";
 
+// nightOwl's background (#011627) doesn't match the brand navy family used
+// elsewhere in dark mode; overriding just the background keeps its
+// (well-tested, high-contrast) token colors while fitting the site's
+// --color-surface-raised tone from the @justifi/ui design system.
+const darkCodeTheme = {
+  ...prismThemes.nightOwl,
+  plain: {
+    ...prismThemes.nightOwl.plain,
+    backgroundColor: "#2D3E4E",
+  },
+};
+
 const config: Config = {
   title: "JustiFi Documentation",
   tagline: "JustiFi - Fintech Infrastructure for Platforms",
@@ -208,9 +220,10 @@ const config: Config = {
       copyright: `Copyright © ${new Date().getFullYear()} JustiFi Technologies, Inc.`,
     },
     prism: {
-      // theme: prismThemes.github,
-      theme: prismThemes.oceanicNext,
-      darkTheme: prismThemes.oceanicNext,
+      // oceanicNext (previously used for both) has a near-black background
+      // regardless of site theme — jarring against a white light-mode page.
+      theme: prismThemes.github,
+      darkTheme: darkCodeTheme,
       additionalLanguages: ["bash", "ruby", "jsx"],
     },
   } satisfies Preset.ThemeConfig,
