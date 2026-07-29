@@ -66,7 +66,7 @@ The spec uses modular YAML with `$ref` references. When editing:
 | `docusaurus.config.ts` | Site config, plugins, theme; WC **current** docs line = `versions.current.label` on web-components plugin |
 | `scripts/wc-version-gate.mjs` | Workflow helper: patch vs new major.minor from config label |
 | `sidebars.ts` | Main docs navigation structure |
-| `theme.ts` | Redoc theme (JustiFi branding) |
+| `src/css/custom.css` | Brand palette/typography (Infima variables) + the Redoc overrides for `/api-spec` |
 
 ## Production
 
