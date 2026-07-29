@@ -1,14 +1,8 @@
 /* Long-form doc content: prose, headings, tables, admonitions, etc.
-   Scoped to `.markdown` (Docusaurus's doc-body wrapper) unless a rule is a
-   bare CSS-variable override, which is safe globally. Loads after tokens.css
-   and chrome.css, before redoc.css (docusaurus.config.ts customCss order),
-   so equal-specificity overrides of Infima/theme-classic rules win on load
-   order without !important. */
-
-/* ---------- Typography ---------- */
+   Scoped to `.markdown` unless a rule is a bare CSS-variable override. */
 
 .markdown {
-  line-height: 1.6; /* portal prose rhythm; headings set their own line-height */
+  line-height: 1.6;
 }
 
 .markdown > h2 {
@@ -34,7 +28,6 @@
   margin-bottom: var(--jf-space-sm);
 }
 
-/* Lists: keep Infima's indent, tighten item spacing to the 8px grid. */
 .markdown li + li {
   margin-top: var(--jf-space-xs);
 }
@@ -43,9 +36,7 @@
   margin-top: var(--jf-space-sm);
 }
 
-/* Infima's blockquote/hr are only var-driven (no class to fight), and neither
-   var is re-declared in Infima's own dark block, so a single :root rule
-   covers both modes via the mode-reactive --jf-* references. */
+/* Neither var is re-declared in Infima's dark block, so one :root rule covers both modes. */
 :root {
   --ifm-blockquote-border-color: var(--jf-border-strong);
   --ifm-blockquote-color: var(--jf-text-secondary);
@@ -53,23 +44,13 @@
   --ifm-hr-margin-vertical: var(--jf-space-2xl);
 }
 
-/* ---------- Links ---------- */
-/* Weight is already 400 (no global `a` override remains) and hover underline
-   already comes from --ifm-link-hover-decoration; nothing left to fix here. */
-
-/* ---------- Inline code vs code blocks ---------- */
-
 .markdown :not(pre) > code {
   border: 1px solid var(--jf-border-default);
   border-radius: var(--jf-radius-sm);
   font-size: 0.9em;
 }
 
-/* ---------- Admonitions -> portal Alert ---------- */
-/* Docusaurus type -> portal variant: note/info -> info (gold), tip -> success
-   (reads better as a distinct "positive" cue than another gold box),
-   warning/caution -> warning, danger -> danger. Legacy aliases included. */
-
+/* Docusaurus type -> portal variant is a deliberate design choice: note/info -> gold, tip -> success, warning/caution -> warning, danger -> danger. */
 .theme-admonition {
   --ifm-alert-border-width: 1px;
   --ifm-alert-border-left-width: 1px; /* removes Infima's fat 5px left bar */
@@ -80,8 +61,7 @@
   gap: var(--jf-space-md);
 }
 
-/* Heading (title+icon) is always the first child div, content the second;
-   hashed CSS-module class names make those unaddressable by name. */
+/* Hashed CSS-module class names make heading/content unaddressable by name; use child position instead. */
 .theme-admonition > div:first-child {
   color: var(--jf-text-primary);
   font-weight: var(--jf-font-weight-semibold);
@@ -115,10 +95,7 @@
   --ifm-alert-border-color: rgba(244, 67, 54, 0.3);
 }
 
-/* .theme-admonition prefix (not just .theme-admonition-{type}) is needed
-   here: in dev, webpack style-loader injects the Admonition CSS-module's
-   `.admonitionIcon svg` rule (equal specificity) after this file, so a
-   bare-tie loses. */
+/* .theme-admonition prefix needed: dev's webpack style-loader injects an equal-specificity CSS-module rule after this file. */
 .theme-admonition.theme-admonition-note svg,
 .theme-admonition.theme-admonition-info svg,
 .theme-admonition.theme-admonition-important svg,
@@ -136,10 +113,6 @@
 .theme-admonition.theme-admonition-danger svg {
   fill: var(--jf-danger);
 }
-
-/* ---------- Tables -> portal DataTable ---------- */
-/* Infima's `table { display:block; overflow:auto }` already gives horizontal
-   scroll on narrow viewports; only the frame/stripe/cell treatment changes. */
 
 .markdown table {
   border-collapse: collapse;
@@ -173,18 +146,14 @@
 }
 
 .markdown table tr:nth-child(2n) {
-  background: transparent; /* no zebra striping */
+  background: transparent;
 }
 
 .markdown table tbody tr:hover {
   background: var(--jf-surface-raised);
 }
 
-/* ---------- Code blocks -> portal JsonBlock ---------- */
-
-/* .markdown prefix (not just .theme-code-block) is needed for background/
-   radius: in dev, webpack style-loader injects theme-classic's CSS-module
-   rule (equal specificity) after this file, so a bare-tie loses. */
+/* .markdown prefix needed: dev's webpack style-loader injects an equal-specificity theme-classic rule after this file. */
 .markdown .theme-code-block {
   background: var(--jf-surface-default);
   border: 1px solid var(--jf-border-default);
@@ -196,32 +165,22 @@
   border-radius: var(--jf-radius-lg);
 }
 
-/* Title bar is a hashed module class with no stable name; it's always the
-   only immediate child div of the container that doesn't wrap the <pre>. */
+/* Title bar has no stable class name; it's always the only child div that doesn't wrap the <pre>. */
 .theme-code-block > div:not(:has(pre)) {
   color: var(--jf-text-secondary);
   font-size: var(--jf-font-size-sm);
   border-bottom-color: var(--jf-border-default);
 }
 
-/* .wc-current/helpers/CodeBlock.jsx (third-party, gitignored, regenerated
-   from @justifi/webcomponents-docs) renders vscDarkPlus as inline styles on
-   a bare <pre> with no wrapper/class, ignoring the site's Prism config
-   entirely. Can't fix at source; override what inline styles set, with
-   !important to beat them. Per-token colors are inline on every <span>
-   inside and aren't practically overridable. */
-/* :not(.prism-code) matters: prism-react-renderer also puts an inline style
-   on real Docusaurus <pre class="prism-code">, which already sits inside a
-   bordered .theme-code-block — without the exclusion this rule doubled that
-   border on every real code block. */
+/* .wc-current/helpers/CodeBlock.jsx (third-party, regenerated, gitignored) renders its theme as inline styles on a bare <pre>,
+   so it can't be fixed at source and needs !important here. :not(.prism-code) excludes real Docusaurus code blocks, which
+   also get an inline style from prism-react-renderer and already sit inside a bordered .theme-code-block. */
 .markdown pre[style]:not(.prism-code) {
   background: var(--jf-surface-raised) !important;
   border: 1px solid var(--jf-border-default) !important;
   border-radius: var(--jf-radius-lg) !important;
   font-family: var(--jf-font-mono) !important;
 }
-
-/* ---------- Tabs -> portal underline variant ---------- */
 
 .tabs {
   border-bottom: 1px solid var(--jf-border-default);
@@ -240,11 +199,7 @@
   border-bottom-color: var(--jf-border-strong);
 }
 
-/* ---------- <details> -> portal Accordion ---------- */
-/* Docusaurus renders bare <details> through the same `.alert alert--info`
-   classes as admonitions (see Details.js); the `details` tag bumps
-   specificity just enough to win over the shared .alert rules below it. */
-
+/* Docusaurus renders bare <details> through the same .alert classes as admonitions; the details tag wins on specificity. */
 details.alert {
   background: transparent;
   border: none;
@@ -271,8 +226,6 @@ details.alert > div {
   font-size: var(--jf-font-size-base);
   padding-bottom: var(--jf-space-lg);
 }
-
-/* ---------- Buttons (.button used directly in MDX) ---------- */
 
 .button {
   font-weight: var(--jf-font-weight-medium);
@@ -333,8 +286,6 @@ details.alert > div {
   border-radius: var(--jf-radius-md);
 }
 
-/* ---------- Version badge (web-components docs) -> portal Badge ---------- */
-
 .theme-doc-version-badge {
   background: var(--jf-surface-raised);
   color: var(--jf-text-secondary);
@@ -343,8 +294,6 @@ details.alert > div {
   font-size: var(--jf-font-size-sm);
   font-weight: var(--jf-font-weight-medium);
 }
-
-/* ---------- Images / figures ---------- */
 
 .markdown img {
   border-radius: var(--jf-radius-lg);
