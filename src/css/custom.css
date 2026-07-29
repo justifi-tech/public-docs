@@ -55,8 +55,19 @@
  * rather than using every dark-mode tone the doc lists (it also has a
  * "Darker Surface" and a second "Muted Text" gray, both close enough to
  * their neighbors that using all of them read as noisy rather than layered).
+ *
+ * Selector note: Infima's own dark theme (default-dark.css) re-declares
+ * --ifm-background-color, --ifm-background-surface-color, --ifm-color-content,
+ * --ifm-color-content-secondary, and --ifm-toc-border-color on the selector
+ * `html[data-theme='dark']`, which is MORE specific than a bare
+ * `[data-theme="dark"]` attribute selector. With the weaker selector, those
+ * five variables silently fell back to Infima's stock near-black/gray
+ * palette on the page body while --ifm-navbar-background-color (which
+ * Infima doesn't re-declare there) still picked up our navy — hence a navy
+ * navbar sitting on an unrelated dark-gray body. Matching `html[data-theme=...]`
+ * here fixes that for the whole page.
  */
-[data-theme="dark"] {
+html[data-theme="dark"] {
   --ifm-color-primary: #ffa000;
   --ifm-color-primary-dark: #e69000;
   --ifm-color-primary-darker: #d98800;
@@ -83,6 +94,19 @@
   /* Amber-on-navy measures ~5.2:1 (brand doc's own accessibility table) —
    * passes AA, so unlike light mode this can stay the flat brand color. */
   --ifm-link-color: var(--ifm-color-primary);
+}
+
+/*
+ * Separately, Infima's `.footer--dark` class (applied because
+ * themeConfig.footer.style = "dark" in docusaurus.config.ts) redeclares
+ * --ifm-footer-background-color directly ON the footer element itself.
+ * A rule matching an element directly always wins over an inherited value
+ * from an ancestor like html, regardless of specificity, so the
+ * html[data-theme="dark"] override above never reached the footer. This
+ * matches Infima's own selector directly to win that inheritance fight.
+ */
+html[data-theme="dark"] .footer--dark {
+  --ifm-footer-background-color: #0d1a27;
 }
 
 .pagination-nav__link {
