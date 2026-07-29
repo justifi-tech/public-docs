@@ -15,6 +15,8 @@ html.plugin-redoc .menu-content label {
   color: var(--jf-text-muted) !important;
 }
 
+/* Must stay CSS: Redoc's theme API resolves the same activeBackgroundColor for
+   :hover, so setting the gold pill there would gold-flash every row on hover. */
 html.plugin-redoc .menu-content label:hover:not(.active) {
   background-color: var(--jf-surface-raised) !important;
   color: var(--jf-text-primary) !important;
@@ -252,6 +254,8 @@ html.plugin-redoc .menu-content label.active .operation-type.hook {
   color: var(--jf-accent-600) !important;
 }
 
+/* Not `.react-tabs__tab.tab-success`: react-tabs omits its base class when the
+   modifier is present, so the compound selector silently matches nothing. */
 html.plugin-redoc .tab-success,
 html.plugin-redoc .tab-error,
 html.plugin-redoc .tab-redirect,

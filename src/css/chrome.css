@@ -1,6 +1,6 @@
 /* Site chrome: sidebar, navbar, breadcrumbs, TOC, pagination, footer, mobile drawer, search. */
 
-/* ---------- Doc sidebar (desktop + mobile secondary menu share .menu__*) ---------- */
+/* Desktop sidebar and mobile secondary menu share .menu__* classes. */
 
 .theme-doc-sidebar-container {
   background-color: var(--jf-surface-default);
@@ -74,8 +74,6 @@
   font-weight: 500;
 }
 
-/* ---------- Navbar ---------- */
-
 .navbar {
   border-bottom: 1px solid var(--jf-border-default);
   box-shadow: none; /* portal separates chrome with borders, never shadows */
@@ -102,8 +100,6 @@
   background-color: var(--jf-surface-raised);
 }
 
-/* ---------- Navbar dropdown (version selector) ---------- */
-
 .dropdown__menu {
   background-color: var(--jf-surface-default);
   border: 1px solid var(--jf-border-default);
@@ -127,7 +123,7 @@
   color: var(--jf-text-on-accent);
 }
 
-/* ---------- Breadcrumbs (flatten Infima's pill treatment) ---------- */
+/* Flattens Infima's pill treatment. */
 
 .breadcrumbs__link {
   border-radius: 0;
@@ -150,13 +146,9 @@ area[href].breadcrumbs__link:hover {
   font-weight: 500;
 }
 
-/* ---------- Table of contents ---------- */
-
 .table-of-contents__link {
   color: var(--jf-text-muted);
 }
-
-/* ---------- Pagination nav (portal Card treatment) ---------- */
 
 .pagination-nav__link {
   background-color: var(--jf-surface-default);
@@ -168,8 +160,6 @@ area[href].breadcrumbs__link:hover {
 .pagination-nav__link:hover {
   border-color: var(--jf-border-strong);
 }
-
-/* ---------- Footer ---------- */
 
 .footer {
   border-top: 1px solid var(--jf-border-default);
@@ -188,14 +178,10 @@ area[href].breadcrumbs__link:hover {
   font-size: 12px;
 }
 
-/* ---------- Mobile sidebar drawer ---------- */
-
 .navbar-sidebar {
   border-right: 1px solid var(--jf-border-default);
   box-shadow: var(--jf-shadow-md);
 }
-
-/* ---------- Search ---------- */
 
 .navbar__search-input {
   background-color: var(--jf-surface-default);
@@ -211,8 +197,6 @@ area[href].breadcrumbs__link:hover {
 .navbar__search-input::placeholder {
   color: var(--jf-text-muted);
 }
-
-/* ---------- Focus rings ---------- */
 
 .menu__link:focus-visible,
 .menu__caret:focus-visible,
