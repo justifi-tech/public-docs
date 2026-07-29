@@ -157,9 +157,29 @@ html[data-theme="dark"] .navbar {
  * dark (see getDefaultTheme/getRedocThemes), so it can't set "navy in dark
  * mode, white in light mode" on its own. `!important` is needed because
  * Redoc's own stylesheet is injected client-side, after this one.
+ *
+ * The wrapper alone isn't enough: every individual row (a `<label>`, not
+ * the hashed class next to it — Redoc keeps `-depth0`/`-depth1`/`-depth2`/
+ * `active` as stable, human-readable classes for exactly this) has its own
+ * opaque near-black background (`rgb(24, 25, 26)`), fully covering the
+ * wrapper underneath. Only the thin gaps between rows showed the
+ * wrapper's navy, which read as a stray "separator line" between
+ * sections rather than an intentional design. Overriding every row to
+ * the same navy makes the whole sidebar read as one seamless surface.
  */
-html.plugin-redoc[data-theme="dark"] .menu-content {
+html.plugin-redoc[data-theme="dark"] .menu-content,
+html.plugin-redoc[data-theme="dark"] .menu-content label {
   background-color: #253545 !important; /* --color-surface-default, matches the rest of the site's dark chrome */
+}
+
+/*
+ * With every row now the same background, the active item needs its own
+ * signal — matching the rest of the site's convention (amber text, no
+ * background fill) rather than Redoc's own default of a slightly darker
+ * fill, which no longer reads as distinct once all rows share one color.
+ */
+html.plugin-redoc[data-theme="dark"] .menu-content label.active {
+  color: #ffa000 !important;
 }
 
 /*
@@ -180,6 +200,19 @@ html.plugin-redoc[data-theme="dark"] code {
   color: #e5e5e5 !important; /* --color-text-secondary */
   background-color: rgba(255, 255, 255, 0.1) !important;
   border-color: rgba(255, 255, 255, 0.12);
+}
+
+/*
+ * Markdown table header rows (e.g. the "Fee Type / Description" tables in
+ * openapi/docs) carry an explicit opaque white background from Redoc's own
+ * table styling — unrelated to dark mode, always there. In light mode
+ * that's invisible against the page anyway, but in dark mode it left
+ * light-colored header text sitting on solid white, unreadable. Header
+ * cells don't need their own background at all; letting them go
+ * transparent shows the same ambient surface as the rest of the table.
+ */
+html.plugin-redoc[data-theme="dark"] thead tr {
+  background-color: transparent !important;
 }
 
 .pagination-nav__link {
