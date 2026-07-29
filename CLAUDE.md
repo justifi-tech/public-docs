@@ -66,7 +66,20 @@ The spec uses modular YAML with `$ref` references. When editing:
 | `docusaurus.config.ts` | Site config, plugins, theme; WC **current** docs line = `versions.current.label` on web-components plugin |
 | `scripts/wc-version-gate.mjs` | Workflow helper: patch vs new major.minor from config label |
 | `sidebars.ts` | Main docs navigation structure |
-| `src/css/custom.css` | Brand palette/typography (Infima variables) + the Redoc overrides for `/api-spec` |
+| `src/css/tokens.css` | `--jf-*` design tokens mirroring `@justifi/ui`, plus the Infima variables they drive |
+| `src/css/chrome.css` | Navbar, sidebar, breadcrumbs, TOC, pagination, footer, mobile drawer |
+| `src/css/content.css` | Doc body: prose, admonitions, tables, code blocks, tabs, buttons |
+| `src/css/redoc.css` | `/api-spec` overrides, scoped to `html.plugin-redoc` |
+
+Stylesheets load in that order (a `customCss` array in `docusaurus.config.ts`), so later files win ties against earlier ones. Design tokens come from the `justifi-portal` repo — see the styling notes below.
+
+## Styling notes
+
+- Colours, radius, spacing and type come from `~/work/justifi-portal`: `design.json` plus the `@theme` block in `packages/ui/src/styles.css`. **Where `design.json` and the shipped component code disagree, the component code wins** (e.g. the active sidebar item is a solid gold pill with navy text per `SidebarNav.tsx`, not the left-border treatment `design.json` describes).
+- Infima re-declares many of its own variables inside `html[data-theme='dark']`, which outranks `:root`. `tokens.css` handles this with one `:root, html[data-theme="dark"]` mapping block whose values are mode-reactive `--jf-*` tokens — add new Infima variables there, not in a competing `:root` rule.
+- Redoc's stylesheet loads after ours, so `/api-spec` overrides need `!important`. Its `sc-*` class names are build-time styled-components hashes that vary per nesting level and across versions — match structurally instead.
+- Redoc theme properties that feed colour math (`rightPanel.backgroundColor`/`textColor`, `codeBlock.backgroundColor`) crash at runtime on a `var()` and must stay literal hex.
+- Docusaurus dev is client-only, so hydration errors only surface in `pnpm run build` + `serve`. `/api-spec` emits React #418/#423 from redocusaurus SSR; that predates the 2026 refresh.
 
 ## Production
 

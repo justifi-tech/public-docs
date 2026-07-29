@@ -1,0 +1,359 @@
+/* Long-form doc content: prose, headings, tables, admonitions, etc.
+   Scoped to `.markdown` (Docusaurus's doc-body wrapper) unless a rule is a
+   bare CSS-variable override, which is safe globally. Loads after tokens.css
+   and chrome.css, before redoc.css (docusaurus.config.ts customCss order),
+   so equal-specificity overrides of Infima/theme-classic rules win on load
+   order without !important. */
+
+/* ---------- Typography ---------- */
+
+.markdown {
+  line-height: 1.6; /* portal prose rhythm; headings set their own line-height */
+}
+
+.markdown > h2 {
+  letter-spacing: -0.02em;
+  margin-top: var(--jf-space-2xl);
+  margin-bottom: var(--jf-space-lg);
+}
+
+.markdown h1:first-child {
+  letter-spacing: -0.02em;
+  margin-bottom: var(--jf-space-lg);
+}
+
+.markdown > h3 {
+  margin-top: var(--jf-space-xl);
+  margin-bottom: var(--jf-space-md);
+}
+
+.markdown > h4,
+.markdown > h5,
+.markdown > h6 {
+  margin-top: var(--jf-space-lg);
+  margin-bottom: var(--jf-space-sm);
+}
+
+/* Lists: keep Infima's indent, tighten item spacing to the 8px grid. */
+.markdown li + li {
+  margin-top: var(--jf-space-xs);
+}
+
+.markdown li > p {
+  margin-top: var(--jf-space-sm);
+}
+
+/* Infima's blockquote/hr are only var-driven (no class to fight), and neither
+   var is re-declared in Infima's own dark block, so a single :root rule
+   covers both modes via the mode-reactive --jf-* references. */
+:root {
+  --ifm-blockquote-border-color: var(--jf-border-strong);
+  --ifm-blockquote-color: var(--jf-text-secondary);
+  --ifm-hr-background-color: var(--jf-border-default);
+  --ifm-hr-margin-vertical: var(--jf-space-2xl);
+}
+
+/* ---------- Links ---------- */
+/* Weight is already 400 (no global `a` override remains) and hover underline
+   already comes from --ifm-link-hover-decoration; nothing left to fix here. */
+
+/* ---------- Inline code vs code blocks ---------- */
+
+.markdown :not(pre) > code {
+  border: 1px solid var(--jf-border-default);
+  border-radius: var(--jf-radius-sm);
+  font-size: 0.9em;
+}
+
+/* ---------- Admonitions -> portal Alert ---------- */
+/* Docusaurus type -> portal variant: note/info -> info (gold), tip -> success
+   (reads better as a distinct "positive" cue than another gold box),
+   warning/caution -> warning, danger -> danger. Legacy aliases included. */
+
+.theme-admonition {
+  --ifm-alert-border-width: 1px;
+  --ifm-alert-border-left-width: 1px; /* removes Infima's fat 5px left bar */
+  --ifm-alert-padding-vertical: var(--jf-space-lg);
+  --ifm-alert-padding-horizontal: var(--jf-space-lg);
+  --ifm-alert-shadow: none;
+  border-radius: var(--jf-radius-md);
+  gap: var(--jf-space-md);
+}
+
+/* Heading (title+icon) is always the first child div, content the second;
+   hashed CSS-module class names make those unaddressable by name. */
+.theme-admonition > div:first-child {
+  color: var(--jf-text-primary);
+  font-weight: var(--jf-font-weight-semibold);
+  text-transform: none;
+}
+
+.theme-admonition > div:last-child {
+  color: var(--jf-text-secondary);
+  font-size: var(--jf-font-size-sm);
+}
+
+.theme-admonition-note,
+.theme-admonition-info,
+.theme-admonition-important,
+.theme-admonition-secondary {
+  --ifm-alert-background-color: rgba(255, 160, 0, 0.1);
+  --ifm-alert-border-color: rgba(255, 160, 0, 0.3);
+}
+.theme-admonition-tip,
+.theme-admonition-success {
+  --ifm-alert-background-color: rgba(76, 175, 80, 0.1);
+  --ifm-alert-border-color: rgba(76, 175, 80, 0.3);
+}
+.theme-admonition-warning,
+.theme-admonition-caution {
+  --ifm-alert-background-color: rgba(255, 179, 0, 0.1);
+  --ifm-alert-border-color: rgba(255, 179, 0, 0.3);
+}
+.theme-admonition-danger {
+  --ifm-alert-background-color: rgba(244, 67, 54, 0.1);
+  --ifm-alert-border-color: rgba(244, 67, 54, 0.3);
+}
+
+/* .theme-admonition prefix (not just .theme-admonition-{type}) is needed
+   here: in dev, webpack style-loader injects the Admonition CSS-module's
+   `.admonitionIcon svg` rule (equal specificity) after this file, so a
+   bare-tie loses. */
+.theme-admonition.theme-admonition-note svg,
+.theme-admonition.theme-admonition-info svg,
+.theme-admonition.theme-admonition-important svg,
+.theme-admonition.theme-admonition-secondary svg {
+  fill: var(--jf-accent-600);
+}
+.theme-admonition.theme-admonition-tip svg,
+.theme-admonition.theme-admonition-success svg {
+  fill: var(--jf-success);
+}
+.theme-admonition.theme-admonition-warning svg,
+.theme-admonition.theme-admonition-caution svg {
+  fill: var(--jf-warning);
+}
+.theme-admonition.theme-admonition-danger svg {
+  fill: var(--jf-danger);
+}
+
+/* ---------- Tables -> portal DataTable ---------- */
+/* Infima's `table { display:block; overflow:auto }` already gives horizontal
+   scroll on narrow viewports; only the frame/stripe/cell treatment changes. */
+
+.markdown table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.markdown table thead tr {
+  background: transparent;
+}
+
+.markdown table th,
+.markdown table td {
+  border: none;
+  border-bottom: 1px solid var(--jf-border-default);
+}
+
+.markdown table th {
+  padding: var(--jf-space-md) var(--jf-space-lg);
+  font-size: var(--jf-font-size-sm);
+  font-weight: var(--jf-font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--jf-tracking-label);
+  color: var(--jf-text-secondary);
+  text-align: left;
+}
+
+.markdown table td {
+  padding: var(--jf-space-md) var(--jf-space-lg);
+  font-size: var(--jf-font-size-base);
+  color: var(--jf-text-primary);
+}
+
+.markdown table tr:nth-child(2n) {
+  background: transparent; /* no zebra striping */
+}
+
+.markdown table tbody tr:hover {
+  background: var(--jf-surface-raised);
+}
+
+/* ---------- Code blocks -> portal JsonBlock ---------- */
+
+/* .markdown prefix (not just .theme-code-block) is needed for background/
+   radius: in dev, webpack style-loader injects theme-classic's CSS-module
+   rule (equal specificity) after this file, so a bare-tie loses. */
+.markdown .theme-code-block {
+  background: var(--jf-surface-default);
+  border: 1px solid var(--jf-border-default);
+  border-radius: var(--jf-radius-lg);
+  box-shadow: none;
+}
+
+.theme-code-block pre {
+  border-radius: var(--jf-radius-lg);
+}
+
+/* Title bar is a hashed module class with no stable name; it's always the
+   only immediate child div of the container that doesn't wrap the <pre>. */
+.theme-code-block > div:not(:has(pre)) {
+  color: var(--jf-text-secondary);
+  font-size: var(--jf-font-size-sm);
+  border-bottom-color: var(--jf-border-default);
+}
+
+/* .wc-current/helpers/CodeBlock.jsx (third-party, gitignored, regenerated
+   from @justifi/webcomponents-docs) renders vscDarkPlus as inline styles on
+   a bare <pre> with no wrapper/class, ignoring the site's Prism config
+   entirely. Can't fix at source; override what inline styles set, with
+   !important to beat them. Per-token colors are inline on every <span>
+   inside and aren't practically overridable. */
+/* :not(.prism-code) matters: prism-react-renderer also puts an inline style
+   on real Docusaurus <pre class="prism-code">, which already sits inside a
+   bordered .theme-code-block — without the exclusion this rule doubled that
+   border on every real code block. */
+.markdown pre[style]:not(.prism-code) {
+  background: var(--jf-surface-raised) !important;
+  border: 1px solid var(--jf-border-default) !important;
+  border-radius: var(--jf-radius-lg) !important;
+  font-family: var(--jf-font-mono) !important;
+}
+
+/* ---------- Tabs -> portal underline variant ---------- */
+
+.tabs {
+  border-bottom: 1px solid var(--jf-border-default);
+  font-weight: var(--jf-font-weight-medium);
+}
+
+.tabs__item {
+  border-radius: 0;
+  border-bottom-width: 2px;
+  font-size: var(--jf-font-size-base);
+  color: var(--jf-text-secondary);
+}
+
+.tabs__item:hover {
+  color: var(--jf-text-primary);
+  border-bottom-color: var(--jf-border-strong);
+}
+
+/* ---------- <details> -> portal Accordion ---------- */
+/* Docusaurus renders bare <details> through the same `.alert alert--info`
+   classes as admonitions (see Details.js); the `details` tag bumps
+   specificity just enough to win over the shared .alert rules below it. */
+
+details.alert {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  border-bottom: 1px solid var(--jf-border-default);
+  padding: 0;
+  box-shadow: none;
+}
+
+details.alert > summary {
+  padding: var(--jf-space-lg) 0;
+  font-size: var(--jf-font-size-base);
+  font-weight: var(--jf-font-weight-medium);
+  color: var(--jf-text-primary);
+  cursor: pointer;
+}
+
+details.alert > summary:hover {
+  color: var(--jf-accent-text);
+}
+
+details.alert > div {
+  color: var(--jf-text-secondary);
+  font-size: var(--jf-font-size-base);
+  padding-bottom: var(--jf-space-lg);
+}
+
+/* ---------- Buttons (.button used directly in MDX) ---------- */
+
+.button {
+  font-weight: var(--jf-font-weight-medium);
+  transition: all var(--jf-duration-normal) var(--jf-ease-out);
+}
+
+.button--primary {
+  background: linear-gradient(
+    to right,
+    var(--jf-accent-600),
+    var(--jf-accent-700)
+  );
+  border-color: transparent;
+  color: var(--jf-text-on-accent);
+  box-shadow: var(--jf-shadow-sm);
+}
+
+.button--primary:hover {
+  background: linear-gradient(
+    to right,
+    var(--jf-accent-700),
+    var(--jf-accent-600)
+  );
+  box-shadow: var(--jf-shadow-md);
+}
+
+.button--secondary {
+  background: var(--jf-surface-default);
+  border-color: var(--jf-border-default);
+  color: var(--jf-text-secondary);
+}
+
+.button--secondary:hover {
+  background: var(--jf-surface-raised);
+  border-color: var(--jf-border-strong);
+}
+
+.button:focus-visible {
+  box-shadow: var(--jf-shadow-focus);
+  outline: none;
+}
+
+.button--sm {
+  padding: 6px var(--jf-space-md);
+  font-size: var(--jf-font-size-sm);
+  border-radius: var(--jf-radius-sm);
+}
+
+.button:not(.button--sm):not(.button--lg) {
+  padding: 9px var(--jf-space-lg);
+  font-size: var(--jf-font-size-base);
+  border-radius: var(--jf-radius-md);
+}
+
+.button--lg {
+  padding: var(--jf-space-md) var(--jf-space-xl);
+  font-size: var(--jf-font-size-md);
+  border-radius: var(--jf-radius-md);
+}
+
+/* ---------- Version badge (web-components docs) -> portal Badge ---------- */
+
+.theme-doc-version-badge {
+  background: var(--jf-surface-raised);
+  color: var(--jf-text-secondary);
+  border: 1px solid var(--jf-border-default);
+  border-radius: var(--jf-radius-full);
+  font-size: var(--jf-font-size-sm);
+  font-weight: var(--jf-font-weight-medium);
+}
+
+/* ---------- Images / figures ---------- */
+
+.markdown img {
+  border-radius: var(--jf-radius-lg);
+  border: 1px solid var(--jf-border-default);
+}
+
+/* Diagram already has its own baked-in gold frame on an opaque background;
+   a second border/radius on top clips its square corners oddly. */
+.markdown img[src*="infrastructure-diagram"] {
+  border: none;
+  border-radius: 0;
+}

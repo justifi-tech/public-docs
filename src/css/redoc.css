@@ -1,0 +1,423 @@
+/* /api-spec overrides, scoped to html.plugin-redoc. */
+
+/*
+ * Redoc (/api-spec) has its own dark theme and switches to it automatically
+ * (docusaurus-theme-redoc watches color mode). The overrides below only
+ * patch the couple of spots where its default dark palette doesn't match
+ * the brand — do not reset its background/text vars back to light values,
+ * that fights its real dark theme instead of fixing it.
+ */
+
+/* Code-sample body (react-tabs is a stable, semantic class, not sc-*). It's
+   a discrete card, inset with margin from the surrounding rightPanel bg and
+   only distinguished by a color-contrast edge (no radius/border of its own)
+   — give it the JsonBlock treatment instead of leaving it a plain rectangle. */
+html.plugin-redoc .react-tabs__tab-panel {
+  border-radius: var(--jf-radius-lg) !important;
+  border: 1px solid var(--jf-border-default) !important;
+}
+
+/* .menu-content is Redoc's stable sidebar class; individual rows are
+   <label class="-depth1/active"> with their own opaque background,
+   so both need overriding, not just the wrapper. !important needed
+   because Redoc's stylesheet loads after this one. Light mode's own
+   default (#fafafa) is already close enough to --jf-surface-default
+   that it's left alone. */
+html.plugin-redoc[data-theme="dark"] .menu-content,
+html.plugin-redoc[data-theme="dark"] .menu-content label {
+  background-color: var(--jf-surface-default) !important;
+}
+
+/* Resting rows: muted text, matches portal's default nav item state. */
+html.plugin-redoc .menu-content label {
+  color: var(--jf-text-muted) !important;
+}
+
+/* Hover isn't its own theme hook — Redoc reuses the *active* colors for
+   :hover too, so styling activeBackgroundColor gold via the theme API
+   would gold-flash every row on mouseover. :not(.active) keeps this a
+   CSS-only concern instead. */
+html.plugin-redoc .menu-content label:hover:not(.active) {
+  background-color: var(--jf-surface-raised) !important;
+  color: var(--jf-text-primary) !important;
+}
+
+/* Active row: the portal's signature solid-gold-pill + navy-text cue. */
+html.plugin-redoc .menu-content label.active {
+  background-color: var(--jf-brand-gold) !important;
+  color: var(--jf-text-on-accent) !important;
+  border-radius: var(--jf-radius-md) !important;
+}
+
+/* Depth-0 rows are tag-group headers (AUTHORIZATION, FOR PLATFORMS) —
+   Redoc hardcodes their uppercase/opacity styling, not theme-driven. */
+html.plugin-redoc .menu-content label.-depth0 {
+  opacity: 1 !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  letter-spacing: var(--jf-tracking-label) !important;
+}
+
+/* Left padding must clear Redoc's own absolutely-positioned .search-icon
+   (fixed at left: 16px, ~12px wide) — our own boxed look shrank Redoc's
+   default padding enough that the icon started overlapping the placeholder. */
+html.plugin-redoc input.search-input {
+  background-color: var(--jf-surface-default) !important;
+  border: 1px solid var(--jf-border-default) !important;
+  border-radius: var(--jf-radius-md) !important;
+  color: var(--jf-text-primary) !important;
+  padding: 6px 10px 6px 32px !important;
+}
+
+html.plugin-redoc input.search-input::placeholder {
+  color: var(--jf-text-muted) !important;
+}
+
+html.plugin-redoc input.search-input:focus {
+  outline: none !important;
+  border-color: var(--jf-accent-600) !important;
+  box-shadow: var(--jf-shadow-focus) !important;
+}
+
+/* The "API docs by Redocly" bar sits inside .menu-content with its own copy of
+   Redoc's near-black, leaving a black strip under the navy sidebar. No stable
+   class of its own, but it's the only non-rail div in the scroll wrapper. */
+html.plugin-redoc[data-theme="dark"]
+  .menu-content
+  .scrollbar-container
+  > div:not([class*="ps__"]) {
+  background-color: transparent !important;
+}
+
+/* Redoc's inline <code> chips default to a `danger`-red color. Scoped to
+   :not(pre) > code because Redoc uses the same element inside code samples,
+   which sit on a near-black panel in BOTH modes — the chip treatment there put
+   near-black text on near-black background in light mode. */
+html.plugin-redoc :not(pre) > code {
+  border-radius: 4px;
+  padding: 0.1em 0.3em;
+  color: #0d1a27 !important;
+  background-color: rgba(13, 26, 39, 0.08) !important;
+  border: 1px solid #dce4ea;
+}
+
+html.plugin-redoc[data-theme="dark"] :not(pre) > code {
+  color: #e5e5e5 !important;
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+/* Portal DataTable: transparent header, no outer frame, no vertical
+   dividers, row bottom-borders only. --jf-border-default is mode-reactive,
+   so one rule (not a light + dark pair) is correct in both themes. */
+html.plugin-redoc table {
+  border: none !important;
+}
+
+/* Redoc puts borders on <tr> too, which render as the table's outer frame. */
+html.plugin-redoc table tr {
+  background-color: transparent !important;
+  border: none !important;
+}
+
+/* First-column cells never set border-bottom of their own (they rely on the
+   next row's border-top under border-collapse), so the last row's first
+   cell has no bottom border. Forcing it on every cell closes that gap.
+   Markdown tables in descriptions put a border-left on *every* cell, which
+   reads as column dividers plus a left frame, so left borders go too — except
+   on schema-tree field cells, where the left border IS the rail (see below).
+   Excluding them here rather than re-adding a width there preserves Redoc's
+   own per-row geometry, including the half-height first/last brackets. */
+html.plugin-redoc table td:not(:has(> .property-name)):not(:has(> button > .property-name)),
+html.plugin-redoc table th {
+  border-left: none !important;
+}
+
+html.plugin-redoc table td,
+html.plugin-redoc table th {
+  border-right: none !important;
+  border-top: none !important;
+  border-bottom: 1px solid var(--jf-border-default) !important;
+  padding: 12px 16px !important;
+}
+
+/* Schema tree rail. Redoc draws it as a border-left on the field-name cell and
+   deliberately varies its geometry per row (first/last rows get a partial rail
+   so the bracket terminates at the first and last tick). Override the colour
+   only — forcing a uniform width here overrides that logic and makes first and
+   last rows read heavier than the rest. `.property-name` is a stable
+   hand-written Redoc class (like `.operation-type`), and `:has(> …)` is a
+   bounded direct-child test, not the unbounded structural match rejected
+   elsewhere; the button variant covers expandable rows like `data`. */
+html.plugin-redoc td:has(> .property-name),
+html.plugin-redoc td:has(> button > .property-name) {
+  border-left-color: var(--jf-accent-600) !important;
+  /* The per-field tick is the first inline child, so the DataTable rule's 16px
+     left padding pushed it 17px clear of the rail and broke the tree join. */
+  padding-left: 0 !important;
+}
+
+html.plugin-redoc table th {
+  background-color: transparent !important;
+  color: var(--jf-text-secondary) !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: var(--jf-tracking-label) !important;
+}
+
+html.plugin-redoc table tr:hover td {
+  background-color: var(--jf-surface-raised) !important;
+}
+
+/* Nested schema wrappers. `theme.schema.nestedBackground` covers the inner
+   <table>, but Redoc hardcodes an opaque light background on the div that
+   wraps it, which reads as a white panel in dark mode at deeper nesting.
+   There is no theme property for it, and its class is a build-time
+   styled-components hash that differs per nesting level and changes between
+   versions, so it's matched structurally instead. Requiring a direct-child
+   table that contains a .property-name keeps this to schema wrappers —
+   markdown tables in descriptions have no .property-name — and bounds the
+   match: ~212 wrappers, tallest 2913px, versus 169926px for a bare
+   div:has(table). All but the buggy one are already transparent, so this is
+   a no-op for them. */
+html.plugin-redoc[data-theme="dark"] div:has(> table .property-name) {
+  background-color: transparent !important;
+}
+
+/* HTTP verb chips (.operation-type is a stable, hand-written Redoc class,
+   not an sc-* id). Shape/radius/alpha aren't theme-expressible, so this is
+   CSS — colors.http in docusaurus.config.ts sets the solid hue elsewhere
+   (sidebar toggle icon etc); keep the rgba()s below in sync by hand.
+   Redoc hardcodes width: 9ex on this element, sized for "GET"/"POST" only —
+   PATCH/DELETE/OPTIONS clip inside it, so it must size to content instead.
+   Redoc also hardcodes height: 13px (border-box) — smaller than a 12px line
+   at any usable line-height, so the glyphs spilled past the painted pill.
+   inline-flex + height:auto lets the box follow its own content instead of
+   fighting Redoc's fixed height, and align-self centers it against the
+   sibling label text without touching the parent <label>'s own flex layout
+   (which also positions carets and nested rows). */
+html.plugin-redoc .operation-type {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  align-self: center !important;
+  height: auto !important;
+  width: auto !important;
+  min-width: 46px !important;
+  white-space: nowrap !important;
+  border-radius: var(--jf-radius-full) !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  line-height: 1 !important;
+  padding: 2px var(--jf-space-sm) !important;
+  border: 1px solid transparent !important;
+  /* Redoc ships margin: 6px 6px 0 0 here; the asymmetric top margin pushed the
+     chip's centre 3px below the label text's even with both flex-centred. */
+  margin: 0 var(--jf-space-sm) 0 0 !important;
+}
+
+/* align-self:center on the chip isn't enough on its own — the sibling label
+   text is a taller box laid out under the row's default align-items:normal
+   (stretch), so the two boxes don't share a centre. :has() is scoped to a
+   single, bounded check (does this row contain a chip) rather than the
+   unbounded structural :has(table) selectors rejected elsewhere, so it's
+   safe here without affecting category rows or chip-less nested rows. */
+html.plugin-redoc .menu-content label:has(.operation-type) {
+  align-items: center !important;
+}
+
+/* On the active gold row, a 20%-alpha verb tint composites over #ffa000 into
+   mud, and a white fill (tried first) undershoots WCAG AA for GET/DELETE's
+   hues. These colors were chosen to read on the navy sidebar, so restore
+   that literal background instead of inventing a new one — it's the same
+   fill regardless of selection state, and keeps all four verbs legible. */
+html.plugin-redoc .menu-content label.active .operation-type {
+  background-color: var(--jf-primary-800) !important;
+  border-color: transparent !important;
+}
+
+/* Fill/border are the shipped Badge values and stay put — only text color
+   moves below. The /20 fill composites to a dark tint on a dark row and a
+   pale tint on a light row, so a single text hex can't clear 4.5:1 in both:
+   dark rows need a lighter hue, light rows need a darker one. None of these
+   five verb families has an existing --jf-* ramp (only accent/primary/
+   secondary/neutral do), so most values below are new literal shades tuned
+   to ~4.6:1+, not off-system guesses — except where noted as an exact match
+   to an existing token. GET has no on-system blue ramp at all, so both of
+   its values are deliberate extensions of --jf-info, not a token pick. */
+html.plugin-redoc .operation-type.get {
+  background-color: rgba(59, 130, 246, 0.2) !important;
+  border-color: rgba(59, 130, 246, 0.3) !important;
+}
+html.plugin-redoc[data-theme="dark"] .operation-type.get {
+  color: #90caf9 !important; /* off-system: no blue ramp to draw a lighter step from */
+}
+html.plugin-redoc[data-theme="light"] .operation-type.get {
+  color: #0d47a1 !important; /* off-system, same reason */
+}
+
+html.plugin-redoc .operation-type.post,
+html.plugin-redoc .operation-type.put {
+  background-color: rgba(76, 175, 80, 0.2) !important;
+  border-color: rgba(76, 175, 80, 0.3) !important;
+}
+html.plugin-redoc[data-theme="dark"] .operation-type.post,
+html.plugin-redoc[data-theme="dark"] .operation-type.put {
+  color: #81c784 !important;
+}
+html.plugin-redoc[data-theme="light"] .operation-type.post,
+html.plugin-redoc[data-theme="light"] .operation-type.put {
+  color: #1b5e20 !important;
+}
+
+html.plugin-redoc .operation-type.patch {
+  background-color: rgba(255, 179, 0, 0.2) !important;
+  border-color: rgba(255, 179, 0, 0.3) !important;
+}
+html.plugin-redoc[data-theme="dark"] .operation-type.patch {
+  color: var(--jf-accent-500) !important; /* #ffb300 — already clears AA on the dark tint, and it's an exact accent-ramp step */
+}
+html.plugin-redoc[data-theme="light"] .operation-type.patch {
+  color: #7a5300 !important;
+}
+
+html.plugin-redoc .operation-type.delete {
+  background-color: rgba(244, 67, 54, 0.2) !important;
+  border-color: rgba(244, 67, 54, 0.3) !important;
+}
+html.plugin-redoc[data-theme="dark"] .operation-type.delete {
+  color: #f4a7a7 !important;
+}
+html.plugin-redoc[data-theme="light"] .operation-type.delete {
+  color: #b71c1c !important;
+}
+
+html.plugin-redoc .operation-type.options,
+html.plugin-redoc .operation-type.head,
+html.plugin-redoc .operation-type.basic,
+html.plugin-redoc .operation-type.link {
+  background-color: rgba(100, 116, 139, 0.2) !important;
+  border-color: rgba(100, 116, 139, 0.3) !important;
+}
+html.plugin-redoc[data-theme="dark"] .operation-type.options,
+html.plugin-redoc[data-theme="dark"] .operation-type.head,
+html.plugin-redoc[data-theme="dark"] .operation-type.basic,
+html.plugin-redoc[data-theme="dark"] .operation-type.link {
+  color: #a3aebd !important;
+}
+html.plugin-redoc[data-theme="light"] .operation-type.options,
+html.plugin-redoc[data-theme="light"] .operation-type.head,
+html.plugin-redoc[data-theme="light"] .operation-type.basic,
+html.plugin-redoc[data-theme="light"] .operation-type.link {
+  color: var(--jf-secondary-600) !important; /* #475569 — exact token match */
+}
+
+/* Webhook "Event" chips (.operation-type.hook) render on a solid gold fill
+   (colors.primary.main), not the /20 tint — on-accent navy is the correct
+   text color here (~7.6:1), not whatever the row's inherited text color was. */
+html.plugin-redoc .operation-type.hook {
+  color: var(--jf-text-on-accent) !important;
+}
+
+/* Active rows sit on solid navy in both site modes (see the background rule
+   above), so their text always needs the dark-mode (lighter) hue regardless
+   of site mode — the light-mode hue is tuned for a pale background and
+   fails badly against navy. Must come after the mode-scoped rules above:
+   same selector specificity, so source order breaks the tie. */
+html.plugin-redoc .menu-content label.active .operation-type.get {
+  color: #90caf9 !important;
+}
+html.plugin-redoc .menu-content label.active .operation-type.post,
+html.plugin-redoc .menu-content label.active .operation-type.put {
+  color: #81c784 !important;
+}
+html.plugin-redoc .menu-content label.active .operation-type.patch {
+  color: var(--jf-accent-500) !important;
+}
+html.plugin-redoc .menu-content label.active .operation-type.delete {
+  color: #f4a7a7 !important;
+}
+html.plugin-redoc .menu-content label.active .operation-type.options,
+html.plugin-redoc .menu-content label.active .operation-type.head,
+html.plugin-redoc .menu-content label.active .operation-type.basic,
+html.plugin-redoc .menu-content label.active .operation-type.link {
+  color: #a3aebd !important;
+}
+html.plugin-redoc .menu-content label.active .operation-type.hook {
+  color: var(--jf-accent-600) !important; /* navy-on-navy would be invisible once the generic active rule paints the fill navy too */
+}
+
+/* Response-status badges: the compact status tabs in the right-panel code
+   sample. .tab-success/.tab-error/.tab-redirect/.tab-info are Redoc's own
+   semantic modifier classes (not auto-generated) — but react-tabs doesn't
+   always also apply its own base ".react-tabs__tab" class alongside them,
+   so these must be selected standalone, not as a compound with it. Also
+   beats react-tabs' own unqualified "--selected" white background. The
+   full-width response accordion row in the middle column is recolored via
+   colors.responses in docusaurus.config.ts instead — it's a block-level
+   row, not a chip, so forcing radius-full there would look broken rather
+   than like a badge. */
+html.plugin-redoc .tab-success,
+html.plugin-redoc .tab-error,
+html.plugin-redoc .tab-redirect,
+html.plugin-redoc .tab-info {
+  border-radius: var(--jf-radius-full) !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  min-width: 0 !important;
+  padding: 2px 10px !important;
+  border-width: 1px !important;
+  border-style: solid !important;
+}
+
+html.plugin-redoc .tab-success {
+  background-color: rgba(76, 175, 80, 0.2) !important;
+  border-color: rgba(76, 175, 80, 0.3) !important;
+  color: #4caf50 !important;
+}
+
+html.plugin-redoc .tab-error {
+  background-color: rgba(244, 67, 54, 0.2) !important;
+  border-color: rgba(244, 67, 54, 0.3) !important;
+  color: #f44336 !important;
+}
+
+html.plugin-redoc .tab-redirect {
+  background-color: rgba(255, 179, 0, 0.2) !important;
+  border-color: rgba(255, 179, 0, 0.3) !important;
+  color: #ffb300 !important;
+}
+
+html.plugin-redoc .tab-info {
+  background-color: rgba(59, 130, 246, 0.2) !important;
+  border-color: rgba(59, 130, 246, 0.3) !important;
+  color: #3b82f6 !important;
+}
+
+/* Download button: portal primary Button is a filled gold gradient with
+   navy text, not Redoc's outlined-gold default. [download] is a stable
+   HTML attribute, safer than the element's sc-* class. */
+html.plugin-redoc a[download] {
+  display: inline-block !important;
+  background: linear-gradient(
+    to right,
+    var(--jf-accent-600),
+    var(--jf-accent-700)
+  ) !important;
+  color: var(--jf-text-on-accent) !important;
+  border-radius: var(--jf-radius-md) !important;
+  box-shadow: var(--jf-shadow-sm) !important;
+  padding: 8px 16px !important;
+  font-weight: 500 !important;
+  text-decoration: none !important;
+}
+
+html.plugin-redoc a[download]:hover {
+  background: linear-gradient(
+    to right,
+    var(--jf-accent-700),
+    var(--jf-accent-600)
+  ) !important;
+  box-shadow: var(--jf-shadow-md) !important;
+}

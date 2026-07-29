@@ -1,0 +1,228 @@
+/* Site chrome: sidebar, navbar, breadcrumbs, TOC, pagination, footer, mobile drawer, search. */
+
+/* ---------- Doc sidebar (desktop + mobile secondary menu share .menu__*) ---------- */
+
+.theme-doc-sidebar-container {
+  background-color: var(--jf-surface-default);
+  border-right: 1px solid var(--jf-border-default);
+}
+
+.theme-doc-sidebar-container .menu {
+  padding: var(--jf-space-lg) var(--jf-space-sm);
+}
+
+.theme-doc-sidebar-container .menu__link,
+.theme-doc-sidebar-container .menu__caret,
+.theme-doc-sidebar-container .menu__list-item-collapsible,
+.navbar-sidebar .menu__link,
+.navbar-sidebar .menu__caret,
+.navbar-sidebar .menu__list-item-collapsible {
+  border-radius: var(--jf-radius-md);
+}
+
+.theme-doc-sidebar-container .menu__link,
+.navbar-sidebar .menu__link {
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--jf-text-muted);
+  transition: background-color var(--jf-duration-normal) var(--jf-ease-out),
+    color var(--jf-duration-normal) var(--jf-ease-out);
+}
+
+.theme-doc-sidebar-container .menu__link:hover,
+.navbar-sidebar .menu__link:hover {
+  background-color: var(--jf-surface-raised);
+  color: var(--jf-text-primary);
+}
+
+/* Gold pill: a leaf's own link, or a category whose own page is current — never a category merely containing the active page (see the rule below). */
+.theme-doc-sidebar-container .menu__link--active:not(.menu__link--sublist),
+.theme-doc-sidebar-container .menu__link--active:hover:not(.menu__link--sublist),
+.navbar-sidebar .menu__link--active:not(.menu__link--sublist),
+.navbar-sidebar .menu__link--active:hover:not(.menu__link--sublist) {
+  background-color: var(--jf-accent-600);
+  color: var(--jf-text-on-accent);
+}
+
+.theme-doc-sidebar-container .menu__list-item-collapsible--active > .menu__link--active,
+.theme-doc-sidebar-container .menu__list-item-collapsible--active > .menu__link--active:hover,
+.navbar-sidebar .menu__list-item-collapsible--active > .menu__link--active,
+.navbar-sidebar .menu__list-item-collapsible--active > .menu__link--active:hover {
+  /* Infima forces background:none !important on a category's own active link; this beats it. */
+  background-color: var(--jf-accent-600) !important;
+  color: var(--jf-text-on-accent);
+}
+
+.theme-doc-sidebar-container .menu__list-item-collapsible--active,
+.navbar-sidebar .menu__list-item-collapsible--active {
+  background: transparent; /* avoid a raised-color halo behind the gold pill above */
+}
+
+.theme-doc-sidebar-container .menu__list-item-collapsible--active > .menu__link--active + .menu__caret,
+.navbar-sidebar .menu__list-item-collapsible--active > .menu__link--active + .menu__caret {
+  --ifm-menu-link-sublist-icon-filter: none; /* cancel dark mode's white invert so the caret stays legible on gold */
+}
+
+/* Category active only via a descendant — "inside this section" indicator, not a second gold pill. */
+.theme-doc-sidebar-container .menu__list-item-collapsible:not(.menu__list-item-collapsible--active) > .menu__link--sublist.menu__link--active,
+.theme-doc-sidebar-container .menu__list-item-collapsible:not(.menu__list-item-collapsible--active) > .menu__link--sublist.menu__link--active:hover,
+.navbar-sidebar .menu__list-item-collapsible:not(.menu__list-item-collapsible--active) > .menu__link--sublist.menu__link--active,
+.navbar-sidebar .menu__list-item-collapsible:not(.menu__list-item-collapsible--active) > .menu__link--sublist.menu__link--active:hover {
+  background-color: transparent !important;
+  color: var(--jf-text-primary);
+  font-weight: 500;
+}
+
+/* ---------- Navbar ---------- */
+
+.navbar {
+  border-bottom: 1px solid var(--jf-border-default);
+  box-shadow: none; /* portal separates chrome with borders, never shadows */
+}
+
+.navbar__link {
+  color: var(--jf-text-secondary);
+}
+
+.navbar__link:hover {
+  color: var(--jf-text-primary);
+}
+
+.navbar__link--active {
+  color: var(--jf-accent-text);
+}
+
+.navbar__toggle {
+  border-radius: var(--jf-radius-md);
+  transition: background-color var(--jf-duration-normal) var(--jf-ease-out);
+}
+
+.navbar__toggle:hover {
+  background-color: var(--jf-surface-raised);
+}
+
+/* ---------- Navbar dropdown (version selector) ---------- */
+
+.dropdown__menu {
+  background-color: var(--jf-surface-default);
+  border: 1px solid var(--jf-border-default);
+  border-radius: var(--jf-radius-lg);
+  box-shadow: var(--jf-shadow-md);
+}
+
+.dropdown__link {
+  border-radius: var(--jf-radius-md);
+  color: var(--jf-text-secondary);
+}
+
+.dropdown__link:hover {
+  background-color: var(--jf-surface-raised);
+  color: var(--jf-text-primary);
+}
+
+.dropdown__link--active,
+.dropdown__link--active:hover {
+  background-color: var(--jf-accent-600);
+  color: var(--jf-text-on-accent);
+}
+
+/* ---------- Breadcrumbs (flatten Infima's pill treatment) ---------- */
+
+.breadcrumbs__link {
+  border-radius: 0;
+  background: transparent;
+  font-size: 14px;
+  color: var(--jf-text-secondary);
+}
+
+.breadcrumbs__link:link:hover,
+.breadcrumbs__link:visited:hover,
+.breadcrumbs__link:any-link:hover,
+area[href].breadcrumbs__link:hover {
+  background: transparent;
+  color: var(--jf-text-primary);
+}
+
+.breadcrumbs__item--active .breadcrumbs__link {
+  background: transparent;
+  color: var(--jf-text-primary);
+  font-weight: 500;
+}
+
+/* ---------- Table of contents ---------- */
+
+.table-of-contents__link {
+  color: var(--jf-text-muted);
+}
+
+/* ---------- Pagination nav (portal Card treatment) ---------- */
+
+.pagination-nav__link {
+  background-color: var(--jf-surface-default);
+  border: 1px solid var(--jf-border-default);
+  border-radius: var(--jf-radius-lg);
+  box-shadow: var(--jf-shadow-sm);
+}
+
+.pagination-nav__link:hover {
+  border-color: var(--jf-border-strong);
+}
+
+/* ---------- Footer ---------- */
+
+.footer {
+  border-top: 1px solid var(--jf-border-default);
+}
+
+.footer__link-item {
+  color: var(--jf-text-secondary);
+}
+
+.footer__link-item:hover {
+  color: var(--jf-accent-text);
+}
+
+.footer__copyright {
+  color: var(--jf-text-muted);
+  font-size: 12px;
+}
+
+/* ---------- Mobile sidebar drawer ---------- */
+
+.navbar-sidebar {
+  border-right: 1px solid var(--jf-border-default);
+  box-shadow: var(--jf-shadow-md);
+}
+
+/* ---------- Search ---------- */
+
+.navbar__search-input {
+  background-color: var(--jf-surface-default);
+  border: 1px solid var(--jf-border-default);
+  border-radius: var(--jf-radius-md);
+  color: var(--jf-text-primary);
+}
+
+.navbar__search-input:hover {
+  border-color: var(--jf-border-strong);
+}
+
+.navbar__search-input::placeholder {
+  color: var(--jf-text-muted);
+}
+
+/* ---------- Focus rings ---------- */
+
+.menu__link:focus-visible,
+.menu__caret:focus-visible,
+.navbar__link:focus-visible,
+.navbar__toggle:focus-visible,
+.dropdown__link:focus-visible,
+.breadcrumbs__link:focus-visible,
+.table-of-contents__link:focus-visible,
+.pagination-nav__link:focus-visible,
+.navbar__search-input:focus-visible {
+  box-shadow: var(--jf-shadow-focus);
+  outline: none;
+}

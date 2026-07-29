@@ -1,0 +1,274 @@
+/* Design tokens (--jf-*) mirroring @justifi/ui, plus the Infima variables they drive. */
+
+:root {
+  /* --- raw ramps (mode-independent) --- */
+  --jf-primary-50: #e8ecf0;
+  --jf-primary-100: #c5ced6;
+  --jf-primary-200: #9eadb9;
+  --jf-primary-300: #768c9d;
+  --jf-primary-400: #587388;
+  --jf-primary-500: #3a5a73;
+  --jf-primary-600: #304d63;
+  --jf-primary-700: #253545;
+  --jf-primary-800: #1a2a3a;
+  --jf-primary-900: #0f1a24;
+  --jf-primary-950: #080f15;
+
+  --jf-accent-50: #fff8e6;
+  --jf-accent-100: #ffecbf;
+  --jf-accent-200: #ffe099;
+  --jf-accent-300: #ffd700;
+  --jf-accent-400: #ffc107;
+  --jf-accent-500: #ffb300;
+  --jf-accent-600: #ffa000;
+  --jf-accent-700: #e68900;
+  --jf-accent-800: #cc7a00;
+  --jf-accent-900: #996600;
+
+  --jf-secondary-50: #f8fafc;
+  --jf-secondary-100: #f1f5f9;
+  --jf-secondary-200: #e2e8f0;
+  --jf-secondary-300: #cbd5e1;
+  --jf-secondary-400: #94a3b8;
+  --jf-secondary-500: #64748b;
+  --jf-secondary-600: #475569;
+  --jf-secondary-700: #334155;
+  --jf-secondary-800: #253545;
+  --jf-secondary-900: #1a2a3a;
+
+  --jf-neutral-0: #ffffff;
+  --jf-neutral-50: #fafbfc;
+  --jf-neutral-100: #f4f6f8;
+  --jf-neutral-200: #e5e5e5;
+  --jf-neutral-300: #d0d5dd;
+  --jf-neutral-400: #a0a0a0;
+  --jf-neutral-500: #667085;
+  --jf-neutral-600: #475569;
+  --jf-neutral-700: #334155;
+  --jf-neutral-800: #253545;
+  --jf-neutral-900: #1a2a3a;
+
+  --jf-success: #4caf50;
+  --jf-warning: #ffb300;
+  --jf-danger: #f44336;
+  --jf-info: #3b82f6;
+  --jf-brand-gold: #ffa000;
+  --jf-brand-gold-hover: #e68900;
+
+  /* --- radius --- */
+  --jf-radius-sm: 6px;
+  --jf-radius-md: 8px;
+  --jf-radius-lg: 10px;
+  --jf-radius-xl: 12px;
+  --jf-radius-full: 9999px;
+
+  /* --- shadows --- */
+  --jf-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --jf-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.3);
+  --jf-shadow-md: 0 4px 8px -2px rgba(0, 0, 0, 0.4),
+    0 2px 4px -2px rgba(0, 0, 0, 0.3);
+  --jf-shadow-lg: 0 12px 16px -4px rgba(0, 0, 0, 0.3),
+    0 4px 6px -2px rgba(0, 0, 0, 0.2);
+  --jf-shadow-focus: 0 0 0 3px rgba(255, 160, 0, 0.3);
+
+  /* --- spacing (8px grid) --- */
+  --jf-space-xs: 4px;
+  --jf-space-sm: 8px;
+  --jf-space-md: 12px;
+  --jf-space-lg: 16px;
+  --jf-space-xl: 24px;
+  --jf-space-2xl: 32px;
+  --jf-space-3xl: 40px;
+
+  /* --- motion --- */
+  --jf-duration-fast: 150ms;
+  --jf-duration-normal: 200ms;
+  --jf-duration-slow: 300ms;
+  --jf-ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --jf-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* --- type scale --- */
+  --jf-font-size-xs: 10px;
+  --jf-font-size-sm: 12px;
+  --jf-font-size-base: 14px;
+  --jf-font-size-md: 15px;
+  --jf-font-size-lg: 18px;
+  --jf-font-size-xl: 24px;
+  --jf-font-size-2xl: 30px;
+  --jf-font-size-3xl: 36px;
+  --jf-font-weight-normal: 400;
+  --jf-font-weight-medium: 500;
+  --jf-font-weight-semibold: 600;
+  --jf-font-weight-bold: 700;
+  --jf-tracking-display: -0.025em;
+  --jf-tracking-label: 0.06em;
+
+  /* --- fonts --- */
+  --jf-font-body: Arial, Calibri, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", system-ui, sans-serif;
+  --jf-font-display: var(--jf-font-body);
+  --jf-font-mono: "Consolas", "Courier New", monospace;
+
+  /* --- semantic aliases: light (default) --- */
+  --jf-surface-canvas: var(--jf-neutral-0);
+  --jf-surface-default: var(--jf-secondary-100); /* one stop darker than secondary-50: enough contrast against a white canvas */
+  --jf-surface-raised: var(--jf-secondary-200);
+  --jf-surface-deep: var(--jf-neutral-0); /* no light analogue in the portal; falls back to canvas */
+  --jf-text-primary: var(--jf-primary-800);
+  --jf-text-secondary: var(--jf-secondary-700);
+  --jf-text-muted: var(--jf-secondary-500);
+  --jf-text-on-accent: var(--jf-primary-800); /* same in both modes: gold bg + navy text */
+  --jf-border-subtle: rgba(26, 42, 58, 0.08);
+  --jf-border-default: rgba(26, 42, 58, 0.12);
+  --jf-border-strong: rgba(26, 42, 58, 0.2);
+  /* accent-600 fails WCAG AA as text on white (~2:1); accent-900 is the first
+     that passes (~4.9:1). Everything that colors the accent *as text* routes
+     through --jf-accent-text so dark mode can reset it to flat accent-600. */
+  --jf-accent-text: var(--jf-accent-900);
+
+  /* Extra mode-reactive aliases for the handful of Infima vars whose light and
+     dark values don't just track one of the aliases above unchanged. */
+  --jf-text-body: var(--jf-text-primary);
+  --jf-text-body-secondary: var(--jf-text-secondary);
+  --jf-surface-navbar: #ffffff; /* portal keeps the navbar white even though chrome is secondary-50 */
+  --jf-surface-footer: var(--jf-primary-800);
+  --jf-code-background: rgba(26, 42, 58, 0.06);
+
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+}
+
+/* Dark mode mirrors justifi-portal's AppShell: darker canvas, lighter chrome
+   for navbar/sidebar/footer. Only the semantic aliases that differ get
+   redeclared here — the Infima mapping below reads them and needs no
+   dark-specific copy of its own. The accent ramp itself is mode-independent
+   and isn't repeated here. */
+html[data-theme="dark"] {
+  --jf-surface-canvas: var(--jf-primary-800);
+  --jf-surface-default: var(--jf-secondary-800);
+  --jf-surface-raised: #2d3e4e; /* bespoke value, not on the raw ramp */
+  --jf-surface-deep: var(--jf-primary-950);
+  --jf-text-primary: var(--jf-neutral-0);
+  --jf-text-secondary: var(--jf-neutral-200);
+  --jf-text-muted: var(--jf-neutral-400);
+  --jf-border-subtle: rgba(255, 255, 255, 0.08);
+  --jf-border-default: rgba(255, 255, 255, 0.12);
+  --jf-border-strong: rgba(255, 255, 255, 0.2);
+  --jf-accent-text: var(--jf-accent-600);
+
+  /* Body text sits a shade below full white in dark mode; light mode has no
+     such step, so these reference different aliases per mode, not just
+     different values of the same one. */
+  --jf-text-body: var(--jf-text-secondary);
+  --jf-text-body-secondary: var(--jf-text-muted);
+  --jf-surface-navbar: var(--jf-surface-default);
+  --jf-surface-footer: var(--jf-surface-default);
+  --jf-code-background: rgba(255, 255, 255, 0.1);
+
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+}
+
+/* Infima re-declares a chunk of its own vars inside its own
+   html[data-theme='dark'] block (0,1,1) — background-color,
+   background-surface-color, toc-border-color, color-content(-secondary),
+   color-emphasis-200/300, hover-overlay, code-background,
+   table-stripe-background, etc. A plain :root mapping (0,1,0) loses to that
+   regardless of load order, so the whole Infima mapping lives in a selector
+   list that matches html[data-theme="dark"] too, tying Infima's specificity
+   and winning on source order (this file loads after Infima's core CSS).
+   Every value is a --jf-* reference, so one declaration covers both modes. */
+:root,
+html[data-theme="dark"] {
+  --ifm-color-primary: var(--jf-accent-600);
+  --ifm-color-primary-light: var(--jf-accent-500);
+  --ifm-color-primary-lighter: var(--jf-accent-400);
+  --ifm-color-primary-lightest: var(--jf-accent-300);
+  --ifm-color-primary-dark: var(--jf-accent-700);
+  --ifm-color-primary-darker: var(--jf-accent-800);
+  --ifm-color-primary-darkest: var(--jf-accent-900);
+  --ifm-link-color: var(--jf-accent-text);
+  --ifm-menu-color-active: var(--jf-accent-text);
+  /* Infima declares --ifm-navbar-link-active-color but never reads it —
+     .navbar__link--active resolves --ifm-navbar-link-hover-color instead. */
+  --ifm-navbar-link-hover-color: var(--jf-accent-text);
+  --ifm-tabs-color-active: var(--jf-accent-text);
+  --ifm-heading-color: var(--jf-text-primary);
+  --ifm-font-family-base: var(--jf-font-body);
+  --ifm-heading-font-family: var(--jf-font-display);
+  --ifm-heading-font-weight: var(--jf-font-weight-semibold);
+  --ifm-font-family-monospace: var(--jf-font-mono);
+  --ifm-font-size-base: 93.75%; /* 15px root, tightens Infima's rem spacing toward portal density */
+  --ifm-global-radius: var(--jf-radius-md);
+  --ifm-code-font-size: 80%;
+  --ifm-h1-font-size: 30px;
+  --ifm-h2-font-size: 24px;
+  --ifm-h3-font-size: 18px;
+  --ifm-h4-font-size: 15px;
+  --ifm-h5-font-size: 14px;
+  --ifm-h6-font-size: 12px;
+  --ifm-heading-line-height: 1.3; /* one var for all levels; spec ranges 1.25-1.4, this splits it */
+
+  --ifm-background-color: var(--jf-surface-canvas);
+  --ifm-background-surface-color: var(--jf-surface-raised);
+  --ifm-navbar-background-color: var(--jf-surface-navbar);
+  --ifm-footer-background-color: var(--jf-surface-footer);
+  --ifm-color-content: var(--jf-text-body);
+  --ifm-color-content-secondary: var(--jf-text-body-secondary);
+  --ifm-toc-border-color: var(--jf-border-default);
+  --ifm-color-emphasis-200: var(--jf-border-default);
+  --ifm-color-emphasis-300: var(--jf-border-default);
+  --ifm-code-background: var(--jf-code-background);
+  --ifm-hover-overlay: var(--jf-surface-raised);
+  --ifm-table-stripe-background: transparent; /* portal's DataTable has no zebra striping */
+  --ifm-scrollbar-track-background-color: var(--jf-surface-raised);
+  --ifm-scrollbar-thumb-background-color: var(--jf-border-strong);
+  --ifm-scrollbar-thumb-hover-background-color: var(--jf-text-muted);
+}
+
+/* .footer--dark sets --ifm-footer-background-color directly on the footer
+   element (footer.style is always "dark"), which as a same-element rule
+   beats anything inherited from html regardless of specificity. Re-declaring
+   it here at tied specificity (0,1,0), loaded after Infima, wins on order —
+   var(--jf-surface-footer) makes this correct in both modes with one rule. */
+.footer--dark {
+  --ifm-footer-background-color: var(--jf-surface-footer);
+}
+
+/* Infima hardcodes var(--ifm-color-primary) for the active/hovered table-of-
+   contents entry instead of routing it through a variable. */
+.table-of-contents__link:hover,
+.table-of-contents__link:hover code,
+.table-of-contents__link--active,
+.table-of-contents__link--active code {
+  color: var(--jf-accent-text);
+}
+
+/* Docusaurus locally reassigns these same var names inside .markdown content
+   (3rem/2rem/1.5rem), which wins over the mapping above for every page. */
+.markdown h1:first-child {
+  --ifm-h1-font-size: 30px;
+}
+
+.markdown > h2 {
+  --ifm-h2-font-size: 24px;
+}
+
+.markdown > h3 {
+  --ifm-h3-font-size: 18px;
+}
+
+/* ...and re-shrinks all three again below 576px; re-assert ours so the scale
+   doesn't drift on mobile (our sizes are already modest enough not to need
+   to shrink further). */
+@media (max-width: 576px) {
+  .markdown h1:first-child {
+    --ifm-h1-font-size: 30px;
+  }
+
+  .markdown > h2 {
+    --ifm-h2-font-size: 24px;
+  }
+
+  .markdown > h3 {
+    --ifm-h3-font-size: 18px;
+  }
+}

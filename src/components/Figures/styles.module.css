@@ -1,6 +1,8 @@
 .figcaption {
   text-align: center;
-  font-weight: 700;
+  font-weight: var(--jf-font-weight-medium);
   font-style: italic;
-  color: var(--ifm-color-primary-darkest);
+  font-size: var(--jf-font-size-sm);
+  color: var(--jf-text-muted);
+  margin-top: var(--jf-space-sm);
 }
