@@ -31,16 +31,20 @@ and broader access to purchasing power without needing a traditional loan or cre
 
 - BNPL is only available on the Hosted Checkout and in our embedded checkout web components 
 ([Unified Checkout](https://docs.justifi.tech/web-components/payment-facilitation/unified-fintech-checkout%E2%84%A2) 
-and [Modular Checkout](https://docs.justifi.tech/web-components/modular-checkout)). 
-- All these checkout options require the creation of a checkout via API - [see the integration guide](https://docs.justifi.tech/api-spec#tag/Checkouts/operation/RefundCheckout)
+and [Modular Checkout](https://docs.justifi.tech/web-components/modular-checkout)) - [see the integration guide](https://docs.justifi.tech/api-spec#tag/Checkout-via-Component). 
+- All these checkout options require the [creation of a checkout via API](https://docs.justifi.tech/api-spec#tag/Checkouts/operation/CreateCheckout) 
 - To enable BNPL payments, contact [customer_success@justifi.tech](mailto:customer_success@justifi.tech)
   to activate BNPL for your platform and sub accounts.
-- If you use the Unified Checkout web component BNPL will appear as a payment options as soon as BNPL is enabled on the sub account.
-- If you use the Modular Checkout include the [sezzle Payment Method sub component](https://docs.justifi.tech/web-components/modular-checkout/sub-components/sezzle-payment-method).
+- If you use Unified Checkout, BNPL will automatically appear as a payment options as soon as BNPL is enabled on the sub account.
+- If you use Modular Checkout, include the [sezzle Payment Method sub component](https://docs.justifi.tech/web-components/modular-checkout/sub-components/sezzle-payment-method).
 
 ## How it works?
 
-The BNPL payment method appears as a choice. When a customer selects BNPL as their payment method they will be redirected to Sezzle and asked to create an account. 
-With their account in place they can choose a payment plan for the current payment amount.
-Once the payment is processed via sezzle the merchant will receive the full payment amount, the customer will be able to pay partial amounts
-following the chosen payment plan. Any payment reminders for customers will be handled by sezzle. 
+Once BNPL is enabled on a sub account and available to the web component 
+the Buy Now Pay later option appears as a payment method in the checkout web component. 
+If a customer selects BNPL as their payment method, 
+they're redirected to Sezzle and asked to create an account. 
+With their account in place, they select a payment plan for the purchase amount.
+Sezzle processes the payment and pays the merchant the full amount upfront. 
+The customer then pays off the balance in installments, following their chosen payment plan. 
+Sezzle handles all communication with the customer about that plan.
