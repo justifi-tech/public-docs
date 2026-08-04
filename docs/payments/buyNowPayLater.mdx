@@ -1,0 +1,50 @@
+---
+title: Buy Now Pay Later (BNPL)
+description: Learn about providing a Buy Now Pay Later payment option via JustiFi
+sidebar_label: Buy Now Pay Later (BNPL)
+keywords:
+  - BNPL
+  - Sezzle
+  - payments
+  - fees
+  - payouts
+---
+
+# Buy Now Pay Later
+
+## Overview
+
+Buy Now, Pay Later (BNPL) gives customers a flexible way to spread the cost of a purchase over time, 
+typically through short-term installment plans, without the interest charges or lengthy approval processes 
+associated with traditional credit.
+
+We partner with Sezzle, so customers can split payments (up to $2,000) into smaller, manageable installments at checkout, 
+with no interest when payments are made on schedule. 
+
+For your merchants, offering BNPL can increase conversion rates and average order value 
+by lowering the upfront cost barrier for customers, while Sezzle assumes the payment collection and risk, 
+so your merchants still receive full payment upfront. 
+For customers, BNPL provides greater budget control, transparency (fixed payment schedules with no surprise fees when paid on time), 
+and broader access to purchasing power without needing a traditional loan or credit card.
+
+## Prerequisites and Integration
+
+- BNPL is only available on the Hosted Checkout and in our embedded checkout web components 
+([Unified Checkout](https://docs.justifi.tech/web-components/payment-facilitation/unified-fintech-checkout%E2%84%A2) 
+and [Modular Checkout](https://docs.justifi.tech/web-components/modular-checkout)) - [see the integration guide](https://docs.justifi.tech/api-spec#tag/Checkout-via-Component). 
+- All these checkout options require the [creation of a checkout via API](https://docs.justifi.tech/api-spec#tag/Checkouts/operation/CreateCheckout) 
+- To enable BNPL payments, contact [customer_success@justifi.tech](mailto:customer_success@justifi.tech)
+  to activate BNPL for your platform and sub accounts.
+- If you use Unified Checkout, BNPL will automatically appear as a payment options as soon as BNPL is enabled on the sub account.
+- If you use Modular Checkout, include the [sezzle Payment Method sub component](https://docs.justifi.tech/web-components/modular-checkout/sub-components/sezzle-payment-method).
+
+## How it works?
+
+Once BNPL is enabled on a sub account and available to the web component 
+the Buy Now Pay later option appears as a payment method in the checkout web component. 
+If a customer selects BNPL as their payment method, 
+they're redirected to Sezzle and asked to create an account. 
+With their account in place, they select a payment plan for the purchase amount.
+Sezzle processes the payment and pays the merchant the full amount upfront. 
+The customer then pays off the balance in installments, following their chosen payment plan. 
+Sezzle handles all communication with the customer about that plan.

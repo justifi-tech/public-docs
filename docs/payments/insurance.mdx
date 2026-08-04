@@ -1,0 +1,42 @@
+---
+title: Insurance Quote Payments
+description: Learn about providing a relevant insurance option at checkout via JustiFi
+sidebar_label: Insurance Quote Payments
+keywords:
+  - Vertical Insure
+  - insurance quotes
+  - checkout
+  - payments
+  - fees
+  - payouts
+---
+
+# Insurance Quote Payments
+
+## Overview
+
+We partner with Vertical Insure to offer insurance for purchased goods or services at checkout. 
+This offer provides customers with the option to protect their purchase right when its value is top of mind, 
+no separate research or forms required. Coverage is quoted and enrolled in real time, 
+with transparent pricing tied to the specific purchase. 
+For your merchants, this reduces return and refund disputes, builds customer trust, and adds incremental revenue, 
+all within the existing checkout flow.
+
+## Prerequisites and Integration
+
+- Insurance quote payments are only available on the Hosted Checkout and in our embedded checkout web components 
+([Unified Checkout](https://docs.justifi.tech/web-components/payment-facilitation/unified-fintech-checkout%E2%84%A2) 
+and [Modular Checkout](https://docs.justifi.tech/web-components/modular-checkout)) - [see the integration guide](https://docs.justifi.tech/api-spec#tag/Checkout-via-Component) for details.
+- All these checkout options require the [creation of a checkout via API](https://docs.justifi.tech/api-spec#tag/Checkouts/operation/CreateCheckout) 
+- To include an insurance quote in a checkout, first contact [customer_success@justifi.tech](mailto:customer_success@justifi.tech)
+  to enable insurance payments for your platform. Ensure the required insurance type is available through our provider.
+- If you use Unified Checkout, insurance quote payments will appear as a payment options as soon as the feature is enabled on the sub account.
+- If you use Modular Checkout, include the specific insurance sub component listed in the [Sub Components section of the docs](https://docs.justifi.tech/web-components/modular-checkout/sub-components).
+
+## How it works
+
+Once insurance is enabled for a sub account and available to the web component 
+a tailored insurance quote appears when the checkout component is rendered. 
+If the customer chooses to add the insurance option to their purchase and submits the checkout, 
+an additional insurance payment will be processed on the selected payment method as part of checkout completion.
+Both payments will be associated with the same checkout record.

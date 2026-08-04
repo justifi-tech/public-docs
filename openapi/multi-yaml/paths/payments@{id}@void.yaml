@@ -4,7 +4,7 @@ post:
     - Voids
   summary: Void a Payment
   description: |
-    Void a payment transaction to cancel a payment before it reaches settlement. 
+    Void an ecom card or ACH payment transaction to cancel the payment before it reaches settlement. 
     Payment transactions are voidable within 25 minutes of the original transaction. 
     This includes `authorized` payments (that were created with `capture_strategy` manual and have not been captured yet).
   operationId: VoidPayment
