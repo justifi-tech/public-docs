@@ -1,0 +1,318 @@
+/* /api-spec overrides, scoped to html.plugin-redoc. */
+/* Redoc's dark theme auto-switches with color mode; only patch mismatches — don't reset its bg/text vars to light values. */
+
+html.plugin-redoc .react-tabs__tab-panel {
+  border-radius: var(--jf-radius-lg) !important;
+  border: 1px solid var(--jf-border-default) !important;
+}
+
+html.plugin-redoc[data-theme="dark"] .menu-content,
+html.plugin-redoc[data-theme="dark"] .menu-content label {
+  background-color: var(--jf-surface-default) !important;
+}
+
+html.plugin-redoc .menu-content label {
+  color: var(--jf-text-muted) !important;
+}
+
+/* Must stay CSS: Redoc's theme API resolves the same activeBackgroundColor for
+   :hover, so setting the gold pill there would gold-flash every row on hover. */
+html.plugin-redoc .menu-content label:hover:not(.active) {
+  background-color: var(--jf-surface-raised) !important;
+  color: var(--jf-text-primary) !important;
+}
+
+html.plugin-redoc .menu-content label.active {
+  background-color: var(--jf-brand-gold) !important;
+  color: var(--jf-text-on-accent) !important;
+  border-radius: var(--jf-radius-md) !important;
+}
+
+html.plugin-redoc .menu-content label.-depth0 {
+  opacity: 1 !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  letter-spacing: var(--jf-tracking-label) !important;
+}
+
+/* Left padding clears Redoc's absolutely-positioned search icon. */
+html.plugin-redoc input.search-input {
+  background-color: var(--jf-surface-default) !important;
+  border: 1px solid var(--jf-border-default) !important;
+  border-radius: var(--jf-radius-md) !important;
+  color: var(--jf-text-primary) !important;
+  padding: 6px 10px 6px 32px !important;
+}
+
+html.plugin-redoc input.search-input::placeholder {
+  color: var(--jf-text-muted) !important;
+}
+
+html.plugin-redoc input.search-input:focus {
+  outline: none !important;
+  border-color: var(--jf-accent-600) !important;
+  box-shadow: var(--jf-shadow-focus) !important;
+}
+
+html.plugin-redoc[data-theme="dark"]
+  .menu-content
+  .scrollbar-container
+  > div:not([class*="ps__"]) {
+  background-color: transparent !important;
+}
+
+html.plugin-redoc :not(pre) > code {
+  border-radius: 4px;
+  padding: 0.1em 0.3em;
+  color: #0d1a27 !important;
+  background-color: rgba(13, 26, 39, 0.08) !important;
+  border: 1px solid #dce4ea;
+}
+
+html.plugin-redoc[data-theme="dark"] :not(pre) > code {
+  color: #e5e5e5 !important;
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+html.plugin-redoc table {
+  border: none !important;
+}
+
+html.plugin-redoc table tr {
+  background-color: transparent !important;
+  border: none !important;
+}
+
+/* Markdown-table left borders read as column dividers, so stripped — except
+   schema-tree field cells, where that left border IS the rail (see below);
+   excluding here (not re-adding width there) preserves Redoc's per-row rail geometry. */
+html.plugin-redoc table td:not(:has(> .property-name)):not(:has(> button > .property-name)),
+html.plugin-redoc table th {
+  border-left: none !important;
+}
+
+html.plugin-redoc table td,
+html.plugin-redoc table th {
+  border-right: none !important;
+  border-top: none !important;
+  border-bottom: 1px solid var(--jf-border-default) !important;
+  padding: 12px 16px !important;
+}
+
+/* Colour only, not width: Redoc varies rail geometry per row (partial rail on
+   first/last rows for the bracket effect); forcing uniform width would break that. */
+html.plugin-redoc td:has(> .property-name),
+html.plugin-redoc td:has(> button > .property-name) {
+  border-left-color: var(--jf-accent-600) !important;
+  /* Tick is the cell's first inline child; the shared 16px cell padding pushed it clear of the rail. */
+  padding-left: 0 !important;
+}
+
+html.plugin-redoc table th {
+  background-color: transparent !important;
+  color: var(--jf-text-secondary) !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: var(--jf-tracking-label) !important;
+}
+
+html.plugin-redoc table tr:hover td {
+  background-color: var(--jf-surface-raised) !important;
+}
+
+/* No theme property covers this nested-wrapper background, so matched
+   structurally; requiring .property-name (not just table) scopes this to
+   schema trees, excluding markdown tables in descriptions. */
+html.plugin-redoc[data-theme="dark"] div:has(> table .property-name) {
+  background-color: transparent !important;
+}
+
+/* Redoc hardcodes width: 9ex here, sized for GET/POST only — PATCH/DELETE/OPTIONS clip, so size to content instead. */
+html.plugin-redoc .operation-type {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  align-self: center !important;
+  height: auto !important;
+  width: auto !important;
+  min-width: 46px !important;
+  white-space: nowrap !important;
+  border-radius: var(--jf-radius-full) !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  line-height: 1 !important;
+  padding: 2px var(--jf-space-sm) !important;
+  border: 1px solid transparent !important;
+  margin: 0 var(--jf-space-sm) 0 0 !important;
+}
+
+html.plugin-redoc .menu-content label:has(.operation-type) {
+  align-items: center !important;
+}
+
+html.plugin-redoc .menu-content label.active .operation-type {
+  background-color: var(--jf-primary-800) !important;
+  border-color: transparent !important;
+}
+
+/* Text hues are hand-tuned for WCAG AA against the composited /20 fill (dark
+   rows need lighter, light rows darker); GET's blue is a deliberate off-system
+   extension of --jf-info since no on-system blue ramp exists. */
+html.plugin-redoc .operation-type.get {
+  background-color: rgba(59, 130, 246, 0.2) !important;
+  border-color: rgba(59, 130, 246, 0.3) !important;
+}
+html.plugin-redoc[data-theme="dark"] .operation-type.get {
+  color: #90caf9 !important;
+}
+html.plugin-redoc[data-theme="light"] .operation-type.get {
+  color: #0d47a1 !important;
+}
+
+html.plugin-redoc .operation-type.post,
+html.plugin-redoc .operation-type.put {
+  background-color: rgba(76, 175, 80, 0.2) !important;
+  border-color: rgba(76, 175, 80, 0.3) !important;
+}
+html.plugin-redoc[data-theme="dark"] .operation-type.post,
+html.plugin-redoc[data-theme="dark"] .operation-type.put {
+  color: #81c784 !important;
+}
+html.plugin-redoc[data-theme="light"] .operation-type.post,
+html.plugin-redoc[data-theme="light"] .operation-type.put {
+  color: #1b5e20 !important;
+}
+
+html.plugin-redoc .operation-type.patch {
+  background-color: rgba(255, 179, 0, 0.2) !important;
+  border-color: rgba(255, 179, 0, 0.3) !important;
+}
+html.plugin-redoc[data-theme="dark"] .operation-type.patch {
+  color: var(--jf-accent-500) !important; /* exact accent-ramp step, not a new tuned value */
+}
+html.plugin-redoc[data-theme="light"] .operation-type.patch {
+  color: #7a5300 !important;
+}
+
+html.plugin-redoc .operation-type.delete {
+  background-color: rgba(244, 67, 54, 0.2) !important;
+  border-color: rgba(244, 67, 54, 0.3) !important;
+}
+html.plugin-redoc[data-theme="dark"] .operation-type.delete {
+  color: #f4a7a7 !important;
+}
+html.plugin-redoc[data-theme="light"] .operation-type.delete {
+  color: #b71c1c !important;
+}
+
+html.plugin-redoc .operation-type.options,
+html.plugin-redoc .operation-type.head,
+html.plugin-redoc .operation-type.basic,
+html.plugin-redoc .operation-type.link {
+  background-color: rgba(100, 116, 139, 0.2) !important;
+  border-color: rgba(100, 116, 139, 0.3) !important;
+}
+html.plugin-redoc[data-theme="dark"] .operation-type.options,
+html.plugin-redoc[data-theme="dark"] .operation-type.head,
+html.plugin-redoc[data-theme="dark"] .operation-type.basic,
+html.plugin-redoc[data-theme="dark"] .operation-type.link {
+  color: #a3aebd !important;
+}
+html.plugin-redoc[data-theme="light"] .operation-type.options,
+html.plugin-redoc[data-theme="light"] .operation-type.head,
+html.plugin-redoc[data-theme="light"] .operation-type.basic,
+html.plugin-redoc[data-theme="light"] .operation-type.link {
+  color: var(--jf-secondary-600) !important; /* exact token match */
+}
+
+html.plugin-redoc .operation-type.hook {
+  color: var(--jf-text-on-accent) !important;
+}
+
+html.plugin-redoc .menu-content label.active .operation-type.get {
+  color: #90caf9 !important;
+}
+html.plugin-redoc .menu-content label.active .operation-type.post,
+html.plugin-redoc .menu-content label.active .operation-type.put {
+  color: #81c784 !important;
+}
+html.plugin-redoc .menu-content label.active .operation-type.patch {
+  color: var(--jf-accent-500) !important;
+}
+html.plugin-redoc .menu-content label.active .operation-type.delete {
+  color: #f4a7a7 !important;
+}
+html.plugin-redoc .menu-content label.active .operation-type.options,
+html.plugin-redoc .menu-content label.active .operation-type.head,
+html.plugin-redoc .menu-content label.active .operation-type.basic,
+html.plugin-redoc .menu-content label.active .operation-type.link {
+  color: #a3aebd !important;
+}
+html.plugin-redoc .menu-content label.active .operation-type.hook {
+  color: var(--jf-accent-600) !important;
+}
+
+/* Not `.react-tabs__tab.tab-success`: react-tabs omits its base class when the
+   modifier is present, so the compound selector silently matches nothing. */
+html.plugin-redoc .tab-success,
+html.plugin-redoc .tab-error,
+html.plugin-redoc .tab-redirect,
+html.plugin-redoc .tab-info {
+  border-radius: var(--jf-radius-full) !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  min-width: 0 !important;
+  padding: 2px 10px !important;
+  border-width: 1px !important;
+  border-style: solid !important;
+}
+
+html.plugin-redoc .tab-success {
+  background-color: rgba(76, 175, 80, 0.2) !important;
+  border-color: rgba(76, 175, 80, 0.3) !important;
+  color: #4caf50 !important;
+}
+
+html.plugin-redoc .tab-error {
+  background-color: rgba(244, 67, 54, 0.2) !important;
+  border-color: rgba(244, 67, 54, 0.3) !important;
+  color: #f44336 !important;
+}
+
+html.plugin-redoc .tab-redirect {
+  background-color: rgba(255, 179, 0, 0.2) !important;
+  border-color: rgba(255, 179, 0, 0.3) !important;
+  color: #ffb300 !important;
+}
+
+html.plugin-redoc .tab-info {
+  background-color: rgba(59, 130, 246, 0.2) !important;
+  border-color: rgba(59, 130, 246, 0.3) !important;
+  color: #3b82f6 !important;
+}
+
+html.plugin-redoc a[download] {
+  display: inline-block !important;
+  background: linear-gradient(
+    to right,
+    var(--jf-accent-600),
+    var(--jf-accent-700)
+  ) !important;
+  color: var(--jf-text-on-accent) !important;
+  border-radius: var(--jf-radius-md) !important;
+  box-shadow: var(--jf-shadow-sm) !important;
+  padding: 8px 16px !important;
+  font-weight: 500 !important;
+  text-decoration: none !important;
+}
+
+html.plugin-redoc a[download]:hover {
+  background: linear-gradient(
+    to right,
+    var(--jf-accent-700),
+    var(--jf-accent-600)
+  ) !important;
+  box-shadow: var(--jf-shadow-md) !important;
+}
