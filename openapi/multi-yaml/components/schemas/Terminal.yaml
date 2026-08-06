@@ -16,7 +16,7 @@ properties:
     example: acct_789abc
   provider:
     description: terminal provider
-    type: enum[verifone verifone_simulator]
+    type: enum[verifone verifone_simulator clover]
     example: verifone
   status:
     description: last known terminal status. For performance reasons, this field is only updated when you check the terminal status via API.

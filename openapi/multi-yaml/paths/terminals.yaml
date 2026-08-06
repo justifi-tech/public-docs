@@ -29,7 +29,7 @@ get:
       name: provider
       schema:
         type: string
-        enum: [verifone, verifone_simulator]
+        enum: [verifone, verifone_simulator, clover]
       required: false
       example: "verifone"
       description: |
