@@ -6,13 +6,15 @@ get:
   parameters:
     - $ref: ../components/parameters/authorization-header.yaml
     - $ref: ../components/parameters/sub-account.yaml
+    - $ref: ../components/parameters/created-before.yaml
+    - $ref: ../components/parameters/created-after.yaml
     - in: query
       name: status
       schema:
         type: string
         enum: [connected, disconnected, unknown, pending_configuration, archived]
       required: false
-      example: "active"
+      example: "connected"
       description: |
         filter records by the terminal status. Accepts multiple comma separated status values.
     - in: query
@@ -24,6 +26,15 @@ get:
       description: |
         filter records by terminal id
     - in: query
+      name: provider
+      schema:
+        type: string
+        enum: [verifone, verifone_simulator]
+      required: false
+      example: "verifone"
+      description: |
+        filter records by the terminal provider. Accepts multiple comma separated provider values.
+    - in: query
       name: provider_id
       schema:
         type: string
@@ -31,6 +42,14 @@ get:
       example: "23456789"
       description: |
         filter records by provider id, also called device id (DID). Accepts multiple comma separated provider ids.
+    - in: query
+      name: serial_number
+      schema:
+        type: string
+      required: false
+      example: "888-222-444"
+      description: |
+        filter records by the terminal device serial number. Only populated after the device has been configured, so terminals awaiting configuration will not match.
     - in: query
       name: terminal_order_id
       schema:
