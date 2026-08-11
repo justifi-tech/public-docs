@@ -69,6 +69,43 @@ patch:
                       type: number
                       description: custom application fee amount that applies to bank account payment method.
                       example: 150
+            payment:
+              type: object
+              description: Overrides the information saved on the Payment when a checkout is paid via JustiFi card/ach payment
+              properties:
+                description:
+                  type: string
+                  description: Overrides the default payment description of "Checkout [checkout id]"
+                  example: Pay David for great work
+                metadata:
+                  type: object
+                  format: json
+                  description: Adds metadata to the payment record
+                  example: {}
+                expedited:
+                  type: boolean
+                  description: settlement priority of the payment, only applies to ACH payments
+                fees:
+                  type: array
+                  description: |
+                    *Recommended for new integrations.* Fees to apply to the payment. See [Enhanced Fee Management](#section/Enhanced-Fee-Management) for full documentation.
+
+                    Each fee object specifies:
+                    - `type`: `processing_fee` or `platform_fee` (required)
+                    - `amount`: Fee amount in cents (required)
+
+                    Cannot be used together with `application_fees`.
+
+                    > **Note:** The `fees` array will be empty in the create response. Fees are processed asynchronously — subscribe to payment webhook events (recommended) to receive the full fee details, or poll with a subsequent Get Payment request.
+
+                    > **CAD Payments:** This parameter is not available for CAD payments. Fees for Canadian dollar payments are determined during merchant onboarding and are not configurable via the API. See [Canadian Payments](https://docs.justifi.tech/payments/canadianPayments) for details.
+                  items:
+                    $ref: ../components/schemas/Fee.yaml
+                  example:
+                    - type: processing_fee
+                      amount: 350
+                    - type: platform_fee
+                      amount: 500 
   responses:
     '200':
       description: Checkout update was successful

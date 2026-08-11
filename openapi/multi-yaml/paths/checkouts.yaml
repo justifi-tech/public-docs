@@ -62,11 +62,11 @@ post:
                       example: 150
             payment:
               type: object
-              description: To override the information saved on the Payment when a checkout is paid via JustiFi card/ach payment, please use these attributes
+              description: Overrides the information saved on the Payment when a checkout is paid via JustiFi card/ach payment
               properties:
                 description:
                   type: string
-                  description: Override the default payment description of Checkout [checkout id], use this attribute
+                  description: Overrides the default payment description of "Checkout [checkout id]"
                   example: Pay David for great work
                 metadata:
                   type: object
