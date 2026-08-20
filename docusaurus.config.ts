@@ -79,7 +79,9 @@ const config: Config = {
       {
         specs: [
           {
-            spec: "openapi/multi-yaml/index.yaml",
+            // Generated at prebuild by scripts/merge-payables-spec.mjs, from
+            // openapi/multi-yaml/index.yaml + the synced openapi/payables/ spec.
+            spec: "openapi/multi-yaml/index.merged.yaml",
             route: "/api-spec",
           },
         ],

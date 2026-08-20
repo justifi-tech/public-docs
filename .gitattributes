@@ -1,0 +1,4 @@
+# Written by .github/workflows/update-payables-spec.yml from justifi-tech/payables.
+# Marked generated so it collapses in review: the thing to check is what the contract
+# now says, which the PR body summarises, not 10k lines of machine-written JSON.
+openapi/payables/public.bundled.json linguist-generated=true

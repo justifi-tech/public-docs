@@ -1,0 +1,105 @@
+# Publishes the customer-facing Payables API spec, which payables derives and dispatches
+# on every merge to its main. Same shape as update-wc-docs.yml: the source repo fires a
+# repository_dispatch, this repo pulls the artifact under the machina token and opens a PR.
+#
+# The spec is ~500KB, well over the 64KB repository_dispatch payload limit, so the payload
+# carries provenance only and the document itself comes from the payables workflow artifact.
+name: Update Payables Spec
+
+on:
+  repository_dispatch:
+    types: [payables-openapi-published]
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: "payables workflow run id holding the payables-openapi-public artifact"
+        required: true
+      source_sha:
+        description: "payables commit the spec was derived from"
+        required: true
+      source_committed_at:
+        description: "ISO 8601 commit timestamp, used by the staleness gate"
+        required: true
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    env:
+      RUN_ID: ${{ github.event.client_payload.run_id || inputs.run_id }}
+      SOURCE_SHA: ${{ github.event.client_payload.source_sha || inputs.source_sha }}
+      SOURCE_COMMITTED_AT: ${{ github.event.client_payload.source_committed_at || inputs.source_committed_at }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.JUSTIFI_MACHINA_GITHUB_TOKEN }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # Cross-repo, so this needs a token with actions:read on justifi-tech/payables —
+      # not the job's GITHUB_TOKEN, which is scoped to this repo alone.
+      - name: Download the derived spec from the payables run
+        env:
+          GH_TOKEN: ${{ secrets.JUSTIFI_MACHINA_GITHUB_TOKEN }}
+        run: |
+          mkdir -p /tmp/incoming
+          gh run download "$RUN_ID" \
+            --repo justifi-tech/payables \
+            --name payables-openapi-public \
+            --dir /tmp/incoming
+          test -s /tmp/incoming/public.bundled.json
+
+      - name: Gate on provenance and content
+        id: gate
+        env:
+          INCOMING_SPEC: /tmp/incoming/public.bundled.json
+        run: node scripts/payables-spec-gate.mjs
+
+      - name: Stage the new spec
+        if: steps.gate.outputs.should_update == 'true'
+        run: |
+          cp /tmp/incoming/public.bundled.json openapi/payables/public.bundled.json
+          cat > openapi/payables/source.json <<EOF
+          {
+            "source_repo": "justifi-tech/payables",
+            "source_path": "openapi/index.yaml",
+            "source_sha": "${SOURCE_SHA}",
+            "source_committed_at": "${SOURCE_COMMITTED_AT}",
+            "published_at": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          }
+          EOF
+
+      - name: Commit and open PR
+        if: steps.gate.outputs.should_update == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.JUSTIFI_MACHINA_GITHUB_TOKEN }}
+          REASON: ${{ steps.gate.outputs.reason }}
+        run: |
+          SHORT_SHA="${SOURCE_SHA:0:7}"
+          BRANCH="payables-spec-${SHORT_SHA}"
+
+          cat > /tmp/pr-body.md <<EOF
+          Derived from \`justifi-tech/payables@${SOURCE_SHA}\`, committed ${SOURCE_COMMITTED_AT}.
+
+          Gate: ${REASON}
+
+          Machine-written by \`update-payables-spec.yml\`. Everything under \`openapi/payables/\`
+          is generated and hand edits to it are lost on the next publish — review what the
+          contract now says, not the file.
+          EOF
+
+          git config user.name "justifi-machina"
+          git config user.email "machina@justifi.ai"
+          git checkout -b "$BRANCH"
+          git add openapi/payables
+          git commit -m "chore: update Payables API spec to ${SHORT_SHA}"
+          git push --force origin "$BRANCH"
+          gh pr create \
+            --title "chore: update Payables API spec to ${SHORT_SHA}" \
+            --body-file /tmp/pr-body.md \
+            --base main \
+            || echo "PR already open for ${BRANCH}"
