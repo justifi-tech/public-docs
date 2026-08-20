@@ -86,9 +86,7 @@
         "tags": [
           "API Credentials"
         ],
-        "security": [
-
-        ],
+        "security": [],
         "requestBody": {
           "required": true,
           "content": {
@@ -266,6 +264,26 @@
               "example": "biz_123xyz"
             },
             "description": "filter to the payer accounts belonging to a single business. Use this to resolve a business's\npayer account(s) from the `biz_…` id you already hold — a business holds one payer account, so\nit returns a single record.\n\n"
+          },
+          {
+            "in": "query",
+            "name": "name",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "northside"
+            },
+            "description": "filter payer accounts to those whose `name` contains this value, case-insensitively. Partial\nmatches count, so `northside` matches \"Northside Physical Therapy\" — this backs the type-ahead\nin the account switcher rather than an exact-name lookup.\n"
+          },
+          {
+            "in": "query",
+            "name": "payer_id",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "payer_123xyz"
+            },
+            "description": "filter to a single payer account by its `payer_…` id. Matches exactly; an id that is not a\n`payer_…` id is rejected with `400`.\n"
           }
         ],
         "responses": {
@@ -9076,9 +9094,7 @@
         "tags": [
           "Webhooks"
         ],
-        "security": [
-
-        ],
+        "security": [],
         "requestBody": {
           "content": {
             "application/json": {
@@ -9242,9 +9258,7 @@
         "tags": [
           "Webhooks"
         ],
-        "security": [
-
-        ],
+        "security": [],
         "requestBody": {
           "content": {
             "application/json": {
@@ -9475,9 +9489,7 @@
         "tags": [
           "Webhooks"
         ],
-        "security": [
-
-        ],
+        "security": [],
         "requestBody": {
           "content": {
             "application/json": {
@@ -9798,9 +9810,7 @@
         "tags": [
           "Webhooks"
         ],
-        "security": [
-
-        ],
+        "security": [],
         "requestBody": {
           "content": {
             "application/json": {
