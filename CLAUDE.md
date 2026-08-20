@@ -7,7 +7,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 JustiFi developer documentation repository. Three main content areas:
 1. **Long-form docs** (`/docs/`) - MDX integration guides and tutorials
 2. **OpenAPI spec** (`/openapi/multi-yaml/`) - Modular API reference rendered at `/api-spec/`
-3. **Web components** (`/.wc-current/`) - Embeddable payment UI component docs
+3. **Payables OpenAPI spec** (`/openapi/payables/`) - Generated, synced from `justifi-tech/payables`, rendered at `/payables-api-spec/`
+4. **Web components** (`/.wc-current/`) - Embeddable payment UI component docs
 
 ## Commands
 
@@ -35,6 +36,7 @@ No linting scripts are configured in package.json, but ESLint/Prettier configs e
 |---------|--------|----------|
 | Long-form docs | `/docs/` | `/` (root) |
 | API spec | `/openapi/multi-yaml/index.yaml` | `/api-spec/` |
+| Payables API spec | `/openapi/payables/public.bundled.json` (generated) | `/payables-api-spec/` |
 | Web components | `/.wc-current/` | `/web-components/` |
 
 ### OpenAPI Spec Structure
@@ -59,12 +61,20 @@ The spec uses modular YAML with `$ref` references. When editing:
 - **Historical snapshots**: Docusaurus keeps `web-components_versions.json` and versioned doc folders at the site root when `docs:version` runs; that list is separate from the current label.
 - **Optional**: the publishing repo can add `webcomponents_version_previous` to the dispatch payload for explicit semver bump detection; the workflow today relies on the config label comparison only.
 
+### Payables spec sync
+
+- **Never edit `openapi/payables/` by hand.** It is written by `.github/workflows/update-payables-spec.yml` and hand edits are lost on the next publish. Change the spec in `justifi-tech/payables`; it reaches this repo on its own.
+- **Automation**: payables fires `repository_dispatch` (`payables-openapi-published`) on every merge to its `main` touching `openapi/`. The payload carries provenance only — the spec is ~500KB, well over the 64KB payload limit — so the workflow pulls the document from the payables run artifact under `JUSTIFI_MACHINA_GITHUB_TOKEN`, which therefore needs `actions:read` on that repo.
+- **Gate**: `scripts/payables-spec-gate.mjs` refuses a commit older than the one in `openapi/payables/source.json` (dispatches can finish out of order), skips when the derived document is byte-identical to the published one (most `openapi/` commits leave it untouched — internal-only prose is stripped from it), and hard-fails if an internal path or the `ServiceJWT` scheme ever appears.
+- What payables sends is the **derived** customer-facing document, never its `index.yaml`, which also describes the internal `/internal/*` API.
+
 ## Key Files
 
 | File | Purpose |
 |------|---------|
 | `docusaurus.config.ts` | Site config, plugins, theme; WC **current** docs line = `versions.current.label` on web-components plugin |
 | `scripts/wc-version-gate.mjs` | Workflow helper: patch vs new major.minor from config label |
+| `scripts/payables-spec-gate.mjs` | Workflow helper: staleness, no-op and internal-leak gate for the synced Payables spec |
 | `sidebars.ts` | Main docs navigation structure |
 | `src/css/tokens.css` | `--jf-*` design tokens mirroring `@justifi/ui`, plus the Infima variables they drive |
 | `src/css/chrome.css` | Navbar, sidebar, breadcrumbs, TOC, pagination, footer, mobile drawer |

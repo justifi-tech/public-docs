@@ -82,6 +82,12 @@ const config: Config = {
             spec: "openapi/multi-yaml/index.yaml",
             route: "/api-spec",
           },
+          {
+            // Generated: written by .github/workflows/update-payables-spec.yml from the
+            // payables repo. See openapi/payables/README.md before editing it by hand.
+            spec: "openapi/payables/public.bundled.json",
+            route: "/payables-api-spec",
+          },
         ],
         theme: {
           primaryColor: "#FFA000",
@@ -216,6 +222,11 @@ const config: Config = {
         {
           to: "/api-spec",
           label: "API Specification",
+          position: "left",
+        },
+        {
+          to: "/payables-api-spec",
+          label: "Payables API",
           position: "left",
         },
         {
