@@ -37,6 +37,9 @@ const GROUP_AFTER = 'Card Present Resources';
 
 const SCOPING_MARKER = 'A request is scoped to a payer account';
 
+// Everything else in payables' lead restates Getting Started and Pagination.
+const LEAD_SECTIONS = ['Provisioning', 'Payment lifecycle'];
+
 const fail = (message) => {
   console.error(`merge-payables-spec: ${message}`);
   process.exit(1);
@@ -115,49 +118,57 @@ const mainOperationIds = (doc, baseDir) => {
   return ids;
 };
 
-/** Lifts the sections with no counterpart in the main lead, demoted one level. */
-const payablesLead = (description) => {
+/**
+ * Turns the payables lead sections with no counterpart in the main lead into
+ * documentation-only tags. As description sections they render above the whole API
+ * reference, which is the wrong place for rules that apply to one group; Redoc's
+ * x-traitTag puts them in the sidebar inside the Payables group instead.
+ */
+const payablesTraitTags = (description) => {
   const lines = description.split('\n');
+  const tags = [];
+
+  const at = description.indexOf(SCOPING_MARKER);
+  if (at === -1) {
+    console.warn(`merge-payables-spec: no "${SCOPING_MARKER}…" sentence found; skipping it`);
+  } else {
+    const scoping = description.slice(at).split('\n\n')[0].replace(/\s*\n\s*/g, ' ').trim();
+    tags.push({
+      name: `${PAYABLES_GROUP} Authentication`,
+      description:
+        `${scoping} Obtaining a token is unchanged — see ` +
+        `[API Credentials](#tag/API-Credentials).`,
+      'x-traitTag': true,
+    });
+  }
+
   const start = lines.findIndex((l) => l.trim() === '## Provisioning');
   if (start === -1) fail('payables description has no `## Provisioning` section');
 
   let end = lines.length;
   for (let i = start + 1; i < lines.length; i++) {
     const heading = /^## (.+)$/.exec(lines[i]);
-    if (heading && !['Provisioning', 'Payment lifecycle'].includes(heading[1].trim())) {
+    if (heading && !LEAD_SECTIONS.includes(heading[1].trim())) {
       end = i;
       break;
     }
   }
 
-  // Redoc builds its sidebar from the description's `##` headings only. Demoting these
-  // to `###` to nest them under one Payables heading hid both: the prose still rendered,
-  // but nothing in the sidebar led a reader to it. Keep them at `##` and scope them by
-  // name instead — they sit next to each other, so they still read as a set.
-  const body = lines
-    .slice(start, end)
-    .map((l) => l.replace(/^## (.+)$/, (_, title) => `## ${PAYABLES_GROUP} ${title}`))
-    .join('\n')
-    .trim();
-
-  // The rest of payables' lead restates Getting Started and Pagination, but this rule
-  // has no counterpart: which payer accounts a token reaches is payables-only.
-  // It sits mid-paragraph, so match the sentence and take it to the end of its block.
-  const at = description.indexOf(SCOPING_MARKER);
-  const scoping = at === -1
-    ? null
-    : description.slice(at).split('\n\n')[0].replace(/\s*\n\s*/g, ' ').trim();
-
-  if (!scoping) {
-    console.warn(`merge-payables-spec: no "${SCOPING_MARKER}…" sentence found; skipping it`);
+  let current = null;
+  for (const line of lines.slice(start, end)) {
+    const heading = /^## (.+)$/.exec(line);
+    if (heading) {
+      // The tag name is the rendered heading, so the section's own one is dropped.
+      current = { name: `${PAYABLES_GROUP} ${heading[1].trim()}`, body: [], 'x-traitTag': true };
+      tags.push(current);
+      continue;
+    }
+    current?.body.push(line);
   }
 
-  const auth = scoping
-    ? `## ${PAYABLES_GROUP} Authentication\n\n${scoping} Obtaining a token is unchanged — ` +
-      `see [API Credentials](#tag/API-Credentials).\n\n`
-    : '';
-
-  return `${auth}${body}\n`;
+  return tags.map(({ body, ...tag }) =>
+    body ? { ...tag, description: body.join('\n').trim() } : tag,
+  );
 };
 
 for (const file of [mainIndex, mainDescription, payablesSpec]) {
@@ -195,7 +206,14 @@ for (const [route, item] of Object.entries(payables.paths)) {
 
 // --- tags --------------------------------------------------------------------------
 const mainTagNames = new Set(main.tags.map((t) => t.name));
-const newTags = payables.tags.filter((t) => !mainTagNames.has(t.name));
+const traitTags = payablesTraitTags(payables.info.description);
+const newTags = [...traitTags, ...payables.tags.filter((t) => !mainTagNames.has(t.name))];
+
+const collidingTraits = traitTags.filter((t) => mainTagNames.has(t.name));
+if (collidingTraits.length) {
+  fail(`trait tag name(s) already used: ${collidingTraits.map((t) => t.name).join(', ')}`);
+}
+
 merged.tags = [...main.tags, ...newTags];
 
 // Main's paths are $ref stubs here, so counting ids in the merged root alone would
@@ -235,7 +253,9 @@ for (const group of payables['x-tagGroups']) {
   }
 
   const at = groups.findIndex((g) => g.name === GROUP_AFTER);
-  const inserted = { name: group.name, tags };
+  // Traits first: they explain how the group works before listing what it exposes.
+  const leading = group.name === PAYABLES_GROUP ? traitTags.map((t) => t.name) : [];
+  const inserted = { name: group.name, tags: [...leading, ...tags] };
   groups.splice(at === -1 ? groups.length : at + 1, 0, inserted);
   groupByName.set(group.name, inserted);
 }
@@ -257,10 +277,7 @@ for (const [name, item] of Object.entries(payables.webhooks ?? {})) {
 delete merged.webhooks;
 
 // --- lead --------------------------------------------------------------------------
-merged.info = {
-  ...main.info,
-  description: `${fs.readFileSync(mainDescription, 'utf8').trimEnd()}\n\n${payablesLead(payables.info.description)}`,
-};
+merged.info = { ...main.info, description: fs.readFileSync(mainDescription, 'utf8').trimEnd() };
 
 fs.writeFileSync(
   outFile,
