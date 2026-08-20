@@ -1,0 +1,204 @@
+/**
+ * Merges the synced Payables spec into the main JustiFi spec, producing the single
+ * document redocusaurus renders at /api-spec. Run from prebuild/prestart.
+ *
+ * Neither input is edited. Output goes beside index.yaml so its relative $refs still
+ * resolve, and is gitignored — regenerate it, never commit it.
+ */
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import yaml from 'js-yaml';
+
+const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const mainIndex = path.join(rootDir, 'openapi/multi-yaml/index.yaml');
+const mainDescription = path.join(rootDir, 'openapi/docs/description.md');
+const payablesSpec = path.join(rootDir, 'openapi/payables/public.bundled.json');
+const outFile = path.join(rootDir, 'openapi/multi-yaml/index.merged.yaml');
+
+// Payables' own /oauth/token is the same operation as the main spec's, down to the
+// operationId — duplicates would make the merged document invalid.
+const DROPPED_PATHS = ['/oauth/token'];
+
+// Main already has a `Bank Account` tag and a `Webhook Delivery` tag; near-duplicates
+// sitting next to them in one reference read as mistakes.
+const TAG_RENAMES = {
+  'Bank Accounts': 'Payee Bank Accounts',
+  Webhooks: 'Payables Webhooks',
+};
+
+const PAYABLES_GROUP = 'Payables';
+const GROUP_AFTER = 'Payment Resources';
+
+const fail = (message) => {
+  console.error(`merge-payables-spec: ${message}`);
+  process.exit(1);
+};
+
+/** OpenAPI 3.1 `type: [x, "null"]` has no 3.0 equivalent but `nullable: true`. */
+const downgradeNullable = (node) => {
+  if (Array.isArray(node)) return node.map(downgradeNullable);
+  if (!node || typeof node !== 'object') return node;
+
+  const out = {};
+  for (const [key, value] of Object.entries(node)) {
+    if (key === 'type' && Array.isArray(value)) {
+      const concrete = value.filter((t) => t !== 'null');
+      if (concrete.length > 1) {
+        fail(`cannot express a union type in 3.0: ${JSON.stringify(value)}`);
+      }
+      out.type = concrete[0];
+      if (value.includes('null')) out.nullable = true;
+      continue;
+    }
+    out[key] = downgradeNullable(value);
+  }
+  return out;
+};
+
+const renameTags = (node) => {
+  if (Array.isArray(node)) return node.map(renameTags);
+  if (!node || typeof node !== 'object') return node;
+
+  const out = {};
+  for (const [key, value] of Object.entries(node)) {
+    if (key === 'tags' && Array.isArray(value) && value.every((v) => typeof v === 'string')) {
+      out.tags = value.map((t) => TAG_RENAMES[t] ?? t);
+      continue;
+    }
+    if (key === 'name' && typeof value === 'string' && TAG_RENAMES[value]) {
+      out.name = TAG_RENAMES[value];
+      continue;
+    }
+    out[key] = renameTags(value);
+  }
+  return out;
+};
+
+/** Lifts the sections with no counterpart in the main lead, demoted one level. */
+const payablesLead = (description) => {
+  const lines = description.split('\n');
+  const start = lines.findIndex((l) => l.trim() === '## Provisioning');
+  if (start === -1) fail('payables description has no `## Provisioning` section');
+
+  let end = lines.length;
+  for (let i = start + 1; i < lines.length; i++) {
+    const heading = /^## (.+)$/.exec(lines[i]);
+    if (heading && !['Provisioning', 'Payment lifecycle'].includes(heading[1].trim())) {
+      end = i;
+      break;
+    }
+  }
+
+  const body = lines
+    .slice(start, end)
+    .map((l) => (/^#{2,5} /.test(l) ? `#${l}` : l))
+    .join('\n')
+    .trim();
+
+  return `## Payables\n\n${body}\n`;
+};
+
+for (const file of [mainIndex, mainDescription, payablesSpec]) {
+  if (!fs.existsSync(file)) fail(`missing input: ${path.relative(rootDir, file)}`);
+}
+
+const main = yaml.load(fs.readFileSync(mainIndex, 'utf8'));
+const payables = renameTags(downgradeNullable(JSON.parse(fs.readFileSync(payablesSpec, 'utf8'))));
+
+// --- paths -------------------------------------------------------------------------
+// Main's server carries the /v1 prefix; payables' paths carry it themselves.
+const mainServer = main.servers?.[0]?.url ?? '';
+const stripPrefix = mainServer.endsWith('/v1') ? '/v1' : '';
+
+const merged = { ...main };
+merged.paths = { ...main.paths };
+
+for (const [route, item] of Object.entries(payables.paths)) {
+  if (DROPPED_PATHS.includes(route)) continue;
+
+  const rebased = stripPrefix && route.startsWith(`${stripPrefix}/`)
+    ? route.slice(stripPrefix.length)
+    : route;
+
+  if (merged.paths[rebased]) fail(`path collision on ${rebased}`);
+  // The root server already covers these; a per-operation override would render a
+  // redundant server box on every payables operation.
+  for (const op of Object.values(item)) {
+    if (op && typeof op === 'object') delete op.servers;
+  }
+  merged.paths[rebased] = item;
+}
+
+// --- tags --------------------------------------------------------------------------
+const mainTagNames = new Set(main.tags.map((t) => t.name));
+const newTags = payables.tags.filter((t) => !mainTagNames.has(t.name));
+merged.tags = [...main.tags, ...newTags];
+
+const duplicateIds = [];
+const seenOperationIds = new Set();
+for (const item of Object.values(merged.paths)) {
+  for (const op of Object.values(item ?? {})) {
+    if (!op || typeof op !== 'object' || !op.operationId) continue;
+    if (seenOperationIds.has(op.operationId)) duplicateIds.push(op.operationId);
+    seenOperationIds.add(op.operationId);
+  }
+}
+if (duplicateIds.length) fail(`duplicate operationId(s): ${duplicateIds.join(', ')}`);
+
+// --- tag groups --------------------------------------------------------------------
+const groups = main['x-tagGroups'].map((g) => ({ ...g, tags: [...g.tags] }));
+const groupByName = new Map(groups.map((g) => [g.name, g]));
+const newTagNames = new Set(newTags.map((t) => t.name));
+
+for (const group of payables['x-tagGroups']) {
+  const tags = group.tags.filter((t) => newTagNames.has(t));
+  if (!tags.length) continue;
+
+  const existing = groupByName.get(group.name);
+  if (existing) {
+    existing.tags.push(...tags.filter((t) => !existing.tags.includes(t)));
+    continue;
+  }
+
+  const at = groups.findIndex((g) => g.name === GROUP_AFTER);
+  const inserted = { name: group.name, tags };
+  groups.splice(at === -1 ? groups.length : at + 1, 0, inserted);
+  groupByName.set(group.name, inserted);
+}
+merged['x-tagGroups'] = groups;
+
+const grouped = new Set(groups.flatMap((g) => g.tags));
+const ungrouped = merged.tags.map((t) => t.name).filter((n) => !grouped.has(n));
+if (ungrouped.length) {
+  console.warn(`merge-payables-spec: tags in no group: ${ungrouped.join(', ')}`);
+}
+
+// --- webhooks ----------------------------------------------------------------------
+// 3.1 states webhooks natively; the 3.0 document uses Redoc's x-webhooks extension.
+merged['x-webhooks'] = { ...(main['x-webhooks'] ?? {}) };
+for (const [name, item] of Object.entries(payables.webhooks ?? {})) {
+  const key = merged['x-webhooks'][name] ? `payables_${name}` : name;
+  merged['x-webhooks'][key] = item;
+}
+delete merged.webhooks;
+
+// --- lead --------------------------------------------------------------------------
+merged.info = {
+  ...main.info,
+  description: `${fs.readFileSync(mainDescription, 'utf8').trimEnd()}\n\n${payablesLead(payables.info.description)}`,
+};
+
+fs.writeFileSync(
+  outFile,
+  `# GENERATED by scripts/merge-payables-spec.mjs — do not edit, do not commit.\n` +
+    `# Sources: openapi/multi-yaml/index.yaml + openapi/payables/public.bundled.json\n` +
+    yaml.dump(merged, { lineWidth: -1, noRefs: true }),
+);
+
+const added = Object.keys(merged.paths).length - Object.keys(main.paths).length;
+console.log(
+  `merge-payables-spec: wrote ${path.relative(rootDir, outFile)} ` +
+    `(+${added} paths, +${newTags.length} tags, ` +
+    `+${Object.keys(payables.webhooks ?? {}).length} webhooks)`,
+);
