@@ -33,7 +33,7 @@ const TAG_RENAMES = {
 const OPERATION_ID_PREFIX = 'Payables';
 
 const PAYABLES_GROUP = 'Payables';
-const GROUP_AFTER = 'Payment Resources';
+const GROUP_AFTER = 'Card Present Resources';
 
 const SCOPING_MARKER = 'A request is scoped to a payer account';
 
@@ -130,9 +130,13 @@ const payablesLead = (description) => {
     }
   }
 
+  // Redoc builds its sidebar from the description's `##` headings only. Demoting these
+  // to `###` to nest them under one Payables heading hid both: the prose still rendered,
+  // but nothing in the sidebar led a reader to it. Keep them at `##` and scope them by
+  // name instead — they sit next to each other, so they still read as a set.
   const body = lines
     .slice(start, end)
-    .map((l) => (/^#{2,5} /.test(l) ? `#${l}` : l))
+    .map((l) => l.replace(/^## (.+)$/, (_, title) => `## ${PAYABLES_GROUP} ${title}`))
     .join('\n')
     .trim();
 
@@ -149,11 +153,11 @@ const payablesLead = (description) => {
   }
 
   const auth = scoping
-    ? `### Authentication\n\n${scoping} Obtaining a token is unchanged — see ` +
-      `[API Credentials](#tag/API-Credentials).\n\n`
+    ? `## ${PAYABLES_GROUP} Authentication\n\n${scoping} Obtaining a token is unchanged — ` +
+      `see [API Credentials](#tag/API-Credentials).\n\n`
     : '';
 
-  return `## Payables\n\n${auth}${body}\n`;
+  return `${auth}${body}\n`;
 };
 
 for (const file of [mainIndex, mainDescription, payablesSpec]) {
