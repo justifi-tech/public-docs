@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 JustiFi developer documentation repository. Three main content areas:
 1. **Long-form docs** (`/docs/`) - MDX integration guides and tutorials
 2. **OpenAPI spec** (`/openapi/multi-yaml/`) - Modular API reference rendered at `/api-spec/`
-3. **Payables OpenAPI spec** (`/openapi/payables/`) - Generated, synced from `justifi-tech/payables`, rendered at `/payables-api-spec/`
+3. **Payables OpenAPI spec** (`/openapi/payables/`) - Generated, synced from `justifi-tech/payables`, merged into `/api-spec/` at build time
 4. **Web components** (`/.wc-current/`) - Embeddable payment UI component docs
 
 ## Commands
@@ -35,13 +35,15 @@ No linting scripts are configured in package.json, but ESLint/Prettier configs e
 | Content | Source | URL Path |
 |---------|--------|----------|
 | Long-form docs | `/docs/` | `/` (root) |
-| API spec | `/openapi/multi-yaml/index.yaml` | `/api-spec/` |
-| Payables API spec | `/openapi/payables/public.bundled.json` (generated) | `/payables-api-spec/` |
+| API spec | `/openapi/multi-yaml/index.merged.yaml` (generated at prebuild) | `/api-spec/` |
+| ├─ hand-maintained source | `/openapi/multi-yaml/index.yaml` | — |
+| └─ synced Payables source | `/openapi/payables/public.bundled.json` (generated) | — |
 | Web components | `/.wc-current/` | `/web-components/` |
 
 ### OpenAPI Spec Structure
 
-The spec uses modular YAML with `$ref` references. When editing:
+The spec uses modular YAML with `$ref` references. **Edit `index.yaml`, not `index.merged.yaml`** — the
+latter is regenerated at every build and gitignored. When editing:
 - Entry point: `openapi/multi-yaml/index.yaml`
 - Endpoints: `openapi/multi-yaml/paths/` (70+ files, named with `@` for path separators)
 - Schemas/components: `openapi/multi-yaml/components/`
@@ -67,6 +69,9 @@ The spec uses modular YAML with `$ref` references. When editing:
 - **Automation**: payables fires `repository_dispatch` (`payables-openapi-published`) on every merge to its `main` touching `openapi/`. The payload carries provenance only — the spec is ~500KB, well over the 64KB payload limit — so the workflow pulls the document from the payables run artifact under `JUSTIFI_MACHINA_GITHUB_TOKEN`, which therefore needs `actions:read` on that repo.
 - **Gate**: `scripts/payables-spec-gate.mjs` refuses a commit older than the one in `openapi/payables/source.json` (dispatches can finish out of order), skips when the derived document is byte-identical to the published one (most `openapi/` commits leave it untouched — internal-only prose is stripped from it), and hard-fails if an internal path or the `ServiceJWT` scheme ever appears.
 - What payables sends is the **derived** customer-facing document, never its `index.yaml`, which also describes the internal `/internal/*` API.
+- **Merge**: `scripts/merge-payables-spec.mjs` runs at `prebuild`/`prestart` and writes `openapi/multi-yaml/index.merged.yaml`, which is what redocusaurus renders. Neither input is edited and main's `$ref`s are left unresolved, so the output must stay beside `index.yaml`. It converts payables from 3.1 to 3.0 (`type: [x, "null"]` → `nullable`, `webhooks` → `x-webhooks`), rebases its paths off the `/v1` server, drops its duplicate `/oauth/token`, prefixes every payables `operationId` with `Payables` (three collide with the main spec otherwise), renames the tags that would sit beside near-identical ones, and lifts payables' lead sections into `x-traitTag` docs at the head of the group.
+- **Naming**: the group renders as `Payables (Beta)`; payables' own spec just calls it `Payables`. The label is this repo's to change, in `PAYABLES_GROUP_LABEL`.
+- The merge **fails the build** rather than emitting an invalid document — on a 3.1 construct with no 3.0 equivalent, a path collision, or an operationId/trait-tag name already used by the main spec.
 
 ## Key Files
 
@@ -75,6 +80,7 @@ The spec uses modular YAML with `$ref` references. When editing:
 | `docusaurus.config.ts` | Site config, plugins, theme; WC **current** docs line = `versions.current.label` on web-components plugin |
 | `scripts/wc-version-gate.mjs` | Workflow helper: patch vs new major.minor from config label |
 | `scripts/payables-spec-gate.mjs` | Workflow helper: staleness, no-op and internal-leak gate for the synced Payables spec |
+| `scripts/merge-payables-spec.mjs` | Prebuild: merges the synced Payables spec into the main one, emitting `index.merged.yaml` |
 | `sidebars.ts` | Main docs navigation structure |
 | `src/css/tokens.css` | `--jf-*` design tokens mirroring `@justifi/ui`, plus the Infima variables they drive |
 | `src/css/chrome.css` | Navbar, sidebar, breadcrumbs, TOC, pagination, footer, mobile drawer |
