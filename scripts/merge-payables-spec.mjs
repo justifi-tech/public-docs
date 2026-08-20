@@ -24,11 +24,18 @@ const DROPPED_PATHS = ['/oauth/token'];
 // sitting next to them in one reference read as mistakes.
 const TAG_RENAMES = {
   'Bank Accounts': 'Payee Bank Accounts',
-  Webhooks: 'Payables Webhooks',
+  Webhooks: 'Payables Events',
 };
+
+// Payables names its operations for its own document, where `ListBankAccounts` is
+// unambiguous. Here it is not: main already uses that id, and two more besides.
+// Scoping every payables id keeps them unique by construction rather than by luck.
+const OPERATION_ID_PREFIX = 'Payables';
 
 const PAYABLES_GROUP = 'Payables';
 const GROUP_AFTER = 'Payment Resources';
+
+const SCOPING_MARKER = 'A request is scoped to a payer account';
 
 const fail = (message) => {
   console.error(`merge-payables-spec: ${message}`);
@@ -75,6 +82,39 @@ const renameTags = (node) => {
   return out;
 };
 
+const scopeOperationIds = (pathItems) => {
+  for (const item of Object.values(pathItems)) {
+    for (const op of Object.values(item ?? {})) {
+      if (op && typeof op === 'object' && op.operationId) {
+        op.operationId = `${OPERATION_ID_PREFIX}${op.operationId}`;
+      }
+    }
+  }
+};
+
+/** operationIds the main spec declares, which live in the files its $refs point at. */
+const mainOperationIds = (doc, baseDir) => {
+  const ids = [];
+  const visit = (item) => {
+    if (!item || typeof item !== 'object') return;
+    if (typeof item.$ref === 'string' && !item.$ref.startsWith('#')) {
+      const file = path.resolve(baseDir, item.$ref.split('#')[0]);
+      if (!fs.existsSync(file)) return;
+      const loaded = yaml.load(fs.readFileSync(file, 'utf8'));
+      for (const op of Object.values(loaded ?? {})) {
+        if (op && typeof op === 'object' && op.operationId) ids.push(op.operationId);
+      }
+      return;
+    }
+    for (const op of Object.values(item)) {
+      if (op && typeof op === 'object' && op.operationId) ids.push(op.operationId);
+    }
+  };
+  Object.values(doc.paths ?? {}).forEach(visit);
+  Object.values(doc['x-webhooks'] ?? {}).forEach(visit);
+  return ids;
+};
+
 /** Lifts the sections with no counterpart in the main lead, demoted one level. */
 const payablesLead = (description) => {
   const lines = description.split('\n');
@@ -96,7 +136,24 @@ const payablesLead = (description) => {
     .join('\n')
     .trim();
 
-  return `## Payables\n\n${body}\n`;
+  // The rest of payables' lead restates Getting Started and Pagination, but this rule
+  // has no counterpart: which payer accounts a token reaches is payables-only.
+  // It sits mid-paragraph, so match the sentence and take it to the end of its block.
+  const at = description.indexOf(SCOPING_MARKER);
+  const scoping = at === -1
+    ? null
+    : description.slice(at).split('\n\n')[0].replace(/\s*\n\s*/g, ' ').trim();
+
+  if (!scoping) {
+    console.warn(`merge-payables-spec: no "${SCOPING_MARKER}…" sentence found; skipping it`);
+  }
+
+  const auth = scoping
+    ? `### Authentication\n\n${scoping} Obtaining a token is unchanged — see ` +
+      `[API Credentials](#tag/API-Credentials).\n\n`
+    : '';
+
+  return `## Payables\n\n${auth}${body}\n`;
 };
 
 for (const file of [mainIndex, mainDescription, payablesSpec]) {
@@ -105,6 +162,8 @@ for (const file of [mainIndex, mainDescription, payablesSpec]) {
 
 const main = yaml.load(fs.readFileSync(mainIndex, 'utf8'));
 const payables = renameTags(downgradeNullable(JSON.parse(fs.readFileSync(payablesSpec, 'utf8'))));
+scopeOperationIds(payables.paths);
+scopeOperationIds(payables.webhooks ?? {});
 
 // --- paths -------------------------------------------------------------------------
 // Main's server carries the /v1 prefix; payables' paths carry it themselves.
@@ -135,16 +194,26 @@ const mainTagNames = new Set(main.tags.map((t) => t.name));
 const newTags = payables.tags.filter((t) => !mainTagNames.has(t.name));
 merged.tags = [...main.tags, ...newTags];
 
-const duplicateIds = [];
-const seenOperationIds = new Set();
-for (const item of Object.values(merged.paths)) {
+// Main's paths are $ref stubs here, so counting ids in the merged root alone would
+// see only payables' and call any collision clean.
+const mainIds = mainOperationIds(main, path.dirname(mainIndex));
+const mainIdSet = new Set(mainIds);
+
+const preExisting = [...new Set(mainIds.filter((id, i) => mainIds.indexOf(id) !== i))];
+if (preExisting.length) {
+  console.warn(`merge-payables-spec: main spec already repeats: ${preExisting.join(', ')}`);
+}
+
+const introduced = [];
+for (const [route, item] of Object.entries(payables.paths)) {
+  if (DROPPED_PATHS.includes(route)) continue;
   for (const op of Object.values(item ?? {})) {
-    if (!op || typeof op !== 'object' || !op.operationId) continue;
-    if (seenOperationIds.has(op.operationId)) duplicateIds.push(op.operationId);
-    seenOperationIds.add(op.operationId);
+    if (op?.operationId && mainIdSet.has(op.operationId)) introduced.push(op.operationId);
   }
 }
-if (duplicateIds.length) fail(`duplicate operationId(s): ${duplicateIds.join(', ')}`);
+if (introduced.length) {
+  fail(`payables operationId(s) already used by the main spec: ${introduced.join(', ')}`);
+}
 
 // --- tag groups --------------------------------------------------------------------
 const groups = main['x-tagGroups'].map((g) => ({ ...g, tags: [...g.tags] }));
