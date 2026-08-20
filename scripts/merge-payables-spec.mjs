@@ -32,13 +32,22 @@ const TAG_RENAMES = {
 // Scoping every payables id keeps them unique by construction rather than by luck.
 const OPERATION_ID_PREFIX = 'Payables';
 
+// The group payables declares, and the heading we render it under.
 const PAYABLES_GROUP = 'Payables';
+const PAYABLES_GROUP_LABEL = 'Payables (Beta)';
 const GROUP_AFTER = 'Card Present Resources';
 
 const SCOPING_MARKER = 'A request is scoped to a payer account';
 
 // Everything else in payables' lead restates Getting Started and Pagination.
-const LEAD_SECTIONS = ['Provisioning', 'Payment lifecycle'];
+const LEAD_SECTIONS_SKIPPED = ['Authentication', 'Conventions'];
+
+// Inside a group already called Payables, a Payables prefix says nothing. These names
+// say which resource the section is about instead, and none collides with the main spec.
+const LEAD_SECTION_TAGS = {
+  Provisioning: 'Payer Account Provisioning',
+  'Payment lifecycle': 'Payee Payment lifecycle',
+};
 
 const fail = (message) => {
   console.error(`merge-payables-spec: ${message}`);
@@ -125,7 +134,6 @@ const mainOperationIds = (doc, baseDir) => {
  * x-traitTag puts them in the sidebar inside the Payables group instead.
  */
 const payablesTraitTags = (description) => {
-  const lines = description.split('\n');
   const tags = [];
 
   const at = description.indexOf(SCOPING_MARKER);
@@ -134,7 +142,7 @@ const payablesTraitTags = (description) => {
   } else {
     const scoping = description.slice(at).split('\n\n')[0].replace(/\s*\n\s*/g, ' ').trim();
     tags.push({
-      name: `${PAYABLES_GROUP} Authentication`,
+      name: 'Payer Account Scope',
       description:
         `${scoping} Obtaining a token is unchanged — see ` +
         `[API Credentials](#tag/API-Credentials).`,
@@ -142,28 +150,24 @@ const payablesTraitTags = (description) => {
     });
   }
 
-  const start = lines.findIndex((l) => l.trim() === '## Provisioning');
-  if (start === -1) fail('payables description has no `## Provisioning` section');
-
-  let end = lines.length;
-  for (let i = start + 1; i < lines.length; i++) {
-    const heading = /^## (.+)$/.exec(lines[i]);
-    if (heading && !LEAD_SECTIONS.includes(heading[1].trim())) {
-      end = i;
-      break;
-    }
-  }
-
+  // Every `##` section that is not a restatement of the main lead, in source order, so a
+  // new explainer in payables arrives here without this script being taught about it.
   let current = null;
-  for (const line of lines.slice(start, end)) {
+  for (const line of description.split('\n')) {
     const heading = /^## (.+)$/.exec(line);
     if (heading) {
-      // The tag name is the rendered heading, so the section's own one is dropped.
-      current = { name: `${PAYABLES_GROUP} ${heading[1].trim()}`, body: [], 'x-traitTag': true };
-      tags.push(current);
+      const title = heading[1].trim();
+      current = LEAD_SECTIONS_SKIPPED.includes(title)
+        ? null
+        : { name: LEAD_SECTION_TAGS[title] ?? title, body: [], 'x-traitTag': true };
+      if (current) tags.push(current);
       continue;
     }
     current?.body.push(line);
+  }
+
+  if (!tags.some((t) => t.name === LEAD_SECTION_TAGS.Provisioning)) {
+    fail('payables description has no `## Provisioning` section');
   }
 
   return tags.map(({ body, ...tag }) =>
@@ -255,7 +259,8 @@ for (const group of payables['x-tagGroups']) {
   const at = groups.findIndex((g) => g.name === GROUP_AFTER);
   // Traits first: they explain how the group works before listing what it exposes.
   const leading = group.name === PAYABLES_GROUP ? traitTags.map((t) => t.name) : [];
-  const inserted = { name: group.name, tags: [...leading, ...tags] };
+  const label = group.name === PAYABLES_GROUP ? PAYABLES_GROUP_LABEL : group.name;
+  const inserted = { name: label, tags: [...leading, ...tags] };
   groups.splice(at === -1 ? groups.length : at + 1, 0, inserted);
   groupByName.set(group.name, inserted);
 }
