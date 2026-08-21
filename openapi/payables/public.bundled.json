@@ -388,7 +388,7 @@
                                 "example": "live"
                               },
                               "status": {
-                                "description": "the payer account's Payables lifecycle state. `pending` — provisioning has begun but the risk\nplatform has not yet reported the business Payables-ready; `active` — Payables-ready and able\nto initiate payments; `disabled` — was active previously but no longer able to initiate payments; `archived` — was active previously but is now archived.\n",
+                                "description": "the payer account's Payables lifecycle state, and what each state prevents. `pending` —\nprovisioning has begun but the risk platform has not yet reported the business Payables-ready;\n`active` — Payables-ready, and the only state under which anything can be created; `disabled` —\nwas active previously, and can no longer schedule payments, create payees or register bank\naccounts; `archived` — the same, and permanent: an archived payer account cannot be reactivated.\n\nA payment whose payee credit is already held is not paid out while the account is not `active`.\nIt stays held until the account is active again, rather than failing.\n",
                                 "type": "string",
                                 "enum": [
                                   "pending",
@@ -436,7 +436,7 @@
             }
           },
           "400": {
-            "description": "The request was malformed, failed validation, or referenced a resource that cannot be used in its\ncurrent state — for example scheduling a payment to a payee that has been archived. When the failure is\nfield-level, `error.details` carries one array of messages per rejected attribute.\n",
+            "description": "The request was malformed, failed validation, or referenced a resource that cannot be used in its\ncurrent state — for example scheduling a payment to a payee that is not active, or creating anything\nunder a payer account that is not active. When the failure is field-level, `error.details` carries one\narray of messages per rejected attribute.\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -776,7 +776,7 @@
                               "example": "live"
                             },
                             "status": {
-                              "description": "the payer account's Payables lifecycle state. `pending` — provisioning has begun but the risk\nplatform has not yet reported the business Payables-ready; `active` — Payables-ready and able\nto initiate payments; `disabled` — was active previously but no longer able to initiate payments; `archived` — was active previously but is now archived.\n",
+                              "description": "the payer account's Payables lifecycle state, and what each state prevents. `pending` —\nprovisioning has begun but the risk platform has not yet reported the business Payables-ready;\n`active` — Payables-ready, and the only state under which anything can be created; `disabled` —\nwas active previously, and can no longer schedule payments, create payees or register bank\naccounts; `archived` — the same, and permanent: an archived payer account cannot be reactivated.\n\nA payment whose payee credit is already held is not paid out while the account is not `active`.\nIt stays held until the account is active again, rather than failing.\n",
                               "type": "string",
                               "enum": [
                                 "pending",
@@ -1331,7 +1331,7 @@
                                 "example": null
                               },
                               "status": {
-                                "description": "the payee's status.\n\n`pending` — created but not cleared for payments; `active` — able to receive payments; `disabled` — was active previously but no longer able to receive payments; `archived` — was active previously but is now archived.\n",
+                                "description": "the payee's status.\n\n`pending` — created but not cleared for payments; `active` — able to receive payments, and the\nonly state a payment can be scheduled or paid out under; `disabled` — was active previously and\ncan no longer be paid; `archived` — was active previously and can never be paid again.\n\nA payment whose payee credit is already held is not paid out while the payee is not `active`. It\nstays held until the payee is active again, rather than failing.\n",
                                 "type": "string",
                                 "enum": [
                                   "pending",
@@ -1369,7 +1369,7 @@
             }
           },
           "400": {
-            "description": "The request was malformed, failed validation, or referenced a resource that cannot be used in its\ncurrent state — for example scheduling a payment to a payee that has been archived. When the failure is\nfield-level, `error.details` carries one array of messages per rejected attribute.\n",
+            "description": "The request was malformed, failed validation, or referenced a resource that cannot be used in its\ncurrent state — for example scheduling a payment to a payee that is not active, or creating anything\nunder a payer account that is not active. When the failure is field-level, `error.details` carries one\narray of messages per rejected attribute.\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -1661,7 +1661,7 @@
       },
       "post": {
         "summary": "Create a Payee",
-        "description": "Create a payee under this payer account. `name`, `entity_type`, `tax_id` and `address` are all\nrequired — together they are the identity a payee is paid and filed against, and none of them has a\nsensible default. A payee is still created without a bank account and has one registered later,\nthrough `CreateBankAccount`.\n\n`entity_type` and `tax_id` are fixed here — they are the taxpayer the payee is filed against, and\n`UpdatePayee` does not accept them.\n",
+        "description": "Create a payee under this payer account. `name`, `entity_type`, `tax_id` and `address` are all\nrequired — together they are the identity a payee is paid and filed against, and none of them has a\nsensible default. A payee is still created without a bank account and has one registered later,\nthrough `CreateBankAccount`.\n\n`entity_type` and `tax_id` are fixed here — they are the taxpayer the payee is filed against, and\n`UpdatePayee` does not accept them.\n\n**The payer account must be `active`.** A payer account that is `pending`, `disabled` or `archived`\ncreates nothing, and a payee create under one is refused with a `400`.\n",
         "operationId": "CreatePayee",
         "tags": [
           "Payees"
@@ -1936,7 +1936,7 @@
                               "example": null
                             },
                             "status": {
-                              "description": "the payee's status.\n\n`pending` — created but not cleared for payments; `active` — able to receive payments; `disabled` — was active previously but no longer able to receive payments; `archived` — was active previously but is now archived.\n",
+                              "description": "the payee's status.\n\n`pending` — created but not cleared for payments; `active` — able to receive payments, and the\nonly state a payment can be scheduled or paid out under; `disabled` — was active previously and\ncan no longer be paid; `archived` — was active previously and can never be paid again.\n\nA payment whose payee credit is already held is not paid out while the payee is not `active`. It\nstays held until the payee is active again, rather than failing.\n",
                               "type": "string",
                               "enum": [
                                 "pending",
@@ -1973,7 +1973,7 @@
             }
           },
           "400": {
-            "description": "The request was malformed, failed validation, or referenced a resource that cannot be used in its\ncurrent state — for example scheduling a payment to a payee that has been archived. When the failure is\nfield-level, `error.details` carries one array of messages per rejected attribute.\n",
+            "description": "The request was malformed, failed validation, or referenced a resource that cannot be used in its\ncurrent state — for example scheduling a payment to a payee that is not active, or creating anything\nunder a payer account that is not active. When the failure is field-level, `error.details` carries one\narray of messages per rejected attribute.\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -2519,7 +2519,7 @@
                               "example": null
                             },
                             "status": {
-                              "description": "the payee's status.\n\n`pending` — created but not cleared for payments; `active` — able to receive payments; `disabled` — was active previously but no longer able to receive payments; `archived` — was active previously but is now archived.\n",
+                              "description": "the payee's status.\n\n`pending` — created but not cleared for payments; `active` — able to receive payments, and the\nonly state a payment can be scheduled or paid out under; `disabled` — was active previously and\ncan no longer be paid; `archived` — was active previously and can never be paid again.\n\nA payment whose payee credit is already held is not paid out while the payee is not `active`. It\nstays held until the payee is active again, rather than failing.\n",
                               "type": "string",
                               "enum": [
                                 "pending",
@@ -3050,7 +3050,7 @@
                               "example": null
                             },
                             "status": {
-                              "description": "the payee's status.\n\n`pending` — created but not cleared for payments; `active` — able to receive payments; `disabled` — was active previously but no longer able to receive payments; `archived` — was active previously but is now archived.\n",
+                              "description": "the payee's status.\n\n`pending` — created but not cleared for payments; `active` — able to receive payments, and the\nonly state a payment can be scheduled or paid out under; `disabled` — was active previously and\ncan no longer be paid; `archived` — was active previously and can never be paid again.\n\nA payment whose payee credit is already held is not paid out while the payee is not `active`. It\nstays held until the payee is active again, rather than failing.\n",
                               "type": "string",
                               "enum": [
                                 "pending",
@@ -3387,7 +3387,7 @@
       },
       "delete": {
         "summary": "Archive a Payee",
-        "description": "Archive a payee. Archiving is a soft delete: the payee's record and payment history are retained,\nbut the payee can no longer be paid. Payments already in flight are unaffected. Returns the archived\npayee.\n\nArchiving is one-way — there is no unarchive operation, and `status` is not writable through\n`UpdatePayee`. To pay a party again after archiving it, create a new payee.\n",
+        "description": "Archive a payee. Archiving is a soft delete: the payee's record and payment history are retained,\nbut the payee can no longer be paid. Returns the archived payee.\n\n**Archiving reaches the payments already in flight, up to a point.** A credit already submitted to\nthe network completes — nothing recalls an ACH entry. A payment still holding the payer's funds is\nnot paid out: it stays held rather than failing, and would resume only if the payee were active\nagain, which archiving rules out. Archiving is also always allowed, whatever the payer account's\nstatus.\n\nArchiving is one-way — there is no unarchive operation, and `status` is not writable through\n`UpdatePayee`. To pay a party again after archiving it, create a new payee.\n",
         "operationId": "ArchivePayee",
         "tags": [
           "Payees"
@@ -3576,7 +3576,7 @@
                               "example": null
                             },
                             "status": {
-                              "description": "the payee's status.\n\n`pending` — created but not cleared for payments; `active` — able to receive payments; `disabled` — was active previously but no longer able to receive payments; `archived` — was active previously but is now archived.\n",
+                              "description": "the payee's status.\n\n`pending` — created but not cleared for payments; `active` — able to receive payments, and the\nonly state a payment can be scheduled or paid out under; `disabled` — was active previously and\ncan no longer be paid; `archived` — was active previously and can never be paid again.\n\nA payment whose payee credit is already held is not paid out while the payee is not `active`. It\nstays held until the payee is active again, rather than failing.\n",
                               "type": "string",
                               "enum": [
                                 "pending",
@@ -4077,7 +4077,7 @@
             }
           },
           "400": {
-            "description": "The request was malformed, failed validation, or referenced a resource that cannot be used in its\ncurrent state — for example scheduling a payment to a payee that has been archived. When the failure is\nfield-level, `error.details` carries one array of messages per rejected attribute.\n",
+            "description": "The request was malformed, failed validation, or referenced a resource that cannot be used in its\ncurrent state — for example scheduling a payment to a payee that is not active, or creating anything\nunder a payer account that is not active. When the failure is field-level, `error.details` carries one\narray of messages per rejected attribute.\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -4369,7 +4369,7 @@
       },
       "post": {
         "summary": "Create a Payee Bank Account",
-        "description": "Register a **receiving** bank account for a payee under this payer account (the account a payment is\npaid to). The `account_number` is write-only — it is accepted here but never returned; responses\nexpose only `account_number_last4`.\n\n**Funding accounts cannot be created here.** The payer account's own funding account — the one\npayments are pulled from — is set during provisioning and replaced by JustiFi rather than through this\nAPI, because it decides where money is taken from. This endpoint creates payee receiving accounts only,\nand they are created `not_required`: Payables does not validate payee accounts. You can still\n*read* funding accounts through `ListBankAccounts` and `GetBankAccount`.\n\nIn this version an owner has a single active bank account — creating one for a payee that already has\nan active account supersedes the previous one.\n",
+        "description": "Register a **receiving** bank account for a payee under this payer account (the account a payment is\npaid to). The `account_number` is write-only — it is accepted here but never returned; responses\nexpose only `account_number_last4`.\n\n**Funding accounts cannot be created here.** The payer account's own funding account — the one\npayments are pulled from — is set during provisioning and replaced by JustiFi rather than through this\nAPI, because it decides where money is taken from. This endpoint creates payee receiving accounts only,\nand they are created `not_required`: Payables does not validate payee accounts. You can still\n*read* funding accounts through `ListBankAccounts` and `GetBankAccount`.\n\nIn this version an owner has a single active bank account — creating one for a payee that already has\nan active account supersedes the previous one.\n\n**The payer account must be `active` and the payee must not be archived.** Either one is a `400`: a\npayer account that is not active registers nothing, and an archived payee can never be paid, so it\nhas nothing to be paid to.\n",
         "operationId": "CreateBankAccount",
         "tags": [
           "Bank Accounts"
@@ -4569,7 +4569,7 @@
             }
           },
           "400": {
-            "description": "The request was malformed, failed validation, or referenced a resource that cannot be used in its\ncurrent state — for example scheduling a payment to a payee that has been archived. When the failure is\nfield-level, `error.details` carries one array of messages per rejected attribute.\n",
+            "description": "The request was malformed, failed validation, or referenced a resource that cannot be used in its\ncurrent state — for example scheduling a payment to a payee that is not active, or creating anything\nunder a payer account that is not active. When the failure is field-level, `error.details` carries one\narray of messages per rejected attribute.\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -5531,7 +5531,7 @@
                                 "example": "usd"
                               },
                               "status": {
-                                "description": "the payment's position in its lifecycle.\n`initiated` → `inbound_submitted` → `holding` → `outbound_submitted` → `succeeded` is the happy path.\n\n**`holding` is a real wait.** Once the payer's funding has settled, the payee's credit is held\nuntil the next banking day before it is submitted, so a payment rests in `holding` rather than\npassing through it. Read `deposits_at` for when the payee is expected to be deposited; the hold is\nalready in that estimate.\n\nWhich return path a payment takes depends on whose money was already moved. A returned **inbound**\ndebit-pull means nothing settled, so the payment is `failed` and no one is owed anything. A returned\n**outbound** credit means the payer was already debited, so the payment moves to `refunding_payer`\nand then `refunded` once the payer has their money back. Both `failed` and `refunded` are terminal.\n\n**`succeeded` is not the end.** ACH lets a return arrive days after an entry settled, so one can\nland after a payment has succeeded. That moves the payment to `failed_late_return`, which is\nterminal — JustiFi works the break by hand and records the corrective movement as a further leg\non the same payment. See \"A return that arrives after a payment succeeded\" in the overview.\n\n**`failed_late_return` does not mean the payee holds nothing.** It reports that the payment did\nnot stick, and the two ways that happens are opposites: a returned **outbound** credit means the\npayee never kept the money, while a returned **inbound** debit-pull means the payer's funding was\nclawed back *after* the payee was paid — so the payee still has it. **Re-sending on this status\ncan pay a payee twice.** Read the payment's `transfers` to see which leg returned before acting.\n",
+                                "description": "the payment's position in its lifecycle.\n`initiated` → `inbound_submitted` → `holding` → `outbound_submitted` → `succeeded` is the happy path.\n\n**`holding` is a real wait.** Once the payer's funding has settled, the payee's credit is held\nuntil the next banking day before it is submitted, so a payment rests in `holding` rather than\npassing through it. Read `deposits_at` for when the payee is expected to be deposited; the hold is\nalready in that estimate.\n\n**The hold only lifts for an active payer account and an active payee.** When the wait is up, the\npayee's credit is sent if both are `active`; if either is not, the payment stays in `holding` and\nis reconsidered periodically, so it pays out once both are active again. A hold that persists\npushes the deposit past the `deposits_at` estimate, which is why that field is an estimate.\n\nWhich return path a payment takes depends on whose money was already moved. A returned **inbound**\ndebit-pull means nothing settled, so the payment is `failed` and no one is owed anything. A returned\n**outbound** credit means the payer was already debited, so the payment moves to `refunding_payer`\nand then `refunded` once the payer has their money back. Both `failed` and `refunded` are terminal.\n\n**`succeeded` is not the end.** ACH lets a return arrive days after an entry settled, so one can\nland after a payment has succeeded. That moves the payment to `failed_late_return`, which is\nterminal — JustiFi works the break by hand and records the corrective movement as a further leg\non the same payment. See \"A return that arrives after a payment succeeded\" in the overview.\n\n**`failed_late_return` does not mean the payee holds nothing.** It reports that the payment did\nnot stick, and the two ways that happens are opposites: a returned **outbound** credit means the\npayee never kept the money, while a returned **inbound** debit-pull means the payer's funding was\nclawed back *after* the payee was paid — so the payee still has it. **Re-sending on this status\ncan pay a payee twice.** Read the payment's `transfers` to see which leg returned before acting.\n",
                                 "type": "string",
                                 "enum": [
                                   "initiated",
@@ -5733,7 +5733,7 @@
             }
           },
           "400": {
-            "description": "The request was malformed, failed validation, or referenced a resource that cannot be used in its\ncurrent state — for example scheduling a payment to a payee that has been archived. When the failure is\nfield-level, `error.details` carries one array of messages per rejected attribute.\n",
+            "description": "The request was malformed, failed validation, or referenced a resource that cannot be used in its\ncurrent state — for example scheduling a payment to a payee that is not active, or creating anything\nunder a payer account that is not active. When the failure is field-level, `error.details` carries one\narray of messages per rejected attribute.\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -6025,7 +6025,7 @@
       },
       "post": {
         "summary": "Schedule a Payee Payment",
-        "description": "Schedule a payment to a payee. This debit-pulls the gross `amount` from the payer's funding bank\naccount, holds it, then credits the payee's receiving account with `amount` minus `fees`. The `fees`\narray is required (no default) and is carved out of `amount`. There is no automatic retry: a returned\ndebit-pull fails the payment, and a returned credit to the payee refunds the payer.\n\n**You name the payee; everything else about the routing is resolved for you.** The funding account\ncomes from the payer account in the path and the receiving account from the payee, so neither is a\nrequest field — a payment can only ever move money between the two accounts those records already\npoint at. The schedule is set by the system: each leg takes three banking days, and `debits_at` and\n`deposits_at` are returned once known. `payment_type` and `currency` are optional and default to\n`ach` and `usd`, the only values either accepts.\n\nBoth accounts must be usable, and the bar differs by side. The payer account's funding account must be\n**verified**. The payee's receiving account does **not** need to be verified — `not_required` is the\nnormal state for one — but it must **exist** and must not have **failed** verification: a payee can be\ncreated without a bank account, and naming one that has none leaves the payment with nothing to credit.\nEither failure is a `422`.\n",
+        "description": "Schedule a payment to a payee. This debit-pulls the gross `amount` from the payer's funding bank\naccount, holds it, then credits the payee's receiving account with `amount` minus `fees`. The `fees`\narray is required (no default) and is carved out of `amount`. There is no automatic retry: a returned\ndebit-pull fails the payment, and a returned credit to the payee refunds the payer.\n\n**You name the payee; everything else about the routing is resolved for you.** The funding account\ncomes from the payer account in the path and the receiving account from the payee, so neither is a\nrequest field — a payment can only ever move money between the two accounts those records already\npoint at. The schedule is set by the system: each leg takes three banking days, and `debits_at` and\n`deposits_at` are returned once known. `payment_type` and `currency` are optional and default to\n`ach` and `usd`, the only values either accepts.\n\n**The payer account and the payee must both be `active`**, and either one that is not is a `400`\nrather than a `422` — a status is the state of a record the request refers to, not a problem with\nthe body. A payee that is `pending`, `disabled` or `archived` cannot be paid.\n\nBoth accounts must be usable, and the bar differs by side. The payer account's funding account must be\n**verified**. The payee's receiving account does **not** need to be verified — `not_required` is the\nnormal state for one — but it must **exist** and must not have **failed** verification: a payee can be\ncreated without a bank account, and naming one that has none leaves the payment with nothing to credit.\nEither failure is a `422`.\n",
         "operationId": "CreatePayeePayment",
         "tags": [
           "Payee Payments"
@@ -6224,7 +6224,7 @@
                               "example": "usd"
                             },
                             "status": {
-                              "description": "the payment's position in its lifecycle.\n`initiated` → `inbound_submitted` → `holding` → `outbound_submitted` → `succeeded` is the happy path.\n\n**`holding` is a real wait.** Once the payer's funding has settled, the payee's credit is held\nuntil the next banking day before it is submitted, so a payment rests in `holding` rather than\npassing through it. Read `deposits_at` for when the payee is expected to be deposited; the hold is\nalready in that estimate.\n\nWhich return path a payment takes depends on whose money was already moved. A returned **inbound**\ndebit-pull means nothing settled, so the payment is `failed` and no one is owed anything. A returned\n**outbound** credit means the payer was already debited, so the payment moves to `refunding_payer`\nand then `refunded` once the payer has their money back. Both `failed` and `refunded` are terminal.\n\n**`succeeded` is not the end.** ACH lets a return arrive days after an entry settled, so one can\nland after a payment has succeeded. That moves the payment to `failed_late_return`, which is\nterminal — JustiFi works the break by hand and records the corrective movement as a further leg\non the same payment. See \"A return that arrives after a payment succeeded\" in the overview.\n\n**`failed_late_return` does not mean the payee holds nothing.** It reports that the payment did\nnot stick, and the two ways that happens are opposites: a returned **outbound** credit means the\npayee never kept the money, while a returned **inbound** debit-pull means the payer's funding was\nclawed back *after* the payee was paid — so the payee still has it. **Re-sending on this status\ncan pay a payee twice.** Read the payment's `transfers` to see which leg returned before acting.\n",
+                              "description": "the payment's position in its lifecycle.\n`initiated` → `inbound_submitted` → `holding` → `outbound_submitted` → `succeeded` is the happy path.\n\n**`holding` is a real wait.** Once the payer's funding has settled, the payee's credit is held\nuntil the next banking day before it is submitted, so a payment rests in `holding` rather than\npassing through it. Read `deposits_at` for when the payee is expected to be deposited; the hold is\nalready in that estimate.\n\n**The hold only lifts for an active payer account and an active payee.** When the wait is up, the\npayee's credit is sent if both are `active`; if either is not, the payment stays in `holding` and\nis reconsidered periodically, so it pays out once both are active again. A hold that persists\npushes the deposit past the `deposits_at` estimate, which is why that field is an estimate.\n\nWhich return path a payment takes depends on whose money was already moved. A returned **inbound**\ndebit-pull means nothing settled, so the payment is `failed` and no one is owed anything. A returned\n**outbound** credit means the payer was already debited, so the payment moves to `refunding_payer`\nand then `refunded` once the payer has their money back. Both `failed` and `refunded` are terminal.\n\n**`succeeded` is not the end.** ACH lets a return arrive days after an entry settled, so one can\nland after a payment has succeeded. That moves the payment to `failed_late_return`, which is\nterminal — JustiFi works the break by hand and records the corrective movement as a further leg\non the same payment. See \"A return that arrives after a payment succeeded\" in the overview.\n\n**`failed_late_return` does not mean the payee holds nothing.** It reports that the payment did\nnot stick, and the two ways that happens are opposites: a returned **outbound** credit means the\npayee never kept the money, while a returned **inbound** debit-pull means the payer's funding was\nclawed back *after* the payee was paid — so the payee still has it. **Re-sending on this status\ncan pay a payee twice.** Read the payment's `transfers` to see which leg returned before acting.\n",
                               "type": "string",
                               "enum": [
                                 "initiated",
@@ -6497,7 +6497,7 @@
                               "example": "usd"
                             },
                             "status": {
-                              "description": "the payment's position in its lifecycle.\n`initiated` → `inbound_submitted` → `holding` → `outbound_submitted` → `succeeded` is the happy path.\n\n**`holding` is a real wait.** Once the payer's funding has settled, the payee's credit is held\nuntil the next banking day before it is submitted, so a payment rests in `holding` rather than\npassing through it. Read `deposits_at` for when the payee is expected to be deposited; the hold is\nalready in that estimate.\n\nWhich return path a payment takes depends on whose money was already moved. A returned **inbound**\ndebit-pull means nothing settled, so the payment is `failed` and no one is owed anything. A returned\n**outbound** credit means the payer was already debited, so the payment moves to `refunding_payer`\nand then `refunded` once the payer has their money back. Both `failed` and `refunded` are terminal.\n\n**`succeeded` is not the end.** ACH lets a return arrive days after an entry settled, so one can\nland after a payment has succeeded. That moves the payment to `failed_late_return`, which is\nterminal — JustiFi works the break by hand and records the corrective movement as a further leg\non the same payment. See \"A return that arrives after a payment succeeded\" in the overview.\n\n**`failed_late_return` does not mean the payee holds nothing.** It reports that the payment did\nnot stick, and the two ways that happens are opposites: a returned **outbound** credit means the\npayee never kept the money, while a returned **inbound** debit-pull means the payer's funding was\nclawed back *after* the payee was paid — so the payee still has it. **Re-sending on this status\ncan pay a payee twice.** Read the payment's `transfers` to see which leg returned before acting.\n",
+                              "description": "the payment's position in its lifecycle.\n`initiated` → `inbound_submitted` → `holding` → `outbound_submitted` → `succeeded` is the happy path.\n\n**`holding` is a real wait.** Once the payer's funding has settled, the payee's credit is held\nuntil the next banking day before it is submitted, so a payment rests in `holding` rather than\npassing through it. Read `deposits_at` for when the payee is expected to be deposited; the hold is\nalready in that estimate.\n\n**The hold only lifts for an active payer account and an active payee.** When the wait is up, the\npayee's credit is sent if both are `active`; if either is not, the payment stays in `holding` and\nis reconsidered periodically, so it pays out once both are active again. A hold that persists\npushes the deposit past the `deposits_at` estimate, which is why that field is an estimate.\n\nWhich return path a payment takes depends on whose money was already moved. A returned **inbound**\ndebit-pull means nothing settled, so the payment is `failed` and no one is owed anything. A returned\n**outbound** credit means the payer was already debited, so the payment moves to `refunding_payer`\nand then `refunded` once the payer has their money back. Both `failed` and `refunded` are terminal.\n\n**`succeeded` is not the end.** ACH lets a return arrive days after an entry settled, so one can\nland after a payment has succeeded. That moves the payment to `failed_late_return`, which is\nterminal — JustiFi works the break by hand and records the corrective movement as a further leg\non the same payment. See \"A return that arrives after a payment succeeded\" in the overview.\n\n**`failed_late_return` does not mean the payee holds nothing.** It reports that the payment did\nnot stick, and the two ways that happens are opposites: a returned **outbound** credit means the\npayee never kept the money, while a returned **inbound** debit-pull means the payer's funding was\nclawed back *after* the payee was paid — so the payee still has it. **Re-sending on this status\ncan pay a payee twice.** Read the payment's `transfers` to see which leg returned before acting.\n",
                               "type": "string",
                               "enum": [
                                 "initiated",
@@ -6698,7 +6698,7 @@
             }
           },
           "400": {
-            "description": "The request was malformed, failed validation, or referenced a resource that cannot be used in its\ncurrent state — for example scheduling a payment to a payee that has been archived. When the failure is\nfield-level, `error.details` carries one array of messages per rejected attribute.\n",
+            "description": "The request was malformed, failed validation, or referenced a resource that cannot be used in its\ncurrent state — for example scheduling a payment to a payee that is not active, or creating anything\nunder a payer account that is not active. When the failure is field-level, `error.details` carries one\narray of messages per rejected attribute.\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -7222,7 +7222,7 @@
                               "example": "usd"
                             },
                             "status": {
-                              "description": "the payment's position in its lifecycle.\n`initiated` → `inbound_submitted` → `holding` → `outbound_submitted` → `succeeded` is the happy path.\n\n**`holding` is a real wait.** Once the payer's funding has settled, the payee's credit is held\nuntil the next banking day before it is submitted, so a payment rests in `holding` rather than\npassing through it. Read `deposits_at` for when the payee is expected to be deposited; the hold is\nalready in that estimate.\n\nWhich return path a payment takes depends on whose money was already moved. A returned **inbound**\ndebit-pull means nothing settled, so the payment is `failed` and no one is owed anything. A returned\n**outbound** credit means the payer was already debited, so the payment moves to `refunding_payer`\nand then `refunded` once the payer has their money back. Both `failed` and `refunded` are terminal.\n\n**`succeeded` is not the end.** ACH lets a return arrive days after an entry settled, so one can\nland after a payment has succeeded. That moves the payment to `failed_late_return`, which is\nterminal — JustiFi works the break by hand and records the corrective movement as a further leg\non the same payment. See \"A return that arrives after a payment succeeded\" in the overview.\n\n**`failed_late_return` does not mean the payee holds nothing.** It reports that the payment did\nnot stick, and the two ways that happens are opposites: a returned **outbound** credit means the\npayee never kept the money, while a returned **inbound** debit-pull means the payer's funding was\nclawed back *after* the payee was paid — so the payee still has it. **Re-sending on this status\ncan pay a payee twice.** Read the payment's `transfers` to see which leg returned before acting.\n",
+                              "description": "the payment's position in its lifecycle.\n`initiated` → `inbound_submitted` → `holding` → `outbound_submitted` → `succeeded` is the happy path.\n\n**`holding` is a real wait.** Once the payer's funding has settled, the payee's credit is held\nuntil the next banking day before it is submitted, so a payment rests in `holding` rather than\npassing through it. Read `deposits_at` for when the payee is expected to be deposited; the hold is\nalready in that estimate.\n\n**The hold only lifts for an active payer account and an active payee.** When the wait is up, the\npayee's credit is sent if both are `active`; if either is not, the payment stays in `holding` and\nis reconsidered periodically, so it pays out once both are active again. A hold that persists\npushes the deposit past the `deposits_at` estimate, which is why that field is an estimate.\n\nWhich return path a payment takes depends on whose money was already moved. A returned **inbound**\ndebit-pull means nothing settled, so the payment is `failed` and no one is owed anything. A returned\n**outbound** credit means the payer was already debited, so the payment moves to `refunding_payer`\nand then `refunded` once the payer has their money back. Both `failed` and `refunded` are terminal.\n\n**`succeeded` is not the end.** ACH lets a return arrive days after an entry settled, so one can\nland after a payment has succeeded. That moves the payment to `failed_late_return`, which is\nterminal — JustiFi works the break by hand and records the corrective movement as a further leg\non the same payment. See \"A return that arrives after a payment succeeded\" in the overview.\n\n**`failed_late_return` does not mean the payee holds nothing.** It reports that the payment did\nnot stick, and the two ways that happens are opposites: a returned **outbound** credit means the\npayee never kept the money, while a returned **inbound** debit-pull means the payer's funding was\nclawed back *after* the payee was paid — so the payee still has it. **Re-sending on this status\ncan pay a payee twice.** Read the payment's `transfers` to see which leg returned before acting.\n",
                               "type": "string",
                               "enum": [
                                 "initiated",
@@ -8382,7 +8382,7 @@
             }
           },
           "400": {
-            "description": "The request was malformed, failed validation, or referenced a resource that cannot be used in its\ncurrent state — for example scheduling a payment to a payee that has been archived. When the failure is\nfield-level, `error.details` carries one array of messages per rejected attribute.\n",
+            "description": "The request was malformed, failed validation, or referenced a resource that cannot be used in its\ncurrent state — for example scheduling a payment to a payee that is not active, or creating anything\nunder a payer account that is not active. When the failure is field-level, `error.details` carries one\narray of messages per rejected attribute.\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -8793,7 +8793,7 @@
             }
           },
           "400": {
-            "description": "The request was malformed, failed validation, or referenced a resource that cannot be used in its\ncurrent state — for example scheduling a payment to a payee that has been archived. When the failure is\nfield-level, `error.details` carries one array of messages per rejected attribute.\n",
+            "description": "The request was malformed, failed validation, or referenced a resource that cannot be used in its\ncurrent state — for example scheduling a payment to a payee that is not active, or creating anything\nunder a payer account that is not active. When the failure is field-level, `error.details` carries one\narray of messages per rejected attribute.\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -9089,7 +9089,7 @@
     "payer_account": {
       "post": {
         "summary": "Payer account events",
-        "description": "Delivered as a payer account is provisioned for Payables and as its state changes. The `data` object\nis the full `PayerAccount`.\n\n| Event | Meaning |\n| ----- | ------- |\n| `payables.payer_account.provisioned` | the business was provisioned to use Payables (now `active`) |\n| `payables.payer_account.updated` | the account's details changed |\n| `payables.payer_account.disabled` | the account can no longer initiate payments |\n| `payables.payer_account.archived` | the account was archived |\n\nReturn a `200` within 5 seconds to acknowledge receipt; non-2xx responses are retried with backoff.\n",
+        "description": "Delivered as a payer account is provisioned for Payables and as its state changes. The `data` object\nis the full `PayerAccount`.\n\n| Event | Meaning |\n| ----- | ------- |\n| `payables.payer_account.provisioned` | the business was provisioned to use Payables (now `active`) |\n| `payables.payer_account.updated` | the account's details changed |\n| `payables.payer_account.disabled` | the account can no longer initiate payments, create payees or register bank accounts |\n| `payables.payer_account.archived` | the account was archived |\n\nReturn a `200` within 5 seconds to acknowledge receipt; non-2xx responses are retried with backoff.\n",
         "operationId": "PayerAccountEvent",
         "tags": [
           "Webhooks"
@@ -9197,7 +9197,7 @@
                             "example": "live"
                           },
                           "status": {
-                            "description": "the payer account's Payables lifecycle state. `pending` — provisioning has begun but the risk\nplatform has not yet reported the business Payables-ready; `active` — Payables-ready and able\nto initiate payments; `disabled` — was active previously but no longer able to initiate payments; `archived` — was active previously but is now archived.\n",
+                            "description": "the payer account's Payables lifecycle state, and what each state prevents. `pending` —\nprovisioning has begun but the risk platform has not yet reported the business Payables-ready;\n`active` — Payables-ready, and the only state under which anything can be created; `disabled` —\nwas active previously, and can no longer schedule payments, create payees or register bank\naccounts; `archived` — the same, and permanent: an archived payer account cannot be reactivated.\n\nA payment whose payee credit is already held is not paid out while the account is not `active`.\nIt stays held until the account is active again, rather than failing.\n",
                             "type": "string",
                             "enum": [
                               "pending",
@@ -9438,7 +9438,7 @@
                             "example": null
                           },
                           "status": {
-                            "description": "the payee's status.\n\n`pending` — created but not cleared for payments; `active` — able to receive payments; `disabled` — was active previously but no longer able to receive payments; `archived` — was active previously but is now archived.\n",
+                            "description": "the payee's status.\n\n`pending` — created but not cleared for payments; `active` — able to receive payments, and the\nonly state a payment can be scheduled or paid out under; `disabled` — was active previously and\ncan no longer be paid; `archived` — was active previously and can never be paid again.\n\nA payment whose payee credit is already held is not paid out while the payee is not `active`. It\nstays held until the payee is active again, rather than failing.\n",
                             "type": "string",
                             "enum": [
                               "pending",
@@ -9595,7 +9595,7 @@
                             "example": "usd"
                           },
                           "status": {
-                            "description": "the payment's position in its lifecycle.\n`initiated` → `inbound_submitted` → `holding` → `outbound_submitted` → `succeeded` is the happy path.\n\n**`holding` is a real wait.** Once the payer's funding has settled, the payee's credit is held\nuntil the next banking day before it is submitted, so a payment rests in `holding` rather than\npassing through it. Read `deposits_at` for when the payee is expected to be deposited; the hold is\nalready in that estimate.\n\nWhich return path a payment takes depends on whose money was already moved. A returned **inbound**\ndebit-pull means nothing settled, so the payment is `failed` and no one is owed anything. A returned\n**outbound** credit means the payer was already debited, so the payment moves to `refunding_payer`\nand then `refunded` once the payer has their money back. Both `failed` and `refunded` are terminal.\n\n**`succeeded` is not the end.** ACH lets a return arrive days after an entry settled, so one can\nland after a payment has succeeded. That moves the payment to `failed_late_return`, which is\nterminal — JustiFi works the break by hand and records the corrective movement as a further leg\non the same payment. See \"A return that arrives after a payment succeeded\" in the overview.\n\n**`failed_late_return` does not mean the payee holds nothing.** It reports that the payment did\nnot stick, and the two ways that happens are opposites: a returned **outbound** credit means the\npayee never kept the money, while a returned **inbound** debit-pull means the payer's funding was\nclawed back *after* the payee was paid — so the payee still has it. **Re-sending on this status\ncan pay a payee twice.** Read the payment's `transfers` to see which leg returned before acting.\n",
+                            "description": "the payment's position in its lifecycle.\n`initiated` → `inbound_submitted` → `holding` → `outbound_submitted` → `succeeded` is the happy path.\n\n**`holding` is a real wait.** Once the payer's funding has settled, the payee's credit is held\nuntil the next banking day before it is submitted, so a payment rests in `holding` rather than\npassing through it. Read `deposits_at` for when the payee is expected to be deposited; the hold is\nalready in that estimate.\n\n**The hold only lifts for an active payer account and an active payee.** When the wait is up, the\npayee's credit is sent if both are `active`; if either is not, the payment stays in `holding` and\nis reconsidered periodically, so it pays out once both are active again. A hold that persists\npushes the deposit past the `deposits_at` estimate, which is why that field is an estimate.\n\nWhich return path a payment takes depends on whose money was already moved. A returned **inbound**\ndebit-pull means nothing settled, so the payment is `failed` and no one is owed anything. A returned\n**outbound** credit means the payer was already debited, so the payment moves to `refunding_payer`\nand then `refunded` once the payer has their money back. Both `failed` and `refunded` are terminal.\n\n**`succeeded` is not the end.** ACH lets a return arrive days after an entry settled, so one can\nland after a payment has succeeded. That moves the payment to `failed_late_return`, which is\nterminal — JustiFi works the break by hand and records the corrective movement as a further leg\non the same payment. See \"A return that arrives after a payment succeeded\" in the overview.\n\n**`failed_late_return` does not mean the payee holds nothing.** It reports that the payment did\nnot stick, and the two ways that happens are opposites: a returned **outbound** credit means the\npayee never kept the money, while a returned **inbound** debit-pull means the payer's funding was\nclawed back *after* the payee was paid — so the payee still has it. **Re-sending on this status\ncan pay a payee twice.** Read the payment's `transfers` to see which leg returned before acting.\n",
                             "type": "string",
                             "enum": [
                               "initiated",
