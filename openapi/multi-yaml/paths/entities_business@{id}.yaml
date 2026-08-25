@@ -16,7 +16,7 @@ patch:
             archived:
               type: boolean
               example: true
-              description: set to true to archive this business; only test mode businesses can be archived, attempting to archive a live mode business will return an error
+              description: set to true to archive this business. Test mode businesses can always be archived. A live mode business can only be archived while it has not been provisioned; once a product has been provisioned for it, or a sub account is associated with it, archiving returns an error. Archiving frees the business's legal_name for reuse, so setting this back to false returns an error if another active business on your platform has taken that name in the meantime
             legal_name:
               type: string
               example: "Business Name"

@@ -2,6 +2,8 @@ post:
   summary: Product Provisioning
   description: |
     Product Provisioning
+
+    An archived business cannot be provisioned. Un-archive it first by sending `archived: false` to the update business endpoint.
   operationId: ProductProvisioning
   tags:
     - Provisioning

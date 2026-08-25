@@ -16,7 +16,7 @@ post:
             legal_name:
               type: string
               example: "Business Name"
-              description: legal business entity name
+              description: legal business entity name; must be unique among the active businesses on your platform. Archived businesses do not reserve their name, so an archived business's legal_name can be reused
             website_url:
               type: string
               example: "https://justifi.ai"
@@ -144,7 +144,7 @@ post:
 get:
   summary: List Businesses
   description: |
-    List businesses for your platform. This endpoint supports [pagination](https://docs.justifi.tech/api-spec#section/Pagination).
+    List businesses for your platform. Archived businesses are not returned. This endpoint supports [pagination](https://docs.justifi.tech/api-spec#section/Pagination).
   operationId: ListBusinesses
   tags:
     - Business

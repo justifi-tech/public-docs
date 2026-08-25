@@ -11,7 +11,7 @@ properties:
   archived:
     type: boolean
     example: false
-    description: indicates whether this business has been archived; only test mode businesses can be archived
+    description: indicates whether this business has been archived. Test mode businesses can always be archived; a live mode business can only be archived while it has not been provisioned. Archived businesses are excluded from the list businesses endpoint
   legal_name:
     type: string
     example: "Business Name"
