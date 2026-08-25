@@ -13,6 +13,10 @@ properties:
     description: the attributes for the object
     type: object
     properties:
+      id:
+        description: unique id of the payment method
+        type: string
+        example: pm_123xyz
       signature:
         description: unique signature associated with the payment_method
         type: string
