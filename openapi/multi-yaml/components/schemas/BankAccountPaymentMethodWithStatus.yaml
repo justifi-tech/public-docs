@@ -1,5 +1,9 @@
 type: object
 properties:
+  id:
+    description: unique id of the payment method
+    type: string
+    example: pm_123xyz
   status:
     description: signals whether the payment method is valid or invalid
     type: string
