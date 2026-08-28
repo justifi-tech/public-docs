@@ -27,23 +27,13 @@ The payment's `error_description` carries the reason the bank gave for the retur
 
 ## Reconciling the Payment Object
 
-A returned payment reports the reversal on the payment itself: `returned` is `true`, `status` is `failed`, and `amount_returned` equals `amount`.
-
-Because the payment amount and its original fees are both reversed, `balance` on a returned payment settles at the negative of the ACH return fee. That is the only amount the merchant is left owing, and it is why `balance` is negative on a returned payment with no other outstanding charges.
+A returned payment reports the reversal on itself: `returned` is `true`, `status` is `failed`, and `amount_returned` equals `amount`. Because the payment amount and its original fees are both reversed, `balance` settles at the negative of the ACH return fee, which is the only amount the merchant is left owing.
 
 The ACH return fee is not part of the `application_fee` or `fees` objects, which describe the fees charged when the payment was created. For payments using [Enhanced Fee Management](https://docs.justifi.tech/api-spec#section/Enhanced-Fee-Management), `fee_amount` also excludes it; for payments using an application fee, `fee_amount` includes it.
 
 ## Finding the Return Fee
 
-The fee is always recorded as a balance transaction, which is the reliable place to confirm it.
-
-Use [List Balance Transactions](https://docs.justifi.tech/api-spec#tag/Balance-Transactions/operation/ListBalanceTransactions) filtered by `source_payment_id` and look for `txn_type` `ach_return_fee_collected`. This filter is scoped to a single sub account, so send the `Sub-Account` header:
-
-```
-curl https://api.justifi.tech/v1/balance_transactions?source_payment_id=py_123xyz \
-  -H "Authorization: Bearer your_api_key" \
-  -H "Sub-Account: acc_123xyz"
-```
+The fee is always recorded as a balance transaction, which is the reliable place to confirm it. Call [List Balance Transactions](https://docs.justifi.tech/api-spec#tag/Balance-Transactions/operation/ListBalanceTransactions) with `source_payment_id` set to the payment and look for `txn_type` `ach_return_fee_collected`. That filter is scoped to one sub account, so send the `Sub-Account` header with it.
 
 A return produces these transactions on the merchant's sub account:
 
@@ -57,16 +47,14 @@ A return produces these transactions on the merchant's sub account:
 [Get Payment Balance Transactions](https://docs.justifi.tech/api-spec#tag/Payments/operation/GetPaymentBalanceTransactions) shows the same movements scoped to a single payment, where the fee appears as `payment_balance_txn_type` `ach_return_fee` with a `source_type` of `AchReturnFee`.
 
 :::note
-Not every returned payment is charged the fee. ACH payments that fail before reaching the bank are also marked `returned`. An `ach_return_fee_collected` balance transaction is what confirms the fee was assessed.
+Not every returned payment is charged the fee. ACH payments that fail before reaching the bank are also marked `returned`; an `ach_return_fee_collected` balance transaction is what confirms the fee was assessed.
 :::
 
 ## Payment Methods Invalidated by a Return
 
-Some return reasons also mark the stored payment method `invalid` and set `invalid_reason` on it, including closed, frozen, missing and non-transaction accounts, bad account or routing numbers, and revoked authorization. Reusing that payment method will fail, so check it before retrying or before running the customer's next scheduled charge.
+Some return reasons also mark the stored payment method `invalid` and set `invalid_reason` on it: closed, frozen, missing and non-transaction accounts, bad account or routing numbers, and revoked authorization. Reasons that say nothing about the account, such as insufficient funds, leave it valid.
 
-Returns for reasons that say nothing about the account, such as insufficient funds, leave the payment method valid. [ACH Errors](https://docs.justifi.tech/api-spec#section/ACH-Errors) describes each reason and the action it calls for.
-
-No webhook event is emitted for this change. Re-fetch the payment method with [Get Payment Method](https://docs.justifi.tech/api-spec#tag/Payment-Methods/operation/GetPaymentMethod) after a return and read `status` and `invalid_reason`.
+No webhook event is emitted for this change, so re-fetch the payment method with [Get Payment Method](https://docs.justifi.tech/api-spec#tag/Payment-Methods/operation/GetPaymentMethod) after a return and read `status` and `invalid_reason`. Reusing an invalid payment method will fail, so check it before retrying or before the customer's next scheduled charge.
 
 ## Returned Refunds and Payouts
 
