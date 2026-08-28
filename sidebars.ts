@@ -172,6 +172,7 @@ const sidebars: SidebarsConfig = {
       items: [
         "paymentMethods/overview",
         "paymentMethods/achPayments",
+        "paymentMethods/achReturns",
         "paymentMethods/cardNotPresent",
         "paymentMethods/cardPresent",
         "paymentMethods/providingPaymentMethodOptions",

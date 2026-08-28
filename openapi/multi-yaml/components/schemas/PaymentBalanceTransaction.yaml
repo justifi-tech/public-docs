@@ -28,9 +28,43 @@ properties:
     format: uuid
     example: "py_123xyz"
   payment_balance_txn_type:
-    description: type of the transaction object associated with the payment balance transaction
+    description: |
+      Type of the transaction object associated with the payment balance transaction.
+
+      - `payment`: Payment amount credited to the merchant
+      - `payment_fee`: Application fee charged on the payment
+      - `processing_fee`, `platform_fee`: Fees charged on the payment under [Enhanced Fee Management](#section/Enhanced-Fee-Management)
+      - `refund`, `refund_failure`, `fee_refund`, `refund_processing_fee`: Refund and the fees returned or charged with it
+      - `void`: Payment voided before settlement
+      - `dispute`, `dispute_fee`, `dispute_refund`, `dispute_fee_refund`: Dispute amount and fee, and their reversals
+      - `ach_return`: Payment amount reversed when an ACH payment is returned
+      - `ach_return_fee`: Flat fee charged when an ACH payment is returned by the bank
+      - `application_fee_returned`, `processing_fee_return`, `platform_fee_return`: Fees from the original payment returned on an ACH return
+
+      See [ACH Returns](https://docs.justifi.tech/paymentMethods/achReturns) for how these combine on a returned ACH payment.
     type: string
-    enum: [payment, payment_fee, payout, refund, fee_refund, dispute, dispute_fee, dispute_fee_refund, dispute_refund]
+    enum:
+      [
+        payment,
+        payment_fee,
+        processing_fee,
+        platform_fee,
+        payout,
+        refund,
+        refund_failure,
+        refund_processing_fee,
+        fee_refund,
+        void,
+        dispute,
+        dispute_fee,
+        dispute_fee_refund,
+        dispute_refund,
+        ach_return,
+        ach_return_fee,
+        application_fee_returned,
+        processing_fee_return,
+        platform_fee_return,
+      ]
     example: fee_refund
   source_id:
     description: id of the source object associated with the payment balance transaction
@@ -38,7 +72,7 @@ properties:
     format: uuid
     example: "fee_123xyz"
   source_type:
-    description: type of the source object associated with the payment balance transaction
+    description: type of the source object associated with the payment balance transaction (for example `Payment`, `ApplicationFee`, `PaymentFee`, `Refund`, `Dispute`, `AchReturnFee`)
     type: string
     example: ApplicationFee
   created_at:

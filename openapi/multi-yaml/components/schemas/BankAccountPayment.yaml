@@ -24,13 +24,25 @@ properties:
     description: amount of this payment currently able to be refunded, in cents
     type: number
     example: 10000
+  amount_returned:
+    description: amount of this payment reversed by an ACH return, in cents. See [ACH Returns](https://docs.justifi.tech/paymentMethods/achReturns)
+    type: number
+    example: 0
   balance:
-    description: sum of debits and credits for this payment, in cents (reflects the amount this account has earned from this payment). Compiled and calculated value, eventually consistent. To see all changes affecting the payment's balance see [Get Balance Transactions](#operation/GetPaymentBalanceTransactions)
+    description: |
+      Sum of debits and credits for this payment, in cents (reflects the amount this account has earned from this payment).
+      Compiled and calculated value, eventually consistent. To see all changes affecting the payment's balance see
+      [Get Payment Balance Transactions](#operation/GetPaymentBalanceTransactions).
+
+      When an ACH payment is returned, the payment amount and its original fees are both reversed, so any remaining negative `balance` is the ACH return fee.
     type: number
     example: 99850
   fee_amount:
     type: number
-    description: sum of fees for this payment
+    description: |
+      Sum of fees for this payment. Payments using an application fee include the ACH return fee here once the payment is returned;
+      payments using [Enhanced Fee Management](https://docs.justifi.tech/api-spec#section/Enhanced-Fee-Management) do not.
+      Either way the return fee is recorded as a balance transaction. See [ACH Returns](https://docs.justifi.tech/paymentMethods/achReturns).
     example: 150
   financial_transaction_id:
     type: string
@@ -126,6 +138,10 @@ properties:
   refunded:
     type: boolean
     description: whether or not this payment has any refunds
+    example: false
+  returned:
+    type: boolean
+    description: whether or not this payment was reversed by an ACH return
     example: false
   status:
     type: string
