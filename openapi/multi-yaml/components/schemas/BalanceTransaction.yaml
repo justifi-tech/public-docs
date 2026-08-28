@@ -67,14 +67,25 @@ properties:
       - `processing_fee_credit`: Processing fee credited to platform
       - `platform_fee`: Platform fee deducted from merchant
       - `platform_fee_credit`: Platform fee credited to platform
-      - `processing_fee_return`: Processing fee returned on refund/void
-      - `platform_fee_return`: Platform fee returned on refund/void
+      - `processing_fee_return`: Processing fee returned on refund/void/ACH return
+      - `platform_fee_return`: Platform fee returned on refund/void/ACH return
       - `partner_platform_discount_fee`: JustiFi basis point fee deducted from platform
       - `partner_platform_transaction_fee`: JustiFi per-transaction fee deducted from platform
       - `payout`: Payout to bank account
       - `refund`: Refund transaction
+      - `ach_return_collected`: Returned ACH payment amount debited from merchant
+      - `ach_return_fee_collected`: ACH return fee debited from merchant
+      - `application_fee_refund`: Application fee returned to merchant on refund/void/ACH return
+      - `dispute_amount_collected`: Disputed payment amount debited from merchant
+      - `dispute_fee_collected`: Dispute fee debited from merchant
+      - `refund_reversal`: Returned ACH refund credited back to merchant
+      - `payout_failed`: Returned payout credited back to merchant
 
-      See [Enhanced Fee Management](#section/Enhanced-Fee-Management) for details on fee-related transaction types.
+      A `_collected` suffix means the amount was taken from this account to fund a recovery, so it is
+      recorded as a debit.
+
+      See [Enhanced Fee Management](#section/Enhanced-Fee-Management) for details on fee-related transaction types,
+      and [ACH Returns](https://docs.justifi.tech/paymentMethods/achReturns) for the transactions a returned ACH payment produces.
     type: string
     example: seller_payment
   created_at:
