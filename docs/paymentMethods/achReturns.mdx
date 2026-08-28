@@ -1,0 +1,81 @@
+---
+title: ACH Returns
+sidebar_label: ACH Returns
+description: What happens when an ACH payment is returned, and how to reconcile the return fee
+keywords:
+  - payment methods
+  - ach
+  - returns
+  - fees
+---
+
+# ACH Returns
+
+An ACH payment can reach `succeeded` and still be returned by the customer's bank days later, for
+example for insufficient funds or a closed account. When JustiFi receives the return it:
+
+1. Sets the payment `status` to `failed` and `returned` to `true`
+2. Debits the payment amount back from the merchant's balance
+3. Returns the fees originally charged on the payment
+4. Charges the merchant a flat ACH return fee
+
+## Getting Notified
+
+A return arrives as a [`payment.failed`](https://docs.justifi.tech/api-spec#tag/Events/operation/paymentEvent) webhook event whose body is the payment object. There is no dedicated return event, and `payment.failed` also covers card declines and ACH payments rejected before they reach the bank.
+
+The payment's `error_description` carries the reason the bank gave for the return. See [ACH Errors](https://docs.justifi.tech/api-spec#section/ACH-Errors) for the values and what to do about each one.
+
+## Reconciling the Payment Object
+
+A returned payment reports the reversal on the payment itself: `returned` is `true`, `status` is `failed`, and `amount_returned` equals `amount`.
+
+Because the payment amount and its original fees are both reversed, `balance` on a returned payment settles at the negative of the ACH return fee. That is the only amount the merchant is left owing, and it is why `balance` is negative on a returned payment with no other outstanding charges.
+
+The ACH return fee is not part of the `application_fee` or `fees` objects, which describe the fees charged when the payment was created. For payments using [Enhanced Fee Management](https://docs.justifi.tech/api-spec#section/Enhanced-Fee-Management), `fee_amount` also excludes it; for payments using an application fee, `fee_amount` includes it.
+
+## Finding the Return Fee
+
+The fee is always recorded as a balance transaction, which is the reliable place to confirm it.
+
+Use [List Balance Transactions](https://docs.justifi.tech/api-spec#tag/Balance-Transactions/operation/ListBalanceTransactions) filtered by `source_payment_id` and look for `txn_type` `ach_return_fee_collected`. This filter is scoped to a single sub account, so send the `Sub-Account` header:
+
+```
+curl https://api.justifi.tech/v1/balance_transactions?source_payment_id=py_123xyz \
+  -H "Authorization: Bearer your_api_key" \
+  -H "Sub-Account: acc_123xyz"
+```
+
+A return produces these transactions on the merchant's sub account:
+
+| `txn_type` | Meaning |
+| --- | --- |
+| `ach_return_collected` | Payment amount debited back from the merchant |
+| `ach_return_fee_collected` | ACH return fee debited from the merchant |
+| `processing_fee_return`, `platform_fee_return` | Fees from the original payment returned to the merchant, under Enhanced Fee Management |
+| `application_fee_refund` | Application fee from the original payment returned to the merchant, when the payment used an application fee |
+
+[Get Payment Balance Transactions](https://docs.justifi.tech/api-spec#tag/Payments/operation/GetPaymentBalanceTransactions) shows the same movements scoped to a single payment, where the fee appears as `payment_balance_txn_type` `ach_return_fee` with a `source_type` of `AchReturnFee`.
+
+:::note
+Not every returned payment is charged the fee. ACH payments that fail before reaching the bank are also marked `returned`. An `ach_return_fee_collected` balance transaction is what confirms the fee was assessed.
+:::
+
+## Payment Methods Invalidated by a Return
+
+Some return reasons also mark the stored payment method `invalid` and set `invalid_reason` on it, including closed, frozen, missing and non-transaction accounts, bad account or routing numbers, and revoked authorization. Reusing that payment method will fail, so check it before retrying or before running the customer's next scheduled charge.
+
+Returns for reasons that say nothing about the account, such as insufficient funds, leave the payment method valid. [ACH Errors](https://docs.justifi.tech/api-spec#section/ACH-Errors) describes each reason and the action it calls for.
+
+No webhook event is emitted for this change. Re-fetch the payment method with [Get Payment Method](https://docs.justifi.tech/api-spec#tag/Payment-Methods/operation/GetPaymentMethod) after a return and read `status` and `invalid_reason`.
+
+## Returned Refunds and Payouts
+
+An ACH refund can be returned by the bank in the same way. The refund moves to `status` `failed`, the funds come back to the merchant as a `refund_reversal` balance transaction, and the payment records a `refund_failure` payment balance transaction. This arrives as a [`payment.refund.updated`](https://docs.justifi.tech/api-spec#tag/Events/operation/refundEvent) webhook event.
+
+An ACH payout can also be returned. The payout moves to `status` `failed`, the funds return to the merchant's balance as a `payout_failed` balance transaction, and a [`payout.failed`](https://docs.justifi.tech/api-spec#tag/Events/operation/payoutEvent) webhook event is sent.
+
+Neither is charged an ACH return fee.
+
+## Testing
+
+Failed [ACH test scenarios](/testing/ach_payments) run the full return flow, including the return fee and its balance transactions, so you can verify your reconciliation logic before going live. Test returns do not mark the payment method invalid.

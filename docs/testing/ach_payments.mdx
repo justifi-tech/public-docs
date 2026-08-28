@@ -159,3 +159,5 @@ Simulates an ACH payment declined due to insufficient_funds
 ## Webhook Events
 
 The events related to each test payment created will be sent to the configured webhooks on the test account.
+
+The failure scenarios above run the full return flow, so the simulated payment is charged an ACH return fee and records the same balance transactions as a live return. See [ACH Returns](/paymentMethods/achReturns).
