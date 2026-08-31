@@ -1,0 +1,197 @@
+---
+title: Level 2 and Level 3 Data
+sidebar_label: Level 2/3 Data
+description: Learn how to submit Level 2 and Level 3 enhanced payment data for lower interchange rates on commercial card transactions
+keywords:
+  - level 2
+  - level 3
+  - purchasing card
+  - commercial card
+  - interchange
+  - line items
+---
+
+# Level 2 and Level 3 Payment Data
+
+## Overview
+
+Level 2 and Level 3 (L2/L3) data is enhanced transaction information submitted with card payments.
+Transactions that include L2/L3 data can qualify for lower interchange rates from the card networks.
+
+- **Level 2** includes transaction-level details like tax amount, customer code, and shipping information
+- **Level 3** adds line item details for each product or service in the transaction
+
+### Supported Card Brands
+
+| Brand | Level 2 | Level 3 |
+|-------|---------|---------|
+| Visa | Yes | Yes |
+| Mastercard | Yes | Yes |
+
+### Restrictions
+
+- **Card payments only** — L2/L3 data is not accepted for bank account (ACH) payments
+- Contact [JustiFi Customer Success](mailto:customer_success@justifi.tech) to enable L2/L3 data for your account
+
+## Level 2 Fields
+
+All fields except `line_items` are required when `level_2_3` is provided.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `tax_amount` | integer | Total tax amount in cents |
+| `tax_exempt` | boolean | Whether the transaction is tax exempt |
+| `merchant_tax_id` | string | Merchant's tax identification number |
+| `shipping_amount` | integer | Shipping cost in cents (use `0` if no shipping) |
+| `order_number` | string | Purchase order or order reference number |
+| `shipping_country` | string | Destination country code (e.g. `"840"` for US) |
+| `shipping_postal_code` | string | Destination postal code |
+| `shipping_from_postal_code` | string | Origin/warehouse postal code |
+| `customer_code` | string | Customer or account code assigned by the merchant |
+| `line_items` | array | Optional array of Level 3 line item objects (see below) |
+
+## Level 3 Fields (Line Items)
+
+When `line_items` is provided, all fields are required for each line item.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `commodity_code` | string | Product commodity code or SKU |
+| `description` | string | Text description of the line item |
+| `unit_amount` | integer | Price per unit in cents |
+| `quantity` | integer | Number of units |
+| `tax_amount` | integer | Tax amount for this line item in cents |
+| `tax_rate` | number | Tax rate as a percentage (must be >= 0, e.g. `8.5` for 8.5%) |
+| `line_total` | integer | Total for this line item in cents |
+| `unit_of_measure` | string | Unit of measure (e.g. `"EA"`, `"LB"`, `"KG"`) |
+
+## Validation Rules
+
+Three validations are enforced when `level_2_3` is provided:
+
+### Reconciliation
+
+When `line_items` are included, the amounts must add up, the request will be rejected otherwise:
+
+```
+sum(line_items[].line_total) + tax_amount + shipping_amount = payment amount
+```
+### Tax Amount Range
+
+The tax amount must fall within the allowed percentage range for the card brand:
+
+| Brand | Minimum | Maximum |
+|-------|---------|---------|
+| Visa | 0.1% of payment amount | 22.0% of payment amount |
+| Mastercard | 0.01% of payment amount | 30.0% of payment amount |
+
+### Card Payments Only
+
+`level_2_3` is rejected if the payment method is a bank account (ACH). It is only supported for card payment methods.
+
+## Using with Create Payment
+
+When creating a payment via `POST /v1/payments`, pass `level_2_3` as a **top-level** parameter alongside `amount`, `currency`, and other fields.
+
+### Example: Level 2 Only
+
+```json
+{
+  "amount": 45000,
+  "currency": "usd",
+  "capture_strategy": "automatic",
+  "payment_method": {
+    "token": "pm_justifi123"
+  },
+  "level_2_3": {
+    "tax_amount": 3800,
+    "tax_exempt": false,
+    "merchant_tax_id": "123456789",
+    "shipping_amount": 1200,
+    "order_number": "PO-2026-001",
+    "shipping_country": "840",
+    "shipping_postal_code": "30303",
+    "shipping_from_postal_code": "10001",
+    "customer_code": "CUST-001"
+  }
+}
+```
+
+### Example: Level 2 + Level 3 Line Items
+
+```json
+{
+  "amount": 45000,
+  "currency": "usd",
+  "capture_strategy": "automatic",
+  "payment_method": {
+    "token": "pm_justifi123"
+  },
+  "level_2_3": {
+    "tax_amount": 3800,
+    "tax_exempt": false,
+    "merchant_tax_id": "123456789",
+    "shipping_amount": 1200,
+    "order_number": "PO-2026-001",
+    "shipping_country": "840",
+    "shipping_postal_code": "30303",
+    "shipping_from_postal_code": "10001",
+    "customer_code": "CUST-001",
+    "line_items": [
+      {
+        "commodity_code": "33712",
+        "description": "Office Chair",
+        "unit_amount": 20000,
+        "quantity": 2,
+        "tax_amount": 3800,
+        "tax_rate": 9.5,
+        "line_total": 40000,
+        "unit_of_measure": "EA"
+      }
+    ]
+  }
+}
+```
+
+In this example, the reconciliation check passes: `40000 (line_total) + 3800 (tax_amount) + 1200 (shipping_amount) = 45000 (payment amount)`.
+
+## Using with Create Checkout
+
+When creating a checkout via `POST /v1/checkouts`, pass `level_2_3` **inside the `payment` object**, alongside `fees`, `description`, and other payment overrides.
+
+### Example
+
+```json
+{
+  "amount": 45000,
+  "description": "B2B purchase order",
+  "payment": {
+    "level_2_3": {
+      "tax_amount": 3800,
+      "tax_exempt": false,
+      "merchant_tax_id": "123456789",
+      "shipping_amount": 1200,
+      "order_number": "PO-2026-001",
+      "shipping_country": "840",
+      "shipping_postal_code": "30303",
+      "shipping_from_postal_code": "10001",
+      "customer_code": "CUST-001",
+      "line_items": [
+        {
+          "commodity_code": "33712",
+          "description": "Office Chair",
+          "unit_amount": 20000,
+          "quantity": 2,
+          "tax_amount": 3800,
+          "tax_rate": 9.5,
+          "line_total": 40000,
+          "unit_of_measure": "EA"
+        }
+      ]
+    }
+  }
+}
+```
+
+L2/L3 data can also be added or updated via `PATCH /v1/checkouts/:id` before the checkout is completed.
+The L2/L3 data is forwarded to the payment processor when the checkout is completed.

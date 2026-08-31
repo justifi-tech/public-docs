@@ -1,0 +1,57 @@
+type: object
+description: |
+  Level 2 and Level 3 enhanced payment data for commercial and purchasing card transactions.
+  Providing this data can qualify transactions for lower interchange rates.
+  See [Level 2/3 Data](https://docs.justifi.tech/payments/level-2-3-data) for full documentation.
+required:
+  - tax_amount
+  - tax_exempt
+  - merchant_tax_id
+  - shipping_amount
+  - order_number
+  - shipping_country
+  - shipping_postal_code
+  - shipping_from_postal_code
+  - customer_code
+properties:
+  tax_amount:
+    type: integer
+    description: total tax amount in cents
+    example: 3800
+  tax_exempt:
+    type: boolean
+    description: whether the transaction is tax exempt
+    example: false
+  merchant_tax_id:
+    type: string
+    description: merchant's tax identification number
+    example: "123456789"
+  shipping_amount:
+    type: integer
+    description: shipping cost in cents
+    example: 1200
+  order_number:
+    type: string
+    description: purchase order or order reference number
+    example: "PO-2026-001"
+  shipping_country:
+    type: string
+    description: destination country code
+    example: "840"
+  shipping_postal_code:
+    type: string
+    description: destination postal code
+    example: "30303"
+  shipping_from_postal_code:
+    type: string
+    description: origin postal code
+    example: "10001"
+  customer_code:
+    type: string
+    description: customer or account code
+    example: "CUST-001"
+  line_items:
+    type: array
+    description: Level 3 line item details (optional)
+    items:
+      $ref: Level23LineItem.yaml
