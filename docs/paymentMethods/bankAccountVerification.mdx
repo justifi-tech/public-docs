@@ -1,7 +1,7 @@
 ---
-title: Plaid
-sidebar_label: Plaid
-description: Learn about bank account verification via Plaid and its importance
+title: Bank Account Verification
+sidebar_label: Bank Account Verification (Plaid)
+description: How to get bank account verification provisioned and enabled, and how it appears at checkout
 keywords:
   - payment methods
   - bank account verification
@@ -11,50 +11,59 @@ keywords:
 
 # Bank Account Verification
 
-Bank account verification is a crucial step in ensuring the authenticity of bank accounts used for ACH payments. This
-process provides a more secure and reliable way to link bank accounts to payment systems. For bank account verification,
-JustiFi supports integration with [Plaid](https://plaid.com/), a leading financial technology company that
-specializes in connecting applications to users' bank accounts.
+Bank account verification lets your customer link a bank account by signing in to it, instead of typing
+an account and routing number. The account details arrive already verified, which makes ACH payments
+more reliable and cuts down on returns caused by mistyped, closed or invalid accounts. JustiFi provides
+this through [Plaid](https://plaid.com/), so your customer sees Plaid's branded sign-in window while
+connecting their bank.
+
+Getting it working takes two things: provisioning the business for the bank account verification
+product, and having JustiFi enable the feature for the account.
 
 ## Prerequisites
 
-Bank account verification via Plaid is available in the following JustiFi checkout options:
+Before a business can be provisioned for bank account verification:
 
-- [Hosted Checkout](https://docs.justifi.tech/checkouts/hosted-checkout)
+- The business must already be provisioned for payments and linked to a sub account
+- The business legal address country must be the United States, the only country where bank account
+verification is available
+- The business must include the following information:
+  - Business Legal Name
+  - Business Website URL
+  - Business Legal Address
+
+Add anything missing via the [update business API](https://docs.justifi.tech/api-spec#tag/Business/operation/UpdateBusiness).
+
+Bank account verification is available in the following JustiFi checkout options:
+
+- [Hosted Checkout](../checkouts/hosted-checkout.mdx)
 - [Unified Fintech Checkout web component](https://storybook.justifi.ai/?path=/docs/payment-facilitation-unified-fintech-checkout%E2%84%A2--docs)
-- [Modular Checkout web component](https://storybook.justifi.ai/?path=/docs/modular-checkout--docs) if the Plaid Payment
-Method sub component is included
+- [Modular Checkout web component](https://storybook.justifi.ai/?path=/docs/modular-checkout--docs), when the
+Plaid Payment Method sub component is included
 
-Plaid bank account verification is not available in the [Tokenize Payment Method web component](https://storybook.justifi.ai/?path=/docs/payment-facilitation-tokenize-payment-method--docs)
-or via JustiFi API.
+It is not available in the [Tokenize Payment Method web component](https://storybook.justifi.ai/?path=/docs/payment-facilitation-tokenize-payment-method--docs)
+or when creating payment methods directly via the JustiFi API.
 
-## Plaid Provisioning
-To get started your platform or specific sub accounts need to be provisioned with Plaid. This section explains the
-process.
+## Enabling Bank Account Verification
 
-### Provision your Platform
+:::note
+Bank account verification has to be switched on for your account by JustiFi. Once the business is
+provisioned, contact [JustiFi Customer Success](mailto:customer_success@justifi.tech) to have the
+feature enabled.
+:::
 
-To enable Plaid bank account verification for all sub account of your platform please contact [JustiFi Customer Success](mailto:customer_success@justifi.tech).
-JustiFi will handle the provisioning process with Plaid on behalf of your platform account.
+1. Determine the business ID of the sub account you want to enable for bank account verification via the
+[get sub account API](https://docs.justifi.tech/api-spec#tag/Sub-Accounts/operation/GetSubAccount). The
+business ID is listed in the response. The sub account needs to be enabled for payment processing
+already.
 
-### Provision a Sub Account
+2. Get the business via the [get business API](https://docs.justifi.tech/api-spec#tag/Business/operation/GetBusiness)
+and confirm it includes the information listed in [Prerequisites](#prerequisites). Add anything missing
+via the [update business API](https://docs.justifi.tech/api-spec#tag/Business/operation/UpdateBusiness)
+before provisioning, otherwise the provisioning request is rejected.
 
-To provision a Sub Account with plaid use the JustiFi API:
-
-1. Determine the business ID of the sub account you want to enable for bank account verification via [get sub account
-API](https://docs.justifi.tech/api-spec#tag/Sub-Accounts/operation/GetSubAccount). The business ID is listed in the
-response. (Note: The sub account you are provisioning needs to be enabled for
-payment processing)
-
-2. Get the business via get business API and confirm the business includes the following information:
-   - Business Legal Name
-   - Business Website URL
-   - Business Legal Address
-
-    Add any missing information to the business via [update business API](https://docs.justifi.tech/api-spec#tag/Business/operation/UpdateBusiness).
-
-3. Provision the business via the [provisioning API](https://docs.justifi.tech/api-spec#tag/Provisioning). Pass the
-business ID and `bank_account_verification` as `product_category`.
+3. Provision the business via the [provisioning API](https://docs.justifi.tech/api-spec#tag/Provisioning),
+passing the business ID and `bank_account_verification` as the `product_category`.
 
     ```bash
       curl --request POST \
@@ -67,22 +76,62 @@ business ID and `bank_account_verification` as `product_category`.
       }'
     ```
 
-## Using Plaid bank account verification
+4. Contact [JustiFi Customer Success](mailto:customer_success@justifi.tech) to have bank account
+verification enabled for the account.
 
-After provisioning is complete and the bank account verification setting is enabled, Plaid can be used as a payment
-method option during the checkout process:
-- If [Hosted Checkout](../checkouts/hosted-checkout.mdx) is used, Plaid will automatically appear as a payment method
-option after provisioning is completed.
-- If [Unified Fintech Checkout](https://storybook.justifi.ai/?path=/docs/payment-facilitation-unified-fintech-checkout%E2%84%A2--docs)
-web component is used, Plaid will automatically appear as a payment method option.
-- If [Modular Checkout](https://storybook.justifi.ai/?path=/docs/modular-checkout--docs) web component is used, the
-[Plaid Sub Component](https://storybook.justifi.ai/?path=/docs/modular-checkout-sub-components-plaid-payment-method--docs)
-needs to be included.
+Enablement is not immediate. Expect a few business days from the provisioning request until the feature
+is live on the account, because the business information is reviewed before bank account verification can
+be switched on. You can confirm the result at any time with
+[get sub account settings](https://docs.justifi.tech/api-spec#tag/Sub-Accounts/operation/GetSubAccountSettings):
+`bank_account_verification` reads `true` on the payment settings once the feature is live.
 
-## Testing Plaid Bank Account Verification
+### Platform-Wide Enablement
 
-Plaid bank account verification is available in test mode and utilizes Plaid's sandbox environment with simulated bank
-accounts. The Unified Fintech Checkout and Modular Checkout web components as well as Hosted Checkout automatically
-connect to Plaid's sandbox when in test mode.
+Bank account verification can also be enabled at the platform level, so that every sub account can use it
+without being provisioned individually. Contact
+[JustiFi Customer Success](mailto:customer_success@justifi.tech) to set this up, and have a business ready
+whose legal name matches the name of your platform account, since that business is what JustiFi associates
+with the platform.
 
-To simulate a Plaid bank account verification any values for user credentials and verification codes are accepted.
+## Using Bank Account Verification
+
+Once the feature is live, a bank account verification option appears alongside your other payment methods
+at checkout. Your customer selects it, signs in to their bank, and chooses the account to pay from. The
+verified account comes back to the checkout as a tokenized payment method, and the payment is processed as
+ACH.
+
+How the option shows up depends on the checkout you have integrated:
+
+- [Hosted Checkout](../checkouts/hosted-checkout.mdx): appears automatically
+- [Unified Fintech Checkout](https://storybook.justifi.ai/?path=/docs/payment-facilitation-unified-fintech-checkout%E2%84%A2--docs)
+web component: appears automatically
+- [Modular Checkout](https://storybook.justifi.ai/?path=/docs/modular-checkout--docs) web component: include
+the [Plaid Payment Method sub component](https://storybook.justifi.ai/?path=/docs/modular-checkout-sub-components-plaid-payment-method--docs)
+
+A detailed step-by-step walkthrough of the end user flow will be documented separately.
+
+## Testing
+
+Bank account verification is available in test mode and uses simulated bank accounts. Hosted Checkout, the
+Unified Fintech Checkout web component and the Modular Checkout web component all connect to the sandbox
+automatically when in test mode. Any values are accepted for user credentials and verification codes.
+
+:::note
+Test accounts do not need the business provisioned for bank account verification, so you can start testing
+without provisioning anything. The bank account verification setting still has to be enabled for your test
+account, so contact [JustiFi Customer Success](mailto:customer_success@justifi.tech) if the option does not
+appear at checkout.
+:::
+
+## Troubleshooting
+
+These are the errors the provisioning API returns when a business cannot be provisioned for bank account
+verification:
+
+| Status | Cause | Resolution |
+| --- | --- | --- |
+| `400` | The business is missing information required for bank account verification. The response lists which fields are missing. | Add the fields via the [update business API](https://docs.justifi.tech/api-spec#tag/Business/operation/UpdateBusiness) and send the provisioning request again |
+| `400` | The business has no associated sub account, usually because it was never provisioned for payments | Provision the business for payments first, then provision it for bank account verification |
+| `400` | The business has already been provisioned for bank account verification | No further request is needed. If the option still does not appear at checkout, contact [JustiFi Customer Success](mailto:customer_success@justifi.tech) to confirm the feature is enabled |
+| `400` | The business legal address country is outside the United States | Bank account verification cannot be provisioned for this business |
+| `502` | JustiFi could not reach the verification provider | Retry the request. If it keeps failing, contact [JustiFi Customer Success](mailto:customer_success@justifi.tech) |
