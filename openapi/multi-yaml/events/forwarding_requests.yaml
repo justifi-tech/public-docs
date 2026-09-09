@@ -1,0 +1,109 @@
+post:
+  description: |
+    Received for the following events: forwarding_request.completed, forwarding_request.failed
+
+    `forwarding_request.completed` means the destination answered, whatever status code it answered
+    with — check `data.response.status_code` to see whether it accepted the request.
+    `forwarding_request.failed` means the destination could not be reached, and `data.failure_reason`
+    explains why.
+
+    Forwarding requests are attempted once and are not retried, so exactly one of these two events is
+    published per forwarding request.
+  tags:
+    - Events
+  operationId: forwardingRequestEvent
+  summary: Forwarding Requests
+  requestBody:
+    content:
+      application/json:
+        schema:
+          allOf:
+            - $ref: ../components/schemas/Event.yaml
+            - properties:
+                data:
+                  $ref: ../components/schemas/ForwardingRequest.yaml
+        example:
+        examples:
+          "Forwarding_request_completed_event":
+            value:
+              id: evt_123xyz
+              account_id: acc_123xyz
+              account_type: test
+              platform_account_id: acc_456abc
+              idempotency_key: 30abie390hjag49h
+              request_id: req_100abc
+              version: v1
+              data:
+                id: fwd_123xyz
+                account_id: acc_123xyz
+                payment_method_id: pm_123xyz
+                url: https://api.stripe.com/v1/payment_methods
+                http_method: POST
+                provider: stripe
+                status: completed
+                failure_reason: null
+                replacements:
+                  - card_number
+                  - card_expiry_month
+                  - card_expiry_year
+                  - cardholder_name
+                request:
+                  body:
+                    type: card
+                    card:
+                      number: "4242"
+                      exp_month: 5
+                      exp_year: 2042
+                    billing_details:
+                      name: Lindsay Whalen
+                  headers:
+                    Authorization: "[FILTERED]"
+                response:
+                  id: fwdr_123xyz
+                  status_code: 200
+                  body:
+                    id: pm_1QabcStripeExample
+                    object: payment_method
+                    card:
+                      last4: "4242"
+                  headers:
+                    content-type: application/json
+                  response_time_ms: 512
+                attempted_at: '2024-01-01T12:00:01Z'
+                created_at: '2024-01-01T12:00:00Z'
+                updated_at: '2024-01-01T12:00:02Z'
+              event_name: forwarding_request.completed
+          "Forwarding_request_failed_event":
+            value:
+              id: evt_123xyz
+              account_id: acc_123xyz
+              account_type: test
+              platform_account_id: acc_456abc
+              idempotency_key: 30abie390hjag49h
+              request_id: req_100abc
+              version: v1
+              data:
+                id: fwd_123xyz
+                account_id: acc_123xyz
+                payment_method_id: pm_123xyz
+                url: https://api.stripe.com/v1/payment_methods
+                http_method: POST
+                provider: stripe
+                status: failed
+                failure_reason: timeout
+                replacements:
+                  - card_number
+                request:
+                  body:
+                    card:
+                      number: "4242"
+                  headers:
+                    Authorization: "[FILTERED]"
+                response: null
+                attempted_at: '2024-01-01T12:00:01Z'
+                created_at: '2024-01-01T12:00:00Z'
+                updated_at: '2024-01-01T12:01:31Z'
+              event_name: forwarding_request.failed
+  responses:
+    "200":
+      description: Return a 200 status to indicate that the data was received successfully. You must respond within 5 seconds.

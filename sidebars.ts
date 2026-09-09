@@ -177,7 +177,8 @@ const sidebars: SidebarsConfig = {
         "paymentMethods/cardPresent",
         "paymentMethods/providingPaymentMethodOptions",
         "paymentMethods/paymentMethodGroups",
-        "paymentMethods/bankAccountVerification"
+        "paymentMethods/bankAccountVerification",
+        "paymentMethods/forwarding"
       ],
       collapsible: true,
       collapsed: true,

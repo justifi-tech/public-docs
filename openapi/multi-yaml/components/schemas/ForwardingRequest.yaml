@@ -1,0 +1,130 @@
+type: object
+properties:
+  id:
+    description: unique id of the forwarding request
+    type: string
+    example: fwd_123xyz
+  account_id:
+    description: the sub account that owns the payment method the request was created from
+    type: string
+    example: acc_123xyz
+    nullable: true
+  payment_method_id:
+    description: the payment method whose card details are substituted into the request body
+    type: string
+    example: pm_123xyz
+    nullable: true
+  url:
+    description: the allow-listed destination the request is sent to
+    type: string
+    example: https://api.stripe.com/v1/payment_methods
+  http_method:
+    description: the HTTP method used to reach the destination, determined by the destination itself
+    type: string
+    enum: [POST]
+    example: POST
+  provider:
+    description: the destination provider, determined by the destination itself
+    type: string
+    enum: [stripe]
+    example: stripe
+  status:
+    description: >-
+      `pending` — accepted and queued, nothing has been sent yet;
+      `processing` — the request is being sent and the outcome is not known yet;
+      `completed` — the destination answered, whatever status code it answered with;
+      `failed` — the destination could not be reached, see `failure_reason`.
+    type: string
+    enum: [pending, processing, completed, failed]
+    example: completed
+  failure_reason:
+    description: >-
+      why the destination could not be reached, `null` unless `status` is `failed`.
+      `timeout` — the destination did not answer in time;
+      `connection_error` — the connection or TLS handshake failed;
+      `internal_error` — JustiFi failed to send the request.
+    type: string
+    enum: [timeout, connection_error, internal_error]
+    example: timeout
+    nullable: true
+  replacements:
+    description: the card tags JustiFi found in the request body and substituted before sending
+    type: array
+    items:
+      type: string
+      enum: [card_number, card_expiry_month, card_expiry_year, cardholder_name]
+    example: [card_number, card_expiry_month, card_expiry_year, cardholder_name]
+  request:
+    description: what was sent to the destination, masked
+    type: object
+    properties:
+      body:
+        description: >-
+          the request body as it was sent, with card details masked. The card number renders as
+          its last four digits; the expiration date and cardholder name render in the clear.
+        type: object
+        nullable: true
+        example:
+          type: card
+          card:
+            number: "4242"
+            exp_month: 5
+            exp_year: 2042
+          billing_details:
+            name: Lindsay Whalen
+      headers:
+        description: >-
+          the headers as they were sent, with every value replaced by `[FILTERED]`. Header names are
+          kept so you can confirm what was relayed; values are never stored in readable form.
+        type: object
+        additionalProperties:
+          type: string
+        example:
+          Authorization: "[FILTERED]"
+          Content-Type: "[FILTERED]"
+  response:
+    description: the destination's response, `null` until the destination has answered
+    type: object
+    nullable: true
+    properties:
+      id:
+        description: unique id of the forwarding response
+        type: string
+        example: fwdr_123xyz
+      status_code:
+        description: the HTTP status code the destination answered with
+        type: integer
+        example: 200
+      body:
+        description: the response body, scrubbed of anything that looks like a card number
+        nullable: true
+        example:
+          id: pm_1QabcStripeExample
+          object: payment_method
+          card:
+            last4: "4242"
+      headers:
+        description: the response headers, scrubbed of anything that looks like a card number
+        nullable: true
+        example:
+          content-type: application/json
+          request-id: req_stripe_123
+      response_time_ms:
+        description: how long the destination took to answer, in milliseconds
+        type: integer
+        example: 512
+        nullable: true
+  attempted_at:
+    description: when JustiFi started sending the request, `null` while the request is still queued
+    type: string
+    format: date-time
+    example: '2024-01-01T12:00:01Z'
+    nullable: true
+  created_at:
+    type: string
+    format: date-time
+    example: '2024-01-01T12:00:00Z'
+  updated_at:
+    type: string
+    format: date-time
+    example: '2024-01-01T12:00:02Z'
