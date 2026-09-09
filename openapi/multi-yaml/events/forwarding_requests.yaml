@@ -12,7 +12,7 @@ post:
   tags:
     - Events
   operationId: forwardingRequestEvent
-  summary: Forwarding Requests
+  summary: Forwarding Requests (Beta)
   requestBody:
     content:
       application/json:

@@ -36,6 +36,7 @@ tags:
     description: |
       Payment method groups are a way to associate payment methods to a single group for easy access.
   - name: Forwarding
+    x-displayName: Forwarding (Beta)
     description: |
       Forwarding sends a request to a third party in the shape that destination expects, with card
       details filled in from a payment method JustiFi already holds.
