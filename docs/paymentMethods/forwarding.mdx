@@ -16,7 +16,7 @@ to have it enabled for your platform and to get a destination allow-listed.
 
 Forwarding allows you to forward any card payment method stored with JustiFi to a third party. 
 You supply the body and headers the destination requires and mark where the card details belong;
-JustiFi substitutes the real values on the way out.
+JustiFi substitutes the real values and sends a request to the destination.
 
 Forwarding is asynchronous. Creating a forwarding request returns immediately, before anything leaves
 JustiFi, and the outcome arrives by webhook or by retrieving the request.
@@ -25,13 +25,16 @@ JustiFi, and the outcome arrives by webhook or by retrieving the request.
 
 1. You have a card payment method in JustiFi — any card payment method, however it was created,
 including one tokenized by the
-[Tokenize Payment Method web component](https://docs.justifi.tech/web-components/payment-facilitation/tokenize-payment-method).
-2. You create a forwarding request naming the payment method, the destination, and the body and headers
-the destination expects. Card details are written as `{{card_number}}`, `{{card_expiry_month}}`,
-`{{card_expiry_year}}` and `{{cardholder_name}}` tags.
-3. JustiFi answers `201` with the request in `pending` status, then sends it in the background: it swaps
-each tag for the real value, encodes the body in the format the destination expects, and relays your
-headers.
+[Tokenize Payment Method web component](https://docs.justifi.tech/web-components/payment-facilitation/tokenize-payment-method)
+or the [Checkout web component](https://docs.justifi.tech/web-components/modular-checkout).
+2. You
+[create a forwarding request](https://docs.justifi.tech/api-spec#tag/Forwarding/operation/CreateForwardingRequest)
+naming the payment method, the destination, and the body and headers the destination expects. Card
+details are written as `{{card_number}}`, `{{card_expiry_month}}`, `{{card_expiry_year}}` and
+`{{cardholder_name}}` tags.
+3. JustiFi answers `201` with the request in `pending` status, then sends the request to the
+destination in the background; it swaps each tag for the real value, encodes the body in the format the
+destination expects, and relays your headers.
 4. You get the outcome from the `forwarding_request.completed` or `forwarding_request.failed` event, or
 by retrieving the forwarding request.
 
@@ -43,8 +46,8 @@ applied. Contact [JustiFi Customer Success](mailto:customer_success@justifi.tech
 added, and use exactly the URL you are given.
 
 **You supply the destination's credentials.** JustiFi holds no credentials of its own for the
-destination. Whatever authorization the destination requires goes in the `forwarding_request.headers`
-you send, and is relayed as-is.
+destination. Any authorization required by the destination needs to be passed to the
+`forwarding_request.headers` and is relayed as-is.
 
 Only card payments can be forwarded. Bank accounts, card-present payment methods and digital wallets
 (Apple Pay and Google Pay) are rejected.
@@ -83,7 +86,7 @@ curl --request POST \
   }'
 ```
 
-No `Sub-Account` header is needed — the account comes from the payment method.
+No `Sub-Account` header is needed — the account is retrieved from the payment method.
 
 You always write `forwarding_request.body` as a JSON object. JustiFi encodes it into the format the
 destination requires — form-encoding it, for instance, when the destination expects form data — and sets
@@ -142,7 +145,7 @@ Three rules apply:
 `"number": "card-{{card_number}}"` is rejected. There is no string interpolation.
 - **Unknown tags are rejected.** Only the four tags above are supported.
 - **`{{card_cvc}}` is not supported.** JustiFi does not retain the CVV after the request that collected
-it, so there is nothing to substitute. Destinations that require a CVV cannot be reached by forwarding.
+it. Destinations that require a CVV cannot be reached by forwarding.
 
 Braces that are not a whole-value tag are left alone, so a value like `"ref: {{legacy}}"` passes through
 untouched. A body with no tags at all is accepted, and `replacements` comes back empty.
@@ -155,7 +158,7 @@ Forwarding requests move through four statuses:
 | --- | --- |
 | `pending` | accepted and queued; nothing has been sent |
 | `processing` | the request is being sent and the outcome is not yet known |
-| `completed` | the destination answered — see `response.status_code` |
+| `completed` | the destination answered — see `response.status_code` for the outcome |
 | `failed` | the destination could not be reached — see `failure_reason` |
 
 :::note
@@ -178,11 +181,11 @@ Subscribe to `forwarding_request.completed` and `forwarding_request.failed`. The
 same object the API returns. Exactly one of the two is published per forwarding request. See
 [Forwarding Request events](https://docs.justifi.tech/api-spec#tag/Events/operation/forwardingRequestEvent).
 
-### Polling
+### Polling via API
 
-If you would rather poll, use
+If you prefer polling, you can use the
 [Get a Forwarding Request](https://docs.justifi.tech/api-spec#tag/Forwarding/operation/GetForwardingRequest)
-and wait for `status` to leave `pending` and `processing`.
+API and wait for the `status` to change from `pending` or `processing` to `completed` or `failed`.
 
 ```bash
 curl --request GET \

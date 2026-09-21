@@ -32,7 +32,7 @@ properties:
     description: >-
       `pending` — accepted and queued, nothing has been sent yet;
       `processing` — the request is being sent and the outcome is not known yet;
-      `completed` — the destination answered, whatever status code it answered with;
+      `completed` — the destination answered, see `data.response.status_code` for the outcome;
       `failed` — the destination could not be reached, see `failure_reason`.
     type: string
     enum: [pending, processing, completed, failed]
@@ -115,7 +115,7 @@ properties:
         example: 512
         nullable: true
   attempted_at:
-    description: when JustiFi started sending the request, `null` while the request is still queued
+    description: when JustiFi started sending the request (in UTC), `null` while the request is still queued
     type: string
     format: date-time
     example: '2024-01-01T12:00:01Z'

@@ -27,7 +27,7 @@ post:
     rejected with `payment_method_type_not_supported`, and digital wallet cards with
     `digital_wallet_not_supported`.
 
-    *Note: no `Sub-Account` header is needed. The account is taken from the payment method.*
+    *Note: no `Sub-Account` header is needed. The account is inferred from the payment method.*
   operationId: CreateForwardingRequest
   tags:
     - Forwarding

@@ -2,8 +2,8 @@ post:
   description: |
     Received for the following events: forwarding_request.completed, forwarding_request.failed
 
-    `forwarding_request.completed` means the destination answered, whatever status code it answered
-    with — check `data.response.status_code` to see whether it accepted the request.
+    `forwarding_request.completed` means the destination answered. Check `data.response.status_code`
+    to see whether the request was accepted.
     `forwarding_request.failed` means the destination could not be reached, and `data.failure_reason`
     explains why.
 
