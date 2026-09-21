@@ -58,6 +58,18 @@ properties:
     description: sum of other less common transactions in the payout, in cents
     type: number
     example: 100
+  platform_fees_total:
+    description: gross fees your platform charged its sub accounts in a proceeds payout, in cents, null for sub account payouts
+    type: number
+    nullable: true
+  justifi_fees_total:
+    description: processing fees JustiFi charged your platform in a proceeds payout, in cents, always positive, null for sub account payouts
+    type: number
+    nullable: true
+  interchange_network_fees:
+    description: interchange and card network fees passed through to your platform in a proceeds payout, in cents, usually negative, null for sub account payouts
+    type: number
+    nullable: true
   status:
     description: status of the payout
     type: string

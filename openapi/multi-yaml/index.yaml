@@ -237,6 +237,15 @@ tags:
       Proceeds represent your platform's take-home portion of the fees from your sub account's financial transactions.
       Proceeds are batched together according to the payout schedule configured on your account, then transferred
       to your active bank account.
+
+      Each proceeds payout also breaks down the fees behind its amount. `platform_fees_total` is what your platform
+      charged its sub accounts, `justifi_fees_total` is what JustiFi charged your platform, and
+      `interchange_network_fees` is the interchange and card network fees passed through to you. For most payouts,
+      `amount` equals `platform_fees_total` minus `justifi_fees_total` plus `interchange_network_fees`. Less common
+      entries, such as a previously failed payout being forwarded or a fee adjustment, also move the amount.
+
+      JustiFi calculates these three fields shortly after the payout is created, so they are null in the
+      `proceeds.payout.created` event. Fetch the payout again to read them.
   # - name: EventBridge (AWS) Delivery
   #   x-traitTag: true
   #   description:
