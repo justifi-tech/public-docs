@@ -1,0 +1,27 @@
+get:
+  summary: List Payment Method Imports
+  description: |
+    List the payment method imports run against your account. This endpoint supports [pagination](https://docs.justifi.tech/api-spec#section/Pagination).
+  operationId: ListPaymentMethodImports
+  tags:
+    - Payment Method Imports
+  parameters:
+    - $ref: ../components/parameters/authorization-header.yaml
+    - $ref: ../components/parameters/sub-account-required.yaml
+    - $ref: ../components/parameters/pagination-limit.yaml
+    - $ref: ../components/parameters/pagination-before.yaml
+    - $ref: ../components/parameters/pagination-after.yaml
+  responses:
+    '200':
+      description: Successfully list payment method imports
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope-list.yaml
+              - properties:
+                  type:
+                    example: array
+                  data:
+                    items:
+                      $ref: ../components/schemas/PaymentMethodImportResponse.yaml

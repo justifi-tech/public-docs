@@ -358,6 +358,13 @@ tags:
     description:
       $ref: ../docs/payment_method_migration.md
 
+  - name: Payment Method Imports
+    description: |
+      A payment method import bulk-tokenizes payment methods migrated from another processor as part of the
+      [Payment Method Migration](https://docs.justifi.tech/api-spec#tag/Payment-Method-Migration) process. JustiFi
+      runs the import on your behalf; these read-only endpoints let you list the imports run against your account
+      and check on their status and results.
+
   - name: Fee Configurations
     description: |
       Standard Fee Configurations allow platforms to set per-sub-account fee rates that are automatically applied at payment time. Configurations are managed per fee type — creating a new configuration for the same fee type automatically retires the previous one.
@@ -485,6 +492,7 @@ x-tagGroups:
       - Balance Transactions
       - Ach Return Fees
       - Payment Method Migration
+      - Payment Method Imports
       - Forwarding
   - name: Checkout Resources
     tags:
@@ -567,6 +575,10 @@ paths:
     $ref: paths/payment_method_groups@{id}.yaml
   /payment_method_groups/{id}/payment_methods/{payment_method_id}:
     $ref: paths/payment_method_groups@{id}@payment_methods@{payment_method_id}.yaml
+  /payment_method_imports:
+    $ref: paths/payment_method_imports.yaml
+  /payment_method_imports/{id}:
+    $ref: paths/payment_method_imports@{id}.yaml
   /payouts:
     $ref: paths/payouts.yaml
   /payouts/{id}:

@@ -1,0 +1,50 @@
+type: object
+properties:
+  id:
+    description: unique id of the payment method import
+    type: string
+    example: pmi_123xyz
+  provider:
+    description: the processor the payment methods were migrated from
+    type: string
+    enum: [authorize_net, braintree, datacap, ez_facility, mind_body, neon_pay, paragon, paya, stripe]
+    example: stripe
+  status:
+    description: current status of the import
+    type: string
+    enum: [created, processing, successful, failed]
+    example: successful
+  report_file_path:
+    description: key of the row-by-row results file, written once processing finishes
+    type: string
+    example: imports/pmi_123xyz/report.csv
+    nullable: true
+  account_id:
+    description: sub account the imported payment methods belong to
+    type: string
+    example: acc_123xyz
+  platform_account_id:
+    description: platform account that owns the sub account
+    type: string
+    example: acc_456abc
+  retry_of_payment_method_import_id:
+    description: id of the import this one retries, if any
+    type: string
+    example: pmi_789def
+    nullable: true
+  payment_methods:
+    description: the payment methods tokenized by this import
+    type: array
+    items:
+      anyOf:
+        - $ref: ./CardPaymentMethodWithBinDetails.yaml
+        - $ref: ./BankAccountPaymentMethodWithStatus.yaml
+        - $ref: ./CardPresentPaymentMethod.yaml
+  created_at:
+    type: string
+    format: date-time
+    example: '2024-01-01T12:00:00Z'
+  updated_at:
+    type: string
+    format: date-time
+    example: '2024-01-01T12:00:00Z'
