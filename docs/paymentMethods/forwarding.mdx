@@ -23,8 +23,9 @@ JustiFi, and the outcome arrives by webhook or by retrieving the request.
 
 ## How it works
 
-1. You have a card payment method in JustiFi — either one you already store, or one you
-[record for forwarding only](#recording-a-card-for-forwarding-only).
+1. You have a card payment method in JustiFi — any card payment method, however it was created,
+including one tokenized by the
+[Tokenize Payment Method web component](https://docs.justifi.tech/web-components/payment-facilitation/tokenize-payment-method).
 2. You create a forwarding request naming the payment method, the destination, and the body and headers
 the destination expects. Card details are written as `{{card_number}}`, `{{card_expiry_month}}`,
 `{{card_expiry_year}}` and `{{cardholder_name}}` tags.
@@ -247,49 +248,6 @@ rejected. `forwarding_request.headers`, if present, must be a flat object of str
 handles encoding the body into the form the destination expects.
 - **Cards only.** Bank accounts, card-present payment methods and digital wallet cards cannot be
 forwarded.
-
-## Recording a card for forwarding only
-
-If a card is only ever going to be forwarded and you do not want a gateway token created for it use
-[Create a Forwarding Payment Method](https://docs.justifi.tech/api-spec#tag/Forwarding/operation/CreateForwardingPaymentMethod)
-records the card without contacting a payment gateway.
-
-```bash
-curl --request POST \
-  --url https://api.justifi.ai/v1/forwarding/payment_methods \
-  --header 'authorization: Bearer YOUR_ACCESS_TOKEN' \
-  --header 'content-type: application/json' \
-  --header 'idempotency-key: YOUR_IDEMPOTENCY_KEY' \
-  --header 'sub-account: acc_123xyz' \
-  --data '{
-    "payment_method": {
-      "card": {
-        "name": "Lindsay Whalen",
-        "number": "4242424242424242",
-        "month": "5",
-        "year": "2042",
-        "address_postal_code": "55555"
-      }
-    }
-  }'
-```
-
-The response is the standard payment method payload, so the `pm_` id it returns works everywhere else in
-the API, including as the `payment_method` on a forwarding request.
-
-:::note
-This endpoint accepts a raw card number, so — exactly like
-[Create a Payment Method](https://docs.justifi.tech/api-spec#tag/Payment-Methods/operation/CreatePaymentMethod)
-— your platform must be approved to submit full card numbers, which requires at minimum a completed SAQ
-(Self-Assessment Questionnaire). Contact
-[JustiFi Customer Success](mailto:customer_success@justifi.tech) for approval. Without it the request is
-rejected with `full_pan_not_allowed`.
-:::
-
-You do not need this endpoint if the card is already a JustiFi payment method. Any card payment method,
-however it was created — including one tokenized by the
-[Tokenize Payment Method web component](https://docs.justifi.tech/web-components/payment-facilitation/tokenize-payment-method)
-— can be forwarded.
 
 ## Errors
 

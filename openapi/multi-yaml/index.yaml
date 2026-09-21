@@ -548,8 +548,6 @@ paths:
     $ref: paths/payment_methods@{token}.yaml
   /payment_methods/{token}/clone:
     $ref: paths/payment_methods@{token}@clone.yaml
-  /forwarding/payment_methods:
-    $ref: paths/forwarding_payment_methods.yaml
   /forwarding/requests:
     $ref: paths/forwarding_requests.yaml
   /forwarding/requests/{id}:
