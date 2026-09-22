@@ -19,6 +19,11 @@ properties:
     type: string
     example: imports/pmi_123xyz/report.csv
     nullable: true
+  report_file_url:
+    description: presigned URL to download report_file_path, valid for 15 minutes. Only present once status is successful
+    type: string
+    example: https://justifi-imports.s3.amazonaws.com/imports/pmi_123xyz/report.csv?X-Amz-Signature=...
+    nullable: true
   account_id:
     description: sub account the imported payment methods belong to
     type: string
