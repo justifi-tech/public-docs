@@ -1,0 +1,189 @@
+post:
+  summary: Create a Forwarding Request
+  description: |
+    Send a request to an allow-listed destination with card details filled in from a payment method
+    JustiFi already holds.
+
+    You describe the request the destination expects, and write `{{card_number}}`,
+    `{{card_expiry_month}}`, `{{card_expiry_year}}` or `{{cardholder_name}}` wherever card details
+    belong. JustiFi substitutes them at send time.
+
+    A tag must be the **entire** value of its field. A tag inside a longer string
+    (`"num:{{card_number}}"`), an unknown tag (`{{card_expiry}}`) and `{{card_cvc}}`, which JustiFi
+    does not store, are all rejected with `invalid_parameter`.
+
+    **This endpoint responds before anything leaves JustiFi.** The forwarding request is created with
+    `status` `pending` and a `null` `response`. Poll
+    [Get a Forwarding Request](https://docs.justifi.tech/api-spec#tag/Forwarding/operation/GetForwardingRequest)
+    or listen for the
+    [`forwarding_request.completed` and `forwarding_request.failed` events](https://docs.justifi.tech/api-spec#tag/Events/operation/forwardingRequestEvent)
+    for the outcome.
+
+    Destinations are allow-listed by JustiFi and matched exactly — no trailing slash, casing or query
+    normalization is applied. Contact [JustiFi Customer Success](mailto:customer_success@justifi.tech)
+    to have a destination added.
+
+    Only card payment methods can be forwarded. Bank accounts and card-present payment methods are
+    rejected with `payment_method_type_not_supported`, and digital wallet cards with
+    `digital_wallet_not_supported`.
+
+    *Note: no `Sub-Account` header is needed. The account is inferred from the payment method.*
+  operationId: CreateForwardingRequest
+  tags:
+    - Forwarding
+  parameters:
+    - $ref: ../components/parameters/idempotency-key-header.yaml
+    - $ref: ../components/parameters/authorization-header.yaml
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            payment_method:
+              description: |
+                the id of the card payment method whose details are substituted into the request body
+              type: string
+              example: pm_123xyz
+            url:
+              description: |
+                the destination to send the request to. Must match an allow-listed destination exactly
+              type: string
+              example: https://api.stripe.com/v1/payment_methods
+            forwarding_request:
+              description: the request to send to the destination
+              type: object
+              properties:
+                body:
+                  description: |
+                    the request body the destination expects, as a JSON object. Use `{{card_number}}`,
+                    `{{card_expiry_month}}`, `{{card_expiry_year}}` and `{{cardholder_name}}` where card
+                    details belong; each tag must be the entire value of its field. JustiFi encodes the
+                    body in the format the destination expects
+                  type: object
+                headers:
+                  description: |
+                    headers to relay to the destination, including the credentials it requires. Values
+                    must be strings. JustiFi stores none of its own credentials for the destination and
+                    adds only `Content-Type`, and only when you leave it out
+                  type: object
+                  additionalProperties:
+                    type: string
+              required: [body]
+          required: [payment_method, url, forwarding_request]
+        example:
+        examples:
+          "Forward_a_card_to_a_destination":
+            summary: "Forward a card to an allow-listed destination"
+            value:
+              payment_method: pm_123xyz
+              url: https://api.stripe.com/v1/payment_methods
+              forwarding_request:
+                body:
+                  type: card
+                  card:
+                    number: "{{card_number}}"
+                    exp_month: "{{card_expiry_month}}"
+                    exp_year: "{{card_expiry_year}}"
+                  billing_details:
+                    name: "{{cardholder_name}}"
+                  metadata:
+                    reference: ord_9f21
+                headers:
+                  Authorization: Bearer sk_live_destination_key
+  responses:
+    '201':
+      description: |
+        The forwarding request was accepted and queued. Nothing has been sent to the destination yet,
+        so `status` is `pending` and `response` is `null`.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope.yaml
+              - properties:
+                  type:
+                    example: forwarding_request
+                  data:
+                    $ref: ../components/schemas/ForwardingRequest.yaml
+    '400':
+      description: The request was rejected. Nothing was created and nothing was sent.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/PaymentError.yaml
+          examples:
+            "Destination_not_allow_listed":
+              value:
+                error:
+                  code: forwarding_destination_not_allowed
+                  message: "That destination is not on the forwarding allow list"
+            "Payment_method_type_not_supported":
+              value:
+                error:
+                  code: payment_method_type_not_supported
+                  message: "Only card payment methods can be forwarded"
+            "Digital_wallet_not_supported":
+              value:
+                error:
+                  code: digital_wallet_not_supported
+                  message: "Digital wallet payment methods cannot be forwarded"
+            "Invalid_card_tag":
+              value:
+                error:
+                  code: invalid_parameter
+                  message: "A card tag must be the entire value of its field and one of {{card_number}}, {{card_expiry_month}}, {{card_expiry_year}}, {{cardholder_name}}"
+            "Body_is_not_a_json_object":
+              value:
+                error:
+                  code: forwarding_request_body_invalid
+                  message: "forwarding_request.body must be a JSON object"
+            "Headers_are_not_a_string_map":
+              value:
+                error:
+                  code: forwarding_request_headers_invalid
+                  message: "forwarding_request.headers must be an object of string values"
+    '404':
+      description: No payment method with that id exists.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/PaymentError.yaml
+          examples:
+            "Payment_method_not_found":
+              value:
+                error:
+                  code: payment_method_not_found
+                  message: "Payment method not found"
+
+get:
+  summary: List Forwarding Requests
+  description: |
+    List the forwarding requests for a sub account, newest first. This endpoint supports
+    [pagination](https://docs.justifi.tech/api-spec#section/Pagination).
+  operationId: ListForwardingRequests
+  tags:
+    - Forwarding
+  parameters:
+    - $ref: ../components/parameters/authorization-header.yaml
+    - $ref: ../components/parameters/sub-account.yaml
+    - $ref: ../components/parameters/payment-method-id.yaml
+    - $ref: ../components/parameters/created-before.yaml
+    - $ref: ../components/parameters/created-after.yaml
+  responses:
+    '200':
+      description: Successfully list forwarding requests
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope-list.yaml
+              - properties:
+                  type:
+                    example: array
+                  data:
+                    items:
+                      $ref: ../components/schemas/ForwardingRequest.yaml

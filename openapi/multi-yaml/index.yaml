@@ -35,6 +35,27 @@ tags:
   - name: Payment Method Groups
     description: |
       Payment method groups are a way to associate payment methods to a single group for easy access.
+  - name: Forwarding
+    x-displayName: Forwarding (Beta)
+    description: |
+      Forwarding sends a request to a third party in the shape that destination expects, with card
+      details filled in from a payment method JustiFi already holds.
+
+      You describe the body the destination expects and mark where card details go with
+      `{{card_number}}`, `{{card_expiry_month}}`, `{{card_expiry_year}}` and `{{cardholder_name}}`.
+      JustiFi substitutes the real values at send time, relays the headers you supply, and stores a
+      masked copy of what was sent alongside the destination's response.
+
+      Forwarding is asynchronous: creating a forwarding request returns immediately with a `pending`
+      status, and the outcome arrives via the
+      [`forwarding_request.completed` or `forwarding_request.failed` event](https://docs.justifi.tech/api-spec#tag/Events/operation/forwardingRequestEvent)
+      or by retrieving the request.
+
+      Destinations must be allow-listed by JustiFi before they can be used. Contact
+      [JustiFi Customer Success](mailto:customer_success@justifi.tech) to have one added.
+
+      See the [Forwarding guide](https://docs.justifi.tech/paymentMethods/forwarding) for a full
+      walkthrough.
   - name: Refunds
     description: |
       When you refund a payment, a refund object is created. You can retrieve
@@ -464,6 +485,7 @@ x-tagGroups:
       - Balance Transactions
       - Ach Return Fees
       - Payment Method Migration
+      - Forwarding
   - name: Checkout Resources
     tags:
       - Checkouts
@@ -535,6 +557,10 @@ paths:
     $ref: paths/payment_methods@{token}.yaml
   /payment_methods/{token}/clone:
     $ref: paths/payment_methods@{token}@clone.yaml
+  /forwarding/requests:
+    $ref: paths/forwarding_requests.yaml
+  /forwarding/requests/{id}:
+    $ref: paths/forwarding_requests@{id}.yaml
   /payment_method_groups:
     $ref: paths/payment_method_groups.yaml
   /payment_method_groups/{id}:
@@ -655,3 +681,5 @@ x-webhooks:
     $ref: events/terminal_orders.yaml
   reports:
     $ref: events/reports.yaml
+  forwarding_requests:
+    $ref: events/forwarding_requests.yaml

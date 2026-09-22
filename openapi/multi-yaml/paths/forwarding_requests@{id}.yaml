@@ -1,0 +1,47 @@
+get:
+  summary: Get a Forwarding Request
+  description: |
+    Retrieve a forwarding request, and the destination's response once there is one.
+
+    While `status` is `pending` or `processing`, `response` is `null`. Once `status` is `completed`,
+    `response` holds the status code, body and headers the destination answered with — a `completed`
+    forwarding request means the destination answered, not that it accepted the request, so check
+    `response.status_code`. Once `status` is `failed`, `response` stays `null` and `failure_reason`
+    explains why the destination could not be reached.
+
+    Card details are never returned in readable form. The card number renders as its last four digits
+    in `request.body`, every value in `request.headers` renders as `[FILTERED]`, and anything in the
+    destination's response that looks like a card number is reduced to its last four digits.
+  operationId: GetForwardingRequest
+  tags:
+    - Forwarding
+  parameters:
+    - $ref: ../components/parameters/authorization-header.yaml
+    - $ref: ../components/parameters/sub-account.yaml
+    - $ref: ../components/parameters/id-path.yaml
+  responses:
+    '200':
+      description: Successfully get forwarding request
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope.yaml
+              - properties:
+                  type:
+                    example: forwarding_request
+                  data:
+                    $ref: ../components/schemas/ForwardingRequest.yaml
+    '404':
+      description: No forwarding request with that id exists on this sub account.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/PaymentError.yaml
+          examples:
+            "Forwarding_request_not_found":
+              value:
+                error:
+                  code: forwarding_request_not_found
+                  param: forwarding_request_id
