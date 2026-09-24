@@ -16,7 +16,7 @@ To process a payment with JustiFi, follow these steps
 
 ### Get Your Accounts
 
-Our customer onboarding team will work with you to create your `test` and `live` accounts. For platforms, our team will also guide you through setting up your sub accounts onboarding. Once you're up and running, you'll have access to the JustiFi API as well as the admin features at https://app.justifi.ai where you can see your account overview, payments, payouts, issue refunds, etc.
+Our customer onboarding team will work with you to create your `test` and `live` accounts. For platforms, our team will also guide you through setting up your sub accounts onboarding. Once you're up and running, you'll have access to the JustiFi API as well as the admin features at https://portal.justifi.tech where you can see your account overview, payments, payouts, issue refunds, etc.
 
 <br>
 

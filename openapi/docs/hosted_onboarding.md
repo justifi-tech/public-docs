@@ -9,7 +9,7 @@ To onboard a new business via hosted onboarding:
 6. Check the underwriting status of the sub account connected to the business
 
 ### 1. Get an access token
-On your backend, using your client id and client secret from the Developer > API keys section of the JustiFi dashboard, generate an [access token](https://docs.justifi.tech/api-spec#tag/API-Credentials/operation/CreateAccessToken).
+On your backend, using your client id and client secret from the Developer > API Keys section of the JustiFi Portal, generate an [access token](https://docs.justifi.tech/api-spec#tag/API-Credentials/operation/CreateAccessToken).
 
 ```
 function getToken() {

@@ -11,7 +11,7 @@ To onboard a new business via PaymentProvisioning web component
 
 
 ### Get an access token
-On your backend, using your client id and client secret from the Developer > API keys section of the JustiFi dashboard, generate an [access token](https://docs.justifi.tech/api-spec#tag/API-Credentials/operation/CreateAccessToken).
+On your backend, using your client id and client secret from the Developer > API Keys section of the JustiFi Portal, generate an [access token](https://docs.justifi.tech/api-spec#tag/API-Credentials/operation/CreateAccessToken).
 
 ```
 function getToken() {
