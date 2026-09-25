@@ -73,6 +73,15 @@ latter is regenerated at every build and gitignored. When editing:
 - **Naming**: the group renders as `Payables (Beta)`; payables' own spec just calls it `Payables`. The label is this repo's to change, in `PAYABLES_GROUP_LABEL`.
 - The merge **fails the build** rather than emitting an invalid document — on a 3.1 construct with no 3.0 equivalent, a path collision, or an operationId/trait-tag name already used by the main spec.
 
+### LLM files (llms.txt)
+
+- `plugins/llms-txt/` runs at `postBuild` and writes, following https://llmstxt.org: `/llms.txt` (index in sidebar order, then the API by Redoc tag group), `/llms-full.txt` (every page concatenated), `<page>.md` beside every docs page, and `/api-spec/<tag>.md` rendered from the bundled OpenAPI document. Nothing is committed; it only exists in `build/`.
+- Docs pages are converted from the **built HTML**, not the MDX source, so content rendered by components (the web component props tables) survives. The converter selects `.theme-doc-markdown`; a page without it fails the build.
+- Which docs are included is driven by the sidebars named in the plugin options in `docusaurus.config.ts`. A doc missing from its sidebar is left out, and only the current web components version is published.
+- `pnpm start` never runs `postBuild` and has no built HTML. The plugin writes `llms.txt`, the API pages and the OpenAPI YAML to `.docusaurus/llms-txt/` and adds that folder to `devServer.static`, so those match production in dev. Page `.md` files and `llms-full.txt` there are a one-line note to build; check them with `pnpm run build && pnpm run serve`. Use `static`, not `setupMiddlewares`: webpack-merge would replace Docusaurus's own `setupMiddlewares`.
+- The header of `llms.txt` (title, summary, key API facts) is hand-written in `plugins/llms-txt/intro.md`. Keep it in step with the API fundamentals docs.
+- The OpenAPI link points at `redocusaurus/plugin-redoc-0.yaml`, the bundle redocusaurus already writes for its download button; `plugin-redoc-0` is its default id for the first spec.
+
 ## Key Files
 
 | File | Purpose |
@@ -86,6 +95,8 @@ latter is regenerated at every build and gitignored. When editing:
 | `src/css/chrome.css` | Navbar, sidebar, breadcrumbs, TOC, pagination, footer, mobile drawer |
 | `src/css/content.css` | Doc body: prose, admonitions, tables, code blocks, tabs, buttons |
 | `src/css/redoc.css` | `/api-spec` overrides, scoped to `html.plugin-redoc` |
+| `plugins/llms-txt/` | postBuild: `llms.txt`, `llms-full.txt`, a `.md` twin of every docs page and `api-spec/<tag>.md` |
+| `src/pages/ai.md` | The `AI` navbar page explaining those files to humans |
 
 Stylesheets load in that order (a `customCss` array in `docusaurus.config.ts`), so later files win ties against earlier ones. Design tokens come from the `justifi-portal` repo — see the styling notes below.
 
