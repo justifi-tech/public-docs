@@ -32,6 +32,7 @@ For test accounts, webhooks are retried 3 times over 1 hour.
 
 **When you're ready to get started:**
 
-- Create the endpoint on your server that will receive published events
-- Add a webhook with the **"Webhook"** delivery method in the **"Developer"** section of the JustiFi Portal (https://portal.justifi.tech -> user menu -> Developer -> Events -> Add Webhook). You’ll subscribe your endpoint to the event types of your choice. We recommend starting with a test account.
-- Test the publisher by prompting one of the event types you chose and making sure your subscribed endpoint receives the published event
+1. Create the POST endpoint on your server that will receive published events
+2. Add a webhook with the **"Webhook"** delivery method in the JustiFi Portal ([https://portal.justifi.tech/developer/webhooks](https://portal.justifi.tech/developer/webhooks) or select **"Developer"** in the user menu). You’ll subscribe your endpoint to the event types of your choice. We recommend starting with a test account.
+3. Test the webhook by prompting one of the event types you chose and making sure your subscribed endpoint receives the published event
+4. Logs of published events appear in the **"Published Events"** tab on the webhook detail page with a **"Republish"** option.

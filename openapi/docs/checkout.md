@@ -10,7 +10,7 @@ For a more customized checkout experience refer to the [Modular Checkout](/web-c
 
 ### Get an access token
 
-On your backend, using your client id and client secret from the Developer > API Keys section of the JustiFi Portal. Using those, generate an [access token](https://docs.justifi.tech/api-spec#tag/API-Credentials/operation/CreateAccessToken).
+On your backend, using your client id and client secret from the **"Developer"** > **"API Keys"** section in the user menu of the JustiFi Portal ([https://portal.justifi.tech/developer/credentials](https://portal.justifi.tech/developer/credentials)). Using those, generate an [access token](https://docs.justifi.tech/api-spec#tag/API-Credentials/operation/CreateAccessToken).
 
 ```
 function getToken() {
