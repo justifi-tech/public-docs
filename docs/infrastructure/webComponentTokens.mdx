@@ -289,15 +289,15 @@ Open the file or go to [http://localhost:8000/payment_provisioning.html](http://
 To use our payment and payout components, you must grant a web component token for the sub account for which you'd like to show the payments or payouts.
 
 - Choose the sub account id (acc_abc1234)
-- With business OR sub account id, generate WC session read:account:`id`
+- With business OR sub account id, generate WC session with the resources `read:account:{id}`
 - Render component
 
 ### Business Onboarding
 
 - Create a business via create business API
-- Create Web Compontent Token for Business write:business:`id`
-- (optional) confirm WC token on Customer Admin Dashboard
-- Render the Payment Provisioning Component with the WC Token (note good 60 minutes)
+- Create Web Compontent Token for the business with the resources `write:business:{id}`
+- (optional) create the Web Component Token in the JustiFi Portal ([https://portal.justifi.tech/developer/credentials](https://portal.justifi.tech/developer/credentials)) 
+- Render the Payment Provisioning Web Component with the WC Token (valid for 60 minutes)
 
 #### (optional) Activate business for payments
 
@@ -308,7 +308,7 @@ To use our payment and payout components, you must grant a web component token f
 
 ### View Business Details Management
 
-- With Business ID, generate WC session read:business:`id`
+- With Business ID, generate WC session with the resources `read:business:{id}`
 - Render Component
 
 ## Future documentation
