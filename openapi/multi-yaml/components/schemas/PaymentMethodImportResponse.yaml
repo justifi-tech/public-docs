@@ -37,14 +37,6 @@ properties:
     type: string
     example: pmi_789def
     nullable: true
-  payment_methods:
-    description: the payment methods tokenized by this import
-    type: array
-    items:
-      anyOf:
-        - $ref: ./CardPaymentMethodWithBinDetails.yaml
-        - $ref: ./BankAccountPaymentMethodWithStatus.yaml
-        - $ref: ./CardPresentPaymentMethod.yaml
   created_at:
     type: string
     format: date-time

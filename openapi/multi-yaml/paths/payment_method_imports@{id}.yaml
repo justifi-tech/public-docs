@@ -1,7 +1,9 @@
 get:
   summary: Get a Payment Method Import
   description: |
-    Get a payment method import, including the payment methods it tokenized.
+    Get a payment method import. The response does not include the payment methods it tokenized; list them with
+    [List Payment Methods](https://docs.justifi.tech/api-spec#tag/Payment-Methods/operation/ListPaymentMethods)
+    filtered by `payment_method_import_id`.
   operationId: GetPaymentMethodImport
   tags:
     - Payment Method Imports

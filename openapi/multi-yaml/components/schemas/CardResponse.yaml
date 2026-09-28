@@ -41,6 +41,11 @@ properties:
         type: string
         example: "INVALID_ACCOUNT_NUMBER"
         nullable: true
+      payment_method_import_id:
+        description: id of the payment method import that created this payment method, if it was imported
+        type: string
+        example: pmi_123xyz
+        nullable: true
       created_at:
         type: string
         format: date-time
