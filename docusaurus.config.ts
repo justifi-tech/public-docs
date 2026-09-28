@@ -193,6 +193,16 @@ const config: Config = {
         ],
       },
     ],
+    [
+      './plugins/llms-txt/index.mjs',
+      {
+        docs: [
+          { pluginId: 'default', sidebarId: 'docsSidebar' },
+          { pluginId: 'web-components', sidebarId: 'wc', sectionPrefix: 'Web Components: ' },
+        ],
+        apiSpec: { pluginId: 'plugin-redoc-0', route: 'api-spec' },
+      },
+    ],
   ],
   themeConfig: {
     colorMode: {
@@ -226,6 +236,11 @@ const config: Config = {
           docId: 'introduction',
           label: 'Web Components',
           position: 'left',
+        },
+        {
+          to: "/ai",
+          label: "AI",
+          position: "left",
         },
         {
           href: 'https://github.com/justifi-tech/web-component-library/blob/main/packages/webcomponents/CHANGELOG.md',
