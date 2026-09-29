@@ -359,6 +359,7 @@ tags:
       $ref: ../docs/payment_method_migration.md
 
   - name: Payment Method Imports
+    x-displayName: Payment Method Imports (Beta)
     description: |
       A payment method import bulk-tokenizes payment methods migrated from another processor as part of the
       [Payment Method Migration](https://docs.justifi.tech/api-spec#tag/Payment-Method-Migration) process. JustiFi
