@@ -4,6 +4,16 @@ properties:
     description: unique id of the payment method import
     type: string
     example: pmi_123xyz
+  error_code:
+    description: |
+      why the import failed. Only present once status is failed.
+      - `missing_required_headers`: the file is missing columns the provider requires
+      - `invalid_file`: the file could not be read as CSV or JSON, or is not UTF-8
+      - `internal_error`: any other failure; contact support
+    type: string
+    enum: [missing_required_headers, invalid_file, internal_error]
+    example: null
+    nullable: true
   provider:
     description: the processor the payment methods were migrated from
     type: string
