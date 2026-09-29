@@ -1,0 +1,8 @@
+in: query
+name: payment_method_import_id
+schema:
+  type: string
+required: false
+example: "pmi_123xyz"
+description: |
+  filter records which were created by a payment method import.

@@ -1,0 +1,47 @@
+get:
+  summary: List Payment Method Imports
+  description: |
+    List the payment method imports run against your account. This endpoint supports [pagination](https://docs.justifi.tech/api-spec#section/Pagination).
+  operationId: ListPaymentMethodImports
+  tags:
+    - Payment Method Imports
+  parameters:
+    - $ref: ../components/parameters/authorization-header.yaml
+    - $ref: ../components/parameters/sub-account-required.yaml
+    - in: query
+      name: status
+      schema:
+        type: string
+        enum: [created, processing, successful, failed]
+      required: false
+      example: failed
+      description: |
+        filter records by the import status. Unknown values are ignored.
+    - in: query
+      name: provider
+      schema:
+        type: string
+        enum: [authorize_net, braintree, datacap, ez_facility, mind_body, neon_pay, paragon, paya, stripe]
+      required: false
+      example: stripe
+      description: |
+        filter records by the processor the payment methods were migrated from. Unknown values are ignored.
+    - $ref: ../components/parameters/created-before.yaml
+    - $ref: ../components/parameters/created-after.yaml
+    - $ref: ../components/parameters/pagination-limit.yaml
+    - $ref: ../components/parameters/pagination-before.yaml
+    - $ref: ../components/parameters/pagination-after.yaml
+  responses:
+    '200':
+      description: Successfully list payment method imports
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: ../components/schemas/Envelope-list.yaml
+              - properties:
+                  type:
+                    example: array
+                  data:
+                    items:
+                      $ref: ../components/schemas/PaymentMethodImportResponse.yaml

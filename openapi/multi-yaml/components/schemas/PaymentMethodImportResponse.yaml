@@ -1,0 +1,57 @@
+type: object
+properties:
+  id:
+    description: unique id of the payment method import
+    type: string
+    example: pmi_123xyz
+  error_code:
+    description: |
+      why the import failed. Only present once status is failed.
+      - `missing_required_headers`: the file is missing columns the provider requires
+      - `invalid_file`: the file could not be read as CSV or JSON, or is not UTF-8
+      - `internal_error`: any other failure; contact support
+    type: string
+    enum: [missing_required_headers, invalid_file, internal_error]
+    example: null
+    nullable: true
+  provider:
+    description: the processor the payment methods were migrated from
+    type: string
+    enum: [authorize_net, braintree, datacap, ez_facility, mind_body, neon_pay, paragon, paya, stripe]
+    example: stripe
+  status:
+    description: current status of the import
+    type: string
+    enum: [created, processing, successful, failed]
+    example: successful
+  report_file_path:
+    description: key of the row-by-row results file, written once processing finishes
+    type: string
+    example: imports/pmi_123xyz/report.csv
+    nullable: true
+  report_file_url:
+    description: presigned URL to download report_file_path, valid for 15 minutes. Only present once status is successful
+    type: string
+    example: https://justifi-imports.s3.amazonaws.com/imports/pmi_123xyz/report.csv?X-Amz-Signature=...
+    nullable: true
+  account_id:
+    description: sub account the imported payment methods belong to
+    type: string
+    example: acc_123xyz
+  platform_account_id:
+    description: platform account that owns the sub account
+    type: string
+    example: acc_456abc
+  retry_of_payment_method_import_id:
+    description: id of the import this one retries, if any
+    type: string
+    example: pmi_789def
+    nullable: true
+  created_at:
+    type: string
+    format: date-time
+    example: '2024-01-01T12:00:00Z'
+  updated_at:
+    type: string
+    format: date-time
+    example: '2024-01-01T12:00:00Z'
