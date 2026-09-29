@@ -19,9 +19,9 @@ import TerminalConfiguration3 from "../../static/img/terminal-configuration3.png
 ## Overview
 
 When you receive your terminal order you will need to connect the device(s) to Wifi and then enter the **device ID (DID**). 
-You can find the 8 digit device ID(s) in the Welcome Email from Verifone and on the **"Terminals"** list in the JustiFi dashboard.\
-To view the **"Terminals"** list go to https://app.justifi.ai/ and choose **“Terminals”** from the **"Payments"** dropdown.
-Filter the list by sub account. Choose a device ID from the list of terminals that match the **"Model Name"** you want to configure 
+You can find the 8 digit device ID(s) in the Welcome Email from Verifone and on the **"Terminals"** list in the JustiFi Portal.\
+To view the **"Terminals"** list go to https://portal.justifi.tech/payments/terminals or choose **"Terminals"** from the **"Payments"** section in the sidebar.
+Filter the list by sub account. Choose a device ID from the list of terminals that match the **"Model"** you want to configure 
 and have no assigned **"Serial Number"**. The **"Serial Number"** will be assigned to the device after configuration is finished.
 
 #### Follow these steps to configure your device(s): 
@@ -64,28 +64,26 @@ and have no assigned **"Serial Number"**. The **"Serial Number"** will be assign
 
 ## After Configuration
 You should be able to see any configured terminals in the response of the [List Terminals API response](https://developer.justifi.ai/api-spec#tag/Terminals/operation/listTerminals) 
-and in the **"Terminals List"** on the JustiFi dashboard:\
-Go to https://app.justifi.ai/ and choose **“Terminals”** from the **"Payments"** dropdown. 
+and in the **"Terminals"** list in the JustiFi Portal:\
+Go to https://portal.justifi.tech/payments/terminals or choose **"Terminals"** from the **"Payments"** section in the sidebar. 
 Confirm that the device you just configured has an assigned **"Serial Number"** that matches the serial number on the back of your device.
 
-<!--
 ## Assign Nickname
 To simplify identifying and handling a specific terminal device you can assign a nickname to it
 as soon as the terminal order was created and anytime after. 
 To do that use the [Update Terminal API](https://docs.justifi.tech/api-spec#tag/Terminals/operation/updateTerminal)
-or edit the **"Nickname"** field on the **"Order Details"** page on the JustiFi dashboard.
+or edit the **"Nickname"** field on the **"Terminal Details"** page in the JustiFi Portal([https://portal.justifi.tech/payments/terminals](https://portal.justifi.tech/payments/terminals)).
 The nickname can be changed at any time via the same methods.
--->
 
 ## Check Terminal Status
 To double check that a terminal is in `CONNECTED` mode call the [Get Terminal Status API](https://developer.justifi.ai/api-spec#tag/Terminals/operation/getTerminalStatus) and pass the terminal ID. 
-Or go to https://app.justifi.ai/ and choose **“Terminals”** from the **"Payments"** dropdown. On the **"Terminals"** list click into a terminal you want to check.
+Or go to https://portal.justifi.tech/payments/terminals or choose **"Terminals"** from the **"Payments"** section in the sidebar. On the **"Terminals"** list click into a terminal you want to check.
 On the detail view of a terminal click the **"Check Terminal Status"** button and the latest status will be retrieved. 
 
 ## Identify Terminal
 To ping a terminal device and display the nickname or serial number for 20 seconds on its display you can send a 
 request to the [Identify Terminal API](https://docs.justifi.tech/api-spec#tag/Terminals/operation/postIdentifyTerminal).
-Or go to https://app.justifi.ai/ and choose **“Terminals”** from the **"Payments"** dropdown. 
+Or go to https://portal.justifi.tech/payments/terminals or choose **"Terminals"** from the **"Payments"** section in the sidebar. 
 On the **"Terminals"** list click into a terminal you want to ping. 
 On the detail view of a terminal click **"Identify Terminal"**.  
 

@@ -8,7 +8,7 @@ If you want to offer BNPL or insurance as part of the checkout process you will 
 
 
 ### Get an access token
-On your backend, using your client id and client secret from the Developer > API keys section of the JustiFi dashboard, generate an [access token](https://docs.justifi.tech/api-spec#tag/API-Credentials/operation/CreateAccessToken).
+On your backend, using your client id and client secret from the **"Developer"** > **"API Keys"** section in the user menu of the JustiFi Portal ([https://portal.justifi.tech/developer/credentials](https://portal.justifi.tech/developer/credentials)), generate an [access token](https://docs.justifi.tech/api-spec#tag/API-Credentials/operation/CreateAccessToken).
 
 ```
 function getToken() {

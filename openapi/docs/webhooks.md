@@ -8,7 +8,7 @@ Webhooks are secured by signature verification, which you will need to verify by
 | Timestamp  | JUSTIFI-TIMESTAMP | ISO string format                                               |
 | Signature  | JUSTIFI-SIGNATURE | String                                                          |
 | Algorithm  | ----------------- | SHA-256                                                         |
-| Secret Key | ----------------- | Found in your event publisher's page                            |
+| Secret Key | ----------------- | Signature Key on your webhook's Details page                    |
 | Message    | ----------------- | String in the format `<timestamp_header>.<received_event_json>` |
 
 To verify the signature simply compare the generated SHA-256 hex against it; if it is successful the webhook signature is valid.
@@ -32,6 +32,7 @@ For test accounts, webhooks are retried 3 times over 1 hour.
 
 **When you're ready to get started:**
 
-- Create the endpoint on your server that will receive published events
-- Add an event publisher with webhook delivery method in the **"Developers"** section of the JustiFi dashboard (www.justifi.ai -> Developers -> Event Publishers). You’ll subscribe your endpoint to the event types of your choice. We recommend starting with a test account.
-- Test the publisher by prompting one of the event types you chose and making sure your subscribed endpoint receives the published event
+1. Create the POST endpoint on your server that will receive published events
+2. Add a webhook with the **"Webhook"** delivery method in the JustiFi Portal ([https://portal.justifi.tech/developer/webhooks](https://portal.justifi.tech/developer/webhooks) or select **"Developer"** in the user menu). You’ll subscribe your endpoint to the event types of your choice. We recommend starting with a test account.
+3. Test the webhook by prompting one of the event types you chose and making sure your subscribed endpoint receives the published event
+4. Logs of published events appear in the **"Published Events"** tab on the webhook detail page with a **"Republish"** option.

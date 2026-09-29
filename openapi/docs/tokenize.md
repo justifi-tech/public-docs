@@ -12,7 +12,7 @@ The following guide takes you through the few simple steps of integrating the [T
 
 
 ### Get an access token
-On your backend, using your client id and client secret from the Developer > API keys section of the JustiFi dashboard, generate an [access token](https://docs.justifi.tech/api-spec#tag/API-Credentials/operation/CreateAccessToken).
+On your backend, using your client id and client secret from the **"Developer"** > **"API Keys"** section in the user menu of the JustiFi Portal ([https://portal.justifi.tech/developer/credentials](https://portal.justifi.tech/developer/credentials)), generate an [access token](https://docs.justifi.tech/api-spec#tag/API-Credentials/operation/CreateAccessToken).
 
 ```
 function getToken() {
@@ -84,4 +84,4 @@ An `error` event means there was an issue with the Tokenize Payment Method web c
 At this point, the payment method has been tokenized and can be used for future payments!
 
 ### Listen to payment method events
-In addition to the web component events you can listen to [payment method specific events](https://docs.justifi.tech/api-spec#tag/Events) via event publisher. To set up an event publisher go to the Developer > Event Pubslisher section of the JustiFi dashboard. 
+In addition to the web component events you can listen to [payment method specific events](https://docs.justifi.tech/api-spec#tag/Events) via webhooks. To set up a webhook go to the Developer > Events section of the JustiFi Portal ([https://portal.justifi.tech/developer](https://portal.justifi.tech/developer)) and click **"Add Webhook"**. 
