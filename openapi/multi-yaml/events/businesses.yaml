@@ -119,12 +119,76 @@ post:
                   documents: []
                   created_at: "2021-01-01T12:00:00Z"
                   updated_at: "2021-01-01T12:00:00Z"
-                owners: []
-                documents: []
-                bank_accounts: []
-                additional_questions: {}
-                associated_accounts: []
-                provisioned: []
+                owners:
+                  - id: idty_456xyz
+                    platform_account_id: acc_987zyx
+                    business_id: biz_123xyz
+                    name: Owner Name
+                    title: CEO
+                    email: owner.name@justifi.ai
+                    phone: "6124012222"
+                    dob_day: "15"
+                    dob_month: "06"
+                    dob_year: "1975"
+                    ssn_last4: "4321"
+                    is_owner: true
+                    ownership_percentage: 60
+                    metadata: {}
+                    address:
+                      id: addr_456xyz
+                      platform_account_id: acc_987zyx
+                      line1: 456 Owner Ave
+                      line2: null
+                      postal_code: "55401"
+                      city: Minneapolis
+                      state: MN
+                      country: USA
+                      created_at: "2021-01-01T12:00:00Z"
+                      updated_at: "2021-01-01T12:00:00Z"
+                    documents: []
+                    created_at: "2021-01-01T12:00:00Z"
+                    updated_at: "2021-01-01T12:00:00Z"
+                documents:
+                  - id: doc_123xyz
+                    platform_account_id: acc_987zyx
+                    description: Articles of incorporation
+                    file_name: articles_of_incorporation
+                    file_type: pdf
+                    document_type: articles_of_incorporation
+                    business_id: biz_123xyz
+                    identity_id: null
+                    metadata: {}
+                    presigned_url: null
+                    status: uploaded
+                    created_at: "2021-01-01T12:00:00Z"
+                    updated_at: "2021-01-01T12:05:00Z"
+                bank_accounts:
+                  - id: ba_123xyz
+                    account_owner_name: Business Name
+                    account_type: checking
+                    acct_last_four: "6789"
+                    routing_number: "110000000"
+                    bank_name: Wells Fargo
+                    country: US
+                    currency: usd
+                    nickname: Operating account
+                    metadata: {}
+                    business_id: biz_123xyz
+                    platform_account_id: acc_987zyx
+                    created_at: "2021-01-01T12:00:00Z"
+                    updated_at: "2021-01-01T12:00:00Z"
+                additional_questions:
+                  business_revenue: "84220"
+                  business_payment_volume: "1000000"
+                  business_when_service_received: Within 7 days
+                  business_recurring_payments: "true"
+                  business_recurring_payments_percentage: 50% monthly, 50% annual
+                  business_seasonal: No. The business revenue is generated evenly throughout the year
+                  business_other_payment_details: 50% of revenue is taken 90 days in advance of service and 50% of revenue is taken 30 days in advance of service
+                associated_accounts:
+                  - id: acc_123xyz
+                provisioned:
+                  - payments
                 created_at: "2021-01-01T12:00:00Z"
                 updated_at: "2021-01-02T12:00:00Z"
               event_name: business.updated
