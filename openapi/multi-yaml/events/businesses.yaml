@@ -178,9 +178,9 @@ post:
                     created_at: "2021-01-01T12:00:00Z"
                     updated_at: "2021-01-01T12:00:00Z"
                 additional_questions:
-                  business_revenue: "84220"
+                  business_revenue: "8422000"
                   business_payment_volume: "1000000"
-                  business_average_transaction_amount: "150"
+                  business_average_transaction_amount: "15000"
                   business_when_service_received: Within 7 days
                   business_recurring_payments: "true"
                   business_recurring_payments_percentage: 50% monthly, 50% annual
