@@ -1,13 +1,24 @@
 get:
   summary: List Payment Method Imports
   description: |
-    List the payment method imports run against your account. This endpoint supports [pagination](https://docs.justifi.tech/api-spec#section/Pagination).
+    List the payment method imports run across your platform, newest first. To list only one sub account's
+    imports, send its id in the `Sub-Account` header or the `sub_account_id` parameter. This endpoint supports
+    [pagination](https://docs.justifi.tech/api-spec#section/Pagination).
   operationId: ListPaymentMethodImports
   tags:
     - Payment Method Imports
   parameters:
     - $ref: ../components/parameters/authorization-header.yaml
-    - $ref: ../components/parameters/sub-account-required.yaml
+    - $ref: ../components/parameters/sub-account.yaml
+    - in: query
+      name: sub_account_id
+      schema:
+        type: string
+      required: false
+      example: acc_123xyz
+      description: |
+        filter records by the sub account the payment methods were imported into. A sub account outside your
+        platform returns no records.
     - in: query
       name: status
       schema:
