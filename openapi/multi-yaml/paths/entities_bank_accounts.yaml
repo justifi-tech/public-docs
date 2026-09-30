@@ -28,7 +28,7 @@ post:
               example: "000123456789"
             routing_number:
               type: string
-              description: 9-digit routing number. Required for US businesses; not accepted for Canadian businesses
+              description: 9-digit routing number. Required for US businesses; not accepted for Canadian bank accounts
               example: "110000000"
             institution_number:
               type: string
