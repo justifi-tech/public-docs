@@ -363,8 +363,8 @@ tags:
     description: |
       A payment method import bulk-tokenizes payment methods migrated from another processor as part of the
       [Payment Method Migration](https://docs.justifi.tech/api-spec#tag/Payment-Method-Migration) process. JustiFi
-      runs the import on your behalf; these read-only endpoints let you list the imports run against your account
-      and check on their status and results.
+      runs the import on your behalf; these read-only endpoints let you list the imports run across your platform
+      or for a single sub account, and check on their status and results.
 
   - name: Fee Configurations
     description: |
