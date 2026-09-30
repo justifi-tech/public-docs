@@ -55,7 +55,16 @@ post:
                 documents: []
                 bank_accounts: []
                 additional_questions: {}
+                product_categories:
+                  payment: false
+                  credit: false
+                  lending: false
+                  insurance: false
+                  bank_account_verification: false
+                  payables: false
                 associated_accounts: []
+                settings:
+                  bank_account_verification: false
                 provisioned: []
                 created_at: "2021-01-01T12:00:00Z"
                 updated_at: "2021-01-01T12:00:00Z"
@@ -186,8 +195,17 @@ post:
                   business_recurring_payments_percentage: 50% monthly, 50% annual
                   business_seasonal: No. The business revenue is generated evenly throughout the year
                   business_other_payment_details: 50% of revenue is taken 90 days in advance of service and 50% of revenue is taken 30 days in advance of service
+                product_categories:
+                  payment: true
+                  credit: false
+                  lending: false
+                  insurance: false
+                  bank_account_verification: false
+                  payables: false
                 associated_accounts:
                   - id: acc_123xyz
+                settings:
+                  bank_account_verification: false
                 provisioned:
                   - payments
                 created_at: "2021-01-01T12:00:00Z"

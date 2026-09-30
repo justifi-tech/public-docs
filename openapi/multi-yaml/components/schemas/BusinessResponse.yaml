@@ -135,6 +135,36 @@ properties:
       $ref: EntityBankAccount.yaml
   additional_questions:
     $ref: AdditionalQuestions.yaml
+  product_categories:
+    type: object
+    description: the product categories this business is ready to be provisioned for. A category is true once the business has supplied all required information for at least one product in it
+    properties:
+      payment:
+        type: boolean
+        example: true
+      credit:
+        type: boolean
+        example: false
+      lending:
+        type: boolean
+        example: false
+      insurance:
+        type: boolean
+        example: false
+      bank_account_verification:
+        type: boolean
+        example: false
+      payables:
+        type: boolean
+        example: false
+  settings:
+    type: object
+    description: settings that apply to this business
+    properties:
+      bank_account_verification:
+        type: boolean
+        example: false
+        description: whether third-party bank account verification is enabled for this business
   created_at:
     type: string
     format: date-time
