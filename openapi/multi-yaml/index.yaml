@@ -696,3 +696,13 @@ x-webhooks:
     $ref: events/reports.yaml
   forwarding_requests:
     $ref: events/forwarding_requests.yaml
+  businesses:
+    $ref: events/businesses.yaml
+  identities:
+    $ref: events/identities.yaml
+  addresses:
+    $ref: events/addresses.yaml
+  documents:
+    $ref: events/documents.yaml
+  bank_accounts:
+    $ref: events/bank_accounts.yaml

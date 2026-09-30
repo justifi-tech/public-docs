@@ -1,0 +1,45 @@
+post:
+  description: |
+    Received for the following events: address.created, address.updated
+
+    Published for both a business's legal address and an identity's address. `address.created` is
+    published when an address is created, and `address.updated` when it is updated.
+  tags:
+    - Events
+  operationId: addressEvent
+  summary: Addresses
+  requestBody:
+    content:
+      application/json:
+        schema:
+          allOf:
+            - $ref: ../components/schemas/Event.yaml
+            - properties:
+                data:
+                  $ref: ../components/schemas/AddressResponse.yaml
+        example:
+        examples:
+          "Address_created_event":
+            value:
+              id: evt_123xyz
+              account_id: acc_987zyx
+              account_type: test
+              platform_account_id: acc_987zyx
+              idempotency_key: string
+              request_id: req_123
+              version: v1
+              data:
+                id: addr_123xyz
+                platform_account_id: acc_987zyx
+                line1: 123 Example St
+                line2: Suite 101
+                postal_code: "55555"
+                city: Minneapolis
+                state: MN
+                country: USA
+                created_at: "2021-01-01T12:00:00Z"
+                updated_at: "2021-01-01T12:00:00Z"
+              event_name: address.created
+  responses:
+    "200":
+      description: Return a 200 status to indicate that the data was received successfully. You must respond within 5 seconds.
