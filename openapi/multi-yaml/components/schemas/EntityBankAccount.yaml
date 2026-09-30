@@ -24,12 +24,12 @@ properties:
     nullable: true
     example: "110000000"
   institution_number:
-    description: 3-digit institution number identifying the bank (Canadian bank accounts)
+    description: 3-digit institution number identifying the bank (Canadian bank accounts only)
     type: string
     nullable: true
     example: null
   transit_number:
-    description: 5-digit transit number identifying the bank branch (Canadian bank accounts)
+    description: 5-digit transit number identifying the bank branch (Canadian bank accounts only)
     type: string
     nullable: true
     example: null
