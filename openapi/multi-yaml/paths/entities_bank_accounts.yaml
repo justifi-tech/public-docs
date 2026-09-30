@@ -28,8 +28,16 @@ post:
               example: "000123456789"
             routing_number:
               type: string
-              description: routing number
+              description: 9-digit routing number. Required for US businesses; not accepted for Canadian businesses
               example: "110000000"
+            institution_number:
+              type: string
+              description: 3-digit institution number identifying the bank. Required for Canadian businesses; not accepted for US businesses
+              example: "001"
+            transit_number:
+              type: string
+              description: 5-digit transit number identifying the bank branch. Required for Canadian businesses; not accepted for US businesses
+              example: "12345"
             business_id:
               type: string
               description: business id which owns the account
@@ -51,7 +59,6 @@ post:
             - account_owner_name
             - account_type
             - account_number
-            - routing_number
             - business_id
             - bank_name
 
