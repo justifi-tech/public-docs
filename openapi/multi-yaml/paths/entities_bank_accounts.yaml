@@ -32,11 +32,11 @@ post:
               example: "110000000"
             institution_number:
               type: string
-              description: 3-digit institution number identifying the bank. Required for Canadian businesses; not accepted for US businesses
+              description: 3-digit institution number identifying the bank. Required for Canadian businesses; not accepted for US bank accounts
               example: "001"
             transit_number:
               type: string
-              description: 5-digit transit number identifying the bank branch. Required for Canadian businesses; not accepted for US businesses
+              description: 5-digit transit number identifying the bank branch. Required for Canadian businesses; not accepted for US bank accounts
               example: "12345"
             business_id:
               type: string
