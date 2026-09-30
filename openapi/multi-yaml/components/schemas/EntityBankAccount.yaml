@@ -14,14 +14,25 @@ properties:
     type: string
     enum: [checking, savings]
     example: checking
-  acct_last_four:
+  account_number_last4:
     description: last 4 digits of the account number
     type: string
     example: "6789"
   routing_number:
-    description: routing number for account
+    description: routing number for account (US bank accounts)
     type: string
+    nullable: true
     example: "110000000"
+  institution_number:
+    description: 3-digit institution number identifying the bank (Canadian bank accounts)
+    type: string
+    nullable: true
+    example: null
+  transit_number:
+    description: 5-digit transit number identifying the bank branch (Canadian bank accounts)
+    type: string
+    nullable: true
+    example: null
   bank_name:
     description: name of the bank
     type: string
@@ -43,6 +54,16 @@ properties:
     format: json
     description: any useful information you'd like to store alongside this bank account
     example: {}
+  verified:
+    description: whether the bank account has been verified by a third-party provider
+    type: boolean
+    example: false
+  verification_provider:
+    description: the provider that verified the bank account, when verified
+    type: string
+    enum: [plaid]
+    nullable: true
+    example: null
   business_id:
     type: string
     format: uuid

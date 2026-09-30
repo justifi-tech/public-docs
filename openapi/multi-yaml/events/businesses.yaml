@@ -175,13 +175,17 @@ post:
                   - id: ba_123xyz
                     account_owner_name: Business Name
                     account_type: checking
-                    acct_last_four: "6789"
+                    account_number_last4: "6789"
                     routing_number: "110000000"
+                    institution_number: null
+                    transit_number: null
                     bank_name: Wells Fargo
                     country: US
                     currency: usd
                     nickname: Operating account
                     metadata: {}
+                    verified: false
+                    verification_provider: null
                     business_id: biz_123xyz
                     platform_account_id: acc_987zyx
                     created_at: "2021-01-01T12:00:00Z"
