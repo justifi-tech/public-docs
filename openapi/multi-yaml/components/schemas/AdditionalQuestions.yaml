@@ -8,6 +8,10 @@ properties:
     type: string
     example: "1000000"
     description: annual credit card & ACH volume anticipated to process with Justifi, in US or CAD dollars
+  business_average_transaction_amount:
+    type: string
+    example: "150"
+    description: average amount of a single transaction the business processes, in US or CAD dollars
   business_when_service_received:
     type: string
     example: "Within 7 days"
