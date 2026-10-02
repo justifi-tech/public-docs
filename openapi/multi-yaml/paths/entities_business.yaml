@@ -156,7 +156,7 @@ get:
         type: string
       required: false
       example: '"Company Name"'
-      description: filter businesses by name
+      description: filter businesses by legal name. Matches any business whose legal name contains this value, ignoring case
     - in: query
       name: industry
       schema:
