@@ -24,14 +24,17 @@ jobs:
           node-version: '20'
           cache: 'pnpm'
 
-      - name: Bump @justifi/webcomponents-docs in package.json
+      - name: Bump JustiFi packages in package.json
         env:
           DOCS_VERSION: ${{ github.event.client_payload.docs_version }}
+          WC_VERSION: ${{ github.event.client_payload.webcomponents_version }}
         run: |
           node -e "
             const fs = require('fs');
             const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
             pkg.dependencies['@justifi/webcomponents-docs'] = process.env.DOCS_VERSION;
+            const wc = (process.env.WC_VERSION || '').trim().replace(/^v/i, '');
+            if (wc) pkg.dependencies['@justifi/webcomponents'] = wc;
             fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2) + '\n');
           "
 
