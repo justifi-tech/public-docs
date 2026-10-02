@@ -11,19 +11,24 @@ Due to the inherent risk of front end authorization, we have a fine-grained acce
 
 ### Roles need for each component
 
-| Component           | Pre-Requisite        | Role                                                        |
-| ------------------- | -------------------- | ----------------------------------------------------------- |
-| BusinessDetails     | Existing Business Id | read:business:`business_id` or write:business:`business_id` |
-| BusinessForm        | Existing Business Id | write:business:`business_id`                                |
-| BusinessFormStepped | Existing Business Id | write:business:`business_id`                                |
-| GrossPaymentChart   | Existing Sub Account | read:account:`account_id` or write:account:`id`             |
-| PaymentDetails      | Existing Sub Account | read:account:`account_id` or write:account:`id`             |
-| PaymentList         | Existing Sub Account | read:account:`account_id` or write:account:`id`             |
-| PayoutDetails       | Existing Sub Account | read:account:`account_id` or write:account:`id`             |
-| PayoutList          | Existing Sub Account | read:account:`account_id` or write:account:`id`             |
-| Checkout            | Checkout created     | write:checkout:`checkout_id`                                |
-| CardForm            | Existing Sub Account | write:tokenize:`account_id`                                 |
-| BankAccountForm     | Existing Sub Account | write:tokenize:`account_id`                                 |
+| Component                    | Pre-Requisite        | Role                                                         |
+| ---------------------------- | -------------------- | ------------------------------------------------------------ |
+| BusinessDetails              | Existing Business Id | read:business:`business_id` or write:business:`business_id`  |
+| PaymentProvisioning          | Existing Business Id | write:business:`business_id`                                 |
+| GrossPaymentChart            | Existing Sub Account | read:account:`account_id` or write:account:`account_id`      |
+| PaymentDetails               | Existing Sub Account | read:account:`account_id` or write:account:`account_id`      |
+| PaymentsList                 | Existing Sub Account | read:account:`account_id` or write:account:`account_id`      |
+| PaymentTransactionsList      | Existing Sub Account | read:account:`account_id` or write:account:`account_id`      |
+| PayoutDetails                | Existing Sub Account | read:account:`account_id` or write:account:`account_id`      |
+| PayoutsList                  | Existing Sub Account | read:account:`account_id` or write:account:`account_id`      |
+| PayoutTransactionsList       | Existing Sub Account | read:account:`account_id` or write:account:`account_id`      |
+| CheckoutsList                | Existing Sub Account | read:account:`account_id` or write:account:`account_id`      |
+| TerminalsList                | Existing Sub Account | read:account:`account_id` or write:account:`account_id`      |
+| TerminalOrdersList           | Existing Sub Account | read:account:`account_id` or write:account:`account_id`      |
+| Modular and Unified Checkout | Checkout created     | write:checkout:`checkout_id` and write:tokenize:`account_id` |
+| TokenizePaymentMethod        | Existing Sub Account | write:tokenize:`account_id`                                  |
+| DisputeManagement            | Existing Dispute Id  | read:dispute:`dispute_id` or write:dispute:`dispute_id`      |
+| RefundPayment                | Existing Payment Id  | write:account:`account_id`                                   |
 
 ## General Usage
 
@@ -109,11 +114,11 @@ _note: replace WEB_COMPONENT_TOKEN and PAYMENT_ID with the values from the termi
     <title>justifi-payment-details</title>
     <script
       type="module"
-      src="https://cdn.jsdelivr.net/npm/@justifi/webcomponents@4.7.4/dist/webcomponents/webcomponents.esm.js"
+      src="https://cdn.jsdelivr.net/npm/@justifi/webcomponents@6.14.4/dist/webcomponents/webcomponents.esm.js"
     ></script>
     <script
       nomodule
-      src="https://cdn.jsdelivr.net/npm/@justifi/webcomponents@4.7.4/dist/webcomponents/webcomponents.js"
+      src="https://cdn.jsdelivr.net/npm/@justifi/webcomponents@6.14.4/dist/webcomponents/webcomponents.js"
     ></script>
   </head>
   <body>
@@ -135,7 +140,7 @@ _note: if you have python3 installed, you can run the following command on the f
 python3 -m http.server
 ```
 
-Open the file OR go to [http://localhost:8000/payment_details.html](http://localhost:8000/payment_details.html), you should see the [payment details web component](/web-components/merchant-tools/payout-details):
+Open the file OR go to [http://localhost:8000/payment_details.html](http://localhost:8000/payment_details.html), you should see the [payment details web component](/web-components/merchant-tools/payment-details):
 
 ![PaymentDetails](../../static/img/wc_payment_details.png)
 
@@ -155,11 +160,11 @@ _note: replace WEB_COMPONENT_TOKEN and ACCOUNT_ID with the values from the termi
     <title>justifi-payments-list</title>
     <script
       type="module"
-      src="https://cdn.jsdelivr.net/npm/@justifi/webcomponents@4.7.4/dist/webcomponents/webcomponents.esm.js"
+      src="https://cdn.jsdelivr.net/npm/@justifi/webcomponents@6.14.4/dist/webcomponents/webcomponents.esm.js"
     ></script>
     <script
       nomodule
-      src="https://cdn.jsdelivr.net/npm/@justifi/webcomponents@4.7.4/dist/webcomponents/webcomponents.js"
+      src="https://cdn.jsdelivr.net/npm/@justifi/webcomponents@6.14.4/dist/webcomponents/webcomponents.js"
     ></script>
   </head>
   <body>
@@ -169,10 +174,13 @@ _note: replace WEB_COMPONENT_TOKEN and ACCOUNT_ID with the values from the termi
     >
     </justifi-payments-list>
     <script>
-      window.addEventListener('payment-row-clicked', (event) => {
-        // event.detail contains all the necessary information to call an endpoint to get more details on this entity
-        const entityID = event.detail.id;
-        alert(`You clicked on ${entityID}`);
+      const paymentsList = document.querySelector('justifi-payments-list');
+      paymentsList.addEventListener('click-event', (event) => {
+        // event.detail.name is 'tableRow', 'nextPage' or 'previousPage'
+        // event.detail.data holds the clicked row's payment when the name is 'tableRow'
+        if (event.detail.name === 'tableRow') {
+          console.log(`You clicked on ${event.detail.data.id}`);
+        }
       });
     </script>
   </body>
@@ -261,11 +269,11 @@ _note: replace WEB_COMPONENT_TOKEN and BUSINESS_ID with the values from the term
     <title>justifi-payment-details</title>
     <script
       type="module"
-      src="https://cdn.jsdelivr.net/npm/@justifi/webcomponents@4.11.0/dist/webcomponents/webcomponents.esm.js"
+      src="https://cdn.jsdelivr.net/npm/@justifi/webcomponents@6.14.4/dist/webcomponents/webcomponents.esm.js"
     ></script>
     <script
       nomodule
-      src="https://cdn.jsdelivr.net/npm/@justifi/webcomponents@4.11.0/dist/webcomponents/webcomponents.js"
+      src="https://cdn.jsdelivr.net/npm/@justifi/webcomponents@6.14.4/dist/webcomponents/webcomponents.js"
     ></script>
   </head>
   <body>
@@ -310,7 +318,3 @@ To use our payment and payout components, you must grant a web component token f
 
 - With Business ID, generate WC session with the resources `read:business:{id}`
 - Render Component
-
-## Future documentation
-
-We will document our checkout components and the card, bank account and payment forms here as they become available.
