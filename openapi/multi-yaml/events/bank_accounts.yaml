@@ -36,7 +36,7 @@ post:
                 institution_number: null
                 transit_number: null
                 bank_name: Wells Fargo
-                country: US
+                country: USA
                 currency: usd
                 nickname: Phee's money
                 metadata: {}

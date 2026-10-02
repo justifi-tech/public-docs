@@ -4,6 +4,10 @@ properties:
     type: string
     format: uuid
     example: doc_abc123
+  platform_account_id:
+    description: platform account that owns this document
+    type: string
+    example: acc_123xyz
   description:
     type: string
     example: My Document
@@ -65,7 +69,7 @@ properties:
       social_network: "@person"
   status:
     type: string
-    enum: [pending uploaded canceled]
+    enum: [pending, uploaded, canceled]
   created_at:
     type: string
     format: date-time

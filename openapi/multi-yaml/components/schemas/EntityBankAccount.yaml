@@ -38,9 +38,10 @@ properties:
     type: string
     example: Wells Fargo
   country:
-    description: country for the bank account
+    description: country for the bank account. Bank accounts created with the create bank account endpoint take the business's country_of_establishment (USA or CAN); bank accounts added another way, such as through Plaid, return US
     type: string
-    enum: [US, CA]
+    enum: [USA, CAN, US, CA]
+    example: USA
   currency:
     description: currency for the bank account
     type: string

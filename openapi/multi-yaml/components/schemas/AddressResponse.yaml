@@ -4,6 +4,10 @@ properties:
     description: unique address id
     type: string
     example: "addr_123xyz"
+  platform_account_id:
+    description: platform account that owns this address
+    type: string
+    example: acc_123xyz
   line1:
     type: string
     example: "123 Example St"
