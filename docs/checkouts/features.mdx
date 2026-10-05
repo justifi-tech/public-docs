@@ -19,7 +19,7 @@ Supported payment types include Card Payments, ACH Payments,
 Insurance Quote Payments, BNPL (Buy Now Pay Later) Payments (API support pending),
 and Terminal (Card Reader) Payments.
 
-_note: New features will be documented here as they become available._
+_Note: New features will be documented here as they become available._
 
 :::note Currency Support
 Checkouts support both USD and CAD currencies. The currency is determined by the sub-account processing the checkout — each sub-account is scoped to a single currency. To process checkouts in CAD, a dedicated Canada platform account is required.
@@ -44,7 +44,7 @@ Checkouts support both USD and CAD currencies. The currency is determined by the
 - After creating a Checkout, use the [Unified Fintech Checkout™ Component](/web-components/payment-facilitation/unified-fintech-checkout%E2%84%A2)
   with the BNPL option (default).
 
-_note: Disable the BNPL option by passing the correspondent prop to the web component:
+_Note: Disable the BNPL option by passing the correspondent prop to the web component:
 [disable-bnpl](/web-components/payment-facilitation/unified-fintech-checkout%E2%84%A2)_
 
 ### Terminal (Card Reader) Payments
@@ -129,7 +129,7 @@ The `application_fees` parameter continues to work for platforms on the v1 fee s
 
 - The application fee applies based on the selected payment method during checkout.
   It overwrites the `application_fee_rate` set for the sub account.
-  _note: available for Card, ACH and Terminal (Card Present) only!_
+  _Note: available for Card, ACH and Terminal (Card Present) only!_
 
 **Important**: You cannot use both `application_fees` and `fees` in the same request.
 
