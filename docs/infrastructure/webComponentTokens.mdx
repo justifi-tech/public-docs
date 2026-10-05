@@ -18,8 +18,8 @@ Due to the inherent risk of front end authorization, we have a fine-grained acce
 
 | Component                    | Pre-Requisite                     | Role                                                                                                           |
 | ---------------------------- | --------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| BusinessDetails              | Existing Business Id              | read:business:`business_id` or write:business:`business_id`                                                    |
-| PaymentProvisioning          | Existing Business Id              | write:business:`business_id`                                                                                   |
+| BusinessDetails              | Existing Business                 | read:business:`business_id` or write:business:`business_id`                                                    |
+| PaymentProvisioning          | Existing Business                 | write:business:`business_id`                                                                                   |
 | GrossPaymentChart            | Existing Sub Account              | read:account:`account_id` or write:account:`account_id`                                                        |
 | PaymentDetails               | Existing Sub Account              | read:account:`account_id` or write:account:`account_id`                                                        |
 | PaymentsList                 | Existing Sub Account              | read:account:`account_id` or write:account:`account_id`                                                        |
@@ -33,8 +33,8 @@ Due to the inherent risk of front end authorization, we have a fine-grained acce
 | OrderTerminals               | Existing Business and Sub Account | read:business:`business_id` and write:account:`account_id`                                                     |
 | Modular and Unified Checkout | Checkout created                  | write:checkout:`checkout_id` and write:tokenize:`account_id`                                                   |
 | TokenizePaymentMethod        | Existing Sub Account              | write:tokenize:`account_id`                                                                                    |
-| DisputeManagement            | Existing Dispute Id               | read:dispute:`dispute_id`, write:dispute:`dispute_id`, read:account:`account_id` or write:account:`account_id` |
-| RefundPayment                | Existing Payment Id               | write:account:`account_id`                                                                                     |
+| DisputeManagement            | Existing Dispute                  | read:dispute:`dispute_id`, write:dispute:`dispute_id`, read:account:`account_id` or write:account:`account_id` |
+| RefundPayment                | Existing Payment                  | write:account:`account_id`                                                                                     |
 
 ## General Usage
 
