@@ -12,7 +12,11 @@ export const wcVersion = getWebcomponentsVersion();
 
 ## Overview of Web Component tokens
 
-Due to the inherent risk of front end authorization, we have a fine-grained access token pattern for our web components. The following table describes which roles can be used to render a web component. To generate a web component use the [web component token API](/api-spec#tag/Web-Component-Tokens) or generate it in JustiFi Portal (in the user menu click Developer [https://portal.justifi.tech/developer/credentials](https://portal.justifi.tech/developer/credentials)). An API key is required for any API call. It can be generate in JustiFi Portal on the same page ([https://portal.justifi.tech/developer/credentials](https://portal.justifi.tech/developer/credentials)).
+Due to the inherent risk of front end authorization, we have a fine-grained access token pattern for our web components. 
+The following table describes which roles can be used to render a web component. 
+To generate a web component token use the [web component token API](/api-spec#tag/Web-Component-Tokens) 
+or generate it in JustiFi Portal (in the user menu click Developer [https://portal.justifi.tech/developer/credentials](https://portal.justifi.tech/developer/credentials)). 
+An API key is required for any API request. It can be generated in the JustiFi Portal [on the same page](https://portal.justifi.tech/developer/credentials).
 
 ### Roles need for each component
 
@@ -92,7 +96,7 @@ PAYMENT_ID=$(echo ${PAYMENT_LIST} | jq -r '.data[0].id')
 echo "Payment ID: ${PAYMENT_ID}"
 ```
 
-5. Generate Web Component Token [API](https://docs.justifi.tech/api-spec#tag/Web-Component-Tokens) (_note: replace acc_abc1234 with the account id from step 3_)
+5. Generate Web Component Token [API](https://docs.justifi.tech/api-spec#tag/Web-Component-Tokens) (_Note: replace acc_abc1234 with the account id from step 3_)
 
 ```bash
 WC_TOKEN_RESPONSE=$(curl -sS --request POST \
@@ -103,7 +107,7 @@ WC_TOKEN_RESPONSE=$(curl -sS --request POST \
 )
 ```
 
-6. Get the web*component_token and print to the console (\_note: this token is good for 60 minutes*)
+6. Get the web*component_token and print to the console (_Note: this token is valid for 60 minutes_)
 
 ```bash
 WEB_COMPONENT_TOKEN=$(echo $WC_TOKEN_RESPONSE | jq -r '.access_token')
@@ -112,7 +116,7 @@ echo "Web Component Token: ${WEB_COMPONENT_TOKEN}"
 
 #### Front end code: payment_details.html
 
-_note: replace WEB_COMPONENT_TOKEN and PAYMENT_ID with the values from the terminal script above_
+_Note: replace WEB_COMPONENT_TOKEN and PAYMENT_ID with the values from the terminal script above_
 
 <CodeBlock language="html">{`<!doctype html>
 <html dir="ltr" lang="en">
@@ -143,7 +147,7 @@ _note: replace WEB_COMPONENT_TOKEN and PAYMENT_ID with the values from the termi
 
 Open the file in your browser OR run a local web server (you may use any web server)
 
-_note: if you have python3 installed, you can run the following command on the folder the html file was created to start a local web server._
+_Note: if you have python3 installed, you can run the following command on the folder the html file was created to start a local web server._
 
 ```bash
 # example using Python
@@ -156,7 +160,7 @@ Open the file OR go to [http://localhost:8000/payment_details.html](http://local
 
 #### Front end code: payment_list.html
 
-_note: replace WEB_COMPONENT_TOKEN and ACCOUNT_ID with the values from the terminal script above_
+_Note: replace WEB_COMPONENT_TOKEN and ACCOUNT_ID with the values from the terminal script above_
 
 <CodeBlock language="html">{`<!doctype html>
 <html dir="ltr" lang="en">
@@ -243,7 +247,7 @@ BUSINESS_ID=$(echo ${BUSINESS_RESPONSE} | jq -r '.id')
 echo "Business ID: ${BUSINESS_ID}"
 ```
 
-5. Generate Web Component Token [API](https://docs.justifi.tech/api-spec#tag/Web-Component-Tokens) (_note: replace biz_abc1234 with the business id from step 4 above_)
+5. Generate Web Component Token [API](https://docs.justifi.tech/api-spec#tag/Web-Component-Tokens) (_Note: replace biz_abc1234 with the business id from step 4 above_)
 
 ```bash
 WC_TOKEN_RESPONSE=$(curl -sS --request POST \
@@ -263,7 +267,7 @@ echo "Web Component Token: ${WEB_COMPONENT_TOKEN}"
 
 #### Front end code: payment_provisioning.html
 
-_note: replace WEB_COMPONENT_TOKEN and BUSINESS_ID with the values from the terminal script above_
+_Note: replace WEB_COMPONENT_TOKEN and BUSINESS_ID with the values from the terminal script above_
 
 <CodeBlock language="html">{`<!doctype html>
 <html dir="ltr" lang="en">
