@@ -16,6 +16,8 @@ Due to the inherent risk of front end authorization, we have a fine-grained acce
 
 ### Roles need for each component
 
+<div className="wc-token-roles">
+
 | Component                    | Pre-Requisite        | Role                                                                                                           |
 | ---------------------------- | -------------------- | -------------------------------------------------------------------------------------------------------------- |
 | BusinessDetails              | Existing Business    | read:business:`business_id` or write:business:`business_id`                                                    |
@@ -35,6 +37,8 @@ Due to the inherent risk of front end authorization, we have a fine-grained acce
 | TokenizePaymentMethod        | Existing Sub Account | write:tokenize:`account_id`                                                                                    |
 | DisputeManagement            | Existing Dispute     | read:dispute:`dispute_id`, write:dispute:`dispute_id`, read:account:`account_id` or write:account:`account_id` |
 | RefundPayment                | Existing Payment     | write:account:`account_id`                                                                                     |
+
+</div>
 
 ## General Usage
 
