@@ -14,11 +14,11 @@ export const wcVersion = getWebcomponentsVersion();
 
 Due to the inherent risk of front end authorization, we have a fine-grained access token pattern for our web components. 
 The following table describes which roles can be used to render a web component. 
-To generate a web component token use the [web component token API](/api-spec#tag/Web-Component-Tokens) 
-or generate it in JustiFi Portal (in the user menu click Developer [https://portal.justifi.tech/developer/credentials](https://portal.justifi.tech/developer/credentials)). 
+To generate a web component token use the [web component token API](https://docs.justifi.tech/api-spec#tag/Web-Component-Tokens) 
+or generate it in the JustiFi Portal (in the user menu click Developer [https://portal.justifi.tech/developer/credentials](https://portal.justifi.tech/developer/credentials)). 
 An API key is required for any API request. It can be generated in the JustiFi Portal [on the same page](https://portal.justifi.tech/developer/credentials).
 
-### Roles need for each component
+### Roles needed for each component
 
 <div className="wc-token-roles">
 
@@ -48,16 +48,21 @@ See the [Web Components documentation](https://docs.justifi.tech/web-components/
 
 ## General Usage
 
-The pattern for using a web component starts in a backend request. Your backend should have a client token generated. Then, you need to find or create the resource the component needs to function, for example create a business before rendering the BusinessForm component. Next, you generate a web component token, which is good for 60 minutes, using the id(s) of the resources you will render. You then use this as the auth-token attribute to render the component in your front end.
+The pattern for using a web component starts in a backend request. Your backend should have an access token generated. 
+Then, you need to find or create the resource the component needs to function, 
+for example create a business before rendering the PaymentProvisioning component. 
+Next, you generate a web component token, which is valid for 60 minutes, using the id(s) of the resources you will render. 
+You then use this as the `auth-token` attribute to render the component in your front end.
 
-### Here is an example of retrieving a payment and rendering the payment details.
+### Example: Retrieve a payment and render the [Payment Details web component](https://docs.justifi.tech/web-components/merchant-tools/payment-details)
 
-The following steps show how to get the latest payment, generate a web component token, and render the PaymentDetails web component (copy and paste each block of code in a terminal to test using your credentials):
+The following steps show how to get the latest payment, generate a web component token, and render the PaymentDetails web component 
+(copy and paste each block of code in a terminal to test using your credentials):
 
-> We use [curl](https://curl.se/) to make the API calls in the terminal, and [jq](https://stedolan.github.io/jq/) to parse the json response.
-> You can install using [homebrew](https://brew.sh/) on a mac or [chocolatey](https://chocolatey.org/) on windows.
+> We use [curl](https://curl.se/) to make the API calls in the terminal, and [jq](https://jqlang.org/) to parse the JSON response.
+> You can install them using [Homebrew](https://brew.sh/) on a Mac or [Chocolatey](https://chocolatey.org/) on Windows.
 
-1. Generate Access Token [API](https://docs.justifi.tech/api-spec#tag/API-Credentials/operation/CreateAccessToken)
+1. Generate Access Token via [API](https://docs.justifi.tech/api-spec#tag/API-Credentials/operation/CreateAccessToken)
 
 ```bash
 ACCESS_TOKEN_RESPONSE=$(curl -sS --request POST \
@@ -89,7 +94,7 @@ PAYMENT_LIST=$(curl -sS --request GET \
 )
 ```
 
-4. Get the first payment_id from payment list (= latest payment) and print to the console
+4. Get the first payment_id from the payment list (= latest payment) and print to the console
 
 ```bash
 PAYMENT_ID=$(echo ${PAYMENT_LIST} | jq -r '.data[0].id')
@@ -107,7 +112,7 @@ WC_TOKEN_RESPONSE=$(curl -sS --request POST \
 )
 ```
 
-6. Get the web*component_token and print to the console (_Note: this token is valid for 60 minutes_)
+6. Get the `web_component_token` and print to the console (_Note: this token is valid for 60 minutes_)
 
 ```bash
 WEB_COMPONENT_TOKEN=$(echo $WC_TOKEN_RESPONSE | jq -r '.access_token')
@@ -131,10 +136,6 @@ _Note: replace WEB_COMPONENT_TOKEN and PAYMENT_ID with the values from the termi
       type="module"
       src="https://cdn.jsdelivr.net/npm/@justifi/webcomponents@${wcVersion}/dist/webcomponents/webcomponents.esm.js"
     ></script>
-    <script
-      nomodule
-      src="https://cdn.jsdelivr.net/npm/@justifi/webcomponents@${wcVersion}/dist/webcomponents/webcomponents.js"
-    ></script>
   </head>
   <body>
     <justifi-payment-details
@@ -147,16 +148,59 @@ _Note: replace WEB_COMPONENT_TOKEN and PAYMENT_ID with the values from the termi
 
 Open the file in your browser OR run a local web server (you may use any web server)
 
-_Note: if you have python3 installed, you can run the following command on the folder the html file was created to start a local web server._
+_Note: if you have python3 installed, you can run the following command in the folder where the HTML file was created to start a local web server._
 
 ```bash
 # example using Python
 python3 -m http.server
 ```
 
-Open the file OR go to [http://localhost:8000/payment_details.html](http://localhost:8000/payment_details.html), you should see the [payment details web component](/web-components/merchant-tools/payment-details):
+Open the file OR go to [http://localhost:8000/payment_details.html](http://localhost:8000/payment_details.html), 
+you should see the [Payment Details web component](/web-components/merchant-tools/payment-details)
 
-![PaymentDetails](../../static/img/wc_payment_details.png)
+### Example: Render the [Payments List web component](https://docs.justifi.tech/web-components/merchant-tools/payments-list)
+
+The following steps show how to generate a web component token, and render the Payments List web component 
+(copy and paste each block of code below into a terminal to test using your API credentials):
+
+1. Generate Access Token [API](https://docs.justifi.tech/api-spec#tag/API-Credentials/operation/CreateAccessToken)
+
+```bash
+ACCESS_TOKEN_RESPONSE=$(curl -sS --request POST \
+  --url https://api.justifi.ai/oauth/token \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "client_id":"test_abc1234",
+    "client_secret":"test_xyz9876"
+  }'
+)
+```
+
+2. Get the access_token and print to the console
+
+```bash
+ACCESS_TOKEN=$(echo $ACCESS_TOKEN_RESPONSE | jq -r '.access_token')
+echo "Access Token: ${ACCESS_TOKEN}"
+```
+
+3. Generate Web Component Token via [API](https://docs.justifi.tech/api-spec#tag/Web-Component-Tokens) 
+(_Note: replace acc_abc1234 with an account id listed in the Payments List in the JustiFi Portal_)
+
+```bash
+WC_TOKEN_RESPONSE=$(curl -sS --request POST \
+  --url https://api.justifi.ai/v1/web_component_tokens \
+  --header 'Authorization: Bearer '${ACCESS_TOKEN}'' \
+  --header 'Content-Type: application/json' \
+  --data '{ "resources": [ "read:account:acc_abc1234" ] }'
+)
+```
+
+4. Get the `web_component_token` and print to the console (_Note: this token is valid for 60 minutes_)
+
+```bash
+WEB_COMPONENT_TOKEN=$(echo $WC_TOKEN_RESPONSE | jq -r '.access_token')
+echo "Web Component Token: ${WEB_COMPONENT_TOKEN}"
+```
 
 #### Front end code: payment_list.html
 
@@ -174,10 +218,6 @@ _Note: replace WEB_COMPONENT_TOKEN and ACCOUNT_ID with the values from the termi
     <script
       type="module"
       src="https://cdn.jsdelivr.net/npm/@justifi/webcomponents@${wcVersion}/dist/webcomponents/webcomponents.esm.js"
-    ></script>
-    <script
-      nomodule
-      src="https://cdn.jsdelivr.net/npm/@justifi/webcomponents@${wcVersion}/dist/webcomponents/webcomponents.js"
     ></script>
   </head>
   <body>
@@ -199,75 +239,17 @@ _Note: replace WEB_COMPONENT_TOKEN and ACCOUNT_ID with the values from the termi
   </body>
 </html>`}</CodeBlock>
 
-Open the file or go to [http://localhost:8000/payment_list.html](http://localhost:8000/payment_list.html), you should see the [payment list web component](/web-components/merchant-tools/payments-list):
+Open the file or go to [http://localhost:8000/payment_list.html](http://localhost:8000/payment_list.html), 
+you should see the [Payments List web component](/web-components/merchant-tools/payments-list)
 
-![PaymentList](../../static/img/wc_payment_list.png)
 
-### Create a business and render the Payment Provisioning component
+### Example: Create a business and render the [Payment Provisioning web component](/web-components/entities/payment-provisioning)
 
-The following steps shows how to create a business entity, generate a web component token, and render the [PaymentProvisioning web component](/web-components/entities/payment-provisioning):
-
-1. Generate Access Token [API](https://docs.justifi.tech/api-spec#tag/API-Credentials/operation/CreateAccessToken)
-
-```bash
-ACCESS_TOKEN_RESPONSE=$(curl -sS --request POST \
-  --url https://api.justifi.ai/oauth/token \
-  --header 'Content-Type: application/json' \
-  --data '{
-    "client_id":"test_abc1234",
-    "client_secret":"test_xyz9876"
-  }'
-)
-```
-
-2. Get the access_token from the response and print to the console
-
-```bash
-ACCESS_TOKEN=$(echo $ACCESS_TOKEN_RESPONSE | jq -r '.access_token')
-echo "Access Token: ${ACCESS_TOKEN}"
-```
-
-3. Create a business entity [API](https://docs.justifi.tech/api-spec#tag/Business/operation/CreateBusiness) using the access_token generated above:
-
-```bash
-BUSINESS_RESPONSE=$(curl -sS --request POST \
-  --url https://api.justifi.ai/v1/entities/business \
-  --header 'Authorization: Bearer '${ACCESS_TOKEN}'' \
-  --header 'Content-Type: application/json' \
-  --data '{
-	  "legal_name": "USS Enterprise"
-  }'
-)
-```
-
-4. Get the business_id from the resopnse and print to the console
-
-```bash
-BUSINESS_ID=$(echo ${BUSINESS_RESPONSE} | jq -r '.id')
-echo "Business ID: ${BUSINESS_ID}"
-```
-
-5. Generate Web Component Token [API](https://docs.justifi.tech/api-spec#tag/Web-Component-Tokens) (_Note: replace biz_abc1234 with the business id from step 4 above_)
-
-```bash
-WC_TOKEN_RESPONSE=$(curl -sS --request POST \
-  --url https://api.justifi.ai/v1/web_component_tokens \
-  --header 'Authorization: Bearer '${ACCESS_TOKEN}'' \
-  --header 'Content-Type: application/json' \
-  --data '{ "resources": [ "write:business:biz_abc1234" ] }'
-)
-```
-
-6. Get the web_component_token from the response and print to the console
-
-```bash
-WEB_COMPONENT_TOKEN=$(echo $WC_TOKEN_RESPONSE | jq -r '.access_token')
-echo "Web Component Token: ${WEB_COMPONENT_TOKEN}"
-```
+See the [integration guide](https://docs.justifi.tech/api-spec#tag/Onboarding-via-Component) for detailed step-by-step instructions.
 
 #### Front end code: payment_provisioning.html
 
-_Note: replace WEB_COMPONENT_TOKEN and BUSINESS_ID with the values from the terminal script above_
+_Note: replace WEB_COMPONENT_TOKEN and BUSINESS_ID with the values from the terminal script in the integration guide_
 
 <CodeBlock language="html">{`<!doctype html>
 <html dir="ltr" lang="en">
@@ -277,14 +259,10 @@ _Note: replace WEB_COMPONENT_TOKEN and BUSINESS_ID with the values from the term
       name="viewport"
       content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0"
     />
-    <title>justifi-payment-details</title>
+    <title>justifi-payment-provisioning</title>
     <script
       type="module"
       src="https://cdn.jsdelivr.net/npm/@justifi/webcomponents@${wcVersion}/dist/webcomponents/webcomponents.esm.js"
-    ></script>
-    <script
-      nomodule
-      src="https://cdn.jsdelivr.net/npm/@justifi/webcomponents@${wcVersion}/dist/webcomponents/webcomponents.js"
     ></script>
   </head>
   <body>
@@ -296,35 +274,9 @@ _Note: replace WEB_COMPONENT_TOKEN and BUSINESS_ID with the values from the term
   </body>
 </html>`}</CodeBlock>
 
-Open the file or go to [http://localhost:8000/payment_provisioning.html](http://localhost:8000/payment_provisioning.html), you should see the payment_provisioning form used for Onboarding:
+Open the file or go to [http://localhost:8000/payment_provisioning.html](http://localhost:8000/payment_provisioning.html), 
+you should see the [Payment Provisioning web component](/web-components/entities/payment-provisioning)
 
-![PaymentProvisioning](../../static/img/wc_business_form_stepped.png)
+### Example: Create a checkout and render the [Unified Checkout web component](https://docs.justifi.tech/web-components/payment-facilitation/unified-fintech-checkout%E2%84%A2)
 
-## Example Web Component implementations
-
-### Payment/Payout Components
-
-To use our payment and payout components, you must grant a web component token for the sub account for which you'd like to show the payments or payouts.
-
-- Choose the sub account id (acc_abc1234)
-- With business OR sub account id, generate WC session with the resources `read:account:{id}`
-- Render component
-
-### Business Onboarding
-
-- Create a business via create business API
-- Create Web Compontent Token for the business with the resources `write:business:{id}`
-- (optional) create the Web Component Token in the JustiFi Portal ([https://portal.justifi.tech/developer/credentials](https://portal.justifi.tech/developer/credentials)) 
-- Render the Payment Provisioning Web Component with the WC Token (valid for 60 minutes)
-
-#### (optional) Activate business for payments
-
-- Accept terms of service via [Terms and Conditions API](https://docs.justifi.tech/api-spec#tag/Terms-and-Conditions/operation/TermsAndConditions)
-- Upload onboarding documents via [Documents API](https://docs.justifi.tech/api-spec#tag/Document/operation/CreateDocument)
-- Add a payout bank account for the business via [Bank Accounts API](https://docs.justifi.tech/api-spec#tag/Bank-Account/operation/CreateBankAccount)
-- Provision Payments product via [Provisioning API](https://docs.justifi.tech/api-spec#tag/Provisioning/operation/ProductProvisioning)
-
-### View Business Details Management
-
-- With Business ID, generate WC session with the resources `read:business:{id}`
-- Render Component
+See the [integration guide](https://docs.justifi.tech/api-spec#tag/Checkout-via-Component) for detailed step-by-step instructions.
