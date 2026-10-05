@@ -40,6 +40,8 @@ Due to the inherent risk of front end authorization, we have a fine-grained acce
 
 </div>
 
+For a full list of all available web components see the [Web Components documentation](https://docs.justifi.tech/web-components/introduction).
+
 ## General Usage
 
 The pattern for using a web component starts in a backend request. Your backend should have a client token generated. Then, you need to find or create the resource the component needs to function, for example create a business before rendering the BusinessForm component. Next, you generate a web component token, which is good for 60 minutes, using the id(s) of the resources you will render. You then use this as the auth-token attribute to render the component in your front end.
