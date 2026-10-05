@@ -16,25 +16,25 @@ Due to the inherent risk of front end authorization, we have a fine-grained acce
 
 ### Roles need for each component
 
-| Component                    | Pre-Requisite                        | Role                                                                                                           |
-| ---------------------------- | ------------------------------------ | -------------------------------------------------------------------------------------------------------------- |
-| BusinessDetails              | Existing Business Id                 | read:business:`business_id` or write:business:`business_id`                                                    |
-| PaymentProvisioning          | Existing Business Id                 | write:business:`business_id`                                                                                   |
-| GrossPaymentChart            | Existing Sub Account                 | read:account:`account_id` or write:account:`account_id`                                                        |
-| PaymentDetails               | Existing Sub Account                 | read:account:`account_id` or write:account:`account_id`                                                        |
-| PaymentsList                 | Existing Sub Account                 | read:account:`account_id` or write:account:`account_id`                                                        |
-| PaymentTransactionsList      | Existing Sub Account                 | read:account:`account_id` or write:account:`account_id`                                                        |
-| PayoutDetails                | Existing Sub Account                 | read:account:`account_id` or write:account:`account_id`                                                        |
-| PayoutsList                  | Existing Sub Account                 | read:account:`account_id` or write:account:`account_id`                                                        |
-| PayoutTransactionsList       | Existing Sub Account                 | read:account:`account_id` or write:account:`account_id`                                                        |
-| CheckoutsList                | Existing Sub Account                 | read:account:`account_id` or write:account:`account_id`                                                        |
-| TerminalsList                | Existing Sub Account                 | read:account:`account_id` or write:account:`account_id`                                                        |
-| TerminalOrdersList           | Existing Sub Account                 | read:account:`account_id` or write:account:`account_id`                                                        |
-| OrderTerminals               | Existing Business Id and Sub Account | read:business:`business_id` and write:account:`account_id`                                                     |
-| Modular and Unified Checkout | Checkout created                     | write:checkout:`checkout_id` and write:tokenize:`account_id`                                                   |
-| TokenizePaymentMethod        | Existing Sub Account                 | write:tokenize:`account_id`                                                                                    |
-| DisputeManagement            | Existing Dispute Id                  | read:dispute:`dispute_id`, write:dispute:`dispute_id`, read:account:`account_id` or write:account:`account_id` |
-| RefundPayment                | Existing Payment Id                  | write:account:`account_id`                                                                                     |
+| Component                    | Pre-Requisite                     | Role                                                                                                           |
+| ---------------------------- | --------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| BusinessDetails              | Existing Business Id              | read:business:`business_id` or write:business:`business_id`                                                    |
+| PaymentProvisioning          | Existing Business Id              | write:business:`business_id`                                                                                   |
+| GrossPaymentChart            | Existing Sub Account              | read:account:`account_id` or write:account:`account_id`                                                        |
+| PaymentDetails               | Existing Sub Account              | read:account:`account_id` or write:account:`account_id`                                                        |
+| PaymentsList                 | Existing Sub Account              | read:account:`account_id` or write:account:`account_id`                                                        |
+| PaymentTransactionsList      | Existing Sub Account              | read:account:`account_id` or write:account:`account_id`                                                        |
+| PayoutDetails                | Existing Sub Account              | read:account:`account_id` or write:account:`account_id`                                                        |
+| PayoutsList                  | Existing Sub Account              | read:account:`account_id` or write:account:`account_id`                                                        |
+| PayoutTransactionsList       | Existing Sub Account              | read:account:`account_id` or write:account:`account_id`                                                        |
+| CheckoutsList                | Existing Sub Account              | read:account:`account_id` or write:account:`account_id`                                                        |
+| TerminalsList                | Existing Sub Account              | read:account:`account_id` or write:account:`account_id`                                                        |
+| TerminalOrdersList           | Existing Sub Account              | read:account:`account_id` or write:account:`account_id`                                                        |
+| OrderTerminals               | Existing Business and Sub Account | read:business:`business_id` and write:account:`account_id`                                                     |
+| Modular and Unified Checkout | Checkout created                  | write:checkout:`checkout_id` and write:tokenize:`account_id`                                                   |
+| TokenizePaymentMethod        | Existing Sub Account              | write:tokenize:`account_id`                                                                                    |
+| DisputeManagement            | Existing Dispute Id               | read:dispute:`dispute_id`, write:dispute:`dispute_id`, read:account:`account_id` or write:account:`account_id` |
+| RefundPayment                | Existing Payment Id               | write:account:`account_id`                                                                                     |
 
 ## General Usage
 
