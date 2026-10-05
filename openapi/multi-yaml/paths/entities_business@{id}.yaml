@@ -40,6 +40,7 @@ patch:
             business_type:
               type: string
               enum: [for_profit, non_profit, government_entity, individual]
+              description: (deprecated) use classification instead - see [classification mapping table](https://docs.justifi.tech/api-spec#tag/Business)
             business_structure:
               type: string
               enum:
@@ -58,6 +59,20 @@ patch:
                   government_instrumentality,
                   tax_exempt_government_instrumentality,
                 ]
+              description: (deprecated) use classification instead - see [classification mapping table](https://docs.justifi.tech/api-spec#tag/Business)
+            classification:
+              type: string
+              enum:
+                [
+                  government,
+                  limited,
+                  non_profit,
+                  partnership,
+                  corporation,
+                  public_company,
+                  sole_proprietor,
+                ]
+              description: simplified classification, use instead of business_type and business_structure - see [classification mapping table](https://docs.justifi.tech/api-spec#tag/Business)
             industry:
               type: string
               example: "Big Business"
@@ -99,6 +114,17 @@ patch:
                     id:
                       type: string
                       example: idty_xyz
+            owners:
+              type: array
+              description: up to four business owners total. Replaces the business's current list of owners, so include every owner the business should keep, referencing existing owners by id. To change an existing owner's details, use the update identity endpoint instead
+              items:
+                oneOf:
+                  - $ref: ../components/schemas/Identity.yaml
+                  - type: object
+                    properties:
+                      id:
+                        type: string
+                        example: idty_xyz
 
   responses:
     "200":

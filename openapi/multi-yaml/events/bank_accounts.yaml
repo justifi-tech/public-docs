@@ -1,0 +1,52 @@
+post:
+  description: |
+    Received for the following events: bank_account.created
+
+    Published when a bank account is added to a business.
+  tags:
+    - Events
+  operationId: entityBankAccountEvent
+  summary: Bank Accounts
+  requestBody:
+    content:
+      application/json:
+        schema:
+          allOf:
+            - $ref: ../components/schemas/Event.yaml
+            - properties:
+                data:
+                  $ref: ../components/schemas/EntityBankAccount.yaml
+        example:
+        examples:
+          "Bank_account_created_event":
+            value:
+              id: evt_123xyz
+              account_id: acc_987zyx
+              account_type: test
+              platform_account_id: acc_987zyx
+              idempotency_key: string
+              request_id: req_123
+              version: v1
+              data:
+                id: ba_123xyz
+                account_owner_name: Napheesa Collier
+                account_type: checking
+                account_number_last4: "6789"
+                routing_number: "110000000"
+                institution_number: null
+                transit_number: null
+                bank_name: Wells Fargo
+                country: USA
+                currency: usd
+                nickname: Phee's money
+                metadata: {}
+                verified: false
+                verification_provider: null
+                business_id: biz_123xyz
+                platform_account_id: acc_987zyx
+                created_at: "2021-01-01T12:00:00Z"
+                updated_at: "2021-01-01T12:00:00Z"
+              event_name: bank_account.created
+  responses:
+    "200":
+      description: Return a 200 status to indicate that the data was received successfully. You must respond within 5 seconds.

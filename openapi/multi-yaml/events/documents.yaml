@@ -1,0 +1,73 @@
+post:
+  description: |
+    Received for the following events: document.created, document.uploaded
+
+    `document.created` is published when a document record is created, before its file is uploaded;
+    its `status` is `pending`. `document.uploaded` is published once the file has been uploaded, and
+    its `status` is `uploaded`.
+  tags:
+    - Events
+  operationId: documentEvent
+  summary: Documents
+  requestBody:
+    content:
+      application/json:
+        schema:
+          allOf:
+            - $ref: ../components/schemas/Event.yaml
+            - properties:
+                data:
+                  $ref: ../components/schemas/Document.yaml
+        example:
+        examples:
+          "Document_created_event":
+            value:
+              id: evt_123xyz
+              account_id: acc_987zyx
+              account_type: test
+              platform_account_id: acc_987zyx
+              idempotency_key: string
+              request_id: req_123
+              version: v1
+              data:
+                id: doc_123xyz
+                platform_account_id: acc_987zyx
+                description: My Document
+                file_name: my_document
+                file_type: pdf
+                document_type: balance_sheet
+                business_id: biz_123xyz
+                identity_id: null
+                metadata: {}
+                presigned_url: https://test.test/doc_123xyz/file_name.pdf
+                status: pending
+                created_at: "2021-01-01T12:00:00Z"
+                updated_at: "2021-01-01T12:00:00Z"
+              event_name: document.created
+          "Document_uploaded_event":
+            value:
+              id: evt_456xyz
+              account_id: acc_987zyx
+              account_type: test
+              platform_account_id: acc_987zyx
+              idempotency_key: null
+              request_id: null
+              version: v1
+              data:
+                id: doc_123xyz
+                platform_account_id: acc_987zyx
+                description: My Document
+                file_name: my_document
+                file_type: pdf
+                document_type: balance_sheet
+                business_id: biz_123xyz
+                identity_id: null
+                metadata: {}
+                presigned_url: null
+                status: uploaded
+                created_at: "2021-01-01T12:00:00Z"
+                updated_at: "2021-01-01T12:05:00Z"
+              event_name: document.uploaded
+  responses:
+    "200":
+      description: Return a 200 status to indicate that the data was received successfully. You must respond within 5 seconds.

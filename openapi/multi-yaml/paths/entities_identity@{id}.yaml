@@ -61,6 +61,15 @@ patch:
               example:
                 language: "english"
                 social_network: "@person"
+            address:
+              description: address fields update this identity's current address, or create one if it has none. Send an id instead to use an existing address
+              oneOf:
+                - $ref: ../components/schemas/Address.yaml
+                - type: object
+                  properties:
+                    id:
+                      type: string
+                      example: addr_xyz
 
   responses:
     "200":

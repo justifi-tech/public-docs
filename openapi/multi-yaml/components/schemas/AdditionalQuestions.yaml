@@ -3,11 +3,15 @@ properties:
   business_revenue:
     type: string
     example: "84220"
-    description: amount of money the company receives from its primary business activities
+    description: amount of money the company receives from its primary business activities, in US or CAD dollars
   business_payment_volume:
     type: string
     example: "1000000"
-    description: annual credit card & ACH volume anticipated to process with Justifi
+    description: annual credit card & ACH volume anticipated to process with Justifi, in US or CAD dollars
+  business_average_transaction_amount:
+    type: string
+    example: "150"
+    description: average amount of a single transaction the business processes, in US or CAD dollars
   business_when_service_received:
     type: string
     example: "Within 7 days"
@@ -51,7 +55,7 @@ properties:
   business_invoice_amount:
     type: string
     example: "$4500"
-    description: total monetary value stated on an invoice issued by a business
+    description: total monetary value stated on an invoice issued by a business, in US or CAD dollars
   business_purchase_order_number:
     type: string
     example: "120"
@@ -79,7 +83,7 @@ properties:
   business_receivable_volume:
     type: string
     example: "US $100,000"
-    description: total value of outstanding payments owed to a business
+    description: total value of outstanding payments owed to a business, in US or CAD dollars
   business_future_scheduled_payment_volume:
     type: string
     example: "200"

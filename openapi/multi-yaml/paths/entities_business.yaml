@@ -156,7 +156,16 @@ get:
         type: string
       required: false
       example: '"Company Name"'
-      description: filter businesses by name
+      description: filter businesses by legal name. Matches any business whose legal name contains this value, ignoring case
+    - in: query
+      name: industry
+      schema:
+        type: string
+      required: false
+      example: '"Big Business"'
+      description: filter businesses by industry. Matches any business whose industry contains this value, ignoring case
+    - $ref: ../components/parameters/created-before.yaml
+    - $ref: ../components/parameters/created-after.yaml
   responses:
     "200":
       description: Successfully list businesses
