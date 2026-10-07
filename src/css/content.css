@@ -153,6 +153,12 @@
   background: var(--jf-surface-raised);
 }
 
+/* Web component token roles: keep the Pre-Requisite column on one line. */
+.markdown .wc-token-roles th:nth-child(2),
+.markdown .wc-token-roles td:nth-child(2) {
+  white-space: nowrap;
+}
+
 /* .markdown prefix needed: dev's webpack style-loader injects an equal-specificity theme-classic rule after this file. */
 .markdown .theme-code-block {
   background: var(--jf-surface-default);
