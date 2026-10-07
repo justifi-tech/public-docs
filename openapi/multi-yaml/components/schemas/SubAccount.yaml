@@ -36,6 +36,10 @@ properties:
     type: string
     format: uuid
     example: acc_xyz
+  platform_sub_account:
+    description: true if this is the platform's own sub account, the one the platform uses to take payments as a business itself (one per mode, live and test); false for every other sub account
+    type: boolean
+    example: false
   payout_account_id:
     description: id of active payout bank account
     type: string
