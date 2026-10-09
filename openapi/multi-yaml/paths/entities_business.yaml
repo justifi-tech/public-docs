@@ -2,6 +2,10 @@ post:
   summary: Create a Business
   description: |
     Create a Business
+
+    This API does not validate that any specific properties are present, so a business can be created with partial information and completed later.
+    However, when a business is provisioned for payments via the [Provisioning API](https://docs.justifi.tech/api-spec#tag/Provisioning/operation/ProductProvisioning), specific properties are required.
+    These properties are marked as "Required when provisioning payments" in their descriptions below.
   operationId: CreateBusiness
   tags:
     - Business
@@ -16,19 +20,19 @@ post:
             legal_name:
               type: string
               example: "Business Name"
-              description: legal business entity name; must be unique among the active businesses on your platform. Archived businesses do not reserve their name, so an archived business's legal_name can be reused
+              description: legal business entity name; must be unique among the active businesses on your platform. Archived businesses do not reserve their name, so an archived business's legal_name can be reused. Required when provisioning payments
             website_url:
               type: string
               example: "https://justifi.ai"
-              description: website for this business (if they don't have a website, can send their social media business page, app store link, or a product description instead)
+              description: website for this business (if they don't have a website, can send their social media business page, app store link, or a product description instead). Required when provisioning payments
             email:
               type: string
               example: "business@justifi.ai"
-              description: email address of business entity or representative
+              description: email address of business entity or representative. Required when provisioning payments
             phone:
               type: string
               example: "6124011111"
-              description: business phone number
+              description: business phone number. Required when provisioning payments
             doing_business_as:
               type: string
               example: "Best Business"
@@ -68,22 +72,22 @@ post:
                   public_company,
                   sole_proprietor,
                 ]
-              description: simplified classification, use instead of business_type and business_structure - see [classification mapping table](https://docs.justifi.tech/api-spec#tag/Business)
+              description: simplified classification, use instead of business_type and business_structure - see [classification mapping table](https://docs.justifi.tech/api-spec#tag/Business). Required when provisioning payments
             industry:
               type: string
               example: "Big Business"
-              description: to help us identify this business entity's category code (MCC), please provide a concise description of what service they offer
+              description: to help us identify this business entity's category code (MCC), please provide a concise description of what service they offer. Required when provisioning payments
             mcc:
               type: string
               example: "8021"
               description: merchant category code for this business, if known. Please note, the JustiFi underwriting team may modify this. If you are unsure, just submit a description in the industry field instead of an MCC
             tax_id:
               type: string
-              description: the federal tax identification number/EIN issued to this sub account by the IRS (for Individual type, this will be their full SSN), the value is saved but not returned in any API response
+              description: the federal tax identification number/EIN issued to this sub account by the IRS (for Individual type, this will be their full SSN), the value is saved but not returned in any API response. Required when provisioning payments (US businesses only)
             date_of_incorporation:
               type: string
               example: "2015-02-20"
-              description: the specific day when this business was officially registered with a relevant government authority and was then permitted to carry out its activities
+              description: the specific day when this business was officially registered with a relevant government authority and was then permitted to carry out its activities. Required when provisioning payments
             country_of_establishment:
               type: string
               enum: [USA, CAN]
@@ -97,9 +101,11 @@ post:
                 arr: 1200
                 social_network: "@business"
             additional_questions:
-              additionalProperties: true
-              $ref: ../components/schemas/AdditionalQuestions.yaml
+              description: "Required when provisioning payments: `business_revenue`, `business_payment_volume`, `business_average_transaction_amount` and `business_when_service_received`"
+              allOf:
+                - $ref: ../components/schemas/AdditionalQuestions.yaml
             legal_address:
+              description: "Required when provisioning payments: `line1`, `city`, `state` and `postal_code`"
               oneOf:
                 - $ref: ../components/schemas/Address.yaml
                 - type: object
@@ -108,6 +114,7 @@ post:
                       type: string
                       example: addr_xyz
             representative:
+              description: "Required when provisioning payments: `name`, `title`, `email`, `phone`, `dob_day`, `dob_month`, `dob_year`, `identification_number` (US businesses only) and `address` (`line1`, `city`, `state`, `postal_code`)"
               oneOf:
                 - $ref: ../components/schemas/Identity.yaml
                 - type: object
@@ -117,7 +124,7 @@ post:
                       example: idty_xyz
             owners:
               type: array
-              description: up to four business owners total
+              description: up to four business owners total. Required when provisioning payments
               items:
                 oneOf:
                   - $ref: ../components/schemas/Identity.yaml

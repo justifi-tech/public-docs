@@ -47,6 +47,20 @@ post:
                 - voided_check
                 - other
               example: "balance_sheet"
+              description: |
+                The kind of document being uploaded. To provision a business for payments, upload:
+
+                - **Financial document** (all businesses): `voided_check` or `bank_statement`.
+                - **Business document** (Canadian businesses only): `articles_of_incorporation` or `business_registration`.
+                - **Owner identification** (Canadian businesses only): one Group 1 and one Group 2 ID per owner.
+                  - Group 1: `passport` (Canadian passport), `driver_license` (Canadian or US state driver's license),
+                    `government_id` (Canadian government-issued ID card), `resident_card` (Permanent Resident Card),
+                    `status_card` (Certificate of Indian Status).
+                  - Group 2: `nexus_card` (NEXUS card), `citizenship_card` (Canadian citizenship or naturalization card or
+                    certificate), `foreign_passport`, `birth_certificate` (Canadian birth certificate), `sin_card` (Social
+                    Insurance Number card), `ssn_card` (Social Security Number card).
+
+                `balance_sheet`, `profit_and_loss_statement`, `tax_return` and `other` are optional.
             business_id:
               type: string
               format: uuid
