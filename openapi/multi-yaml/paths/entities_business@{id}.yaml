@@ -3,7 +3,7 @@ patch:
   description: |
     Update information about a Business
 
-    The create and update business APIs do not validate that any specific properties are present, so a business can be created with partial information and completed later.
+    This API does not validate that any specific properties are present, so a business can be updated with partial information and completed over multiple requests.
     However, when a business is provisioned for payments via the [Provisioning API](https://docs.justifi.tech/api-spec#tag/Provisioning/operation/ProductProvisioning), specific properties are required.
     These properties are marked as "Required when provisioning payments" in their descriptions below.
   operationId: UpdateBusiness
