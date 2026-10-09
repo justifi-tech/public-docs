@@ -114,6 +114,14 @@ post:
               nullable: true
               description: settlement priority of the payment, only applies to ACH payments
               example: null
+            level_2_3:
+              allOf:
+                - $ref: ../components/schemas/Level23.yaml
+              description: |
+                Level 2 and Level 3 payment data for commercial/purchasing card transactions.
+                See [Level 2/3 Data](https://docs.justifi.tech/payments/level-2-3-data) for full documentation.
+
+                Card payments only — not available for bank account (ACH) payments.
           required: [amount, currency, capture_strategy, payment_method]
         examples:
           "Charge_10_USD_to_a_Tokenized_Payment_Method":
@@ -182,6 +190,34 @@ post:
                   due_date: "2024-02-20"
               payment_method:
                 token: "pm_justifi123"
+
+          "Charge_with_Level_2_3_Data":
+            value:
+              amount: 45000
+              currency: "usd"
+              capture_strategy: "automatic"
+              description: "B2B purchase order with L2/L3 data"
+              payment_method:
+                token: "pm_justifi123"
+              level_2_3:
+                tax_amount: 3800
+                tax_exempt: false
+                merchant_tax_id: "123456789"
+                shipping_amount: 1200
+                order_number: "PO-2026-001"
+                shipping_country: "840"
+                shipping_postal_code: "30303"
+                shipping_from_postal_code: "10001"
+                customer_code: "CUST-001"
+                line_items:
+                  - commodity_code: "33712"
+                    description: "Office Chair"
+                    unit_amount: 20000
+                    quantity: 2
+                    tax_amount: 3800
+                    tax_rate: 9.5
+                    line_total: 40000
+                    unit_of_measure: "EA"
   responses:
     "201":
       description: Payment was created successfully
