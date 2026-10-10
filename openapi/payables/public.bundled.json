@@ -1123,7 +1123,7 @@
             },
             "required": false,
             "example": "2026-01-01T00:00:00Z",
-            "description": "filter records created after the date and time (UTC) specified. Dates without a time default to 00:00:00\n"
+            "description": "filter records created strictly after the date and time (UTC) specified. Dates without a time default to\n00:00:00. ISO 8601 only — a value that is not one is a `400`, never a filter that silently does nothing\n"
           },
           {
             "in": "query",
@@ -1134,7 +1134,7 @@
             },
             "required": false,
             "example": "2026-01-01T00:00:00Z",
-            "description": "filter records created before the date and time (UTC) specified. Dates without a time default to 00:00:00\n"
+            "description": "filter records created strictly before the date and time (UTC) specified. Dates without a time default to\n00:00:00. ISO 8601 only — a value that is not one is a `400`, never a filter that silently does nothing\n"
           },
           {
             "in": "query",
@@ -5389,7 +5389,7 @@
             },
             "required": false,
             "example": "2026-01-01T00:00:00Z",
-            "description": "filter records created after the date and time (UTC) specified. Dates without a time default to 00:00:00\n"
+            "description": "filter records created strictly after the date and time (UTC) specified. Dates without a time default to\n00:00:00. ISO 8601 only — a value that is not one is a `400`, never a filter that silently does nothing\n"
           },
           {
             "in": "query",
@@ -5400,7 +5400,7 @@
             },
             "required": false,
             "example": "2026-01-01T00:00:00Z",
-            "description": "filter records created before the date and time (UTC) specified. Dates without a time default to 00:00:00\n"
+            "description": "filter records created strictly before the date and time (UTC) specified. Dates without a time default to\n00:00:00. ISO 8601 only — a value that is not one is a `400`, never a filter that silently does nothing\n"
           },
           {
             "in": "query",
@@ -5416,7 +5416,8 @@
                 "succeeded",
                 "failed",
                 "refunding_payer",
-                "refunded"
+                "refunded",
+                "failed_late_return"
               ]
             },
             "description": "filter payments by lifecycle status"
@@ -5428,7 +5429,8 @@
             "schema": {
               "type": "string"
             },
-            "description": "filter payments to a single payee"
+            "example": "pe_abc123",
+            "description": "filter payments to a single payee, by its `pe_` id"
           }
         ],
         "responses": {
@@ -7713,7 +7715,7 @@
             },
             "required": false,
             "example": "2026-01-01T00:00:00Z",
-            "description": "filter records created after the date and time (UTC) specified. Dates without a time default to 00:00:00\n"
+            "description": "filter records created strictly after the date and time (UTC) specified. Dates without a time default to\n00:00:00. ISO 8601 only — a value that is not one is a `400`, never a filter that silently does nothing\n"
           },
           {
             "in": "query",
@@ -7724,7 +7726,7 @@
             },
             "required": false,
             "example": "2026-01-01T00:00:00Z",
-            "description": "filter records created before the date and time (UTC) specified. Dates without a time default to 00:00:00\n"
+            "description": "filter records created strictly before the date and time (UTC) specified. Dates without a time default to\n00:00:00. ISO 8601 only — a value that is not one is a `400`, never a filter that silently does nothing\n"
           },
           {
             "in": "query",
@@ -8176,7 +8178,7 @@
             },
             "required": false,
             "example": "2026-01-01T00:00:00Z",
-            "description": "filter records created after the date and time (UTC) specified. Dates without a time default to 00:00:00\n"
+            "description": "filter records created strictly after the date and time (UTC) specified. Dates without a time default to\n00:00:00. ISO 8601 only — a value that is not one is a `400`, never a filter that silently does nothing\n"
           },
           {
             "in": "query",
@@ -8187,7 +8189,7 @@
             },
             "required": false,
             "example": "2026-01-01T00:00:00Z",
-            "description": "filter records created before the date and time (UTC) specified. Dates without a time default to 00:00:00\n"
+            "description": "filter records created strictly before the date and time (UTC) specified. Dates without a time default to\n00:00:00. ISO 8601 only — a value that is not one is a `400`, never a filter that silently does nothing\n"
           },
           {
             "in": "query",
