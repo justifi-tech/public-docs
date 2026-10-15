@@ -100,7 +100,9 @@ If you choose not to contest the dispute either use the [submit dispute response
 
 Or instead forfeit the dispute via [Dispute Management web component](/web-components/payment-facilitation/dispute-management).
 
-This immediately transitions the dispute to `lost` status.
+This immediately transitions the dispute to `lost` status and sends a `payment.dispute.forfeited` event, followed by a `payment.dispute.closed` event.
+
+A dispute is only forfeited when you explicitly request it as shown above.
 
 ## Resolution Phase
 
@@ -129,8 +131,8 @@ Card networks can reverse lost disputes:
 
 ```
 needs_response → under_review → won/lost
-                              ↓
-                          forfeited
+       ↓
+      lost (forfeited)
 ```
 
 ### Status Descriptions
@@ -138,7 +140,7 @@ needs_response → under_review → won/lost
 - **`needs_response`** - Initial status, response deadline active
 - **`under_review`** - Response submitted, card network is reviewing
 - **`won`** - Dispute resolved in merchant's favor
-- **`lost`** - Dispute resolved against the merchant
+- **`lost`** - Dispute resolved against the merchant, or forfeited
 
 ## Webhook Events
 
@@ -149,5 +151,5 @@ Monitor these events for real-time updates:
 - **`payment.dispute.funds_returned`** - Lets you know anytime a payment dispute won and funds are returned
 - **`payment.dispute_evidence.created`** - Lets you know anytime a dispute evidence is created
 - **`payment.dispute_evidence.uploaded`** - Lets you know anytime a dispute evidence is uploaded
-- **`payment.dispute.forfeited`** - Lets you know anytime a dispute response is forfeited
-- **`payment.dispute.submitted`** - Lets you know anytime a dispute response is submitted
+- **`payment.dispute.forfeited`** - Lets you know anytime a dispute response is forfeited (the dispute moves to `lost` and a `payment.dispute.closed` event follows)
+- **`payment.dispute.submitted`** - Lets you know anytime a dispute response is submitted (the dispute moves to `under_review`)
