@@ -18,11 +18,11 @@ importers:
         specifier: ^3.9.2
         version: 3.9.2(@algolia/client-search@5.46.0)(@mdx-js/react@3.1.0(@types/react@19.0.10)(react@18.3.1))(@types/react@19.0.10)(acorn@8.14.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(search-insights@2.17.3)(typescript@5.2.2)
       '@justifi/webcomponents':
-        specifier: 6.14.4
-        version: 6.14.4
+        specifier: 6.14.5
+        version: 6.14.5
       '@justifi/webcomponents-docs':
-        specifier: 3.0.2
-        version: 3.0.2(@justifi/webcomponents@6.14.4)(@types/react@19.0.10)(react@18.3.1)
+        specifier: 3.0.5
+        version: 3.0.5(@justifi/webcomponents@6.14.5)(@types/react@19.0.10)(react@18.3.1)
       '@mdx-js/react':
         specifier: ^3.0.0
         version: 3.1.0(@types/react@19.0.10)(react@18.3.1)
@@ -1346,14 +1346,14 @@ packages:
     peerDependencies:
       tslib: '2'
 
-  '@justifi/webcomponents-docs@3.0.2':
-    resolution: {integrity: sha512-5P+wINkYRlPuo9nqUIOEfI9NTGpYAgjQcSGjPYCrCiShl1w/TXz2qCLmioTI4iZypHLO55a6+w0iO8/yem4OUQ==}
+  '@justifi/webcomponents-docs@3.0.5':
+    resolution: {integrity: sha512-s9PYEqzi1pmOsYyWFvAWZSCErpvnpFoGa5vmOUdkxAhS3PwLlhdfmWTJ8TtFa9Pl4SU9oIgkghiImePa7Sfe2A==}
     peerDependencies:
-      '@justifi/webcomponents': '>=6.14.3'
+      '@justifi/webcomponents': '>=6.14.5'
       react: ^17.0.0 || ^18.0.0
 
-  '@justifi/webcomponents@6.14.4':
-    resolution: {integrity: sha512-uLjeFzBiCAIDvZZ4UubDCNIKBacxGiba4r+er4XUucczD8nuLUgmXgtIlxN0xWgB6enXPWdeOcNZ3V+7VM6osA==}
+  '@justifi/webcomponents@6.14.5':
+    resolution: {integrity: sha512-owfCgV0+Z8oqrV1OkYgKj2HFKUTePtNusFlY+JKA5qgxeV5Q6f8O0xPwfoy3QZpjkKzU4w6mgpt5We78BCvEqw==}
 
   '@kurkle/color@0.3.4':
     resolution: {integrity: sha512-M5UknZPHRu3DEDWoipU6sE8PdkZ6Z/S+v4dD+Ke8IaNlpdSQah50lz1KtcFBa2vsdOnwbbnxJwVM4wty6udA5w==}
@@ -8372,9 +8372,9 @@ snapshots:
       '@jsonjoy.com/codegen': 1.0.0(tslib@2.8.1)
       tslib: 2.8.1
 
-  '@justifi/webcomponents-docs@3.0.2(@justifi/webcomponents@6.14.4)(@types/react@19.0.10)(react@18.3.1)':
+  '@justifi/webcomponents-docs@3.0.5(@justifi/webcomponents@6.14.5)(@types/react@19.0.10)(react@18.3.1)':
     dependencies:
-      '@justifi/webcomponents': 6.14.4
+      '@justifi/webcomponents': 6.14.5
       markdown-table: 3.0.4
       miragejs: 0.1.48
       react: 18.3.1
@@ -8385,7 +8385,7 @@ snapshots:
       - '@types/react'
       - supports-color
 
-  '@justifi/webcomponents@6.14.4':
+  '@justifi/webcomponents@6.14.5':
     dependencies:
       '@popperjs/core': 2.11.8
       '@stencil/core': 4.38.3
