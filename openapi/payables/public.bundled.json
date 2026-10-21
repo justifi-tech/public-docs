@@ -48,6 +48,10 @@
       "description": "The disbursements between JustiFi and your platform — when each happens, how much, and which way\nthe money goes. Read-only. A settlement is declared before it is paid, so one appears here while\nstill `scheduled`, which is what the ledger by construction cannot show you.\n"
     },
     {
+      "name": "Fee Configuration",
+      "description": "What JustiFi charges your platform for Payables — the rates behind the `justifi_fee`,\n`return_fee` and `noc_fee` entries on your platform ledger. Read-only.\n"
+    },
+    {
       "name": "Webhooks",
       "description": "Payables delivers events to your configured endpoint as payments and bank accounts change. Return a\n`200` within 5 seconds; non-2xx responses are retried with backoff.\n"
     }
@@ -67,7 +71,8 @@
         "Bank Accounts",
         "Payee Payments",
         "Platform Ledger",
-        "Platform Settlements"
+        "Platform Settlements",
+        "Fee Configuration"
       ]
     },
     {
@@ -1123,7 +1128,7 @@
             },
             "required": false,
             "example": "2026-01-01T00:00:00Z",
-            "description": "filter records created after the date and time (UTC) specified. Dates without a time default to 00:00:00\n"
+            "description": "filter records created strictly after the date and time (UTC) specified. Dates without a time default to\n00:00:00. ISO 8601 only — a value that is not one is a `400`, never a filter that silently does nothing\n"
           },
           {
             "in": "query",
@@ -1134,7 +1139,7 @@
             },
             "required": false,
             "example": "2026-01-01T00:00:00Z",
-            "description": "filter records created before the date and time (UTC) specified. Dates without a time default to 00:00:00\n"
+            "description": "filter records created strictly before the date and time (UTC) specified. Dates without a time default to\n00:00:00. ISO 8601 only — a value that is not one is a `400`, never a filter that silently does nothing\n"
           },
           {
             "in": "query",
@@ -5389,7 +5394,7 @@
             },
             "required": false,
             "example": "2026-01-01T00:00:00Z",
-            "description": "filter records created after the date and time (UTC) specified. Dates without a time default to 00:00:00\n"
+            "description": "filter records created strictly after the date and time (UTC) specified. Dates without a time default to\n00:00:00. ISO 8601 only — a value that is not one is a `400`, never a filter that silently does nothing\n"
           },
           {
             "in": "query",
@@ -5400,7 +5405,7 @@
             },
             "required": false,
             "example": "2026-01-01T00:00:00Z",
-            "description": "filter records created before the date and time (UTC) specified. Dates without a time default to 00:00:00\n"
+            "description": "filter records created strictly before the date and time (UTC) specified. Dates without a time default to\n00:00:00. ISO 8601 only — a value that is not one is a `400`, never a filter that silently does nothing\n"
           },
           {
             "in": "query",
@@ -5416,7 +5421,8 @@
                 "succeeded",
                 "failed",
                 "refunding_payer",
-                "refunded"
+                "refunded",
+                "failed_late_return"
               ]
             },
             "description": "filter payments by lifecycle status"
@@ -5428,7 +5434,8 @@
             "schema": {
               "type": "string"
             },
-            "description": "filter payments to a single payee"
+            "example": "pe_abc123",
+            "description": "filter payments to a single payee, by its `pe_` id"
           }
         ],
         "responses": {
@@ -7713,7 +7720,7 @@
             },
             "required": false,
             "example": "2026-01-01T00:00:00Z",
-            "description": "filter records created after the date and time (UTC) specified. Dates without a time default to 00:00:00\n"
+            "description": "filter records created strictly after the date and time (UTC) specified. Dates without a time default to\n00:00:00. ISO 8601 only — a value that is not one is a `400`, never a filter that silently does nothing\n"
           },
           {
             "in": "query",
@@ -7724,7 +7731,7 @@
             },
             "required": false,
             "example": "2026-01-01T00:00:00Z",
-            "description": "filter records created before the date and time (UTC) specified. Dates without a time default to 00:00:00\n"
+            "description": "filter records created strictly before the date and time (UTC) specified. Dates without a time default to\n00:00:00. ISO 8601 only — a value that is not one is a `400`, never a filter that silently does nothing\n"
           },
           {
             "in": "query",
@@ -8176,7 +8183,7 @@
             },
             "required": false,
             "example": "2026-01-01T00:00:00Z",
-            "description": "filter records created after the date and time (UTC) specified. Dates without a time default to 00:00:00\n"
+            "description": "filter records created strictly after the date and time (UTC) specified. Dates without a time default to\n00:00:00. ISO 8601 only — a value that is not one is a `400`, never a filter that silently does nothing\n"
           },
           {
             "in": "query",
@@ -8187,7 +8194,7 @@
             },
             "required": false,
             "example": "2026-01-01T00:00:00Z",
-            "description": "filter records created before the date and time (UTC) specified. Dates without a time default to 00:00:00\n"
+            "description": "filter records created strictly before the date and time (UTC) specified. Dates without a time default to\n00:00:00. ISO 8601 only — a value that is not one is a `400`, never a filter that silently does nothing\n"
           },
           {
             "in": "query",
@@ -9011,6 +9018,290 @@
                   "error": {
                     "code": "resource_not_found",
                     "message": "No payee_payment found with id pp_123xyz"
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "The rate limit has been exceeded. Back off and retry after the interval indicated by the `Retry-After` header.",
+            "headers": {
+              "Retry-After": {
+                "description": "the number of seconds to wait before retrying",
+                "schema": {
+                  "type": "integer"
+                },
+                "example": 30
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "the standard error envelope. Every non-2xx response returns this shape so clients can branch on a\nstable machine-readable `code` and surface `message` to users.\n",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "properties": {
+                        "code": {
+                          "description": "a stable, machine-readable error code",
+                          "type": "string",
+                          "example": "unprocessable_entity"
+                        },
+                        "message": {
+                          "description": "a human-readable description of what went wrong",
+                          "type": "string",
+                          "example": "payee_id is required"
+                        },
+                        "details": {
+                          "description": "optional field-level detail, keyed by request attribute",
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "example": {
+                            "amount": [
+                              "must be greater than 0"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                },
+                "example": {
+                  "error": {
+                    "code": "too_many_requests",
+                    "message": "Rate limit exceeded"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/payables/fee_configuration": {
+      "get": {
+        "summary": "Get the Fee Configuration",
+        "description": "The rates JustiFi charges your platform for Payables — the per-payment fee, and the flat fees for\na returned ACH transfer and a notification of change. Read-only; scoped to the platform your\ncredentials belong to.\n\nThe response is always the rates in force: where your platform has no rates of its own, it is the\nstandard rates it is charged at, so there is nothing for you to resolve. Each fee actually charged\nis on your platform ledger at `/v1/payables/platform_ledger`.\n",
+        "operationId": "GetFeeConfiguration",
+        "tags": [
+          "Fee Configuration"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "example": "Bearer {access_token}",
+            "description": "the `access_token` value returned from the JustiFi `oauth/token` endpoint (be sure to append `Bearer` before the token)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved the fee configuration",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "the standard JustiFi response envelope for a single record, with a null `id`: a fee\nconfiguration has no id of its own, and is addressed by the platform it applies to\n",
+                  "properties": {
+                    "id": {
+                      "description": "always null — `data.platform_account_id` names the platform",
+                      "type": "null"
+                    },
+                    "type": {
+                      "description": "the object type",
+                      "type": "string",
+                      "example": "fee_configuration"
+                    },
+                    "data": {
+                      "type": "object",
+                      "description": "What JustiFi charges your platform for Payables: a fee on each payment, and a flat fee for each\nreturned ACH transfer and each notification of change.\n\nThese are the rates in force — your platform's own where JustiFi has agreed them with you, the\nstandard rates otherwise. A rate is applied when a fee is charged, and the amount it produced is\nwritten to your platform ledger as an entry of its own, so a change of rate never alters a fee\nalready charged.\n",
+                      "properties": {
+                        "type": {
+                          "description": "the object type, matching the enclosing envelope's `type`",
+                          "type": "string",
+                          "example": "fee_configuration"
+                        },
+                        "platform_account_id": {
+                          "description": "the platform these rates apply to",
+                          "type": "string",
+                          "example": "acc_123xyz"
+                        },
+                        "justifi_fee_basis_points": {
+                          "description": "the variable part of the per-payment fee, in basis points of the payment amount — 100 is 1%\n",
+                          "type": "integer",
+                          "example": 100
+                        },
+                        "justifi_fee_flat_cents": {
+                          "description": "the flat part of the per-payment fee, in cents, added after the variable part is rounded",
+                          "type": "integer",
+                          "example": 25
+                        },
+                        "justifi_fee_cap_cents": {
+                          "description": "the most the per-payment fee can come to, in cents; null when it is uncapped.\n\nThe fee is `min(basis_points × amount / 10_000 + flat_cents, cap_cents)`, with the variable\npart rounded half up to the cent, and is charged once per payment when the payment settles. At\nthe example rates a $100.00 payment is charged $1.25, and a $400.00 payment the $2.00 cap. It\nappears on your platform ledger as a `justifi_fee` entry.\n",
+                          "type": [
+                            "integer",
+                            "null"
+                          ],
+                          "example": 200
+                        },
+                        "return_fee_cents": {
+                          "description": "flat, in cents, charged each time a bank returns an ACH transfer made for one of your payments.\nIt appears on your platform ledger as a `return_fee` entry.\n",
+                          "type": "integer",
+                          "example": 500
+                        },
+                        "noc_fee_cents": {
+                          "description": "flat, in cents, charged each time a notification of change corrects a bank account. A\nnotification that names no corrected details changes nothing and is not charged for. It\nappears on your platform ledger as a `noc_fee` entry.\n",
+                          "type": "integer",
+                          "example": 200
+                        },
+                        "currency": {
+                          "type": "string",
+                          "enum": [
+                            "usd"
+                          ],
+                          "example": "usd"
+                        }
+                      }
+                    },
+                    "page_info": {
+                      "description": "cursor pagination info; always null for single records",
+                      "type": "null"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "type",
+                    "data",
+                    "page_info"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The access token is missing, expired, or invalid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "the standard error envelope. Every non-2xx response returns this shape so clients can branch on a\nstable machine-readable `code` and surface `message` to users.\n",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "properties": {
+                        "code": {
+                          "description": "a stable, machine-readable error code",
+                          "type": "string",
+                          "example": "unprocessable_entity"
+                        },
+                        "message": {
+                          "description": "a human-readable description of what went wrong",
+                          "type": "string",
+                          "example": "payee_id is required"
+                        },
+                        "details": {
+                          "description": "optional field-level detail, keyed by request attribute",
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "example": {
+                            "amount": [
+                              "must be greater than 0"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                },
+                "example": {
+                  "error": {
+                    "code": "not_authenticated",
+                    "message": "The access token provided is invalid or has expired"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The credentials are valid but not permitted to access this resource.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "the standard error envelope. Every non-2xx response returns this shape so clients can branch on a\nstable machine-readable `code` and surface `message` to users.\n",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "properties": {
+                        "code": {
+                          "description": "a stable, machine-readable error code",
+                          "type": "string",
+                          "example": "unprocessable_entity"
+                        },
+                        "message": {
+                          "description": "a human-readable description of what went wrong",
+                          "type": "string",
+                          "example": "payee_id is required"
+                        },
+                        "details": {
+                          "description": "optional field-level detail, keyed by request attribute",
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "example": {
+                            "amount": [
+                              "must be greater than 0"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                },
+                "example": {
+                  "error": {
+                    "code": "not_authorized",
+                    "message": "Your credentials do not have access to the requested payer account"
                   }
                 }
               }
