@@ -47,5 +47,5 @@ Back on EventBridge:
 - You can either type the log group name or select it in the list
 
 In the Developer Tools section of the JustiFi app:
-- Add an event publisher with EventBridge delivery method and enter the ARN for your event bus (you’ll also choose which event types will publish). We recommend starting with a test account.
+- Add an event publisher with EventBridge delivery method and enter the ARN for your event bus (you’ll also choose which event types will publish, up to a maximum of **60 event types** per publisher). We recommend starting with a test account.
 - Test the publisher by prompting one of the event types you chose and making sure you receive the published event
