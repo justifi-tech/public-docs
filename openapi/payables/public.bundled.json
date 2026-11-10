@@ -5613,7 +5613,8 @@
                                     },
                                     "amount": {
                                       "type": "integer",
-                                      "description": "fee amount in cents",
+                                      "minimum": 0,
+                                      "description": "fee amount in cents. `0` is allowed: the platform charges no fee, and JustiFi's own fee is then\ncharged to the platform in full.\n",
                                       "example": 1000
                                     }
                                   },
@@ -5681,7 +5682,7 @@
                                       "example": "settled"
                                     },
                                     "error_code": {
-                                      "description": "normalised, rail-agnostic reason the leg failed, in snake_case (e.g. `insufficient_funds`). Stable\nacross rails — **branch on this, not on `network_error_code`**, which is the network's own code and\nchanges meaning between rails.\n\nSet when a leg is `failed` or `returned`, and null otherwise. A correction is not a failure: a leg\nthat settled after a notification of change carries `network_error_code` but no `error_code`. A\nreturn code with no normalised equivalent reports `unclassified_return`, so this is never null on a\nleg that failed — the raw code is always there to fall back on.\n",
+                                      "description": "normalised, rail-agnostic reason the leg failed, in snake_case (e.g. `insufficient_funds`). Stable\nacross rails — **branch on this, not on `network_error_code`**, which is the network's own code and\nchanges meaning between rails.\n\nSet when a leg is `failed` or `returned`, and null otherwise. A correction is not a failure: a leg\nthat settled after a notification of change carries `network_error_code` but no `error_code`. A\nreturn code with no normalised equivalent reports `unclassified_return`, so this is never null on a\nleg that failed — the raw code is always there to fall back on.\n\n`submission_rejected` is a leg the bank refused before it reached the ACH network, usually because the\nbank account details are invalid. No money moved, and `network_error_code` is null because the network\nnever saw the entry.\n",
                                       "type": [
                                         "string",
                                         "null"
@@ -5697,7 +5698,7 @@
                                       "example": "Insufficient funds in the account"
                                     },
                                     "network_error_code": {
-                                      "description": "the raw code from the network, verbatim — an ACH return code (`R01`). Preserved for\nreconciliation.\n\nPresent whenever the network said anything about this leg, which is not only when it went wrong: a\nnotification of change carries an advisory code (`C01`) on a leg that **settled** normally. Read it\ntogether with `status` — the code alone does not mean the money did not move.\n",
+                                      "description": "the raw code from the network, verbatim — an ACH return code (`R01`). Preserved for\nreconciliation.\n\nPresent whenever the network said anything about this leg, which is not only when it went wrong: a\nnotification of change carries an advisory code (`C01`) on a leg that **settled** normally. Read it\ntogether with `status` — the code alone does not mean the money did not move. Null on a\n`submission_rejected` leg: the bank refused the entry before it reached the network.\n",
                                       "type": [
                                         "string",
                                         "null"
@@ -6112,7 +6113,8 @@
                         },
                         "amount": {
                           "type": "integer",
-                          "description": "fee amount in cents",
+                          "minimum": 0,
+                          "description": "fee amount in cents. `0` is allowed: the platform charges no fee, and JustiFi's own fee is then\ncharged to the platform in full.\n",
                           "example": 1000
                         }
                       },
@@ -6306,7 +6308,8 @@
                                   },
                                   "amount": {
                                     "type": "integer",
-                                    "description": "fee amount in cents",
+                                    "minimum": 0,
+                                    "description": "fee amount in cents. `0` is allowed: the platform charges no fee, and JustiFi's own fee is then\ncharged to the platform in full.\n",
                                     "example": 1000
                                   }
                                 },
@@ -6374,7 +6377,7 @@
                                     "example": "settled"
                                   },
                                   "error_code": {
-                                    "description": "normalised, rail-agnostic reason the leg failed, in snake_case (e.g. `insufficient_funds`). Stable\nacross rails — **branch on this, not on `network_error_code`**, which is the network's own code and\nchanges meaning between rails.\n\nSet when a leg is `failed` or `returned`, and null otherwise. A correction is not a failure: a leg\nthat settled after a notification of change carries `network_error_code` but no `error_code`. A\nreturn code with no normalised equivalent reports `unclassified_return`, so this is never null on a\nleg that failed — the raw code is always there to fall back on.\n",
+                                    "description": "normalised, rail-agnostic reason the leg failed, in snake_case (e.g. `insufficient_funds`). Stable\nacross rails — **branch on this, not on `network_error_code`**, which is the network's own code and\nchanges meaning between rails.\n\nSet when a leg is `failed` or `returned`, and null otherwise. A correction is not a failure: a leg\nthat settled after a notification of change carries `network_error_code` but no `error_code`. A\nreturn code with no normalised equivalent reports `unclassified_return`, so this is never null on a\nleg that failed — the raw code is always there to fall back on.\n\n`submission_rejected` is a leg the bank refused before it reached the ACH network, usually because the\nbank account details are invalid. No money moved, and `network_error_code` is null because the network\nnever saw the entry.\n",
                                     "type": [
                                       "string",
                                       "null"
@@ -6390,7 +6393,7 @@
                                     "example": "Insufficient funds in the account"
                                   },
                                   "network_error_code": {
-                                    "description": "the raw code from the network, verbatim — an ACH return code (`R01`). Preserved for\nreconciliation.\n\nPresent whenever the network said anything about this leg, which is not only when it went wrong: a\nnotification of change carries an advisory code (`C01`) on a leg that **settled** normally. Read it\ntogether with `status` — the code alone does not mean the money did not move.\n",
+                                    "description": "the raw code from the network, verbatim — an ACH return code (`R01`). Preserved for\nreconciliation.\n\nPresent whenever the network said anything about this leg, which is not only when it went wrong: a\nnotification of change carries an advisory code (`C01`) on a leg that **settled** normally. Read it\ntogether with `status` — the code alone does not mean the money did not move. Null on a\n`submission_rejected` leg: the bank refused the entry before it reached the network.\n",
                                     "type": [
                                       "string",
                                       "null"
@@ -6579,7 +6582,8 @@
                                   },
                                   "amount": {
                                     "type": "integer",
-                                    "description": "fee amount in cents",
+                                    "minimum": 0,
+                                    "description": "fee amount in cents. `0` is allowed: the platform charges no fee, and JustiFi's own fee is then\ncharged to the platform in full.\n",
                                     "example": 1000
                                   }
                                 },
@@ -6647,7 +6651,7 @@
                                     "example": "settled"
                                   },
                                   "error_code": {
-                                    "description": "normalised, rail-agnostic reason the leg failed, in snake_case (e.g. `insufficient_funds`). Stable\nacross rails — **branch on this, not on `network_error_code`**, which is the network's own code and\nchanges meaning between rails.\n\nSet when a leg is `failed` or `returned`, and null otherwise. A correction is not a failure: a leg\nthat settled after a notification of change carries `network_error_code` but no `error_code`. A\nreturn code with no normalised equivalent reports `unclassified_return`, so this is never null on a\nleg that failed — the raw code is always there to fall back on.\n",
+                                    "description": "normalised, rail-agnostic reason the leg failed, in snake_case (e.g. `insufficient_funds`). Stable\nacross rails — **branch on this, not on `network_error_code`**, which is the network's own code and\nchanges meaning between rails.\n\nSet when a leg is `failed` or `returned`, and null otherwise. A correction is not a failure: a leg\nthat settled after a notification of change carries `network_error_code` but no `error_code`. A\nreturn code with no normalised equivalent reports `unclassified_return`, so this is never null on a\nleg that failed — the raw code is always there to fall back on.\n\n`submission_rejected` is a leg the bank refused before it reached the ACH network, usually because the\nbank account details are invalid. No money moved, and `network_error_code` is null because the network\nnever saw the entry.\n",
                                     "type": [
                                       "string",
                                       "null"
@@ -6663,7 +6667,7 @@
                                     "example": "Insufficient funds in the account"
                                   },
                                   "network_error_code": {
-                                    "description": "the raw code from the network, verbatim — an ACH return code (`R01`). Preserved for\nreconciliation.\n\nPresent whenever the network said anything about this leg, which is not only when it went wrong: a\nnotification of change carries an advisory code (`C01`) on a leg that **settled** normally. Read it\ntogether with `status` — the code alone does not mean the money did not move.\n",
+                                    "description": "the raw code from the network, verbatim — an ACH return code (`R01`). Preserved for\nreconciliation.\n\nPresent whenever the network said anything about this leg, which is not only when it went wrong: a\nnotification of change carries an advisory code (`C01`) on a leg that **settled** normally. Read it\ntogether with `status` — the code alone does not mean the money did not move. Null on a\n`submission_rejected` leg: the bank refused the entry before it reached the network.\n",
                                     "type": [
                                       "string",
                                       "null"
@@ -7304,7 +7308,8 @@
                                   },
                                   "amount": {
                                     "type": "integer",
-                                    "description": "fee amount in cents",
+                                    "minimum": 0,
+                                    "description": "fee amount in cents. `0` is allowed: the platform charges no fee, and JustiFi's own fee is then\ncharged to the platform in full.\n",
                                     "example": 1000
                                   }
                                 },
@@ -7372,7 +7377,7 @@
                                     "example": "settled"
                                   },
                                   "error_code": {
-                                    "description": "normalised, rail-agnostic reason the leg failed, in snake_case (e.g. `insufficient_funds`). Stable\nacross rails — **branch on this, not on `network_error_code`**, which is the network's own code and\nchanges meaning between rails.\n\nSet when a leg is `failed` or `returned`, and null otherwise. A correction is not a failure: a leg\nthat settled after a notification of change carries `network_error_code` but no `error_code`. A\nreturn code with no normalised equivalent reports `unclassified_return`, so this is never null on a\nleg that failed — the raw code is always there to fall back on.\n",
+                                    "description": "normalised, rail-agnostic reason the leg failed, in snake_case (e.g. `insufficient_funds`). Stable\nacross rails — **branch on this, not on `network_error_code`**, which is the network's own code and\nchanges meaning between rails.\n\nSet when a leg is `failed` or `returned`, and null otherwise. A correction is not a failure: a leg\nthat settled after a notification of change carries `network_error_code` but no `error_code`. A\nreturn code with no normalised equivalent reports `unclassified_return`, so this is never null on a\nleg that failed — the raw code is always there to fall back on.\n\n`submission_rejected` is a leg the bank refused before it reached the ACH network, usually because the\nbank account details are invalid. No money moved, and `network_error_code` is null because the network\nnever saw the entry.\n",
                                     "type": [
                                       "string",
                                       "null"
@@ -7388,7 +7393,7 @@
                                     "example": "Insufficient funds in the account"
                                   },
                                   "network_error_code": {
-                                    "description": "the raw code from the network, verbatim — an ACH return code (`R01`). Preserved for\nreconciliation.\n\nPresent whenever the network said anything about this leg, which is not only when it went wrong: a\nnotification of change carries an advisory code (`C01`) on a leg that **settled** normally. Read it\ntogether with `status` — the code alone does not mean the money did not move.\n",
+                                    "description": "the raw code from the network, verbatim — an ACH return code (`R01`). Preserved for\nreconciliation.\n\nPresent whenever the network said anything about this leg, which is not only when it went wrong: a\nnotification of change carries an advisory code (`C01`) on a leg that **settled** normally. Read it\ntogether with `status` — the code alone does not mean the money did not move. Null on a\n`submission_rejected` leg: the bank refused the entry before it reached the network.\n",
                                     "type": [
                                       "string",
                                       "null"
@@ -9677,7 +9682,8 @@
                                 },
                                 "amount": {
                                   "type": "integer",
-                                  "description": "fee amount in cents",
+                                  "minimum": 0,
+                                  "description": "fee amount in cents. `0` is allowed: the platform charges no fee, and JustiFi's own fee is then\ncharged to the platform in full.\n",
                                   "example": 1000
                                 }
                               },
@@ -9745,7 +9751,7 @@
                                   "example": "settled"
                                 },
                                 "error_code": {
-                                  "description": "normalised, rail-agnostic reason the leg failed, in snake_case (e.g. `insufficient_funds`). Stable\nacross rails — **branch on this, not on `network_error_code`**, which is the network's own code and\nchanges meaning between rails.\n\nSet when a leg is `failed` or `returned`, and null otherwise. A correction is not a failure: a leg\nthat settled after a notification of change carries `network_error_code` but no `error_code`. A\nreturn code with no normalised equivalent reports `unclassified_return`, so this is never null on a\nleg that failed — the raw code is always there to fall back on.\n",
+                                  "description": "normalised, rail-agnostic reason the leg failed, in snake_case (e.g. `insufficient_funds`). Stable\nacross rails — **branch on this, not on `network_error_code`**, which is the network's own code and\nchanges meaning between rails.\n\nSet when a leg is `failed` or `returned`, and null otherwise. A correction is not a failure: a leg\nthat settled after a notification of change carries `network_error_code` but no `error_code`. A\nreturn code with no normalised equivalent reports `unclassified_return`, so this is never null on a\nleg that failed — the raw code is always there to fall back on.\n\n`submission_rejected` is a leg the bank refused before it reached the ACH network, usually because the\nbank account details are invalid. No money moved, and `network_error_code` is null because the network\nnever saw the entry.\n",
                                   "type": [
                                     "string",
                                     "null"
@@ -9761,7 +9767,7 @@
                                   "example": "Insufficient funds in the account"
                                 },
                                 "network_error_code": {
-                                  "description": "the raw code from the network, verbatim — an ACH return code (`R01`). Preserved for\nreconciliation.\n\nPresent whenever the network said anything about this leg, which is not only when it went wrong: a\nnotification of change carries an advisory code (`C01`) on a leg that **settled** normally. Read it\ntogether with `status` — the code alone does not mean the money did not move.\n",
+                                  "description": "the raw code from the network, verbatim — an ACH return code (`R01`). Preserved for\nreconciliation.\n\nPresent whenever the network said anything about this leg, which is not only when it went wrong: a\nnotification of change carries an advisory code (`C01`) on a leg that **settled** normally. Read it\ntogether with `status` — the code alone does not mean the money did not move. Null on a\n`submission_rejected` leg: the bank refused the entry before it reached the network.\n",
                                   "type": [
                                     "string",
                                     "null"
