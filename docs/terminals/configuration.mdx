@@ -10,9 +10,7 @@ keywords:
   - refund
 ---
 
-import TerminalConfiguration1 from "../../static/img/terminal-configuration1.png";
-import TerminalConfiguration2 from "../../static/img/terminal-configuration2.png";
-import TerminalConfiguration3 from "../../static/img/terminal-configuration3.png";
+import TerminalConfiguration from "../../static/img/terminal-configuration.png";
 
 # Terminal Device Configuration
 
@@ -26,6 +24,7 @@ and have no assigned **"Serial Number"**. The **"Serial Number"** will be assign
 
 #### Follow these steps to configure your device(s): 
 
+{/*
 <div style={{padding:"56.25% 0 0 0", position:"relative"}}>
   <iframe src="https://player.vimeo.com/video/1085717984?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" 
     frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" 
@@ -34,33 +33,18 @@ and have no assigned **"Serial Number"**. The **"Serial Number"** will be assign
   </iframe>
 </div>
 <script src="https://player.vimeo.com/api/player.js"></script>
+*/}
 
 
-#### The same steps are listed in the following images
-
+{/* #### The same steps are listed in the following images */}
 <img
-  src={TerminalConfiguration1}
-  alt="terminal set up guide steps 1 to 6"
+  src={TerminalConfiguration}
+  alt="terminal set up guide steps 1 to 3"
   object-fit="contain"
   width="100%"
   height="100%"
 />
 
-<img
-  src={TerminalConfiguration2}
-  alt="terminal set up guide steps 7 to 11"
-  object-fit="contain"
-  width="100%"
-  height="100%"
-/>
-
-<img
-  src={TerminalConfiguration3}
-  alt="terminal set up guide steps 12 to 17"
-  object-fit="contain"
-  width="100%"
-  height="100%"
-/>
 
 ## After Configuration
 You should be able to see any configured terminals in the response of the [List Terminals API response](https://developer.justifi.ai/api-spec#tag/Terminals/operation/listTerminals) 
