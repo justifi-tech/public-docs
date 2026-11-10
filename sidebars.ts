@@ -154,6 +154,7 @@ const sidebars: SidebarsConfig = {
           items: [
             "disputes/overview",
             "disputes/lifecycle",
+            "disputes/appeals",
           ],
           collapsible: true,
           collapsed: true,
