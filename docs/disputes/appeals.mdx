@@ -32,7 +32,7 @@ No webhook event is sent when the window opens. Read `funds_held_until` from [Ge
 | `funds_held_until`            | End of the appeal window. Set while the disputed amount is held after a ruling in your merchant's favor, `null` otherwise             |
 | `pre_arbitration`             | `true` once the issuer has appealed                                                                                                    |
 | `pre_arbitration_received_at` | When the appeal arrived                                                                                                                |
-| `pre_arbitration_due_date`    | The card network's deadline for the appeal                                                                                             |
+| `pre_arbitration_due_date`    | Deadline for the merchant to contest the appeal                                                                                        |
 
 These fields are returned by the [disputes API](https://docs.justifi.tech/api-spec#tag/Disputes) and included in every dispute webhook event.
 

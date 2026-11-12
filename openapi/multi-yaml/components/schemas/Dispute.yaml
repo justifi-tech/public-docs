@@ -59,10 +59,10 @@ properties:
     example: '2025-12-01T15:00:00Z'
   pre_arbitration_due_date:
     type: string
-    format: date-time
+    format: date
     nullable: true
-    description: the card network's deadline for the issuer appeal
-    example: '2025-12-15T00:00:00Z'
+    description: deadline for the merchant to contest the issuer appeal
+    example: '2025-12-15'
   created_at:
     type: string
     format: date-time
