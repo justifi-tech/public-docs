@@ -35,7 +35,7 @@ This will create a successful payment with an associated dispute.
 1. **Payment Creation**: A payment with `dispute_test_spec` key inside metadata
 2. **Dispute Creation**: System creates dispute with `needs_response` status
 3. **Response Building**: Test evidence upload and response field updates
-4. **Resolution**: Dispute resolves based on your `expected_result` configuration after `event_publish_delay_in_seconds` seconds. A `won` test dispute first enters the appeal window as it would in live mode, `under_review` with `funds_held_until` set, then releases after the same delay again instead of 60 days, so you see the held state and the `payment.dispute.funds_returned` and `payment.dispute.closed` events within a couple of minutes
+4. **Resolution**: Dispute resolves based on your `expected_result` configuration after `event_publish_delay_in_seconds` seconds. A `won` test dispute first enters the appeal window as it would in live mode, with status `under_review` and `funds_held_until` set. It releases after another `event_publish_delay_in_seconds` seconds instead of 60 days, so you see the held state and the `payment.dispute.funds_returned` and `payment.dispute.closed` events within a couple of minutes
 5. **Webhook Events**: Receive all lifecycle events for testing
 
 ## Configuration Options
@@ -142,7 +142,7 @@ Test each status transition:
 
 ## Webhook Testing
 
-Test disputes generate all standard webhook events:
+Test disputes generate the standard webhook events:
 
 - **`payment.dispute.created`** - Lets you know anytime a customer opens a payment dispute
 - **`payment.dispute.closed`** - Lets you know anytime a payment dispute is closed
@@ -151,6 +151,7 @@ Test disputes generate all standard webhook events:
 - **`payment.dispute_evidence.uploaded`** - Lets you know anytime a dispute evidence is uploaded
 - **`payment.dispute.forfeited`** - Lets you know anytime a dispute response is forfeited (the dispute moves to `lost` and a `payment.dispute.closed` event follows)
 - **`payment.dispute.submitted`** - Lets you know anytime a dispute response is submitted (the dispute moves to `under_review`)
-- **`payment.dispute.pre_arbitration_received`** - Lets you know anytime the card issuer appeals a dispute your merchant won (`pre_arbitration` becomes `true`). See [Issuer Appeals](/disputes/appeals)
+
+`payment.dispute.pre_arbitration_received` is sent in live mode only. See [Issuer Appeals](/disputes/appeals).
 
 Configure webhook endpoints in your test account to receive and process these events.

@@ -49,7 +49,7 @@ properties:
     example: '2026-01-09T16:20:27Z'
   pre_arbitration:
     type: boolean
-    description: true once the cardholder's issuer has appealed a dispute the card network ruled for the merchant
+    description: true once the cardholder's issuer has appealed a dispute that the card network ruled for the merchant
     example: false
   pre_arbitration_received_at:
     type: string
