@@ -149,5 +149,6 @@ Test disputes generate all standard webhook events:
 - **`payment.dispute_evidence.uploaded`** - Lets you know anytime a dispute evidence is uploaded
 - **`payment.dispute.forfeited`** - Lets you know anytime a dispute response is forfeited (the dispute moves to `lost` and a `payment.dispute.closed` event follows)
 - **`payment.dispute.submitted`** - Lets you know anytime a dispute response is submitted (the dispute moves to `under_review`)
+- **`payment.dispute.pre_arbitration_received`** - Lets you know anytime the card issuer appeals a dispute your merchant won (`pre_arbitration` becomes `true`). See [Issuer Appeals](/disputes/appeals)
 
 Configure webhook endpoints in your test account to receive and process these events.

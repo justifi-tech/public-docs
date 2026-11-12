@@ -17,11 +17,11 @@ When the card network rules a dispute in your merchant's favor, the cardholder's
 After a ruling in your merchant's favor the dispute stays `under_review` for 60 days while the issuer can appeal. The disputed amount is held during that window and `funds_held_until` on the dispute shows when it ends.
 
 - **No appeal**: On the date in `funds_held_until` the status becomes `won` and the disputed amount is returned to your merchant's account. You receive `payment.dispute.funds_returned` followed by `payment.dispute.closed`.
-- **Appeal opened**: `pre_arbitration` becomes `true`, `pre_arbitration_received_at` is when the appeal arrived and `pre_arbitration_due_date` is the card network's deadline for it. The status stays `under_review` and the disputed amount stays held.
+- **Appeal opened**: `pre_arbitration` becomes `true`, `pre_arbitration_received_at` is when the appeal arrived and `pre_arbitration_due_date` is the card network's deadline for it. The status stays `under_review` and the disputed amount stays held. You receive `payment.dispute.pre_arbitration_received`.
 - **Appeal won**: The status becomes `won` and the disputed amount is returned right away. You receive `payment.dispute.funds_returned` followed by `payment.dispute.closed`.
 - **Appeal lost**: The status becomes `lost`. The held amount covers the loss, so nothing more is taken from your merchant. You receive `payment.dispute.closed`.
 
-**Note:** An appeal can arrive after the funds were already returned to your merchant. In that case the status becomes `lost` and the disputed amount is taken from your merchant's next payout.
+**Note:** An appeal can arrive after the funds were already returned to your merchant. You receive `payment.dispute.pre_arbitration_received` when it does. If the appeal is lost the status becomes `lost`, the disputed amount is taken from your merchant's next payout and you receive `payment.dispute.closed`.
 
 ## Dispute Fields
 
