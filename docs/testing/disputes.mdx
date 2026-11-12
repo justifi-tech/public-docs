@@ -66,7 +66,7 @@ The following options are available to customize the dispute details and outcome
 - **`due_date`** - Response deadline in YYYY-MM-DD format (typically 7-10 business days)
 - **`event_publish_delay_in_seconds`** - Delay before dispute creation event, and the length of the simulated appeal window on a `won` result (default: 60)
 
-Issuer appeals cannot be simulated yet. `pre_arbitration` stays `false` on test disputes and no `payment.dispute.pre_arbitration_received` event is sent in test mode.
+Issuer appeals cannot be simulated. `pre_arbitration` stays `false` on test disputes and no `payment.dispute.pre_arbitration_received` event is sent in test mode.
 
 ## Testing Evidence Upload
 
@@ -142,7 +142,7 @@ Test each status transition:
 
 ## Webhook Testing
 
-Test disputes generate the standard webhook events:
+Test disputes generate all standard webhook events:
 
 - **`payment.dispute.created`** - Lets you know anytime a customer opens a payment dispute
 - **`payment.dispute.closed`** - Lets you know anytime a payment dispute is closed

@@ -14,16 +14,16 @@ When the card network rules a dispute in your merchant's favor, the cardholder's
 
 ## The Appeal Window
 
-After a ruling in your merchant's favor the dispute stays `under_review` for 60 days while the issuer can appeal. The disputed amount is held during that window, and `funds_held_until` on the dispute shows when the window ends.
+After a ruling in your merchant's favor the dispute is `under_review` for 60 days while the issuer can appeal. The disputed amount is held during that window, and `funds_held_until` on the dispute shows when the window ends.
 
 No webhook event is sent when the window opens. Read `funds_held_until` from [Get a Dispute](https://docs.justifi.tech/api-spec#tag/Disputes/operation/GetDispute) or [List Disputes](https://docs.justifi.tech/api-spec#tag/Disputes/operation/ListDisputes) to see that a dispute is in it. A dispute in the appeal window can no longer be [responded to or forfeited](https://docs.justifi.tech/api-spec#tag/Disputes/operation/SubmitDisputeResponse).
 
 - **No appeal**: If the issuer does not appeal, the dispute status becomes `won` once the date in `funds_held_until` passes and the disputed amount is returned to your merchant's account. You receive `payment.dispute.funds_returned` followed by `payment.dispute.closed`.
 - **Appeal opened**: If the issuer appeals, `pre_arbitration` becomes `true`, `pre_arbitration_received_at` is when the appeal arrived and `pre_arbitration_due_date` is your deadline to contest it. The status stays `under_review` and the disputed amount stays held until the appeal is decided, even if that is after the date in `funds_held_until`. You receive `payment.dispute.pre_arbitration_received`.
-- **Merchant wins the appeal**: The dispute status becomes `won` and the disputed amount is returned right away. You receive `payment.dispute.funds_returned` followed by `payment.dispute.closed`.
+- **Merchant wins the appeal**: The dispute status becomes `won` and the disputed amount is returned without waiting for the window to end. You receive `payment.dispute.funds_returned` followed by `payment.dispute.closed`.
 - **Merchant loses the appeal**: The dispute status becomes `lost`. The held amount covers the loss, so nothing more is taken from your merchant. You receive `payment.dispute.closed`.
 
-**Note:** An appeal can arrive after the funds were already returned to your merchant. You receive `payment.dispute.pre_arbitration_received` when it does. If your merchant loses the appeal, the dispute status becomes `lost`, the amount the card network takes back is deducted from your merchant's next payout and you receive `payment.dispute.closed`.
+**Note:** An appeal can arrive after the funds were already returned to your merchant. You receive `payment.dispute.pre_arbitration_received` when it does. If your merchant wins the appeal, the dispute stays `won` and nothing else changes. If your merchant loses the appeal, the dispute status becomes `lost`, the amount the card network takes back is deducted from your merchant's next payout and you receive `payment.dispute.closed`.
 
 ## Dispute Fields
 
@@ -41,6 +41,4 @@ These fields are returned by [Get a Dispute](https://docs.justifi.tech/api-spec#
 Appeals cannot be contested through the API or the [Dispute Management web component](/web-components/payment-facilitation/dispute-management).
 To contest one, contact [JustiFi Customer Success](mailto:platform_success@justifi.tech) with the dispute id and the evidence you want submitted, no later than `pre_arbitration_due_date`. JustiFi submits it to the card network on your behalf.
 
-An appeal that is not contested by the deadline is decided for the issuer, and the dispute becomes `lost`.
-
-Contesting an appeal carries fees: card network fees that vary by card brand, and a non-refundable JustiFi pre-arbitration fee. Ask Customer Success for the current amounts before you contest.
+Contesting an appeal carries additional fees: card network fees that vary by card brand, and a non-refundable JustiFi pre-arbitration fee.

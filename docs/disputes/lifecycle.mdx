@@ -110,7 +110,7 @@ A dispute is only forfeited when you explicitly request it as shown above.
 
 #### Won (`won` status)
 
-- **Appeal window**: When the card network rules in your merchant's favor, the dispute stays `under_review` for 60 days while the cardholder's issuer can appeal. `funds_held_until` on the dispute shows when that window ends.
+- **Appeal window**: When the card network rules in your merchant's favor, the dispute is `under_review` for 60 days while the cardholder's issuer can appeal. `funds_held_until` on the dispute shows when that window ends.
 - **Funds Returned**: When the window closes with no appeal, or your merchant wins the appeal, the dispute status becomes `won` and the disputed amount is returned to your merchant's account.
 - **Notification**: `payment.dispute.funds_returned` and `payment.dispute.closed` webhook events, sent when the funds are returned. See [Issuer Appeals](/disputes/appeals)
 
@@ -118,6 +118,15 @@ A dispute is only forfeited when you explicitly request it as shown above.
 
 - **Funds Retained**: No funds are moved.
 - **Notification**: `payment.dispute.closed` webhook event
+
+### Dispute Reversals
+
+Card networks can reverse lost disputes:
+
+1. **Reversal Trigger**: New evidence or network decision
+2. **Dispute updated**: Status of dispute is updated to won
+3. **Fund Return**: Previously lost funds are returned
+4. **Notification**: `payment.dispute.closed` webhook event
 
 ### Issuer Appeals
 
@@ -131,6 +140,8 @@ needs_response → under_review → lost
 lost (forfeited)   ruled for the merchant: stays under_review for the 60 day appeal window
                       ├─ no appeal, or merchant wins the appeal → won (funds returned)
                       └─ merchant loses the appeal → lost
+
+lost → won (loss reversed by the card network)
 ```
 
 ### Status Descriptions
@@ -142,11 +153,11 @@ lost (forfeited)   ruled for the merchant: stays under_review for the 60 day app
 
 ## Webhook Events
 
-Monitor these events for real-time updates. Each one carries the dispute, as described in the [dispute event reference](https://docs.justifi.tech/api-spec#tag/Events/operation/disputeEvent):
+Monitor these events for real-time updates. Their payloads are described in the [dispute event](https://docs.justifi.tech/api-spec#tag/Events/operation/disputeEvent) and [dispute evidence event](https://docs.justifi.tech/api-spec#tag/Events/operation/disputeEvidenceEvent) references:
 
 - **`payment.dispute.created`** - Lets you know anytime a customer opens a payment dispute
 - **`payment.dispute.closed`** - Lets you know anytime a payment dispute is closed, including when a won dispute is lost on an issuer appeal
-- **`payment.dispute.funds_returned`** - Lets you know anytime a payment dispute is won and funds are returned, which is at the end of the appeal window
+- **`payment.dispute.funds_returned`** - Lets you know anytime a payment dispute is won and funds are returned, which is when the appeal window closes without an appeal or your merchant wins the appeal
 - **`payment.dispute_evidence.created`** - Lets you know anytime a dispute evidence is created
 - **`payment.dispute_evidence.uploaded`** - Lets you know anytime a dispute evidence is uploaded
 - **`payment.dispute.forfeited`** - Lets you know anytime a dispute response is forfeited (the dispute moves to `lost` and a `payment.dispute.closed` event follows)
