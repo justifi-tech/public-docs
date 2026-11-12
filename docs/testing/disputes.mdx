@@ -44,7 +44,7 @@ The following options are available to customize the dispute details and outcome
 
 ### Expected Results
 
-- **`won`** - Dispute resolves in the merchant`s favor, funds returned to the merchant
+- **`won`** - Dispute resolves in the merchant`s favor, funds returned to the merchant after the simulated appeal window
 - **`lost`** - Dispute resolves against the merchant, no funds are moved
 
 ### Dispute Reasons
@@ -64,7 +64,9 @@ The following options are available to customize the dispute details and outcome
 ### Timing Configuration
 
 - **`due_date`** - Response deadline in YYYY-MM-DD format (typically 7-10 business days)
-- **`event_publish_delay_in_seconds`** - Delay before dispute creation event (default: 60)
+- **`event_publish_delay_in_seconds`** - Delay before dispute creation event, and the length of the simulated appeal window on a `won` result (default: 60)
+
+Issuer appeals cannot be simulated yet. `pre_arbitration` stays `false` on test disputes and no `payment.dispute.pre_arbitration_received` event is sent in test mode.
 
 ## Testing Evidence Upload
 

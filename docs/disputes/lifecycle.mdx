@@ -111,7 +111,7 @@ A dispute is only forfeited when you explicitly request it as shown above.
 #### Won (`won` status)
 
 - **Appeal window**: When the card network rules in your merchant's favor, the dispute stays `under_review` for 60 days while the cardholder's issuer can appeal. `funds_held_until` on the dispute shows when that window ends.
-- **Funds Returned**: When the window closes with no appeal, the status becomes `won` and the disputed amount is returned to your merchant's account.
+- **Funds Returned**: When the window closes with no appeal, or the issuer's appeal fails, the status becomes `won` and the disputed amount is returned to your merchant's account.
 - **Notification**: `payment.dispute.funds_returned` and `payment.dispute.closed` webhook events, sent when the funds are returned. See [Issuer Appeals](/disputes/appeals)
 
 #### Lost (`lost` status)
@@ -121,7 +121,7 @@ A dispute is only forfeited when you explicitly request it as shown above.
 
 ### Issuer Appeals
 
-The cardholder's issuer can appeal a dispute the card network ruled in your merchant's favor. JustiFi tracks the appeal on the same dispute, holds the disputed amount for the 60 day appeal window and returns it when the window closes. See [Issuer Appeals](/disputes/appeals).
+The cardholder's issuer can appeal a dispute the card network ruled in your merchant's favor. JustiFi tracks the appeal on the same dispute, holds the disputed amount for the 60 day appeal window and returns it when the window closes or the appeal fails. See [Issuer Appeals](/disputes/appeals).
 
 ## Status Transitions
 
