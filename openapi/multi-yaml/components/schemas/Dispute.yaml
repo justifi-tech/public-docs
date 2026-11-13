@@ -45,7 +45,7 @@ properties:
     type: string
     format: date-time
     nullable: true
-    description: end of the issuer appeal window. the disputed amount is held to this date after the card network ruled for the merchant, and until the appeal is decided if the issuer appeals. null otherwise
+    description: end of the issuer appeal window. the disputed amount is held to this date after the card network ruled for the merchant, and until the appeal is decided if the issuer appeals. null otherwise, including once the dispute is won or lost
     example: '2026-01-09T16:20:27Z'
   pre_arbitration:
     type: boolean
