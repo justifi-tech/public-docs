@@ -35,7 +35,7 @@ This will create a successful payment with an associated dispute.
 1. **Payment Creation**: A payment with `dispute_test_spec` key inside metadata
 2. **Dispute Creation**: System creates dispute with `needs_response` status
 3. **Response Building**: Test evidence upload and response field updates
-4. **Resolution**: Dispute resolves based on your `expected_result` configuration after `event_publish_delay_in_seconds` seconds
+4. **Resolution**: Dispute resolves based on your `expected_result` configuration after `event_publish_delay_in_seconds` seconds. A `won` test dispute first enters the appeal window as it would in live mode, with status `under_review` and `funds_held_until` set. It releases after another `event_publish_delay_in_seconds` seconds instead of 60 days, so you see the held state and the `payment.dispute.funds_returned` and `payment.dispute.closed` events within a couple of minutes
 5. **Webhook Events**: Receive all lifecycle events for testing
 
 ## Configuration Options
@@ -44,7 +44,7 @@ The following options are available to customize the dispute details and outcome
 
 ### Expected Results
 
-- **`won`** - Dispute resolves in the merchant`s favor, funds returned to the merchant
+- **`won`** - Dispute resolves in the merchant`s favor, funds returned to the merchant after the simulated appeal window
 - **`lost`** - Dispute resolves against the merchant, no funds are moved
 
 ### Dispute Reasons
@@ -64,7 +64,9 @@ The following options are available to customize the dispute details and outcome
 ### Timing Configuration
 
 - **`due_date`** - Response deadline in YYYY-MM-DD format (typically 7-10 business days)
-- **`event_publish_delay_in_seconds`** - Delay before dispute creation event (default: 60)
+- **`event_publish_delay_in_seconds`** - Delay before dispute creation event, and the length of the simulated appeal window on a `won` result (default: 60)
+
+Issuer appeals cannot be simulated. `pre_arbitration` stays `false` on test disputes and no `payment.dispute.pre_arbitration_received` event is sent in test mode.
 
 ## Testing Evidence Upload
 
@@ -136,7 +138,7 @@ Test each status transition:
 
 1. **`needs_response`** - Initial status after dispute creation
 2. **`under_review`** - Automatic after response submission
-3. **`won`** or **`lost`** - Based on `expected_result` configuration
+3. **`won`** or **`lost`** - Based on `expected_result` configuration. A `won` result passes through the appeal window first: `under_review` with `funds_held_until` set, then `won` after the delay
 
 ## Webhook Testing
 
@@ -149,5 +151,7 @@ Test disputes generate all standard webhook events:
 - **`payment.dispute_evidence.uploaded`** - Lets you know anytime a dispute evidence is uploaded
 - **`payment.dispute.forfeited`** - Lets you know anytime a dispute response is forfeited (the dispute moves to `lost` and a `payment.dispute.closed` event follows)
 - **`payment.dispute.submitted`** - Lets you know anytime a dispute response is submitted (the dispute moves to `under_review`)
+
+`payment.dispute.pre_arbitration_received` is sent in live mode only. See [Issuer Appeals](/disputes/appeals).
 
 Configure webhook endpoints in your test account to receive and process these events.

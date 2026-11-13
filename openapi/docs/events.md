@@ -15,6 +15,12 @@ We will publish the following events:
 - payment.refund.updated
 - payment.dispute.created
 - payment.dispute.closed
+- payment.dispute.funds_returned
+- payment.dispute.forfeited
+- payment.dispute.submitted
+- payment.dispute.pre_arbitration_received
+- payment.dispute_evidence.created
+- payment.dispute_evidence.uploaded
 - payment_method.created
 - payment_method.updated
 - payment_method.bin_mapped
