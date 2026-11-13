@@ -147,9 +147,9 @@ lost → won (loss reversed by the card network)
 ### Status Descriptions
 
 - **`needs_response`** - Initial status, response deadline active
-- **`under_review`** - Response submitted and the card network is reviewing, or the network ruled for your merchant and the 60 day appeal window is open (`funds_held_until` is set)
+- **`under_review`** - Response submitted and the card network is reviewing, or the card network ruled for the merchant and the 60 day appeal window is open (`funds_held_until` is set)
 - **`won`** - Dispute resolved in merchant's favor: the appeal window closed without an appeal, or the merchant won the appeal. Funds returned to the merchant
-- **`lost`** - Dispute resolved against the merchant, forfeited, or lost on an issuer's appeal
+- **`lost`** - Dispute resolved against the merchant, forfeited, or lost on an issuer appeal
 
 ## Webhook Events
 
@@ -162,4 +162,4 @@ Monitor these events for real-time updates. Their payloads are described in the 
 - **`payment.dispute_evidence.uploaded`** - Lets you know anytime a dispute evidence is uploaded
 - **`payment.dispute.forfeited`** - Lets you know anytime a dispute response is forfeited (the dispute moves to `lost` and a `payment.dispute.closed` event follows)
 - **`payment.dispute.submitted`** - Lets you know anytime a dispute response is submitted (the dispute moves to `under_review`)
-- **`payment.dispute.pre_arbitration_received`** - Lets you know anytime the card issuer appeals a dispute your merchant won (`pre_arbitration` becomes `true`). See [Issuer Appeals](/disputes/appeals)
+- **`payment.dispute.pre_arbitration_received`** - Lets you know anytime the cardholder's issuer appeals a dispute your merchant won (`pre_arbitration` becomes `true`). See [Issuer Appeals](/disputes/appeals)
