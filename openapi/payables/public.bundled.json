@@ -5613,7 +5613,8 @@
                                     },
                                     "amount": {
                                       "type": "integer",
-                                      "description": "fee amount in cents",
+                                      "minimum": 0,
+                                      "description": "fee amount in cents. `0` is allowed: the platform charges no fee, and JustiFi's own fee is then\ncharged to the platform in full.\n",
                                       "example": 1000
                                     }
                                   },
@@ -6112,7 +6113,8 @@
                         },
                         "amount": {
                           "type": "integer",
-                          "description": "fee amount in cents",
+                          "minimum": 0,
+                          "description": "fee amount in cents. `0` is allowed: the platform charges no fee, and JustiFi's own fee is then\ncharged to the platform in full.\n",
                           "example": 1000
                         }
                       },
@@ -6306,7 +6308,8 @@
                                   },
                                   "amount": {
                                     "type": "integer",
-                                    "description": "fee amount in cents",
+                                    "minimum": 0,
+                                    "description": "fee amount in cents. `0` is allowed: the platform charges no fee, and JustiFi's own fee is then\ncharged to the platform in full.\n",
                                     "example": 1000
                                   }
                                 },
@@ -6579,7 +6582,8 @@
                                   },
                                   "amount": {
                                     "type": "integer",
-                                    "description": "fee amount in cents",
+                                    "minimum": 0,
+                                    "description": "fee amount in cents. `0` is allowed: the platform charges no fee, and JustiFi's own fee is then\ncharged to the platform in full.\n",
                                     "example": 1000
                                   }
                                 },
@@ -7304,7 +7308,8 @@
                                   },
                                   "amount": {
                                     "type": "integer",
-                                    "description": "fee amount in cents",
+                                    "minimum": 0,
+                                    "description": "fee amount in cents. `0` is allowed: the platform charges no fee, and JustiFi's own fee is then\ncharged to the platform in full.\n",
                                     "example": 1000
                                   }
                                 },
@@ -9677,7 +9682,8 @@
                                 },
                                 "amount": {
                                   "type": "integer",
-                                  "description": "fee amount in cents",
+                                  "minimum": 0,
+                                  "description": "fee amount in cents. `0` is allowed: the platform charges no fee, and JustiFi's own fee is then\ncharged to the platform in full.\n",
                                   "example": 1000
                                 }
                               },
