@@ -47,6 +47,13 @@ Checkouts support both USD and CAD currencies. The currency is determined by the
 _Note: Disable the BNPL option by passing the correspondent prop to the web component:
 [disable-bnpl](/web-components/payment-facilitation/unified-fintech-checkout%E2%84%A2)_
 
+### PayPal and Venmo Payments
+
+- PayPal must be enabled on the sub account.
+- After creating a Checkout, use the [Unified Fintech Checkout™ Component](/web-components/payment-facilitation/unified-fintech-checkout%E2%84%A2)
+  or the Modular Checkout PayPal sub component to collect the payment.
+- A checkout completed with PayPal or Venmo does not create a payment. See [PayPal and Venmo](/payments/paypal).
+
 ### Terminal (Card Reader) Payments
 
 - For terminal payments, contact [customer_success@justifi.tech](mailto:customer_success@justifi.tech)
@@ -130,6 +137,8 @@ The `application_fees` parameter continues to work for platforms on the v1 fee s
 - The application fee applies based on the selected payment method during checkout.
   It overwrites the `application_fee_rate` set for the sub account.
   _Note: available for Card, ACH and Terminal (Card Present) only!_
+
+- The `application_fees` and `payment.fees` parameters are not applied to PayPal and Venmo payments.
 
 **Important**: You cannot use both `application_fees` and `fees` in the same request.
 
