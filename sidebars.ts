@@ -127,6 +127,7 @@ const sidebars: SidebarsConfig = {
           id: "payments/googlePay"
         },
         "payments/buyNowPayLater",
+        "payments/paypal",
         "payments/insurance",
         {
           type: "category",

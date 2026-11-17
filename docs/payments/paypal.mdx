@@ -1,0 +1,121 @@
+---
+title: PayPal and Venmo
+description: Learn how PayPal and Venmo payments work in a JustiFi checkout
+sidebar_label: PayPal and Venmo
+keywords:
+  - PayPal
+  - Venmo
+  - checkouts
+  - refunds
+---
+
+# PayPal and Venmo
+
+## Overview
+
+PayPal and Venmo are payment options of a checkout. Your customer selects the PayPal or Venmo button,
+approves the payment in PayPal, and the checkout completes. You create and track the checkout the same way
+you do for any other payment method.
+
+## Prerequisites and Integration
+
+- PayPal must be enabled on the sub account. The `paypal_payments` attribute in the checkout's `payment_settings` shows whether it is.
+- PayPal and Venmo are offered through our checkout web components
+([Unified Checkout](https://docs.justifi.tech/web-components/payment-facilitation/unified-fintech-checkout%E2%84%A2)
+and [Modular Checkout](https://docs.justifi.tech/web-components/modular-checkout)) - [see the integration guide](https://docs.justifi.tech/api-spec#tag/Checkout-via-Component).
+- Both options require the [creation of a checkout via API](https://docs.justifi.tech/api-spec#tag/Checkouts/operation/CreateCheckout).
+- If you use Modular Checkout, include the [PayPal sub component](https://docs.justifi.tech/web-components/modular-checkout/sub-components/paypal). One component renders both the PayPal and the Venmo button.
+- Checkouts in `test` mode use PayPal's sandbox.
+
+## How it works
+
+1. Create a checkout and render the checkout web component.
+2. Your customer selects the PayPal or Venmo button and approves the payment in PayPal.
+3. The web component completes the checkout. You do not call the Complete Checkout API.
+4. The checkout becomes `completed`, and the attempt is recorded in its `completions` with a `payment_mode` of `paypal` or `venmo`.
+
+A customer can approve the payment and close the page before the checkout completes. In that case JustiFi still
+collects the payment and completes the checkout, as long as the checkout is not expired and its amount has not changed.
+Subscribe to the [checkout events](https://docs.justifi.tech/api-spec#tag/Events/operation/checkoutCompletionEvent)
+so you learn the outcome even when your customer has left your page.
+
+## What is different from a card or ACH checkout
+
+| | Card or ACH | PayPal or Venmo |
+|---|---|---|
+| Payment record | A payment (`py_...`) is created | **No payment is created** |
+| `successful_payment_id` on the checkout | The payment id | `null` |
+| `payment_id` on the completion | The payment id | `null` |
+| Events | Checkout events and payment events | Checkout events only |
+| Refunds | Checkout or payment refund APIs | [Refund a Checkout API](https://docs.justifi.tech/api-spec#tag/Checkouts/operation/RefundCheckout) only |
+| Checkout fee parameters | Applied | Not applied |
+
+### No payment record
+
+Because no payment is created, the checkout is your record of the transaction:
+
+- Store the checkout id. There is no payment id to pass to the [Payments API](https://docs.justifi.tech/api-spec#tag/Payments).
+- Subscribe to `checkout.completed`, `checkout.completion.succeeded` and `checkout.completion.failed`.
+  No [payment events](https://docs.justifi.tech/api-spec#tag/Events/operation/paymentEvent) are sent.
+
+### The checkout completion
+
+A successful PayPal completion looks like this:
+
+```json
+{
+  "id": "chc_xyz",
+  "checkout_id": "cho_xyz",
+  "payment_mode": "paypal",
+  "status": "succeeded",
+  "payment_status": "succeeded",
+  "payment_token": "ppo_xyz",
+  "payment_id": null,
+  "payment_method_id": null
+}
+```
+
+`payment_token` identifies the PayPal order your customer approved. `payment_response` holds the details PayPal returned
+for the transaction. It is not a JustiFi payment object, so do not parse it as one.
+
+## Pending completions
+
+PayPal does not always confirm a payment right away. Until it does:
+
+- The completion has a `status` and `payment_status` of `pending`.
+- The checkout stays `attempted`.
+- Another PayPal or Venmo attempt on the same checkout is refused with the error code `checkout_completion_pending`.
+
+Wait for the events before you fulfill the order:
+
+| PayPal's decision | Completion | Checkout | Events sent |
+|---|---|---|---|
+| Confirmed | `succeeded` | `completed` | `checkout.completed`, `checkout.completion.succeeded` |
+| Denied | `failed` | `attempted` | `checkout.completion.failed` |
+
+## Updating a checkout
+
+You can [update a checkout](https://docs.justifi.tech/api-spec#tag/Checkouts/operation/UpdateCheckout) after your customer
+has started a PayPal or Venmo payment. The new amount, description or statement descriptor also applies to that payment.
+If PayPal does not accept the change, the request fails with a `422` and the error code `paypal_order_update_failed`,
+and the checkout keeps its previous values.
+
+## Refunds
+
+Refund a PayPal or Venmo checkout with the [Refund a Checkout API](https://docs.justifi.tech/api-spec#tag/Checkouts/operation/RefundCheckout).
+The refund is issued through PayPal.
+
+- You can refund the full amount or a portion. Multiple partial refunds are supported until the full amount has been refunded.
+- A refund larger than the amount left to refund fails with a `422` and the error code `invalid_refund_amount`.
+- The refund `status` can be `pending` while PayPal processes it, in addition to `succeeded` and `failed`.
+- The `fees` parameter is not applied.
+- No refund (`re_...`) is created. The checkout refund (`chr_...`) is your record of the refund.
+
+## Fees
+
+The `application_fees` and `payment.fees` parameters of a checkout are not applied to PayPal and Venmo payments.
+
+## Finding PayPal and Venmo checkouts
+
+Use the `payment_mode` filter of the [List Checkouts API](https://docs.justifi.tech/api-spec#tag/Checkouts/operation/ListCheckouts)
+with `paypal` or `venmo`.
