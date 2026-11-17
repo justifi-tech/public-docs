@@ -10,9 +10,9 @@ properties:
     description: id of the checkout for this refund
   status:
     type: string
-    enum: [succeeded, failed]
+    enum: [succeeded, failed, pending]
     example: succeeded
-    description: the status of the refund, only succeeded or failed
+    description: the status of the refund. `pending` applies to PayPal and Venmo refunds while PayPal processes them
   refund_response:
     type: string
     example: invalid_amount
