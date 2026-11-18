@@ -16,8 +16,7 @@ properties:
     type: string
     example: "Within 7 days"
     description: >-
-      how long after paying will your customers typically receive their goods or services.
-      Expected value is one of the following: `Within 7 days`, `Within 90 days`, `Within 120 days`, `More than 120 days`.
+      how long after paying will your customers typically receive their goods or services, one of the following: `Within 7 days`, `Within 90 days`, `Within 120 days`, `More than 120 days`.
       Required when provisioning payments
   business_recurring_payments:
     type: string
