@@ -3,6 +3,9 @@ post:
     Received for the following events: checkout.completion.succeeded, checkout.completion.failed, and
     checkout.completion.processing. Note checkout.completion.processing is only sent for terminal payments when
     a payment amount is sent to a terminal for processing.
+
+    For `paypal` and `venmo` completions the event carries no `payment_id`. A completion that PayPal left pending sends
+    checkout.completion.succeeded or checkout.completion.failed once PayPal confirms or denies the capture.
   tags:
     - Events
   operationId: checkoutCompletionEvent

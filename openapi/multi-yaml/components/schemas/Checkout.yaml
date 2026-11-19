@@ -79,7 +79,7 @@ properties:
     type: string
     format: uuid
     example: py_123xyz
-    description: payment id, if this checkout was paid for successfully
+    description: payment id, if this checkout was paid for successfully. Always null for checkouts completed with PayPal or Venmo, which do not create a payment
   statement_descriptor:
     type: string
     description: description of the payment that will be available on the account's bank statement
@@ -113,6 +113,7 @@ properties:
     example: {
       ach_payments: true,
       bnpl_payments: false,
+      paypal_payments: false,
       credit_card_payments: true,
       insurance_payments: false,
       bank_account_verification: false
