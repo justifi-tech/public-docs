@@ -27,7 +27,7 @@ You will need the ID from the business you create for the next steps.
 
 
 ### Create a bank account
-Use the bank account API to [create a bank account](https://docs.justifi.tech/api-spec#tag/Bank-Account/operation/CreateBankAccount). This bank account will be used to pay out earnings for payment processing to the business.
+Use the bank account API to [create a bank account](https://docs.justifi.tech/api-spec#tag/Bank-Account/operation/CreateBankAccount). This bank account will be used to pay out earnings for payment processing to the business. Include `bank_name`: it's optional when you create the bank account, but provisioning for payment processing requires it. If the business has more than one bank account, the most recently created one is used.
 
 
 ### Upload documents
