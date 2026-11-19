@@ -45,7 +45,7 @@ post:
               example: "biz_abc123"
             bank_name:
               type: string
-              description: bank name. Optional here, but required to provision the business for payment processing
+              description: bank name, required when provisioning payments
               example: "Wells Fargo"
             nickname:
               type: string
