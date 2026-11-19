@@ -60,7 +60,6 @@ post:
             - account_type
             - account_number
             - business_id
-            - bank_name
 
   responses:
     "201":
