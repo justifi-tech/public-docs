@@ -3,19 +3,21 @@ properties:
   business_revenue:
     type: string
     example: "84220"
-    description: amount of money the company receives from its primary business activities, in US or CAD dollars
+    description: amount of money the company receives from its primary business activities, in US or CAD dollars. Required when provisioning payments
   business_payment_volume:
     type: string
     example: "1000000"
-    description: annual credit card & ACH volume anticipated to process with Justifi, in US or CAD dollars
+    description: annual credit card & ACH volume anticipated to process with Justifi, in US or CAD dollars. Required when provisioning payments
   business_average_transaction_amount:
     type: string
     example: "150"
-    description: average amount of a single transaction the business processes, in US or CAD dollars
+    description: average amount of a single transaction the business processes, in US or CAD dollars. Required when provisioning payments
   business_when_service_received:
     type: string
     example: "Within 7 days"
-    description: how long after paying will your customers typically receive their goods or services
+    description: >-
+      how long after paying will your customers typically receive their goods or services, one of the following: `Within 7 days`, `Within 90 days`, `Within 120 days`, `More than 120 days`.
+      Required when provisioning payments
   business_recurring_payments:
     type: string
     example: "true"
