@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-11-20T13:44:54",
+  "timestamp": "2026-10-16T19:43:23",
   "compiler": {
     "name": "@stencil/core",
     "version": "4.38.3",
@@ -702,37 +702,7 @@
       "docs": "",
       "docsTags": [],
       "usage": {},
-      "props": [
-        {
-          "name": "showAccountNumberConfirmation",
-          "type": "boolean",
-          "complexType": {
-            "original": "boolean",
-            "resolved": "boolean",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "show-account-number-confirmation",
-          "reflectToAttr": false,
-          "docs": "",
-          "docsTags": [
-            {
-              "name": "default",
-              "text": "false"
-            }
-          ],
-          "default": "false",
-          "values": [
-            {
-              "type": "boolean"
-            }
-          ],
-          "optional": true,
-          "required": false,
-          "getter": false,
-          "setter": false
-        }
-      ],
+      "props": [],
       "methods": [
         {
           "name": "tokenize",
@@ -771,11 +741,11 @@
         {
           "name": "validate",
           "returns": {
-            "type": "Promise<{ isValid: boolean; }>",
+            "type": "Promise<any>",
             "docs": ""
           },
           "complexType": {
-            "signature": "() => Promise<{ isValid: boolean; }>",
+            "signature": "() => Promise<any>",
             "parameters": [],
             "references": {
               "Promise": {
@@ -783,9 +753,9 @@
                 "id": "global::Promise"
               }
             },
-            "return": "Promise<{ isValid: boolean; }>"
+            "return": "Promise<any>"
           },
-          "signature": "validate() => Promise<{ isValid: boolean; }>",
+          "signature": "validate() => Promise<any>",
           "parameters": [],
           "docs": "",
           "docsTags": []
@@ -3464,37 +3434,7 @@
       "docs": "",
       "docsTags": [],
       "usage": {},
-      "props": [
-        {
-          "name": "maskCardNumber",
-          "type": "boolean",
-          "complexType": {
-            "original": "boolean",
-            "resolved": "boolean",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "mask-card-number",
-          "reflectToAttr": false,
-          "docs": "Mask the card number to its last four digits when the field blurs.",
-          "docsTags": [
-            {
-              "name": "default",
-              "text": "false"
-            }
-          ],
-          "default": "false",
-          "values": [
-            {
-              "type": "boolean"
-            }
-          ],
-          "optional": true,
-          "required": false,
-          "getter": false,
-          "setter": false
-        }
-      ],
+      "props": [],
       "methods": [
         {
           "name": "tokenize",
@@ -3533,11 +3473,11 @@
         {
           "name": "validate",
           "returns": {
-            "type": "Promise<{ isValid: boolean; }>",
+            "type": "Promise<any>",
             "docs": ""
           },
           "complexType": {
-            "signature": "() => Promise<{ isValid: boolean; }>",
+            "signature": "() => Promise<any>",
             "parameters": [],
             "references": {
               "Promise": {
@@ -3545,9 +3485,9 @@
                 "id": "global::Promise"
               }
             },
-            "return": "Promise<{ isValid: boolean; }>"
+            "return": "Promise<any>"
           },
-          "signature": "validate() => Promise<{ isValid: boolean; }>",
+          "signature": "validate() => Promise<any>",
           "parameters": [],
           "docs": "",
           "docsTags": []
@@ -8429,28 +8369,6 @@
           "required": true,
           "getter": false,
           "setter": false
-        },
-        {
-          "name": "transformValue",
-          "type": "(value: string) => string",
-          "complexType": {
-            "original": "(value: string) => string",
-            "resolved": "(value: string) => string",
-            "references": {}
-          },
-          "mutable": false,
-          "reflectToAttr": false,
-          "docs": "",
-          "docsTags": [],
-          "values": [
-            {
-              "type": "(value: string) => string"
-            }
-          ],
-          "optional": true,
-          "required": false,
-          "getter": false,
-          "setter": false
         }
       ],
       "methods": [],
@@ -9267,35 +9185,6 @@
           ],
           "optional": false,
           "required": true,
-          "getter": false,
-          "setter": false
-        },
-        {
-          "name": "maskCardNumber",
-          "type": "boolean",
-          "complexType": {
-            "original": "boolean",
-            "resolved": "boolean",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "mask-card-number",
-          "reflectToAttr": false,
-          "docs": "Opt this field into masking its value to the last four characters when it\nloses focus. Forwarded to the hosted field, which owns the behavior.",
-          "docsTags": [
-            {
-              "name": "default",
-              "text": "false"
-            }
-          ],
-          "default": "false",
-          "values": [
-            {
-              "type": "boolean"
-            }
-          ],
-          "optional": true,
-          "required": false,
           "getter": false,
           "setter": false
         }
@@ -10274,37 +10163,7 @@
       "docs": "",
       "docsTags": [],
       "usage": {},
-      "props": [
-        {
-          "name": "showAccountNumberConfirmation",
-          "type": "boolean",
-          "complexType": {
-            "original": "boolean",
-            "resolved": "boolean",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "show-account-number-confirmation",
-          "reflectToAttr": false,
-          "docs": "",
-          "docsTags": [
-            {
-              "name": "default",
-              "text": "false"
-            }
-          ],
-          "default": "false",
-          "values": [
-            {
-              "type": "boolean"
-            }
-          ],
-          "optional": true,
-          "required": false,
-          "getter": false,
-          "setter": false
-        }
-      ],
+      "props": [],
       "methods": [
         {
           "name": "tokenize",
@@ -10343,11 +10202,11 @@
         {
           "name": "validate",
           "returns": {
-            "type": "Promise<{ isValid: boolean; }>",
+            "type": "Promise<any>",
             "docs": ""
           },
           "complexType": {
-            "signature": "() => Promise<{ isValid: boolean; }>",
+            "signature": "() => Promise<any>",
             "parameters": [],
             "references": {
               "Promise": {
@@ -10355,9 +10214,9 @@
                 "id": "global::Promise"
               }
             },
-            "return": "Promise<{ isValid: boolean; }>"
+            "return": "Promise<any>"
           },
-          "signature": "validate() => Promise<{ isValid: boolean; }>",
+          "signature": "validate() => Promise<any>",
           "parameters": [],
           "docs": "",
           "docsTags": []
@@ -11441,31 +11300,7 @@
       "docs": "",
       "docsTags": [],
       "usage": {},
-      "props": [
-        {
-          "name": "maskCardNumber",
-          "type": "boolean",
-          "complexType": {
-            "original": "boolean",
-            "resolved": "boolean",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "mask-card-number",
-          "reflectToAttr": false,
-          "docs": "Mask the card number to its last four digits when the field loses focus,\nwith an eye toggle to reveal it. Defaults to false. Inside\n`justifi-modular-checkout` the wrapper's `mask-card-number` sets this;\nan explicit value here wins.\n\nAnti-shoulder-surfing only, not a secrecy boundary.",
-          "docsTags": [],
-          "values": [
-            {
-              "type": "boolean"
-            }
-          ],
-          "optional": true,
-          "required": false,
-          "getter": false,
-          "setter": false
-        }
-      ],
+      "props": [],
       "methods": [
         {
           "name": "tokenize",
@@ -11801,35 +11636,6 @@
           "setter": false
         },
         {
-          "name": "maskCardNumber",
-          "type": "boolean",
-          "complexType": {
-            "original": "boolean",
-            "resolved": "boolean",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "mask-card-number",
-          "reflectToAttr": false,
-          "docs": "Mask the card number to its last four digits when the field loses focus,\nwith an eye toggle to reveal it. Defaults to false.\n\nAnti-shoulder-surfing only, not a secrecy boundary.",
-          "docsTags": [
-            {
-              "name": "default",
-              "text": "false"
-            }
-          ],
-          "default": "false",
-          "values": [
-            {
-              "type": "boolean"
-            }
-          ],
-          "optional": true,
-          "required": false,
-          "getter": false,
-          "setter": false
-        },
-        {
           "name": "preCompleteHook",
           "type": "(data: CheckoutState, resolve: (data: CheckoutState) => void, reject: () => void) => void",
           "complexType": {
@@ -11855,35 +11661,6 @@
           "values": [
             {
               "type": "(data: CheckoutState, resolve: (data: CheckoutState) => void, reject: () => void) => void"
-            }
-          ],
-          "optional": true,
-          "required": false,
-          "getter": false,
-          "setter": false
-        },
-        {
-          "name": "showAccountNumberConfirmation",
-          "type": "boolean",
-          "complexType": {
-            "original": "boolean",
-            "resolved": "boolean",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "show-account-number-confirmation",
-          "reflectToAttr": false,
-          "docs": "Renders a \"Confirm Account Number\" field in the bank account form.",
-          "docsTags": [
-            {
-              "name": "default",
-              "text": "false"
-            }
-          ],
-          "default": "false",
-          "values": [
-            {
-              "type": "boolean"
             }
           ],
           "optional": true,
@@ -12044,7 +11821,6 @@
         "justifi-checkout-summary",
         "justifi-apple-pay",
         "justifi-google-pay",
-        "justifi-paypal",
         "justifi-saved-payment-methods",
         "justifi-radio-list-item",
         "justifi-sezzle-payment-method",
@@ -12059,7 +11835,6 @@
           "justifi-checkout-summary",
           "justifi-apple-pay",
           "justifi-google-pay",
-          "justifi-paypal",
           "justifi-saved-payment-methods",
           "justifi-radio-list-item",
           "justifi-sezzle-payment-method",
@@ -12329,7 +12104,7 @@
               "type": "string"
             }
           ],
-          "optional": false,
+          "optional": true,
           "required": false,
           "getter": false,
           "setter": false
@@ -12532,10 +12307,10 @@
         },
         {
           "name": "paymentMode",
-          "type": "ICheckoutPaymentModeParam.apple_pay | ICheckoutPaymentModeParam.bnpl | ICheckoutPaymentModeParam.ecom | ICheckoutPaymentModeParam.paypal | ICheckoutPaymentModeParam.venmo",
+          "type": "ICheckoutPaymentModeParam.apple_pay | ICheckoutPaymentModeParam.bnpl | ICheckoutPaymentModeParam.ecom",
           "complexType": {
             "original": "ICheckoutPaymentModeParam",
-            "resolved": "ICheckoutPaymentModeParam.apple_pay | ICheckoutPaymentModeParam.bnpl | ICheckoutPaymentModeParam.ecom | ICheckoutPaymentModeParam.paypal | ICheckoutPaymentModeParam.venmo",
+            "resolved": "ICheckoutPaymentModeParam.apple_pay | ICheckoutPaymentModeParam.bnpl | ICheckoutPaymentModeParam.ecom",
             "references": {
               "ICheckoutPaymentModeParam": {
                 "location": "import",
@@ -12558,12 +12333,6 @@
             },
             {
               "type": "ICheckoutPaymentModeParam.ecom"
-            },
-            {
-              "type": "ICheckoutPaymentModeParam.paypal"
-            },
-            {
-              "type": "ICheckoutPaymentModeParam.venmo"
             }
           ],
           "optional": true,
@@ -13361,35 +13130,6 @@
           ],
           "optional": false,
           "required": true,
-          "getter": false,
-          "setter": false
-        },
-        {
-          "name": "maskCardNumber",
-          "type": "boolean",
-          "complexType": {
-            "original": "boolean",
-            "resolved": "boolean",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "mask-card-number",
-          "reflectToAttr": false,
-          "docs": "Mask the card number to its last four digits when the field loses focus,\nwith an eye toggle to reveal it. Applies to the `justifi-card-form`\nrendered inside this checkout. Defaults to false.\n\nAnti-shoulder-surfing only, not a secrecy boundary.",
-          "docsTags": [
-            {
-              "name": "default",
-              "text": "false"
-            }
-          ],
-          "default": "false",
-          "values": [
-            {
-              "type": "boolean"
-            }
-          ],
-          "optional": true,
-          "required": false,
           "getter": false,
           "setter": false
         },
@@ -15286,105 +15026,6 @@
         ],
         "form-control-date": [
           "form-control-tooltip"
-        ]
-      }
-    },
-    {
-      "filePath": "src/components/modular-checkout/sub-components/paypal/justifi-paypal.tsx",
-      "encapsulation": "shadow",
-      "tag": "justifi-paypal",
-      "docs": "",
-      "docsTags": [],
-      "usage": {},
-      "props": [],
-      "methods": [],
-      "events": [
-        {
-          "event": "paypalCancelled",
-          "detail": "{ fundingSource: PaypalFundingSource; }",
-          "bubbles": true,
-          "complexType": {
-            "original": "{\n    fundingSource: PaypalFundingSource;\n  }",
-            "resolved": "{ fundingSource: PaypalFundingSource; }",
-            "references": {
-              "PaypalFundingSource": {
-                "location": "import",
-                "path": "../../../../api/Paypal",
-                "id": "src/api/Paypal.ts::PaypalFundingSource"
-              }
-            }
-          },
-          "cancelable": true,
-          "composed": true,
-          "docs": "",
-          "docsTags": []
-        },
-        {
-          "event": "paypalCompleted",
-          "detail": "{ success: boolean; paymentMethodId?: string; fundingSource: PaypalFundingSource; }",
-          "bubbles": true,
-          "complexType": {
-            "original": "{\n    success: boolean;\n    paymentMethodId?: string;\n    fundingSource: PaypalFundingSource;\n  }",
-            "resolved": "{ success: boolean; paymentMethodId?: string; fundingSource: PaypalFundingSource; }",
-            "references": {
-              "PaypalFundingSource": {
-                "location": "import",
-                "path": "../../../../api/Paypal",
-                "id": "src/api/Paypal.ts::PaypalFundingSource"
-              }
-            }
-          },
-          "cancelable": true,
-          "composed": true,
-          "docs": "",
-          "docsTags": []
-        },
-        {
-          "event": "paypalError",
-          "detail": "{ error: string; code: string; }",
-          "bubbles": true,
-          "complexType": {
-            "original": "{ error: string; code: string }",
-            "resolved": "{ error: string; code: string; }",
-            "references": {}
-          },
-          "cancelable": true,
-          "composed": true,
-          "docs": "",
-          "docsTags": []
-        },
-        {
-          "event": "paypalStarted",
-          "detail": "{ fundingSource: PaypalFundingSource; }",
-          "bubbles": true,
-          "complexType": {
-            "original": "{\n    fundingSource: PaypalFundingSource;\n  }",
-            "resolved": "{ fundingSource: PaypalFundingSource; }",
-            "references": {
-              "PaypalFundingSource": {
-                "location": "import",
-                "path": "../../../../api/Paypal",
-                "id": "src/api/Paypal.ts::PaypalFundingSource"
-              }
-            }
-          },
-          "cancelable": true,
-          "composed": true,
-          "docs": "",
-          "docsTags": []
-        }
-      ],
-      "listeners": [],
-      "styles": [],
-      "slots": [],
-      "parts": [],
-      "dependents": [
-        "justifi-checkout"
-      ],
-      "dependencies": [],
-      "dependencyGraph": {
-        "justifi-checkout": [
-          "justifi-paypal"
         ]
       }
     },
@@ -18063,29 +17704,6 @@
           "setter": false
         },
         {
-          "name": "maskCardNumber",
-          "type": "boolean",
-          "complexType": {
-            "original": "boolean",
-            "resolved": "boolean",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "mask-card-number",
-          "reflectToAttr": false,
-          "docs": "Mask the card number to its last four digits when the field loses focus,\nwith an eye toggle to reveal it. Defaults to false.\n\nAnti-shoulder-surfing only, not a secrecy boundary.",
-          "docsTags": [],
-          "values": [
-            {
-              "type": "boolean"
-            }
-          ],
-          "optional": true,
-          "required": false,
-          "getter": false,
-          "setter": false
-        },
-        {
           "name": "paymentMethodGroupId",
           "type": "string",
           "complexType": {
@@ -18124,29 +17742,6 @@
           "values": [
             {
               "type": "string"
-            }
-          ],
-          "optional": true,
-          "required": false,
-          "getter": false,
-          "setter": false
-        },
-        {
-          "name": "showAccountNumberConfirmation",
-          "type": "boolean",
-          "complexType": {
-            "original": "boolean",
-            "resolved": "boolean",
-            "references": {}
-          },
-          "mutable": false,
-          "attr": "show-account-number-confirmation",
-          "reflectToAttr": false,
-          "docs": "Renders a \"Confirm Account Number\" field in the bank account form.",
-          "docsTags": [],
-          "values": [
-            {
-              "type": "boolean"
             }
           ],
           "optional": true,
@@ -21756,11 +21351,6 @@
       "declaration": "export interface IApplePayToken {\n  paymentData: IApplePayTokenData;\n  paymentMethod: IApplePayTokenPaymentMethod;\n  transactionIdentifier: string;\n}",
       "docstring": "",
       "path": "src/api/ApplePay.ts"
-    },
-    "src/api/Paypal.ts::PaypalFundingSource": {
-      "declaration": "export type PaypalFundingSource = 'paypal' | 'venmo';",
-      "docstring": "",
-      "path": "src/api/Paypal.ts"
     },
     "src/api/index.ts::TerminalModelName": {
       "declaration": "any",

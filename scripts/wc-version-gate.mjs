@@ -8,6 +8,7 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { readCurrentLabel } from './wc-current-label.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(__dirname, '..');
@@ -21,16 +22,13 @@ if (!wcVersionRaw) {
 }
 
 const config = fs.readFileSync(configPath, 'utf8');
-const labelMatch = config.match(
-  /id:\s*['"]web-components['"][\s\S]*?versions:\s*\{[\s\S]*?current:\s*\{[^}]*\blabel:\s*'([^']*)'/,
-);
+const currentLabel = readCurrentLabel(config);
 
-if (!labelMatch) {
+if (currentLabel === null) {
   console.error('wc-version-gate: could not find versions.current.label in docusaurus.config.ts');
   process.exit(1);
 }
 
-const currentLabel = labelMatch[1];
 const normalized = wcVersionRaw.trim().replace(/^v/i, '');
 const parts = normalized.split('.').filter(Boolean);
 const incomingMajorMinor =

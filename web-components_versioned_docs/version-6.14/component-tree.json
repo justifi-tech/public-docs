@@ -478,21 +478,6 @@
           ]
         },
         {
-          "tag": "justifi-paypal",
-          "filePath": "components/modular-checkout/sub-components/paypal/justifi-paypal.tsx",
-          "shadowDom": true,
-          "parts": [],
-          "children": [
-            {
-              "tag": "StyledHost",
-              "filePath": "ui-components/styled-host/styled-host.tsx",
-              "shadowDom": false,
-              "parts": [],
-              "children": []
-            }
-          ]
-        },
-        {
           "tag": "justifi-saved-payment-methods",
           "filePath": "components/modular-checkout/sub-components/justifi-saved-payment-methods.tsx",
           "shadowDom": true,
@@ -647,12 +632,7 @@
           "tag": "justifi-plaid-payment-method",
           "filePath": "components/modular-checkout/sub-components/justifi-plaid-payment-method.tsx",
           "shadowDom": true,
-          "parts": [
-            "image",
-            "label",
-            "text",
-            "textDanger"
-          ],
+          "parts": [],
           "children": [
             {
               "tag": "StyledHost",
@@ -111276,12 +111256,7 @@
       "tag": "justifi-plaid-payment-method",
       "filePath": "components/modular-checkout/sub-components/justifi-plaid-payment-method.tsx",
       "shadowDom": true,
-      "parts": [
-        "image",
-        "label",
-        "text",
-        "textDanger"
-      ],
+      "parts": [],
       "children": [
         {
           "tag": "StyledHost",
@@ -134572,21 +134547,6 @@
         }
       ]
     },
-    "justifi-paypal": {
-      "tag": "justifi-paypal",
-      "filePath": "components/modular-checkout/sub-components/paypal/justifi-paypal.tsx",
-      "shadowDom": true,
-      "parts": [],
-      "children": [
-        {
-          "tag": "StyledHost",
-          "filePath": "ui-components/styled-host/styled-host.tsx",
-          "shadowDom": false,
-          "parts": [],
-          "children": []
-        }
-      ]
-    },
     "form-alert": {
       "tag": "form-alert",
       "filePath": "ui-components/form/form-helpers/form-alert/form-alert.tsx",
@@ -134623,5 +134583,5 @@
       ]
     }
   },
-  "generatedAt": "2026-11-20T13:44:56.693Z"
+  "generatedAt": "2026-10-16T19:43:25.902Z"
 }

@@ -24,6 +24,30 @@ jobs:
           node-version: '20'
           cache: 'pnpm'
 
+      # Reads docusaurus.config.ts only — no dependencies needed, so this runs
+      # before the bump and tells the steps below which line is being replaced.
+      - name: Compare incoming WC version to current label (docusaurus.config.ts)
+        id: ver
+        env:
+          WC_VERSION: ${{ github.event.client_payload.webcomponents_version }}
+        run: node scripts/wc-version-gate.mjs
+
+      # .wc-current is generated from the installed @justifi/webcomponents-docs,
+      # so the outgoing docs only exist on disk BEFORE the bump. Snapshot here, or
+      # the archive ends up being a copy of the incoming docs and the line that is
+      # being replaced is lost.
+      - name: Install dependencies (outgoing docs)
+        if: steps.ver.outputs.should_snapshot == 'true'
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Snapshot outgoing docs line
+        if: steps.ver.outputs.should_snapshot == 'true'
+        env:
+          CURRENT_LABEL: ${{ steps.ver.outputs.current_label }}
+        run: |
+          node scripts/sync-wc-docs.mjs
+          pnpm docusaurus docs:version:web-components "$CURRENT_LABEL"
+
       - name: Bump JustiFi packages in package.json
         env:
           DOCS_VERSION: ${{ github.event.client_payload.docs_version }}
@@ -41,35 +65,14 @@ jobs:
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
 
-      - name: Compare incoming WC version to current label (docusaurus.config.ts)
-        id: ver
-        env:
-          WC_VERSION: ${{ github.event.client_payload.webcomponents_version }}
-        run: node scripts/wc-version-gate.mjs
-
       - name: Sync docs to .wc-current
         run: node scripts/sync-wc-docs.mjs
-
-      - name: Snapshot current docs (new major.minor only)
-        if: steps.ver.outputs.should_snapshot == 'true'
-        run: |
-          MAJOR_MINOR="${{ steps.ver.outputs.major_minor }}"
-          pnpm docusaurus docs:version:web-components "$MAJOR_MINOR"
 
       - name: Update current label in docusaurus.config.ts
         if: steps.ver.outputs.should_snapshot == 'true'
         env:
           MAJOR_MINOR: ${{ steps.ver.outputs.major_minor }}
-        run: |
-          node -e "
-            const fs = require('fs');
-            let config = fs.readFileSync('docusaurus.config.ts', 'utf8');
-            config = config.replace(
-              /versions: \{ current: \{ label: '[^']*' \} \}/,
-              \`versions: { current: { label: '\${process.env.MAJOR_MINOR}' } }\`
-            );
-            fs.writeFileSync('docusaurus.config.ts', config);
-          "
+        run: node scripts/wc-set-current-label.mjs
 
       - name: Commit and open PR
         env:
