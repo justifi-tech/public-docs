@@ -181,7 +181,7 @@ const config: Config = {
         sidebarPath: require.resolve('./sidebars.web-components.js'),
         includeCurrentVersion: true,
         lastVersion: 'current',
-        versions: { current: { label: '6.14', banner: 'none' } },
+        versions: { current: { label: '6.16', banner: 'none' } },
         // Exclude templates and internal helper files from being parsed as docs
         exclude: [
           '**/templates/**',
