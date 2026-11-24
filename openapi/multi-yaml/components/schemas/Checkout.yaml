@@ -79,7 +79,7 @@ properties:
     type: string
     format: uuid
     example: py_123xyz
-    description: payment id, if this checkout was paid for successfully. Always null for checkouts completed with PayPal or Venmo, which do not create a payment
+    description: payment id, if this checkout was paid for successfully. Always null for checkouts completed with BNPL, PayPal or Venmo, which do not create a JustiFi payment
   statement_descriptor:
     type: string
     description: description of the payment that will be available on the account's bank statement

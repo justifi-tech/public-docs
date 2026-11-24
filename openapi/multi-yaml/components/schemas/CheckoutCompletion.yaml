@@ -49,7 +49,7 @@ properties:
     type: string
     format: uuid
     example: 'py_xyz123'
-    description: id of the payment associated with this checkout, when successful. Always null for `paypal` and `venmo`, which do not create a payment
+    description: id of the payment associated with this checkout, when successful. Always null for `bnpl`, `paypal` and `venmo`, which do not create a JustiFi payment
   payment_method_id:
     type: string
     format: uuid

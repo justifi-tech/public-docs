@@ -7,6 +7,8 @@ keywords:
   - Venmo
   - checkouts
   - refunds
+  - payouts
+  - disputes
 ---
 
 # PayPal and Venmo
@@ -18,28 +20,31 @@ PayPal and Venmo are coming soon to JustiFi checkouts. This page describes how t
 ## Overview
 
 PayPal and Venmo are payment options of a checkout. Your customer selects the PayPal or Venmo button,
-approves the payment in PayPal, and the checkout completes. You create and track the checkout the same way
+approves the payment in PayPal or Venmo, and the checkout completes. You create and track the checkout the same way
 you do for any other payment method.
 
 ## Prerequisites and Integration
 
-- PayPal must be enabled on the sub account. The `paypal_payments` attribute in the checkout's `payment_settings` shows whether it is.
+- To enable PayPal and Venmo, contact [customer_success@justifi.tech](mailto:customer_success@justifi.tech)
+  to activate PayPal for your platform and sub accounts.
 - PayPal and Venmo are offered through our checkout web components
-([Unified Checkout](https://docs.justifi.tech/web-components/payment-facilitation/unified-fintech-checkout%E2%84%A2)
-and [Modular Checkout](https://docs.justifi.tech/web-components/modular-checkout)) - [see the integration guide](https://docs.justifi.tech/api-spec#tag/Checkout-via-Component).
+([Modular Checkout](https://docs.justifi.tech/web-components/modular-checkout)
+and [Unified Checkout](https://docs.justifi.tech/web-components/payment-facilitation/unified-fintech-checkout%E2%84%A2)) - [see the integration guide](https://docs.justifi.tech/api-spec#tag/Checkout-via-Component).
 - Both options require the [creation of a checkout via API](https://docs.justifi.tech/api-spec#tag/Checkouts/operation/CreateCheckout).
+- If you use Unified Checkout, the PayPal and Venmo buttons appear automatically once PayPal is enabled on the sub account.
 - If you use Modular Checkout, include the [PayPal sub component](https://docs.justifi.tech/web-components/modular-checkout/sub-components/paypal). One component renders both the PayPal and the Venmo button.
+- The Venmo button is shown only to customers in the United States, on checkouts in USD.
 - Checkouts in `test` mode use PayPal's sandbox.
 
 ## How it works
 
 1. Create a checkout and render the checkout web component.
-2. Your customer selects the PayPal or Venmo button and approves the payment in PayPal.
+2. Your customer selects the PayPal or Venmo button and approves the payment in PayPal or Venmo.
 3. The web component completes the checkout. You do not call the Complete Checkout API.
 4. The checkout becomes `completed`, and the attempt is recorded in its `completions` with a `payment_mode` of `paypal` or `venmo`.
 
-A customer can approve the payment and close the page before the checkout completes. In that case JustiFi still
-collects the payment and completes the checkout, as long as the checkout is not expired and its amount has not changed.
+Your customer can approve the payment in PayPal or Venmo and then close your checkout page before the checkout completes.
+In that case JustiFi still collects the PayPal or Venmo payment and completes the checkout, as long as the checkout is not expired and its amount has not changed.
 Subscribe to the [checkout events](https://docs.justifi.tech/api-spec#tag/Events/operation/checkoutCompletionEvent)
 so you learn the outcome even when your customer has left your page.
 
@@ -47,16 +52,18 @@ so you learn the outcome even when your customer has left your page.
 
 | | Card or ACH | PayPal or Venmo |
 |---|---|---|
-| Payment record | A payment (`py_...`) is created | **No payment is created** |
+| Payment record | A payment (`py_...`) is created | **No JustiFi payment is created** |
 | `successful_payment_id` on the checkout | The payment id | `null` |
 | `payment_id` on the completion | The payment id | `null` |
 | Events | Checkout events and payment events | Checkout events only |
 | Refunds | Checkout or payment refund APIs | [Refund a Checkout API](https://docs.justifi.tech/api-spec#tag/Checkouts/operation/RefundCheckout) only |
 | Checkout fee parameters | Applied | Not applied |
+| Statement descriptor | Shown as sent | PayPal adds a prefix such as `PAYPAL *` and shortens it to 22 characters |
+| Payouts | Included in JustiFi payouts | Paid out by PayPal, outside of JustiFi payouts |
 
 ### No payment record
 
-Because no payment is created, the checkout is your record of the transaction:
+Because no JustiFi payment is created, the checkout is your record of the transaction:
 
 - Store the checkout id. There is no payment id to pass to the [Payments API](https://docs.justifi.tech/api-spec#tag/Payments).
 - Subscribe to `checkout.completed`, `checkout.completion.succeeded` and `checkout.completion.failed`.
@@ -75,7 +82,17 @@ A successful PayPal completion looks like this:
   "payment_status": "succeeded",
   "payment_token": "ppo_xyz",
   "payment_id": null,
-  "payment_method_id": null
+  "payment_method_id": null,
+  "payment_response": {
+    "id": "0UR96687T5480713P",
+    "status": "COMPLETED",
+    "status_reason": null,
+    "amount": { "cents": 1000, "currency_iso": "USD" },
+    "paypal_fee": null,
+    "platform_fee": null,
+    "net_amount": { "cents": 1000, "currency_iso": "USD" },
+    "create_time": "2026-09-28T15:04:05.000Z"
+  }
 }
 ```
 
@@ -111,13 +128,25 @@ The refund is issued through PayPal.
 
 - You can refund the full amount or a portion. Multiple partial refunds are supported until the full amount has been refunded.
 - A refund larger than the amount left to refund fails with a `422` and the error code `invalid_refund_amount`.
-- The refund `status` can be `pending` while PayPal processes it, in addition to `succeeded` and `failed`.
 - The `fees` parameter is not applied.
 - No refund (`re_...`) is created. The checkout refund (`chr_...`) is your record of the refund.
 
 ## Fees
 
 The `application_fees` and `payment.fees` parameters of a checkout are not applied to PayPal and Venmo payments.
+
+## Payouts
+
+PayPal and Venmo payments are not included in JustiFi payouts. PayPal pays them out separately:
+
+- Once a day, PayPal totals the previous day's PayPal and Venmo payments, minus refunds and chargebacks, and sends the total by ACH
+  to the bank account provided during onboarding.
+- Funds usually arrive 1 to 3 business days after PayPal sends them.
+
+## Disputes
+
+PayPal handles disputes and chargebacks on PayPal and Venmo payments. No JustiFi dispute is created.
+The disputed amount and any chargeback fee are deducted from the merchant's next PayPal payout.
 
 ## Finding PayPal and Venmo checkouts
 
