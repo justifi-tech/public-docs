@@ -1,7 +1,7 @@
 ---
 title: Testing Payables
 description: Get test payer accounts and see how test timing compares with live
-sidebar_label: Testing Payables
+sidebar_label: Payables
 keywords:
   - payables
   - testing
@@ -9,21 +9,21 @@ keywords:
 
 # Testing Payables
 
-Test payer accounts run against a simulated ACH network. No money moves, and a payment goes from
+Test payer accounts against a simulated ACH network. No money moves, and a payment is completed from
 start to finish in about a minute.
 
 ## Getting test payer accounts
 
 :::note
-For now we set up test payer accounts by hand. Unlike Payments, they aren't created automatically
-when you create a test business, so allow a little time between sending the ids and starting to test.
+Currently, test payer accounts are configured manually. To initiate set up send the test business IDs to [JustiFi Customer Success](mailto:platform_success@justifi.tech)
+after you create a test business and allow a little time before you start testing.
 :::
 
-1. Create a few test businesses.
-2. Email the business ids to [JustiFi Customer Success](mailto:customer_success@justifi.tech).
-3. We'll provision a test payer account for each one and let you know when they're ready.
+1. Create a few test businesses [via API](https://docs.justifi.tech/api-spec#tag/Business/operation/CreateBusiness)
+2. Email the business ids to [JustiFi Customer Success](mailto:platform_success@justifi.tech).
+3. We'll provision a test payer account for each business and let you know when they're ready for testing.
 
-## Test payments are fast, live payments are not
+## Test payments are fast, live payments take a few days
 
 In test, every step happens in seconds. A live payment moves on banking days:
 
@@ -34,7 +34,7 @@ In test, every step happens in seconds. A live payment moves on banking days:
 | Hold before paying the payee | seconds | one banking day |
 | Payee paid, payment is `succeeded` | seconds | two banking days after the credit's effective date |
 | Refund after a refused or returned credit | seconds | three or more banking days |
-| A return arrives | when the scenario says | usually within two banking days, and up to 60 days for an unauthorized debit |
+| A return arrives | defined by the testing scenario | usually within two banking days, and up to 60 days for an unauthorized debit |
 
 A live payment usually takes **six to eight banking days** from start to finish, longer over weekends
 and bank holidays.

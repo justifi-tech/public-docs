@@ -207,19 +207,6 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: "category",
-      label: "Payables",
-      link: {
-        type: "generated-index",
-        title: "Payables",
-        description: "Learn how to pay your payees over ACH with Payables",
-        keywords: ["payables"],
-      },
-      items: ["payables/testing"],
-      collapsible: true,
-      collapsed: true,
-    },
-    {
-      type: "category",
       label: "Testing",
       link: {
         type: "generated-index",
@@ -232,7 +219,8 @@ const sidebars: SidebarsConfig = {
         "testing/ach_payments",
         "testing/canadian_payments",
         "testing/payouts",
-        "testing/disputes"
+        "testing/disputes",
+        "testing/payables"
       ]
     }
   ],
