@@ -1,0 +1,50 @@
+---
+title: Testing Payables
+description: Get test payer accounts and see how test timing compares with live
+sidebar_label: Testing Payables
+keywords:
+  - payables
+  - testing
+---
+
+# Testing Payables
+
+Test payer accounts run against a simulated ACH network. No money moves, and a payment goes from
+start to finish in about a minute.
+
+## Getting test payer accounts
+
+:::note
+For now we set up test payer accounts by hand. Unlike Payments, they aren't created automatically
+when you create a test business, so allow a little time between sending the ids and starting to test.
+:::
+
+1. Create a few test businesses.
+2. Email the business ids to [JustiFi Customer Success](mailto:customer_success@justifi.tech).
+3. We'll provision a test payer account for each one and let you know when they're ready.
+
+## Test payments are fast, live payments are not
+
+In test, every step happens in seconds. A live payment moves on banking days:
+
+| Step | Test | Live |
+| --- | --- | --- |
+| Payer debited | seconds | submitted the same day, before the bank's cutoff |
+| Debit settles, payment is `holding` | seconds | two banking days after the debit's effective date |
+| Hold before paying the payee | seconds | one banking day |
+| Payee paid, payment is `succeeded` | seconds | two banking days after the credit's effective date |
+| Refund after a refused or returned credit | seconds | three or more banking days |
+| A return arrives | when the scenario says | usually within two banking days, and up to 60 days for an unauthorized debit |
+
+A live payment usually takes **six to eight banking days** from start to finish, longer over weekends
+and bank holidays.
+
+Track payment status with `payables.payee_payment.*` webhooks rather than timers. Code that expects
+`succeeded` within a minute will be waiting a week in production.
+
+## Simulating outcomes
+
+Test payments succeed by default. To simulate a return, a bank correction or a rejected payment, add
+a scenario to the payment's `metadata`. The full list is in
+[Testing payment outcomes](https://docs.justifi.tech/api-spec#tag/Testing-payment-outcomes) in the API
+reference.
