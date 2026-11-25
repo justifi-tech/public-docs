@@ -125,7 +125,7 @@ get:
       name: payment_mode
       schema:
         type: string
-        enum: [bnpl, ecom, card_present, apple_pay]
+        enum: [bnpl, ecom, card_present, apple_pay, paypal, venmo]
       required: false
       example: "bnpl"
       description: |

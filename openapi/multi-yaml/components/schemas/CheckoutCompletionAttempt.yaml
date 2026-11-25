@@ -7,21 +7,21 @@ properties:
   payment_mode:
     type: string
     example: ecom
-    enum: [ecom, bnpl, card_present]
+    enum: [ecom, bnpl, card_present, paypal, venmo]
   payment_token:
     type: string
     example: pm_xyz123
-    description: the payment method token used to process the payment, only for ecom payments
+    description: the payment method token used to process the payment for ecom payments. For `paypal` and `venmo`, the id of the PayPal order the customer approved (`ppo_...`)
   status:
     type: string
-    enum: [succeeded, failed, processing]
+    enum: [succeeded, failed, processing, pending]
     example: succeeded
-    description: the status of the completion, only succeeded or failed
+    description: the status of the completion. `pending` applies to `paypal` and `venmo` only, while PayPal has not yet confirmed the capture
   payment_status:
     type: string
     enum: [succeeded, failed, pending, canceled, skipped]
     example: succeeded
-    description: depending upon payment mode, the status of the payment API call, bnpl transaction, or card reader transaction.
+    description: depending upon payment mode, the status of the payment API call, bnpl transaction, card reader transaction, or PayPal capture.
   payment_error_code:
     type: string
     example: card_declined
@@ -33,7 +33,7 @@ properties:
   payment_response:
     allOf:
     - type: object
-    - description: payment object if completion attempt was successful, error object if not successful
+    - description: payment object if completion attempt was successful, error object if not successful. For `paypal` and `venmo`, the capture details returned by PayPal, or PayPal's error details. It is not a payment object.
     - $ref: ./CardPaymentWithEnvelope.yaml
   checkout_id:
     type: string
@@ -48,7 +48,7 @@ properties:
     type: string
     format: uuid
     example: 'py_xyz123'
-    description: id of the payment associated with this checkout, when successful
+    description: id of the payment associated with this checkout, when successful. Always null for `bnpl`, `paypal` and `venmo`, which do not create a JustiFi payment
   payment_method_id:
     type: string
     format: uuid

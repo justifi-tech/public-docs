@@ -28,6 +28,10 @@ properties:
     description: buy now pay later feature enabled
     type: boolean
     example: false
+  paypal_payments:
+    description: PayPal and Venmo payments enabled
+    type: boolean
+    example: false
   insurance_payments:
     description: insurance feature enabled
     type: boolean

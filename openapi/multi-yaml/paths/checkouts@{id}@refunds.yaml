@@ -2,6 +2,8 @@ post:
   summary: Refund a Checkout
   description: |
     Use to refund a checkout. You may refund the full amount or just a portion. When refunding a portion, multiple refunds are supported up until the full payment amount has been refunded.
+
+    For a checkout completed with PayPal or Venmo, see [PayPal and Venmo](https://docs.justifi.tech/payments/paypal#refunds).
   operationId: RefundCheckout
   tags:
     - Checkouts
@@ -27,7 +29,7 @@ post:
                 - `type`: The fee type to return (`processing_fee` or `platform_fee`)
                 - `amount`: Amount to return in cents
 
-                If omitted, no fees are returned. Only supported for card/ach and card present payments completed with the `fees` array.
+                If omitted, no fees are returned. Only supported for card/ach and card present payments completed with the `fees` array. Not applied to PayPal and Venmo refunds.
 
                 > **CAD Payments:** This parameter is not available for CAD payments. See [Canadian Payments](https://docs.justifi.tech/payments/canadianPayments) for details.
               items:

@@ -18,6 +18,7 @@ import CheckoutStatuses from "@site/static/img/checkout_statuses.png";
 A Checkout is not a Payment; it has its own data model, lifecycle, and statuses.
 It contains the information necessary to prepare for possibly multiple payment transactions.
 During checkout completion a payment is created, processed and linked to the checkout.
+Checkouts completed with BNPL, PayPal or Venmo are the exception: no JustiFi payment is created. For PayPal and Venmo, see [PayPal and Venmo](/payments/paypal).
 
 ### Diagram
 
