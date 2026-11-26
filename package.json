@@ -22,7 +22,7 @@
     "@docusaurus/preset-classic": "3.9.2",
     "@docusaurus/theme-search-algolia": "^3.9.2",
     "@justifi/webcomponents": "6.16.0",
-    "@justifi/webcomponents-docs": "4.1.1",
+    "@justifi/webcomponents-docs": "4.1.2",
     "@mdx-js/react": "^3.0.0",
     "clsx": "^2.0.0",
     "prism-react-renderer": "^2.3.0",
