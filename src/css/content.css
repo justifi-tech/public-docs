@@ -178,9 +178,10 @@
   border-bottom-color: var(--jf-border-default);
 }
 
-/* .wc-current/helpers/CodeBlock.jsx (third-party, regenerated, gitignored) renders its theme as inline styles on a bare <pre>,
-   so it can't be fixed at source and needs !important here. :not(.prism-code) excludes real Docusaurus code blocks, which
-   also get an inline style from prism-react-renderer and already sit inside a bordered .theme-code-block. */
+/* The synced Web Components docs package ships its own CodeBlock (third-party, regenerated, gitignored), which renders
+   its theme as inline styles on a bare <pre>, so it can't be fixed at source and needs !important here. :not(.prism-code)
+   excludes real Docusaurus code blocks, which also get an inline style from prism-react-renderer and already sit inside
+   a bordered .theme-code-block. */
 .markdown pre[style]:not(.prism-code) {
   background: var(--jf-surface-raised) !important;
   border: 1px solid var(--jf-border-default) !important;
