@@ -126,27 +126,3 @@ export function PaymentDetails() {
     </div>
   )
 }
-
-export function PaymentFormStory() {
-  const FRAME_STYLE = {
-    border: '1px solid #aaa',
-  }
-
-  /**
-   * Embeds a Storybook example
-   *
-   * @prop story The story ID in the URL to navigate to
-   */
-  return (
-    <div>
-    <iframe
-      title="Excalibur Storybook Example"
-      src="/web-components/payment-facilitation/tokenize-payment-method/index"
-      frameBorder={0}
-      width="100%"
-      height="900"
-      style={FRAME_STYLE}
-    ></iframe>
-  </div>
-)
-}
