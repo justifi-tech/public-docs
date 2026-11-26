@@ -4,9 +4,9 @@ description: Learn how to use and authorize Web Components
 ---
 
 import CodeBlock from '@theme/CodeBlock';
-import { getWebcomponentsVersion } from '@site/.wc-current/helpers/version.js';
+import wcPackage from '@justifi/webcomponents/package.json';
 
-export const wcVersion = getWebcomponentsVersion();
+export const wcVersion = wcPackage.version;
 
 # Web Component Token Examples
 
