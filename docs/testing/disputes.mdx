@@ -70,7 +70,7 @@ Issuer appeals cannot be simulated. `pre_arbitration` stays `false` on test disp
 
 ## Testing Evidence Upload
 
-To upload evidence for the dispute you can either use the [Dispute Management web component](/web-components/payment-facilitation/dispute-management) or the [create dispute evidence API](https://docs.justifi.tech/api-spec#tag/Disputes/operation/UpdateDispute) and submit [Dispute Response API](https://docs.justifi.tech/api-spec#tag/Disputes/operation/UpdateDisputeResponse)
+To upload evidence for the dispute you can either use the [Dispute Management web component](https://docs.justifi.tech/web-components/payment-facilitation/dispute-management) or the [create dispute evidence API](https://docs.justifi.tech/api-spec#tag/Disputes/operation/UpdateDispute) and submit [Dispute Response API](https://docs.justifi.tech/api-spec#tag/Disputes/operation/UpdateDisputeResponse)
 
 ### Supported File Types
 
@@ -126,7 +126,7 @@ If you choose not to contest the dispute either use the [submit dispute response
 }
 ```
 
-Or instead forfeit the dispute via [Dispute Management web component](/web-components/payment-facilitation/dispute-management).
+Or instead forfeit the dispute via [Dispute Management web component](https://docs.justifi.tech/web-components/payment-facilitation/dispute-management).
 
 This immediately transitions the dispute to `lost` status and sends a `payment.dispute.forfeited` event, followed by a `payment.dispute.closed` event.
 
